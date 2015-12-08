@@ -1,0 +1,25 @@
+{
+  "name": "rokka",
+  "version": "0.1.0",
+  "description": "The official JavaScript client library for Rokka.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rokka-io/rokka.js.git"
+  },
+  "keywords": [
+    "rokka",
+    "client",
+    "browser",
+    "node.js"
+  ],
+  "author": "Patrick Stadler <patrick.stadler@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rokka-io/rokka.js/issues"
+  },
+  "homepage": "https://github.com/rokka-io/rokka.js#readme"
+}
