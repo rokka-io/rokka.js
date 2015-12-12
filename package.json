@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run lint",
-    "lint": "./node_modules/.bin/eslint ."
+    "lint": "./node_modules/.bin/eslint .",
+    "docs": "cd ./docs; node generate.js"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "eslint": "^1.10.3",
+    "markdox": "^0.1.10",
     "pre-commit": "^1.1.2"
   }
 }

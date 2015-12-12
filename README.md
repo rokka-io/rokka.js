@@ -1,6 +1,4 @@
-# Rokka.js
-
-**Currently under development**
+# Rokka.js [![NPM version][npm-version-image]][npm-url] [![Dependency Status][dependencies-image]][dependencies-url]
 
 The official JavaScript client library for [Rokka](https://rokka.io/).
 
@@ -26,3 +24,246 @@ rokka.sourceimages.list('myorg')
     console.error(err);
   });
 ```
+
+## Documentation
+
+<!-- DOCS -->
+
+<!-- Start ../lib/index.js -->
+
+Initializing the Rokka client.
+
+```js
+var rokka = require('rokka')({
+  apiKey: 'apikey',
+  secret: 'secrect'
+  // host: 'https://api.example.org',
+  // debug: true
+});
+```
+
+All properties are optional since certain calls don't require credentials.
+
+---
+
+<!-- End ../lib/index.js -->
+
+<!-- Start ../lib/apis/users.js -->
+
+### Users
+
+#### rokka.users.create(email) → Promise
+
+Register a new user for the Rokka service.
+
+```js
+rokka.users.create('user@example.org')
+	 .then(function(result) {})
+	 .catch(function(err) {});
+```
+
+---
+
+<!-- End ../lib/apis/users.js -->
+
+<!-- Start ../lib/apis/organizations.js -->
+
+### Organizations
+
+#### rokka.organizations.get(name) → Promise
+
+Get a list of organizations.
+
+```js
+rokka.organizations.get('myorg')
+	 .then(function(result) {})
+	 .catch(function(err) {});
+```
+
+#### rokka.organizations.create(name, billingEmail, displayName) → Promise
+
+Create an organization.
+
+```js
+rokka.organizations.create('myorg', 'billing@example.org', 'Organization Inc.')
+	 .then(function(result) {})
+	 .catch(function(err) {});
+```
+
+---
+
+<!-- End ../lib/apis/organizations.js -->
+
+<!-- Start ../lib/apis/memberships.js -->
+
+### Memberships
+
+#### Roles
+
+- `rokka.memberships.ROLES.READ` - read-only access
+- `rokka.memberships.ROLES.WRITE` - read-write access
+- `rokka.memberships.ROLES.ADMIN` - administrative access
+
+#### rokka.memberships.create(organization, email, role) → Promise
+
+Add a member to an organization.
+
+```js
+rokka.memberships.create('myorg', 'user@example.org', rokka.memberships.ROLES.WRITE)
+	 .then(function(result) {})
+	 .catch(function(err) {});
+```
+
+---
+
+<!-- End ../lib/apis/memberships.js -->
+
+<!-- Start ../lib/apis/sourceimages.js -->
+
+### Source Images
+
+#### rokka.sourceimages.list(organization, [limit=null], [offset=null]) → Promise
+
+Get a list of source images.
+
+```js
+rokka.sourceimages.list('myorg')
+	 .then(function(result) {})
+	 .catch(function(err) {});
+```
+
+#### rokka.sourceimages.get(organization, hash) → Promise
+
+Get information of a source image by hash.
+
+```js
+rokka.sourceimages.get('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+	 .then(function(result) {})
+	 .catch(function(err) {});
+```
+
+#### rokka.sourceimages.getWithBinaryHash(organization, binaryHash) → Promise
+
+Get information of a source image by its binary hash.
+
+```js
+rokka.sourceimages.getWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e158a3ee822a')
+	 .then(function(result) {})
+	 .catch(function(err) {});
+```
+
+#### rokka.sourceimages.download(organization, hash) → Promise
+
+Download image by hash.
+
+```js
+rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+	 .then(function(result) {})
+	 .catch(function(err) {});
+```
+
+#### rokka.sourceimages.create(organization, binaryData) → Promise
+
+Upload an image.
+
+```js
+rokka.sourceimages.create('myorg', require('fs').createReadStream('picture.png'))
+	 .then(function(result) {})
+	 .catch(function(err) {});
+```
+
+#### rokka.sourceimages.delete(organization, hash) → Promise
+
+Delete image by hash.
+
+```js
+rokka.sourceimages.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+	 .then(function(result) {})
+	 .catch(function(err) {});
+```
+
+---
+
+<!-- End ../lib/apis/sourceimages.js -->
+
+<!-- Start ../lib/apis/operations.js -->
+
+### Operations
+
+#### Available operations
+
+- `rokka.operations.resize(width, height, [absolute=null])`
+- `rokka.operations.rotate(angle, [backgroundColor=null], [backgroundOpacity=null])`
+
+#### rokka.operations.list() → Promise
+
+Get a list of available stack operations.
+
+```js
+rokka.operations.list()
+	 .then(function(result) {})
+	 .catch(function(err) {});
+```
+
+---
+
+<!-- End ../lib/apis/operations.js -->
+
+<!-- Start ../lib/apis/stacks.js -->
+
+### Stacks
+
+#### rokka.stacks.list(organization, [limit=null], [offset=null]) → Promise
+
+Get a list of available stacks.
+
+```js
+rokka.stacks.list('myorg')
+	 .then(function(result) {})
+	 .catch(function(err) {});
+```
+
+#### rokka.stacks.get(organization, name) → Promise
+
+Get details about a stack.
+
+#### rokka.stacks.create(organization, name, operations) → Promise
+
+Create a new stack.
+
+```js
+var operations = [
+  rokka.operations.rotate(45),
+  rokka.operations.resize(100, 100)
+];
+
+rokka.stacks.create('myorg', 'mystack', operations)
+	 .then(function(result) {
+	   // ...
+  })
+  .catch(function(err) {
+  	 console.error(err);
+  });
+```
+
+#### rokka.stacks.delete(organization, name) → Promise
+
+Delete a stack.
+
+```js
+rokka.stacks.delete('myorg', 'mystack')
+	 .then(function(result) {})
+	 .catch(function(err) {});
+```
+
+---
+
+<!-- End ../lib/apis/stacks.js -->
+
+<!-- ENDDOCS -->
+
+[npm-url]: https://npmjs.com/package/rokka
+[npm-version-image]: https://img.shields.io/npm/v/rokka.svg?style=flat-square
+
+[dependencies-url]: https://david-dm.org/rokka-io/rokka.js
+[dependencies-image]: https://david-dm.org/rokka-io/rokka.js.svg?style=flat-square
