@@ -2,13 +2,13 @@ var fs = require('fs')
   , markdox = require('markdox');
 
 var sources = [
-    '../lib/index.js',
-    '../lib/apis/users.js',
-    '../lib/apis/organizations.js',
-    '../lib/apis/memberships.js',
-    '../lib/apis/sourceimages.js',
-    '../lib/apis/operations.js',
-    '../lib/apis/stacks.js'
+    '../src/index.js',
+    '../src/apis/users.js',
+    '../src/apis/organizations.js',
+    '../src/apis/memberships.js',
+    '../src/apis/sourceimages.js',
+    '../src/apis/operations.js',
+    '../src/apis/stacks.js'
     //'../lib/apis/render.js'
   ]
   , readme = '../README.md'

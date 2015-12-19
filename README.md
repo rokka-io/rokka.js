@@ -1,6 +1,6 @@
 # Rokka.js [![NPM version][npm-version-image]][npm-url] [![Dependency Status][dependencies-image]][dependencies-url]
 
-The official JavaScript client library for [Rokka](https://rokka.io/).
+JavaScript client library for [Rokka](https://rokka.io/).
 
 ## Install
 
@@ -29,7 +29,7 @@ rokka.sourceimages.list('myorg')
 
 <!-- DOCS -->
 
-<!-- Start ../lib/index.js -->
+<!-- Start ../src/index.js -->
 
 Initializing the Rokka client.
 
@@ -46,9 +46,9 @@ All properties are optional since certain calls don't require credentials.
 
 ---
 
-<!-- End ../lib/index.js -->
+<!-- End ../src/index.js -->
 
-<!-- Start ../lib/apis/users.js -->
+<!-- Start ../src/apis/users.js -->
 
 ### Users
 
@@ -64,9 +64,9 @@ rokka.users.create('user@example.org')
 
 ---
 
-<!-- End ../lib/apis/users.js -->
+<!-- End ../src/apis/users.js -->
 
-<!-- Start ../lib/apis/organizations.js -->
+<!-- Start ../src/apis/organizations.js -->
 
 ### Organizations
 
@@ -92,9 +92,9 @@ rokka.organizations.create('myorg', 'billing@example.org', 'Organization Inc.')
 
 ---
 
-<!-- End ../lib/apis/organizations.js -->
+<!-- End ../src/apis/organizations.js -->
 
-<!-- Start ../lib/apis/memberships.js -->
+<!-- Start ../src/apis/memberships.js -->
 
 ### Memberships
 
@@ -116,9 +116,9 @@ rokka.memberships.create('myorg', 'user@example.org', rokka.memberships.ROLES.WR
 
 ---
 
-<!-- End ../lib/apis/memberships.js -->
+<!-- End ../src/apis/memberships.js -->
 
-<!-- Start ../lib/apis/sourceimages.js -->
+<!-- Start ../src/apis/sourceimages.js -->
 
 ### Source Images
 
@@ -184,9 +184,9 @@ rokka.sourceimages.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 
 ---
 
-<!-- End ../lib/apis/sourceimages.js -->
+<!-- End ../src/apis/sourceimages.js -->
 
-<!-- Start ../lib/apis/operations.js -->
+<!-- Start ../src/apis/operations.js -->
 
 ### Operations
 
@@ -207,9 +207,9 @@ rokka.operations.list()
 
 ---
 
-<!-- End ../lib/apis/operations.js -->
+<!-- End ../src/apis/operations.js -->
 
-<!-- Start ../lib/apis/stacks.js -->
+<!-- Start ../src/apis/stacks.js -->
 
 ### Stacks
 
@@ -258,7 +258,7 @@ rokka.stacks.delete('myorg', 'mystack')
 
 ---
 
-<!-- End ../lib/apis/stacks.js -->
+<!-- End ../src/apis/stacks.js -->
 
 <!-- ENDDOCS -->
 
