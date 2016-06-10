@@ -9,7 +9,7 @@ var sources = [
     '../src/apis/sourceimages.js',
     '../src/apis/operations.js',
     '../src/apis/stacks.js',
-    '../lib/apis/render.js'
+    '../src/apis/render.js'
   ]
   , readme = '../README.md'
   , tmpFile = './API.md';

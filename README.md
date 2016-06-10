@@ -265,21 +265,21 @@ rokka.stacks.delete('myorg', 'mystack')
 
 <!-- End ../src/apis/stacks.js -->
 
-<!-- Start ../lib/apis/render.js -->
+<!-- Start ../src/apis/render.js -->
 
-#### rokka.render.getUrl()(organization, hash, mixed, format) → string
+#### rokka.render.getUrl(organization, hash, mixed, format) → string
 
 Get render URL.
 
 ```js
-rokka.organizations.get('myorg')
+rokka.render.getUrl('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'mystack', 'png')
 	 .then(function(result) {})
 	 .catch(function(err) {});
 ```
 
 ---
 
-<!-- End ../lib/apis/render.js -->
+<!-- End ../src/apis/render.js -->
 
 <!-- ENDDOCS -->
 
