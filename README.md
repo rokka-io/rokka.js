@@ -192,8 +192,15 @@ rokka.sourceimages.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 
 #### Available operations
 
-- `rokka.operations.resize(width, height, [absolute=null])`
-- `rokka.operations.rotate(angle, [backgroundColor=null], [backgroundOpacity=null])`
+- `rokka.operations.resize(width, height, options={})`
+- `rokka.operations.rotate(angle, options={})`
+- `rokka.operations.dropshadow(options={})`
+- `rokka.operations.trim(options={})`
+- `rokka.operations.crop(options={})`
+- `rokka.operations.noop()`
+
+Please refer to the
+[Rokka API documentation](https://rokka.io/documentation/references/operations.html)
 
 #### rokka.operations.list() → Promise
 

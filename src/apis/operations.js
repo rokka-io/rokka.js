@@ -1,14 +1,8 @@
 const operations = {};
 
-operations.resize = (width, height, absolute=null) => {
-  const options = {
-    width,
-    height
-  };
-
-  if(absolute !== null) {
-    options.absolute = absolute;
-  }
+operations.resize = (width, height, options = {}) => {
+  options.width = width;
+  options.height = height;
 
   return {
     name: 'resize',
@@ -16,21 +10,42 @@ operations.resize = (width, height, absolute=null) => {
   };
 };
 
-operations.rotate = (angle, backgroundColor=null, backgroundOpacity=null) => {
-  const options = {
-    angle
-  };
-
-  if(backgroundColor !== null) {
-    options['background_color'] = backgroundColor;
-  }
-  if(backgroundOpacity !== null) {
-    options['background_opacity'] = backgroundOpacity;
-  }
+operations.rotate = (angle, options = {}) => {
+  options.angle = angle;
 
   return {
     name: 'rotate',
-    options: options
+    options
+  };
+};
+
+operations.dropshadow = (options = {}) => {
+  return {
+    name: 'dropshadow',
+    options
+  };
+};
+
+operations.trim = (options = {}) => {
+  return {
+    name: 'trim',
+    options
+  };
+};
+
+operations.crop = (width, height, options = {}) => {
+  options.width = width;
+  options.height = height;
+
+  return {
+    name: 'crop',
+    options
+  };
+};
+
+operations.noop = () => {
+  return {
+    name: 'noop'
   };
 };
 
@@ -39,8 +54,15 @@ operations.rotate = (angle, backgroundColor=null, backgroundOpacity=null) => {
  *
  * #### Available operations
  *
- * - `rokka.operations.resize(width, height, [absolute=null])`
- * - `rokka.operations.rotate(angle, [backgroundColor=null], [backgroundOpacity=null])`
+ * - `rokka.operations.resize(width, height, options={})`
+ * - `rokka.operations.rotate(angle, options={})`
+ * - `rokka.operations.dropshadow(options={})`
+ * - `rokka.operations.trim(options={})`
+ * - `rokka.operations.crop(options={})`
+ * - `rokka.operations.noop()`
+ *
+ * Please refer to the
+ * [Rokka API documentation](https://rokka.io/documentation/references/operations.html)
  *
  * @module operations
  */
