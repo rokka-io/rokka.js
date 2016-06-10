@@ -245,12 +245,8 @@ var operations = [
 ];
 
 rokka.stacks.create('myorg', 'mystack', operations)
-	 .then(function(result) {
-	   // ...
-  })
-  .catch(function(err) {
-  	 console.error(err);
-  });
+	 .then(function(result) {})
+	 .catch(function(err) {});
 ```
 
 #### rokka.stacks.delete(organization, name) → Promise

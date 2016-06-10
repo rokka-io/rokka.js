@@ -57,7 +57,7 @@ export default (state) => {
    *
    * rokka.stacks.create('myorg', 'mystack', operations)
    * 	 .then(function(result) {})
-   *   .catch(function(err) {});
+   * 	 .catch(function(err) {});
    * ```
    *
    * @authenticated
