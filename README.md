@@ -267,9 +267,11 @@ rokka.stacks.delete('myorg', 'mystack')
 
 <!-- Start ../src/apis/render.js -->
 
+### Render
+
 #### rokka.render.getUrl(organization, hash, mixed, format) → string
 
-Get render URL.
+Get URL for rendering an image.
 
 ```js
 rokka.render.getUrl('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'mystack', 'png')

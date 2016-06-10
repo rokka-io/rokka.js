@@ -2,9 +2,14 @@ import { stringifyOperations } from '../utils';
 
 const render = {};
 
+/**
+ * ### Render
+ *
+ * @module render
+ */
 export default (state) => {
   /**
-   * Get render URL.
+   * Get URL for rendering an image.
    *
    * ```js
    * rokka.render.getUrl('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'mystack', 'png')
