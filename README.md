@@ -35,8 +35,8 @@ Initializing the Rokka client.
 
 ```js
 var rokka = require('rokka')({
-  apiKey: 'apikey',     // required
-  secret: 'secrect',    // required
+  apiKey: 'apikey',     // required for certain operations
+  secret: 'secrect',    // required for certain operations
   apiHost: '<url>',     // default: https://api.rokka.io
   apiVersion: <number>, // default: 1
   renderHost: '<url>',  // default: https://{organization}.rokka.io
