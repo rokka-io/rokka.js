@@ -35,10 +35,12 @@ Initializing the Rokka client.
 
 ```js
 var rokka = require('rokka')({
-  apiKey: 'apikey',
-  secret: 'secrect'
-  // host: 'https://api.example.org',
-  // debug: true
+  apiKey: 'apikey',     // required
+  secret: 'secrect',    // required
+  apiHost: '<url>',     // default: https://api.rokka.io
+  apiVersion: <number>, // default: 1
+  renderHost: '<url>',  // default: https://{organization}.rokka.io
+  debug: true           // default: false
 });
 ```
 
@@ -262,6 +264,22 @@ rokka.stacks.delete('myorg', 'mystack')
 ---
 
 <!-- End ../src/apis/stacks.js -->
+
+<!-- Start ../lib/apis/render.js -->
+
+#### rokka.render.getUrl()(organization, hash, mixed, format) → string
+
+Get render URL.
+
+```js
+rokka.organizations.get('myorg')
+	 .then(function(result) {})
+	 .catch(function(err) {});
+```
+
+---
+
+<!-- End ../lib/apis/render.js -->
 
 <!-- ENDDOCS -->
 

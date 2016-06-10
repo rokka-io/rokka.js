@@ -5,3 +5,19 @@ export function signature(secret, url, payload) {
 
   return sha1(secret + url + payload);
 }
+
+export function stringifyOperations(operations) {
+  operations = Array.isArray(operations) ? operations : [operations];
+
+  return operations.map((operation) => {
+    const name = operation.name;
+    const options = Object.keys(operation.options || {})
+      .map((k) => `${k}-${operation.options[k]}`).join('-');
+
+    if (!options) {
+      return name;
+    }
+
+    return `${name}-${options}`;
+  }).join('--');
+}

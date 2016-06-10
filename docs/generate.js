@@ -8,8 +8,8 @@ var sources = [
     '../src/apis/memberships.js',
     '../src/apis/sourceimages.js',
     '../src/apis/operations.js',
-    '../src/apis/stacks.js'
-    //'../lib/apis/render.js'
+    '../src/apis/stacks.js',
+    '../lib/apis/render.js'
   ]
   , readme = '../README.md'
   , tmpFile = './API.md';

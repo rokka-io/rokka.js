@@ -1,10 +1,11 @@
 import transport from './transport';
-import {signature} from './utils';
+import { signature } from './utils';
 import modules from './apis';
 
 const defaults = {
-  host: 'https://api.rokka.io',
-  version: 1
+  apiHost: 'https://api.rokka.io',
+  renderHost: 'https://{organization}.rokka.io',
+  apiVersion: 1
 };
 
 /**
@@ -12,10 +13,12 @@ const defaults = {
  *
  * ```js
  * var rokka = require('rokka')({
- *   apiKey: 'apikey',
- *   secret: 'secrect'
- *   // host: 'https://api.example.org',
- *   // debug: true
+ *   apiKey: 'apikey',     // required
+ *   secret: 'secrect',    // required
+ *   apiHost: '<url>',     // default: https://api.rokka.io
+ *   apiVersion: <number>, // default: 1
+ *   renderHost: '<url>',  // default: https://{organization}.rokka.io
+ *   debug: true           // default: false
  * });
  * ```
  *
@@ -35,11 +38,12 @@ export default (config={}) => {
     // config
     apiKey: config.apiKey,
     secret: config.secret,
-    host: config.host || defaults.host,
-    apiVersion: config.version || defaults.version,
+    apiHost: config.apiHost || defaults.apiHost,
+    apiVersion: config.apiVersion || defaults.apiVersion,
+    renderHost: config.renderHost || defaults.renderHost,
     // functions
     request(method, path, payload=null, queryParams=null, options={}) {
-      const uri = [state.host, path].join('/');
+      const uri = [state.apiHost, path].join('/');
 
       const headers = {
         'Api-Version': state.apiVersion
