@@ -13,8 +13,6 @@ export default (state) => {
    *
    * ```js
    * rokka.render.getUrl('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'mystack', 'png')
-   * 	 .then(function(result) {})
-   * 	 .catch(function(err) {});
    * ```
    *
    * @param  {string}       organization name
