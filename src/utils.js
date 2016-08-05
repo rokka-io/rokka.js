@@ -4,7 +4,7 @@ export function signature(secret, url, payload, payloadSigHack) {
   if (payloadSigHack) {
     payload = 'da39a3ee5e6b4b0d3255bfef95601890afd80709';
   } else {
-    payload = payload ? sha1(payload) : '';
+    payload = payload ? sha1(JSON.stringify(payload)) : '';
   }
 
   return sha1(secret + url + payload);
