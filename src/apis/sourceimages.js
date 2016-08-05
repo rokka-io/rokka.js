@@ -117,7 +117,8 @@ export default (state) => {
       contents: binaryData
     };
 
-    return state.request('POST', `sourceimages/${organization}`, payload, null, options);
+    return state.request('POST', `sourceimages/${organization}`, payload, null, options)
+      .then(JSON.parse);
   };
 
   /**
