@@ -164,7 +164,7 @@ rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 	 .catch(function(err) {});
 ```
 
-#### rokka.sourceimages.create(organization, binaryData) → Promise
+#### rokka.sourceimages.create(organization, fileName, binaryData) → Promise
 
 Upload an image.
 
@@ -269,12 +269,12 @@ rokka.stacks.delete('myorg', 'mystack')
 
 ### Render
 
-#### rokka.render.getUrl(organization, hash, mixed, format) → string
+#### rokka.render.getUrl(organization, hash, format, mixed) → string
 
 Get URL for rendering an image.
 
 ```js
-rokka.render.getUrl('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'mystack', 'png')
+rokka.render.getUrl('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'png', 'mystack')
 ```
 
 ---

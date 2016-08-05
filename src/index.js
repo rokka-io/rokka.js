@@ -43,7 +43,13 @@ export default (config={}) => {
     renderHost: config.renderHost || defaults.renderHost,
     // functions
     request(method, path, payload=null, queryParams=null, options={}) {
-      const uri = [state.apiHost, path].join('/');
+      let uri = [state.apiHost, path].join('/');
+
+      if (Object.keys(queryParams || {}).length > 0) {
+        uri += '?' + Object.keys(queryParams).map((k) =>
+          k + '=' + encodeURIComponent(queryParams[k])
+        ).join('&');
+      }
 
       const headers = {
         'Api-Version': state.apiVersion
@@ -58,24 +64,30 @@ export default (config={}) => {
           return Promise.reject(new Error('Missing required property `secret`'));
         }
 
+        headers['Api-Signature'] = signature(state.secret, uri, payload, options.payloadSigHack);
         headers['Api-Key'] = state.apiKey;
-        headers['Api-Signature'] = signature(state.secret, uri, payload);
       }
 
       const request = {
         method: method,
         uri: uri,
-        headers: headers,
-        qs: queryParams
+        headers: headers
       };
 
-      if(options.fileUpload !== true) {
+      if(options.multipart !== true) {
         request.json = true;
         request.body = payload;
       } else {
-        request.formData = {
-          filedata: payload
+        const formData = {};
+
+        formData[payload.name] = {
+          value: payload.contents,
+          options: {
+            filename: payload.filename
+          }
         };
+
+        request.formData = formData;
       }
 
       return transport(request);

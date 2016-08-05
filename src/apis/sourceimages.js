@@ -101,13 +101,23 @@ export default (state) => {
    *
    * @authenticated
    * @param  {string}  organization name
+   * @param  {string}  fileName     file name
    * @param  {mixed}   binaryData   either a readable stream or a binary string
    * @return {Promise}
    */
-  sourceimages.create = (organization, binaryData) => {
-    const options = { fileUpload: true };
+  sourceimages.create = (organization, fileName, binaryData) => {
+    const options = {
+      multipart: true,
+      payloadSigHack: true
+    };
 
-    return state.request('POST', `sourceimages/${organization}`, binaryData, null, options);
+    const payload = {
+      name: 'filedata',
+      filename: fileName,
+      contents: binaryData
+    };
+
+    return state.request('POST', `sourceimages/${organization}`, payload, null, options);
   };
 
   /**
