@@ -107,8 +107,7 @@ export default (state) => {
    */
   sourceimages.create = (organization, fileName, binaryData) => {
     const options = {
-      multipart: true,
-      payloadSigHack: true
+      multipart: true
     };
 
     const payload = {
