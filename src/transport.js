@@ -5,28 +5,23 @@ import promiseRetry from 'promise-retry';
 // This code is mainly copied from
 // https://github.com/CanTireInnovations/request-promise-retry/blob/master/index.js
 
-const retryRequest = (promiseRequest) => {
-  return req => {
-
-    return promiseRetry(
-      retry => {
-
-        return promiseRequest( req )
+const retryRequest = (promiseRequest) =>
+  req => promiseRetry(
+      retry => promiseRequest(req)
           .catch(err => {
-            if (err.statusCode === 429) {
-              retry(err);
+            if (err.statusCode !== 429) {
+              throw err ;
             }
-            throw err ;
-          } );
-      },
-      {
-        retries: 10,
-        minTimeout: 1000,
-        maxTimeout: 10000,
-        randomize: true
-      }
-    );
-  };
-};
+            retry(err);
+          })
+    ,
+    {
+      retries: 10,
+      minTimeout: 1000,
+      maxTimeout: 10000,
+      randomize: true
+    }
+  );
+
 
 export default retryRequest(request);
