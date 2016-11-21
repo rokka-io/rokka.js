@@ -39,6 +39,8 @@ var rokka = require('rokka')({
   apiVersion: <number>, // default: 1
   renderHost: '<url>',  // default: https://{organization}.rokka.io
   debug: true           // default: false
+  retryOptions: {}      // default: {retries: 10, minTimeout: 1000,
+                        //           maxTimeout: 10000, randomize: true}
 });
 ```
 
