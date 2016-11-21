@@ -1,3 +1,5 @@
+import { isStream } from '../utils';
+
 const sourceimages = {};
 
 /**
@@ -110,14 +112,24 @@ export default (state) => {
       multipart: true
     };
 
-    const payload = {
-      name: 'filedata',
-      filename: fileName,
-      contents: binaryData
-    };
-
-    return state.request('POST', `sourceimages/${organization}`, payload, null, options)
-      .then(JSON.parse);
+    return new Promise((resolve) => {
+      if (isStream(binaryData)) {
+        let data = Buffer.alloc(0);
+        binaryData.on('data', chunk => data = Buffer.concat([data, chunk]));
+        binaryData.on('end', () => resolve(data));
+      } else {
+        resolve(binaryData);
+      }
+    })
+      .then((data) => {
+        const payload = {
+          name: 'filedata',
+          filename: fileName,
+          contents: data
+        };
+        return state.request('POST', `sourceimages/${organization}`, payload, null, options)
+          .then(JSON.parse);
+      });
   };
 
   /**
