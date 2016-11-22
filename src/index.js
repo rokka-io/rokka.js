@@ -5,7 +5,7 @@ const defaults = {
   apiHost: 'https://api.rokka.io',
   renderHost: 'https://{organization}.rokka.io',
   apiVersion: 1,
-  retryOptions: {
+  transport: {
     retries: 10,
     minTimeout: 1000,
     maxTimeout: 10000,
@@ -23,8 +23,12 @@ const defaults = {
  *   apiVersion: <number>, // default: 1
  *   renderHost: '<url>',  // default: https://{organization}.rokka.io
  *   debug: true           // default: false
- *   retryOptions: {}      // default: {retries: 10, minTimeout: 1000,
+ *   transport: {}         // default: {retries: 10, minTimeout: 1000,
  *                         //           maxTimeout: 10000, randomize: true}
+ *                         //   retries: number of retries when API sends a 429 back
+ *                         //   minTimeout: minimal time to wait for next retry
+ *                         //   maxTimeout: maximal time to wait for next retry
+ *                         //   randomize: randomizing the time to wait
  * });
  * ```
  *
@@ -45,7 +49,7 @@ export default (config={}) => {
     apiHost: config.apiHost || defaults.apiHost,
     apiVersion: config.apiVersion || defaults.apiVersion,
     renderHost: config.renderHost || defaults.renderHost,
-    retryOptions: Object.assign(defaults.retryOptions, config.retryOptions),
+    transportOptions: Object.assign(defaults.transport, config.transport),
 
     // functions
     request(method, path, payload=null, queryParams=null, options={}) {
@@ -86,7 +90,7 @@ export default (config={}) => {
         request.formData = formData;
       }
 
-      return transport(request, state.retryOptions);
+      return transport(request, state.transportOptions);
     }
   };
 

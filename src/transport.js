@@ -6,7 +6,7 @@ import promiseRetry from 'promise-retry';
 // https://github.com/CanTireInnovations/request-promise-retry/blob/master/index.js
 
 const retryRequest = (promiseRequest) =>
-  (req, retryOptions) => promiseRetry(
+  (req, options) => promiseRetry(
     retry => promiseRequest(req)
       .catch(err => {
         if (err.statusCode !== 429) {
@@ -15,7 +15,7 @@ const retryRequest = (promiseRequest) =>
         retry(err);
       })
     ,
-    retryOptions
+    options
   );
 
 
