@@ -120,22 +120,22 @@ export default (state) => {
        * in browsers
        */
       if (isStream(binaryData)) {
-        var chunks = [];
+        const chunks = [];
         binaryData.on('data', chunk =>  chunks.push(chunk));
         binaryData.on('end', () => resolve(Buffer.concat(chunks)));
       } else {
         resolve(binaryData);
       }
     })
-      .then((data) => {
-        const payload = {
-          name: 'filedata',
-          filename: fileName,
-          contents: data
-        };
-        return state.request('POST', `sourceimages/${organization}`, payload, null, options)
-          .then(JSON.parse);
-      });
+    .then((data) => {
+      const payload = {
+        name: 'filedata',
+        filename: fileName,
+        contents: data
+      };
+      return state.request('POST', `sourceimages/${organization}`, payload, null, options)
+        .then(JSON.parse);
+    });
   };
 
   /**

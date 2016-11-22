@@ -28,7 +28,6 @@
   },
   "homepage": "https://github.com/rokka-io/rokka.js#readme",
   "dependencies": {
-    "buffer": "^5.0.1",
     "promise-retry": "^1.1.1",
     "request-promise": "^3.0.0"
   },

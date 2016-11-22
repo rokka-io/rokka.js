@@ -10,7 +10,7 @@ const retryRequest = (promiseRequest) =>
     retry => promiseRequest(req)
       .catch(err => {
         if (err.statusCode !== 429) {
-          throw err ;
+          throw err;
         }
         retry(err);
       })
