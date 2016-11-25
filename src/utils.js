@@ -13,3 +13,7 @@ export function stringifyOperations(operations) {
     return `${name}-${options}`;
   }).join('--');
 }
+
+export function isStream(stream) {
+  return stream !== null && typeof stream === 'object' && typeof stream.pipe === 'function';
+}

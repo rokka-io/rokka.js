@@ -1,3 +1,5 @@
+import { isStream } from '../utils';
+
 const sourceimages = {};
 
 /**
@@ -102,7 +104,7 @@ export default (state) => {
    * @authenticated
    * @param  {string}  organization name
    * @param  {string}  fileName     file name
-   * @param  {mixed}   binaryData   either a readable stream or a binary string
+   * @param  {mixed}   binaryData   either a readable stream (in node.js only) or a binary string
    * @return {Promise}
    */
   sourceimages.create = (organization, fileName, binaryData) => {
@@ -110,14 +112,30 @@ export default (state) => {
       multipart: true
     };
 
-    const payload = {
-      name: 'filedata',
-      filename: fileName,
-      contents: binaryData
-    };
-
-    return state.request('POST', `sourceimages/${organization}`, payload, null, options)
-      .then(JSON.parse);
+    return new Promise((resolve) => {
+      /*!
+       * Stream and Buffer are only supported by node.js and not browsers natively
+       * We just asume that a browser based solution will provide the binaryData
+       * of the image as String. But patches are welcome for stream alternatives
+       * in browsers
+       */
+      if (isStream(binaryData)) {
+        const chunks = [];
+        binaryData.on('data', chunk =>  chunks.push(chunk));
+        binaryData.on('end', () => resolve(Buffer.concat(chunks)));
+      } else {
+        resolve(binaryData);
+      }
+    })
+    .then((data) => {
+      const payload = {
+        name: 'filedata',
+        filename: fileName,
+        contents: data
+      };
+      return state.request('POST', `sourceimages/${organization}`, payload, null, options)
+        .then(JSON.parse);
+    });
   };
 
   /**
