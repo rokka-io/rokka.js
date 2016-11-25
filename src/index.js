@@ -18,17 +18,17 @@ const defaults = {
  *
  * ```js
  * var rokka = require('rokka')({
- *   apiKey: 'apikey',     // required for certain operations
- *   apiHost: '<url>',     // default: https://api.rokka.io
- *   apiVersion: <number>, // default: 1
- *   renderHost: '<url>',  // default: https://{organization}.rokka.io
- *   debug: true           // default: false
- *   transport: {}         // default: {retries: 10, minTimeout: 1000,
- *                         //           maxTimeout: 10000, randomize: true}
- *                         //   retries: number of retries when API sends a 429 back
- *                         //   minTimeout: minimal time to wait for next retry
- *                         //   maxTimeout: maximal time to wait for next retry
- *                         //   randomize: randomizing the time to wait
+ *   apiKey: 'apikey',       // required for certain operations
+ *   apiHost: '<url>',       // default: https://api.rokka.io
+ *   apiVersion: <number>,   // default: 1
+ *   renderHost: '<url>',    // default: https://{organization}.rokka.io
+ *   debug: true,            // default: false
+ *   transport: {
+ *     retries: <number>,    // number of retries when API response is 429 (default: 10)
+ *     minTimeout: <number>, // minimum milliseconds between retries (default: 1000)
+ *     maxTimeout: <number>, // maximum milliseconds between retries (default: 10000)
+ *     randomize: <boolean>  // randomize time between retries (default: true)
+ *   }
  * });
  * ```
  *
