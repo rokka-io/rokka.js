@@ -1,6 +1,6 @@
 {
   "name": "rokka",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "JavaScript client library for Rokka.io",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,10 @@
     "compile": "./node_modules/.bin/babel -d lib/ src/",
     "prepublish": "npm run compile"
   },
-  "precommit": ["docs", "test"],
+  "precommit": [
+    "docs",
+    "test"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rokka-io/rokka.js.git"
