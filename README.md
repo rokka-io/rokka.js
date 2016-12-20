@@ -40,10 +40,11 @@ var rokka = require('rokka')({
   renderHost: '<url>',    // default: https://{organization}.rokka.io
   debug: true,            // default: false
   transport: {
-    retries: <number>,    // number of retries when API response is 429 (default: 10)
-    minTimeout: <number>, // minimum milliseconds between retries (default: 1000)
-    maxTimeout: <number>, // maximum milliseconds between retries (default: 10000)
-    randomize: <boolean>  // randomize time between retries (default: true)
+    requestTimeout: <number>,  // milliseconds to wait for rokka server response (default: 30000)
+    retries: <number>,         // number of retries when API response is 429 (default: 10)
+    minTimeout: <number>,      // minimum milliseconds between retries (default: 1000)
+    maxTimeout: <number>,      // maximum milliseconds between retries (default: 10000)
+    randomize: <boolean>       // randomize time between retries (default: true)
   }
 });
 ```
