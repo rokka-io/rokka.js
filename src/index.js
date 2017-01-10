@@ -80,6 +80,18 @@ export default (config={}) => {
       if(options.multipart !== true) {
         request.json = true;
         request.body = payload;
+      } else if (typeof window === 'undefined') {
+        request.headers['Content-Type'] = 'multipart/form-data';
+
+        request.multipart = {
+          chunked: false,
+          data: [
+            {
+              'Content-Disposition': `form-data; name="filedata"; filename="${payload.filename}"`,
+              body: payload.contents
+            }
+          ]
+        };
       } else {
         const formData = {};
 
