@@ -174,7 +174,8 @@ rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 Upload an image.
 
 ```js
-rokka.sourceimages.create('myorg', require('fs').createReadStream('picture.png'))
+const file = require('fs').createReadStream('picture.png');
+rokka.sourceimages.create('myorg', 'picture.png', file)
 	 .then(function(result) {})
 	 .catch(function(err) {});
 ```

@@ -96,15 +96,16 @@ export default (state) => {
    * Upload an image.
    *
    * ```js
-   * rokka.sourceimages.create('myorg', require('fs').createReadStream('picture.png'))
+   * const file = require('fs').createReadStream('picture.png');
+   * rokka.sourceimages.create('myorg', 'picture.png', file)
    * 	 .then(function(result) {})
    * 	 .catch(function(err) {});
    * ```
    *
    * @authenticated
-   * @param  {string}  organization name
-   * @param  {string}  fileName     file name
-   * @param  {mixed}   binaryData   either a readable stream (in node.js only) or a binary string
+   * @param  {string} organization name
+   * @param  {string} fileName     file name
+   * @param  {*}      binaryData   either a readable stream (in node.js only) or a binary string
    * @return {Promise}
    */
   sourceimages.create = (organization, fileName, binaryData) => {

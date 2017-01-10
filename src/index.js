@@ -80,7 +80,7 @@ export default (config={}) => {
       if(options.multipart !== true) {
         request.json = true;
         request.body = payload;
-      } else if (typeof window === 'undefined') {
+      } else if (typeof window !== 'undefined') {
         request.headers['Content-Type'] = 'multipart/form-data';
 
         request.multipart = {
