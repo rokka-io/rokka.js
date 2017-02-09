@@ -24,7 +24,7 @@ export default (state) => {
   render.getUrl = (organization, hash, format, mixed) => {
     const host = state.renderHost.replace('{organization}', organization);
     const mixedParam = Array.isArray(mixed)
-      ? stringifyOperations(mixed) // array of operations
+      ? `dynamic/${stringifyOperations(mixed)}` // array of operations
       : mixed; // stack name
     const stack = mixedParam ? `${mixedParam}` : 'original';
 
