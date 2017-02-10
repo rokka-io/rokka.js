@@ -275,7 +275,7 @@ rokka.stacks.delete('myorg', 'mystack')
 
 ### Render
 
-#### rokka.render.getUrl(organization, hash, format, mixed) → string
+#### rokka.render.getUrl(organization, hash, format, [mixed]) → string
 
 Get URL for rendering an image.
 
