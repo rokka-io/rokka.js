@@ -18,7 +18,7 @@ export default (state) => {
    * @param  {string}       organization name
    * @param  {string}       hash         image hash
    * @param  {string}       format       image format: `jpg`, `png` or `gif`
-   * @param  {string|array} mixed        optional stack name or an array of stack operation objects
+   * @param  {string|array} [mixed]      optional stack name or an array of stack operation objects
    * @return {string}
    */
   render.getUrl = (organization, hash, format, mixed) => {
