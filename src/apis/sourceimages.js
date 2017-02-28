@@ -11,26 +11,59 @@ export default (state) => {
   /**
    * Get a list of source images.
    *
+   * By default, listing sourceimages sorts them by created date descending.
+   *
    * ```js
    * rokka.sourceimages.list('myorg')
    * 	 .then(function(result) {})
    * 	 .catch(function(err) {});
    * ```
    *
+   * Searching for images can be achieved using the `search` parameter.
+   * Supported are predefined fields like `height`, `name` etc. but also user metadata.
+   * If you search for user metadata, the field name has to be prefixed with `user:TYPE`.
+   * All fields are combined with an AND. OR/NOT is not possible.
+   *
+   * Example:
+   *
+   * ```js
+   * const search = {
+   *   'user:int:id': '42',
+   *   'height': '64'
+   * }
+   * rokka.sourceimages.list('myorg', { search: search })
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
+   * ```
+   *
+   * The search also supports range and wildcard queries.
+   * Check out [the rokka documentation](https://rokka.io/documentation/references/searching-images.html) for more.
+   *
+   * Sorting works with user metadata as well and can be passed as either an array or as a
+   * comma separated string.
+   *
    * @authenticated
    * @param  {string} organization  name
-   * @param  {number} [limit=null]
-   * @param  {number} [offset=null]
+   * @param  {Object} params Query string params (limit, offset, sort and search)
    * @return {Promise}
    */
-  sourceimages.list = (organization, limit=null, offset=null) => {
-    const queryParams = {};
+  sourceimages.list = (organization, { limit = null, offset = null, sort = null, search = null } = {}) => {
+    let queryParams = {};
 
     if(limit !== null) {
       queryParams.limit = limit;
     }
     if(offset !== null) {
       queryParams.offset = offset;
+    }
+    if(sort !== null) {
+      if (Array.isArray(sort)) {
+        sort = sort.join(',');
+      }
+      queryParams.sort = sort;
+    }
+    if(search !== null) {
+      queryParams = Object.assign(queryParams, search);
     }
 
     return state.request('GET', `sourceimages/${organization}`, null, queryParams);

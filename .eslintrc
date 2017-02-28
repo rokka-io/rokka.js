@@ -27,7 +27,7 @@ rules:
   no-extra-semi: 2
   no-trailing-spaces: 2
   semi: 2
-  max-len: [2, 100, 4]
+  max-len: [2, 120, 4]
   comma-style: [2, "last", { exceptions: { VariableDeclaration: true } }]
   comma-spacing: 2
   consistent-this: [2, "self"]
