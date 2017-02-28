@@ -242,6 +242,12 @@ rokka.stacks.list('myorg')
 
 Get details about a stack.
 
+```js
+rokka.stacks.get('myorg', 'mystack')
+  .then(function(result) {})
+  .catch(function(result) {});
+```
+
 #### rokka.stacks.create(organization, name, operations) → Promise
 
 Create a new stack.

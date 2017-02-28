@@ -37,6 +37,12 @@ export default (state) => {
   /**
    * Get details about a stack.
    *
+   * ```js
+   * rokka.stacks.get('myorg', 'mystack')
+   *   .then(function(result) {})
+   *   .catch(function(result) {});
+   * ```
+   *
    * @authenticated
    * @param  {string}  organization name
    * @param  {string}  name         stack name
