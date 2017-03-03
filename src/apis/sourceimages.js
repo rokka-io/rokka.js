@@ -1,6 +1,8 @@
 import { isStream } from '../utils';
 
-const sourceimages = {};
+const sourceimages = {
+  meta: {}
+};
 
 /**
  * ### Source Images
@@ -195,6 +197,84 @@ export default (state) => {
    */
   sourceimages.delete = (organization, hash) => {
     return state.request('DELETE', `sourceimages/${organization}/${hash}`);
+  };
+
+  /**
+   * #### User metadata
+   */
+
+  /**
+   * Add user metadata to a source image.
+   *
+   * See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
+   * for an explanation.
+   *
+   * ```js
+   * rokka.sourceimages.meta.add('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
+   *   somefield: 'somevalue',
+   *   'int:some_number': 0,
+   *   'delete_this': null
+   * }).then(function(result) {})
+   *   .catch(function(err) {});
+   * ```
+   *
+   * @authenticated
+   * @param {string} organization name
+   * @param {string} hash         image hash
+   * @param {object} data         metadata to add to the image
+   * @return {Promise}
+   */
+  sourceimages.meta.add = (organization, hash, data) => {
+    return state.request('PATCH', `sourceimages/${organization}/${hash}/meta/user`, data);
+  };
+
+  /**
+   * Replace user metadata of a source image with the passed data.
+   *
+   * See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
+   * for an explanation.
+   *
+   * ```js
+   * rokka.sourceimages.meta.replace('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
+   *   somefield: 'somevalue',
+   *   'int:some_number': 0
+   * }).then(function(result) {})
+   *   .catch(function(err) {});
+   * ```
+   *
+   * @authenticated
+   * @param {string} organization name
+   * @param {string} hash         image hash
+   * @param {object} data         new metadata
+   * @return {Promise}
+   */
+  sourceimages.meta.replace = (organization, hash, data) => {
+    return state.request('PUT', `sourceimages/${organization}/${hash}/meta/user`, data);
+  };
+
+  /**
+   * Replace user metadata of a source image with the passed data.
+   *
+   * See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
+   * for an explanation.
+   *
+   * ```js
+   * rokka.sourceimages.meta.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
+   * ```
+   *
+   * If the third parameter (field) is specified, it will just delete this field.
+   *
+   * @authenticated
+   * @param {string} organization name
+   * @param {string} hash         image hash
+   * @param {string} [field=null] optional field to delete
+   * @return {Promise}
+   */
+  sourceimages.meta.delete = (organization, hash, field = null) => {
+    const fieldpath = field ? `/${field}` : '';
+    return state.request('DELETE', `sourceimages/${organization}/${hash}/meta/user${fieldpath}`);
   };
 
   return {
