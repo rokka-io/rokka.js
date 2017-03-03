@@ -215,6 +215,54 @@ rokka.sourceimages.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 	 .catch(function(err) {});
 ```
 
+#### User metadata
+
+#### rokka.sourceimages.meta.add(organization, hash, data) → Promise
+
+Add user metadata to a source image.
+
+See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
+for an explanation.
+
+```js
+rokka.sourceimages.meta.add('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
+  somefield: 'somevalue',
+  'int:some_number': 0,
+  'delete_this': null
+}).then(function(result) {})
+  .catch(function(err) {});
+```
+
+#### rokka.sourceimages.meta.replace(organization, hash, data) → Promise
+
+Replace user metadata of a source image with the passed data.
+
+See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
+for an explanation.
+
+```js
+rokka.sourceimages.meta.replace('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
+  somefield: 'somevalue',
+  'int:some_number': 0
+}).then(function(result) {})
+  .catch(function(err) {});
+```
+
+#### rokka.sourceimages.meta.delete(organization, hash, [field=null]) → Promise
+
+Replace user metadata of a source image with the passed data.
+
+See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
+for an explanation.
+
+```js
+rokka.sourceimages.meta.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
+If the third parameter (field) is specified, it will just delete this field.
+
 ---
 
 <!-- End ../src/apis/sourceimages.js -->
