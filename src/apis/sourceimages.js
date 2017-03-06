@@ -176,8 +176,11 @@ export default (state) => {
         filename: fileName,
         contents: data
       };
-      return state.request('POST', `sourceimages/${organization}`, payload, null, options)
-        .then(JSON.parse);
+      return state.request('POST', `sourceimages/${organization}`, payload, null, options).then((response) => {
+        response.body = JSON.parse(response.body);
+
+        return response;
+      });
     });
   };
 
