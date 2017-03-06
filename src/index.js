@@ -74,7 +74,8 @@ export default (config={}) => {
         uri: uri,
         qs: queryParams,
         headers: headers,
-        timeout: state.transportOptions.requestTimeout
+        timeout: state.transportOptions.requestTimeout,
+        resolveWithFullResponse: true
       };
 
       if(options.multipart !== true) {
