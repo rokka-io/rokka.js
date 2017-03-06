@@ -1,27 +1,27 @@
-var fs = require('fs')
-  , markdox = require('markdox');
+const fs = require('fs');
+const markdox = require('markdox');
 
-var sources = [
-    '../src/index.js',
-    '../src/apis/users.js',
-    '../src/apis/organizations.js',
-    '../src/apis/memberships.js',
-    '../src/apis/sourceimages.js',
-    '../src/apis/operations.js',
-    '../src/apis/stacks.js',
-    '../src/apis/render.js'
-  ]
-  , readme = '../README.md'
-  , tmpFile = './API.md';
+const sources = [
+  '../src/index.js',
+  '../src/apis/users.js',
+  '../src/apis/organizations.js',
+  '../src/apis/memberships.js',
+  '../src/apis/sourceimages.js',
+  '../src/apis/operations.js',
+  '../src/apis/stacks.js',
+  '../src/apis/render.js'
+];
+const readme = '../README.md';
+const tmpFile = './API.md';
 
-var options = {
+const options = {
   template: './template.md.ejs',
   output: tmpFile
 };
 
 markdox.process(sources, options, function() {
-  var docsStr = fs.readFileSync(tmpFile, 'utf8')
-    , readmeStr = fs.readFileSync(readme, 'utf8');
+  let docsStr = fs.readFileSync(tmpFile, 'utf8');
+  let readmeStr = fs.readFileSync(readme, 'utf8');
 
   docsStr = docsStr
     .replace(/&lt;/g, '<')
@@ -38,5 +38,4 @@ markdox.process(sources, options, function() {
   fs.unlinkSync(tmpFile);
 
   process.stdout.write('Documentation generated.\n');
-
 });
