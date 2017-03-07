@@ -1,7 +1,7 @@
 {
   "name": "rokka",
   "version": "0.19.0",
-  "description": "JavaScript client library for Rokka.io",
+  "description": "JavaScript client library for rokka.io",
   "main": "index.js",
   "scripts": {
     "test": "npm run lint",

@@ -7,7 +7,7 @@ const users = {};
  */
 export default (state) => {
   /**
-   * Register a new user for the Rokka service.
+   * Register a new user for the rokka service.
    *
    * ```js
    * rokka.users.create('user@example.org')
