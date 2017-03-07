@@ -29,7 +29,7 @@ export default (state) => {
    *
    * @authenticated
    * @param  {string}  organization name
-   * @param  {string}  email        email address of a registered Rokka user
+   * @param  {string}  email        email address of a registered rokka user
    * @param  {string}  role         user role (`rokka.memberships.ROLES`)
    * @return {Promise}
    */

@@ -15,7 +15,7 @@ const defaults = {
 };
 
 /**
- * Initializing the Rokka client.
+ * Initializing the rokka client.
  *
  * ```js
  * var rokka = require('rokka')({

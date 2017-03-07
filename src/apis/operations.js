@@ -62,7 +62,7 @@ operations.noop = () => {
  * - `rokka.operations.noop()`
  *
  * Please refer to the
- * [Rokka API documentation](https://rokka.io/documentation/references/operations.html)
+ * [rokka API documentation](https://rokka.io/documentation/references/operations.html)
  *
  * @module operations
  */

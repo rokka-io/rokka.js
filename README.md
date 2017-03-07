@@ -1,6 +1,6 @@
-# Rokka.js [![NPM version][npm-version-image]][npm-url] [![Dependency Status][dependencies-image]][dependencies-url]
+# rokka.js [![NPM version][npm-version-image]][npm-url] [![Dependency Status][dependencies-image]][dependencies-url]
 
-JavaScript client library for [Rokka](https://rokka.io/).
+JavaScript client library for [rokka](https://rokka.io/).
 
 ## Install
 
@@ -30,7 +30,7 @@ rokka.sourceimages.list('myorg')
 
 <!-- Start ../src/index.js -->
 
-Initializing the Rokka client.
+Initializing the rokka client.
 
 ```js
 var rokka = require('rokka')({
@@ -61,7 +61,7 @@ All properties are optional since certain calls don't require credentials.
 
 #### rokka.users.create(email) → Promise
 
-Register a new user for the Rokka service.
+Register a new user for the rokka service.
 
 ```js
 rokka.users.create('user@example.org')
@@ -317,7 +317,7 @@ If the third parameter (field) is specified, it will just delete this field.
 - `rokka.operations.noop()`
 
 Please refer to the
-[Rokka API documentation](https://rokka.io/documentation/references/operations.html)
+[rokka API documentation](https://rokka.io/documentation/references/operations.html)
 
 #### rokka.operations.list() → Promise
 
