@@ -203,7 +203,60 @@ export default (state) => {
   };
 
   /**
-   * #### User metadata
+   * ### Dynamic metadata
+   *
+   * See [the dynamic metadata documentation](https://rokka.io/documentation/references/dynamic-metadata.html) for
+   * more information.
+   */
+
+  /**
+   * Set the subject area of a source image.
+   *
+   * The [subject area of an image](https://rokka.io/documentation/references/dynamic-metadata.html#subject-area) is
+   * used when applying the [crop operation](https://rokka.io/documentation/references/operations.html#crop) with the
+   * `auto` anchor to center the cropping box around the subject area.
+   *
+   * ```js
+   * rokka.sourceimages.setSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
+   *   x: 100,
+   *   y: 100,
+   *   width: 50,
+   *   height: 50
+   * }).then(function(result) {})
+   *   .catch(function(err) {});
+   * ```
+   *
+   * @param {string} organization name
+   * @param {string} hash         image hash
+   * @param {{width: number, height: number, x: number, y: number}} coords x, y starting from top left
+   * @returns {Promise}
+   */
+  sourceimages.setSubjectArea = (organization, hash, coords) => {
+    return state.request('PUT', `sourceimages/${organization}/${hash}/meta/dynamic/SubjectArea`, coords);
+  };
+
+  /**
+   * Removes the subject area from a source image.
+   *
+   * ```js
+   * rokka.sourceimages.removeSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
+   * ```
+   *
+   * @param {string} organization
+   * @param {string} hash
+   * @return {Promise}
+   */
+  sourceimages.removeSubjectArea = (organization, hash) => {
+    return state.request('DELETE', `sourceimages/${organization}/${hash}/meta/dynamic/SubjectArea`);
+  };
+
+  /**
+   * ### User metadata
+   *
+   * See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
+   * for more information.
    */
 
   /**
