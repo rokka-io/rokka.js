@@ -9,7 +9,8 @@ const sources = [
   '../src/apis/sourceimages.js',
   '../src/apis/operations.js',
   '../src/apis/stacks.js',
-  '../src/apis/render.js'
+  '../src/apis/render.js',
+  '../src/apis/stats.js'
 ];
 const readme = '../README.md';
 const tmpFile = './API.md';

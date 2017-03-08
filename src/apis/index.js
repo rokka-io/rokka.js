@@ -4,6 +4,7 @@ import organizations from './organizations';
 import render from './render';
 import sourceimages from './sourceimages';
 import stacks from './stacks';
+import stats from './stats';
 import users from './users';
 
 export default (state) => {
@@ -15,6 +16,7 @@ export default (state) => {
     render(state),
     sourceimages(state),
     stacks(state),
+    stats(state),
     users(state)
   );
 };
