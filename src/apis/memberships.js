@@ -1,10 +1,10 @@
-const memberships = {};
+const memberships = {}
 
 const ROLES = memberships.ROLES = {
   READ: 'read',
   WRITE: 'write',
   ADMIN: 'admin'
-};
+}
 
 /**
  * ### Memberships
@@ -23,8 +23,8 @@ export default (state) => {
    *
    * ```js
    * rokka.memberships.create('myorg', 'user@example.org', rokka.memberships.ROLES.WRITE)
-   * 	 .then(function(result) {})
-   * 	 .catch(function(err) {});
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
    * ```
    *
    * @authenticated
@@ -35,15 +35,15 @@ export default (state) => {
    */
   memberships.create = (organization, email, role) => {
     if (Object.keys(ROLES).map((key) => ROLES[key]).indexOf(role) === -1) {
-      return Promise.reject(new Error(`Invalid role "${role}"`));
+      return Promise.reject(new Error(`Invalid role "${role}"`))
     }
 
-    const path = `organizations/${organization}/memberships/${email}`;
+    const path = `organizations/${organization}/memberships/${email}`
 
-    return state.request('PUT', path, { role: role });
-  };
+    return state.request('PUT', path, { role: role })
+  }
 
   return {
     memberships
-  };
-};
+  }
+}

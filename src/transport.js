@@ -1,5 +1,5 @@
-import request from 'request-promise';
-import promiseRetry from 'promise-retry';
+import request from 'request-promise'
+import promiseRetry from 'promise-retry'
 
 // When the API sends a 429 back, retry it for 10 times
 // This code is mainly copied from
@@ -10,13 +10,12 @@ const retryRequest = (promiseRequest) =>
     retry => promiseRequest(req)
       .catch(err => {
         if (err.statusCode !== 429) {
-          throw err;
+          throw err
         }
-        retry(err);
+        retry(err)
       })
     ,
     options
-  );
+  )
 
-
-export default retryRequest(request);
+export default retryRequest(request)

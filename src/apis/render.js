@@ -1,6 +1,6 @@
-import { stringifyOperations } from '../utils';
+import { stringifyOperations } from '../utils'
 
-const render = {};
+const render = {}
 
 /**
  * ### Render
@@ -22,16 +22,16 @@ export default (state) => {
    * @return {string}
    */
   render.getUrl = (organization, hash, format, mixed) => {
-    const host = state.renderHost.replace('{organization}', organization);
+    const host = state.renderHost.replace('{organization}', organization)
     const mixedParam = Array.isArray(mixed)
       ? `dynamic/${stringifyOperations(mixed)}` // array of operations
-      : mixed; // stack name
-    const stack = mixedParam || 'dynamic/noop';
+      : mixed // stack name
+    const stack = mixedParam || 'dynamic/noop'
 
-    return `${host}/${stack}/${hash}.${format}`;
-  };
+    return `${host}/${stack}/${hash}.${format}`
+  }
 
   return {
     render
-  };
-};
+  }
+}

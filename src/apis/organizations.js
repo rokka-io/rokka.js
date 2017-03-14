@@ -1,4 +1,4 @@
-const organizations = {};
+const organizations = {}
 
 /**
  * ### Organizations
@@ -11,8 +11,8 @@ export default (state) => {
    *
    * ```js
    * rokka.organizations.get('myorg')
-   * 	 .then(function(result) {})
-   * 	 .catch(function(err) {});
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
    * ```
    *
    * @authenticated
@@ -20,16 +20,16 @@ export default (state) => {
    * @return {Promise}
    */
   organizations.get = (name) => {
-    return state.request('GET', `organizations/${name}`);
-  };
+    return state.request('GET', `organizations/${name}`)
+  }
 
   /**
    * Create an organization.
    *
    * ```js
    * rokka.organizations.create('myorg', 'billing@example.org', 'Organization Inc.')
-   * 	 .then(function(result) {})
-   * 	 .catch(function(err) {});
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
    * ```
    *
    * @authenticated
@@ -42,10 +42,10 @@ export default (state) => {
     return state.request('PUT', `organizations/${name}`, {
       'billing_email': billingEmail,
       'display_name': displayName
-    });
-  };
+    })
+  }
 
   return {
     organizations
-  };
-};
+  }
+}

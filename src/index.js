@@ -1,5 +1,5 @@
-import transport from './transport';
-import modules from './apis';
+import transport from './transport'
+import modules from './apis'
 
 const defaults = {
   apiHost: 'https://api.rokka.io',
@@ -12,7 +12,7 @@ const defaults = {
     maxTimeout: 10000,
     randomize: true
   }
-};
+}
 
 /**
  * Initializing the rokka client.
@@ -41,9 +41,9 @@ const defaults = {
  *
  * @module rokka
  */
-export default (config={}) => {
-  if(config.debug !== null) {
-    transport.debug = config.debug;
+export default (config = {}) => {
+  if (config.debug !== null) {
+    transport.debug = config.debug
   }
   const state = {
     // config
@@ -54,19 +54,19 @@ export default (config={}) => {
     transportOptions: Object.assign(defaults.transport, config.transport),
 
     // functions
-    request(method, path, payload=null, queryParams=null, options={}) {
-      let uri = [state.apiHost, path].join('/');
+    request (method, path, payload = null, queryParams = null, options = {}) {
+      const uri = [state.apiHost, path].join('/')
 
       const headers = {
         'Api-Version': state.apiVersion
-      };
+      }
 
-      if(options.noAuthHeaders !== true) {
+      if (options.noAuthHeaders !== true) {
         if (!state.apiKey) {
-          return Promise.reject(new Error('Missing required property `apiKey`'));
+          return Promise.reject(new Error('Missing required property `apiKey`'))
         }
 
-        headers['Api-Key'] = state.apiKey;
+        headers['Api-Key'] = state.apiKey
       }
 
       const request = {
@@ -76,13 +76,13 @@ export default (config={}) => {
         headers: headers,
         timeout: state.transportOptions.requestTimeout,
         resolveWithFullResponse: true
-      };
+      }
 
-      if(options.multipart !== true) {
-        request.json = true;
-        request.body = payload;
+      if (options.multipart !== true) {
+        request.json = true
+        request.body = payload
       } else if (typeof window !== 'undefined') {
-        request.headers['Content-Type'] = 'multipart/form-data';
+        request.headers['Content-Type'] = 'multipart/form-data'
 
         request.multipart = {
           chunked: false,
@@ -92,26 +92,26 @@ export default (config={}) => {
               body: payload.contents
             }
           ]
-        };
+        }
       } else {
-        const formData = {};
+        const formData = {}
 
         formData[payload.name] = {
           value: payload.contents,
           options: {
             filename: payload.filename
           }
-        };
+        }
 
-        request.formData = formData;
+        request.formData = formData
       }
 
-      return transport(request, state.transportOptions);
+      return transport(request, state.transportOptions)
     }
-  };
+  }
 
   return Object.assign(
     {},
     modules(state)
-  );
-};
+  )
+}

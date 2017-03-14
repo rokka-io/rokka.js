@@ -1,4 +1,4 @@
-const users = {};
+const users = {}
 
 /**
  * ### Users
@@ -11,18 +11,18 @@ export default (state) => {
    *
    * ```js
    * rokka.users.create('user@example.org')
-   * 	 .then(function(result) {})
-   * 	 .catch(function(err) {});
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
    * ```
    *
    * @param {string} email address of a user
    * @return {Promise}
    */
   users.create = (email) => {
-    return state.request('POST', 'users', { email: email }, null, { noAuthHeaders: true });
-  };
+    return state.request('POST', 'users', { email: email }, null, { noAuthHeaders: true })
+  }
 
   return {
     users
-  };
-};
+  }
+}

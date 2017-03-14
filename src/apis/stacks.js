@@ -1,4 +1,4 @@
-const stacks = {};
+const stacks = {}
 
 /**
  * ### Stacks
@@ -11,8 +11,8 @@ export default (state) => {
    *
    * ```js
    * rokka.stacks.list('myorg')
-   * 	 .then(function(result) {})
-   * 	 .catch(function(err) {});
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
    * ```
    *
    * @authenticated
@@ -21,18 +21,18 @@ export default (state) => {
    * @param  {number}  [offset=null]
    * @return {Promise}
    */
-  stacks.list = (organization, limit=null, offset=null) => {
-    const queryParams = {};
+  stacks.list = (organization, limit = null, offset = null) => {
+    const queryParams = {}
 
-    if(limit !== null) {
-      queryParams.limit = limit;
+    if (limit !== null) {
+      queryParams.limit = limit
     }
-    if(offset !== null) {
-      queryParams.offset = offset;
+    if (offset !== null) {
+      queryParams.offset = offset
     }
 
-    return state.request('GET', `stacks/${organization}`, null, queryParams);
-  };
+    return state.request('GET', `stacks/${organization}`, null, queryParams)
+  }
 
   /**
    * Get details about a stack.
@@ -49,8 +49,8 @@ export default (state) => {
    * @return {Promise}
    */
   stacks.get = (organization, name) => {
-    return state.request('GET', `stacks/${organization}/${name}`);
-  };
+    return state.request('GET', `stacks/${organization}/${name}`)
+  }
 
   /**
    * Create a new stack.
@@ -62,8 +62,8 @@ export default (state) => {
    * ];
    *
    * rokka.stacks.create('myorg', 'mystack', operations)
-   * 	 .then(function(result) {})
-   * 	 .catch(function(err) {});
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
    * ```
    *
    * @authenticated
@@ -73,18 +73,18 @@ export default (state) => {
    * @return {Promise}
    */
   stacks.create = (organization, name, operations) => {
-    operations = Array.isArray(operations) ? operations : [operations];
+    operations = Array.isArray(operations) ? operations : [operations]
 
-    return state.request('PUT', `stacks/${organization}/${name}`, operations);
-  };
+    return state.request('PUT', `stacks/${organization}/${name}`, operations)
+  }
 
   /**
    * Delete a stack.
    *
    * ```js
    * rokka.stacks.delete('myorg', 'mystack')
-   * 	 .then(function(result) {})
-   * 	 .catch(function(err) {});
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
    * ```
    *
    * @authenticated
@@ -93,10 +93,10 @@ export default (state) => {
    * @return {Promise}
    */
   stacks.delete = (organization, name) => {
-    return state.request('DELETE', `stacks/${organization}/${name}`);
-  };
+    return state.request('DELETE', `stacks/${organization}/${name}`)
+  }
 
   return {
     stacks
-  };
-};
+  }
+}
