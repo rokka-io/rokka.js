@@ -1,8 +1,8 @@
-import { isStream } from '../utils';
+import { isStream } from '../utils'
 
 const sourceimages = {
   meta: {}
-};
+}
 
 /**
  * ### Source Images
@@ -17,8 +17,8 @@ export default (state) => {
    *
    * ```js
    * rokka.sourceimages.list('myorg')
-   * 	 .then(function(result) {})
-   * 	 .catch(function(err) {});
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
    * ```
    *
    * Searching for images can be achieved using the `search` parameter.
@@ -50,34 +50,34 @@ export default (state) => {
    * @return {Promise}
    */
   sourceimages.list = (organization, { limit = null, offset = null, sort = null, search = null } = {}) => {
-    let queryParams = {};
+    let queryParams = {}
 
-    if(limit !== null) {
-      queryParams.limit = limit;
+    if (limit !== null) {
+      queryParams.limit = limit
     }
-    if(offset !== null) {
-      queryParams.offset = offset;
+    if (offset !== null) {
+      queryParams.offset = offset
     }
-    if(sort !== null) {
+    if (sort !== null) {
       if (Array.isArray(sort)) {
-        sort = sort.join(',');
+        sort = sort.join(',')
       }
-      queryParams.sort = sort;
+      queryParams.sort = sort
     }
-    if(search !== null) {
-      queryParams = Object.assign(queryParams, search);
+    if (search !== null) {
+      queryParams = Object.assign(queryParams, search)
     }
 
-    return state.request('GET', `sourceimages/${organization}`, null, queryParams);
-  };
+    return state.request('GET', `sourceimages/${organization}`, null, queryParams)
+  }
 
   /**
    * Get information of a source image by hash.
    *
    * ```js
    * rokka.sourceimages.get('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-   * 	 .then(function(result) {})
-   * 	 .catch(function(err) {});
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
    * ```
    *
    * @authenticated
@@ -86,16 +86,16 @@ export default (state) => {
    * @return {Promise}
    */
   sourceimages.get = (organization, hash) => {
-    return state.request('GET', `sourceimages/${organization}/${hash}`);
-  };
+    return state.request('GET', `sourceimages/${organization}/${hash}`)
+  }
 
   /**
    * Get information of a source image by its binary hash.
    *
    * ```js
    * rokka.sourceimages.getWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e158a3ee822a')
-   * 	 .then(function(result) {})
-   * 	 .catch(function(err) {});
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
    * ```
    *
    * @authenticated
@@ -104,18 +104,18 @@ export default (state) => {
    * @return {Promise}
    */
   sourceimages.getWithBinaryHash = (organization, binaryHash) => {
-    const queryParams = { binaryHash: binaryHash };
+    const queryParams = { binaryHash: binaryHash }
 
-    return state.request('GET', `sourceimages/${organization}`, null, queryParams);
-  };
+    return state.request('GET', `sourceimages/${organization}`, null, queryParams)
+  }
 
   /**
    * Download image by hash.
    *
    * ```js
    * rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-   * 	 .then(function(result) {})
-   * 	 .catch(function(err) {});
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
    * ```
    *
    * @authenticated
@@ -124,8 +124,8 @@ export default (state) => {
    * @return {Promise}
    */
   sourceimages.download = (organization, hash) => {
-    return state.request('GET', `sourceimages/${organization}/${hash}/download`);
-  };
+    return state.request('GET', `sourceimages/${organization}/${hash}/download`)
+  }
 
   /**
    * Upload an image.
@@ -133,8 +133,8 @@ export default (state) => {
    * ```js
    * const file = require('fs').createReadStream('picture.png');
    * rokka.sourceimages.create('myorg', 'picture.png', file)
-   * 	 .then(function(result) {})
-   * 	 .catch(function(err) {});
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
    * ```
    *
    * @authenticated
@@ -146,7 +146,7 @@ export default (state) => {
   sourceimages.create = (organization, fileName, binaryData) => {
     const options = {
       multipart: true
-    };
+    }
 
     return new Promise((resolve) => {
       /*!
@@ -156,18 +156,18 @@ export default (state) => {
        * in browsers
        */
       if (isStream(binaryData)) {
-        const chunks = [];
-        binaryData.on('data', chunk => chunks.push(chunk));
-        binaryData.on('end', () => resolve(Buffer.concat(chunks)));
+        const chunks = []
+        binaryData.on('data', chunk => chunks.push(chunk))
+        binaryData.on('end', () => resolve(Buffer.concat(chunks)))
       } else if (typeof window !== 'undefined') {
-        const fileReader = new window.FileReader();
-        fileReader.onload = function(e) {
-          resolve(e.target.result);
-        };
+        const fileReader = new window.FileReader()
+        fileReader.onload = function (e) {
+          resolve(e.target.result)
+        }
 
-        fileReader.readAsArrayBuffer(binaryData);
+        fileReader.readAsArrayBuffer(binaryData)
       } else {
-        resolve(binaryData);
+        resolve(binaryData)
       }
     })
     .then((data) => {
@@ -175,22 +175,22 @@ export default (state) => {
         name: 'filedata',
         filename: fileName,
         contents: data
-      };
+      }
       return state.request('POST', `sourceimages/${organization}`, payload, null, options).then((response) => {
-        response.body = JSON.parse(response.body);
+        response.body = JSON.parse(response.body)
 
-        return response;
-      });
-    });
-  };
+        return response
+      })
+    })
+  }
 
   /**
    * Delete image by hash.
    *
    * ```js
    * rokka.sourceimages.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-   * 	 .then(function(result) {})
-   * 	 .catch(function(err) {});
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
    * ```
    *
    * @authenticated
@@ -199,8 +199,8 @@ export default (state) => {
    * @return {Promise}
    */
   sourceimages.delete = (organization, hash) => {
-    return state.request('DELETE', `sourceimages/${organization}/${hash}`);
-  };
+    return state.request('DELETE', `sourceimages/${organization}/${hash}`)
+  }
 
   /**
    * ### Dynamic metadata
@@ -232,8 +232,8 @@ export default (state) => {
    * @returns {Promise}
    */
   sourceimages.setSubjectArea = (organization, hash, coords) => {
-    return state.request('PUT', `sourceimages/${organization}/${hash}/meta/dynamic/SubjectArea`, coords);
-  };
+    return state.request('PUT', `sourceimages/${organization}/${hash}/meta/dynamic/SubjectArea`, coords)
+  }
 
   /**
    * Removes the subject area from a source image.
@@ -249,8 +249,8 @@ export default (state) => {
    * @return {Promise}
    */
   sourceimages.removeSubjectArea = (organization, hash) => {
-    return state.request('DELETE', `sourceimages/${organization}/${hash}/meta/dynamic/SubjectArea`);
-  };
+    return state.request('DELETE', `sourceimages/${organization}/${hash}/meta/dynamic/SubjectArea`)
+  }
 
   /**
    * ### User metadata
@@ -281,8 +281,8 @@ export default (state) => {
    * @return {Promise}
    */
   sourceimages.meta.add = (organization, hash, data) => {
-    return state.request('PATCH', `sourceimages/${organization}/${hash}/meta/user`, data);
-  };
+    return state.request('PATCH', `sourceimages/${organization}/${hash}/meta/user`, data)
+  }
 
   /**
    * Replace user metadata of a source image with the passed data.
@@ -305,8 +305,8 @@ export default (state) => {
    * @return {Promise}
    */
   sourceimages.meta.replace = (organization, hash, data) => {
-    return state.request('PUT', `sourceimages/${organization}/${hash}/meta/user`, data);
-  };
+    return state.request('PUT', `sourceimages/${organization}/${hash}/meta/user`, data)
+  }
 
   /**
    * Replace user metadata of a source image with the passed data.
@@ -329,11 +329,11 @@ export default (state) => {
    * @return {Promise}
    */
   sourceimages.meta.delete = (organization, hash, field = null) => {
-    const fieldpath = field ? `/${field}` : '';
-    return state.request('DELETE', `sourceimages/${organization}/${hash}/meta/user${fieldpath}`);
-  };
+    const fieldpath = field ? `/${field}` : ''
+    return state.request('DELETE', `sourceimages/${organization}/${hash}/meta/user${fieldpath}`)
+  }
 
   return {
     sourceimages
-  };
-};
+  }
+}

@@ -1,4 +1,4 @@
-const stats = {};
+const stats = {}
 
 /**
  * ### Stats
@@ -13,8 +13,8 @@ export default (state) => {
    *
    * ```js
    * rokka.stats.get('myorg', '2017-01-01', '2017-01-31')
-   * 	 .then(function(result) {})
-   * 	 .catch(function(err) {});
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
    * ```
    *
    * @param {string} organization name
@@ -27,10 +27,10 @@ export default (state) => {
     return state.request('GET', `stats/${organization}`, null, {
       from,
       to
-    });
-  };
+    })
+  }
 
   return {
     stats
-  };
-};
+  }
+}
