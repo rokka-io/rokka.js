@@ -402,6 +402,26 @@ rokka.render.getUrl('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'png', 
 
 <!-- End ../src/apis/render.js -->
 
+<!-- Start ../src/apis/stats.js -->
+
+### Stats
+
+#### rokka.stats.get(organization, [from=null], [to=null]) → Promise
+
+Retrieve statistics about an organization.
+
+If `from` and `to` are not specified, the API will return data for the last 30 days.
+
+```js
+rokka.stats.get('myorg', '2017-01-01', '2017-01-31')
+	 .then(function(result) {})
+	 .catch(function(err) {});
+```
+
+---
+
+<!-- End ../src/apis/stats.js -->
+
 <!-- ENDDOCS -->
 
 [npm-url]: https://npmjs.com/package/rokka

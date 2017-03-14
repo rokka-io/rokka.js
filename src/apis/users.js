@@ -15,7 +15,7 @@ export default (state) => {
    * 	 .catch(function(err) {});
    * ```
    *
-   * @param  {string}  email address of a user
+   * @param {string} email address of a user
    * @return {Promise}
    */
   users.create = (email) => {
