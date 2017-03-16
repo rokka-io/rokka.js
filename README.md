@@ -65,8 +65,8 @@ Register a new user for the rokka service.
 
 ```js
 rokka.users.create('user@example.org')
-	 .then(function(result) {})
-	 .catch(function(err) {});
+  .then(function(result) {})
+  .catch(function(err) {});
 ```
 
 ---
@@ -83,8 +83,8 @@ Get a list of organizations.
 
 ```js
 rokka.organizations.get('myorg')
-	 .then(function(result) {})
-	 .catch(function(err) {});
+  .then(function(result) {})
+  .catch(function(err) {});
 ```
 
 #### rokka.organizations.create(name, billingEmail, displayName) → Promise
@@ -93,8 +93,8 @@ Create an organization.
 
 ```js
 rokka.organizations.create('myorg', 'billing@example.org', 'Organization Inc.')
-	 .then(function(result) {})
-	 .catch(function(err) {});
+  .then(function(result) {})
+  .catch(function(err) {});
 ```
 
 ---
@@ -117,8 +117,8 @@ Add a member to an organization.
 
 ```js
 rokka.memberships.create('myorg', 'user@example.org', rokka.memberships.ROLES.WRITE)
-	 .then(function(result) {})
-	 .catch(function(err) {});
+  .then(function(result) {})
+  .catch(function(err) {});
 ```
 
 ---
@@ -137,8 +137,8 @@ By default, listing sourceimages sorts them by created date descending.
 
 ```js
 rokka.sourceimages.list('myorg')
-	 .then(function(result) {})
-	 .catch(function(err) {});
+  .then(function(result) {})
+  .catch(function(err) {});
 ```
 
 Searching for images can be achieved using the `search` parameter.
@@ -170,8 +170,8 @@ Get information of a source image by hash.
 
 ```js
 rokka.sourceimages.get('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-	 .then(function(result) {})
-	 .catch(function(err) {});
+  .then(function(result) {})
+  .catch(function(err) {});
 ```
 
 #### rokka.sourceimages.getWithBinaryHash(organization, binaryHash) → Promise
@@ -180,8 +180,8 @@ Get information of a source image by its binary hash.
 
 ```js
 rokka.sourceimages.getWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e158a3ee822a')
-	 .then(function(result) {})
-	 .catch(function(err) {});
+  .then(function(result) {})
+  .catch(function(err) {});
 ```
 
 #### rokka.sourceimages.download(organization, hash) → Promise
@@ -190,8 +190,8 @@ Download image by hash.
 
 ```js
 rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-	 .then(function(result) {})
-	 .catch(function(err) {});
+  .then(function(result) {})
+  .catch(function(err) {});
 ```
 
 #### rokka.sourceimages.create(organization, fileName, binaryData) → Promise
@@ -201,8 +201,8 @@ Upload an image.
 ```js
 const file = require('fs').createReadStream('picture.png');
 rokka.sourceimages.create('myorg', 'picture.png', file)
-	 .then(function(result) {})
-	 .catch(function(err) {});
+  .then(function(result) {})
+  .catch(function(err) {});
 ```
 
 #### rokka.sourceimages.delete(organization, hash) → Promise
@@ -211,8 +211,8 @@ Delete image by hash.
 
 ```js
 rokka.sourceimages.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-	 .then(function(result) {})
-	 .catch(function(err) {});
+  .then(function(result) {})
+  .catch(function(err) {});
 ```
 
 ### Dynamic metadata
@@ -325,8 +325,8 @@ Get a list of available stack operations.
 
 ```js
 rokka.operations.list()
-	 .then(function(result) {})
-	 .catch(function(err) {});
+  .then(function(result) {})
+  .catch(function(err) {});
 ```
 
 ---
@@ -343,8 +343,8 @@ Get a list of available stacks.
 
 ```js
 rokka.stacks.list('myorg')
-	 .then(function(result) {})
-	 .catch(function(err) {});
+  .then(function(result) {})
+  .catch(function(err) {});
 ```
 
 #### rokka.stacks.get(organization, name) → Promise
@@ -368,8 +368,8 @@ var operations = [
 ];
 
 rokka.stacks.create('myorg', 'mystack', operations)
-	 .then(function(result) {})
-	 .catch(function(err) {});
+  .then(function(result) {})
+  .catch(function(err) {});
 ```
 
 #### rokka.stacks.delete(organization, name) → Promise
@@ -378,8 +378,8 @@ Delete a stack.
 
 ```js
 rokka.stacks.delete('myorg', 'mystack')
-	 .then(function(result) {})
-	 .catch(function(err) {});
+  .then(function(result) {})
+  .catch(function(err) {});
 ```
 
 ---
@@ -414,8 +414,8 @@ If `from` and `to` are not specified, the API will return data for the last 30 d
 
 ```js
 rokka.stats.get('myorg', '2017-01-01', '2017-01-31')
-	 .then(function(result) {})
-	 .catch(function(err) {});
+  .then(function(result) {})
+  .catch(function(err) {});
 ```
 
 ---
