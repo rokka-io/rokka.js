@@ -45,6 +45,7 @@ export default (config = {}) => {
   if (config.debug !== null) {
     transport.debug = config.debug
   }
+
   const state = {
     // config
     apiKey: config.apiKey,

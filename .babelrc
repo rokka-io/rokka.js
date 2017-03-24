@@ -1,4 +1,12 @@
 {
   "presets": ["es2015"],
-  "plugins": ["transform-object-assign"]
+  "plugins": [
+    "transform-runtime",
+    "transform-object-assign"
+  ],
+  "env": {
+    "coverage": {
+      "sourceMaps": "inline"
+    }
+  }
 }
