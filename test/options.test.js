@@ -2,8 +2,9 @@ import test from 'ava'
 import td from 'testdouble'
 
 import * as apis from '../src/apis'
-const modules = td.replace(apis, 'default')
-import _rokka from '../src'
+const apisStub = td.replace(apis, 'default')
+
+import rokka from '../src'
 
 test('default options', t => {
   const expectedState = {
@@ -13,21 +14,22 @@ test('default options', t => {
     apiVersion: 1
   }
 
-  _rokka()
+  rokka()
 
-  td.verify(modules(td.matchers.contains(expectedState)), { times: 1 })
+  td.verify(apisStub(td.matchers.contains(expectedState)), { times: 1 })
 })
 
 test('custom options', t => {
   const customOptions = {
+    apiKey: 'APIKEY',
     apiHost: 'https://api.example.org',
     renderHost: 'https://{organization}.example.org',
     apiVersion: 2
   }
 
-  _rokka(customOptions)
+  rokka(customOptions)
 
-  td.verify(modules(td.matchers.contains(customOptions)))
+  td.verify(apisStub(td.matchers.contains(customOptions)))
 })
 
 test('default transport options', t => {
@@ -40,9 +42,9 @@ test('default transport options', t => {
     }
   }
 
-  _rokka()
+  rokka()
 
-  td.verify(modules(td.matchers.contains(expectedState)))
+  td.verify(apisStub(td.matchers.contains(expectedState)))
 })
 
 test('custom transport options', t => {
@@ -53,7 +55,7 @@ test('custom transport options', t => {
     randomize: false
   }
 
-  _rokka({ transport: transportOptions })
+  rokka({ transport: transportOptions })
 
-  td.verify(modules(td.matchers.contains({ transportOptions })))
+  td.verify(apisStub(td.matchers.contains({ transportOptions })))
 })

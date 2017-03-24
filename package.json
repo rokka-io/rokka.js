@@ -7,7 +7,7 @@
     "test": "npm run lint && npm run ava",
     "lint": "./node_modules/.bin/eslint .",
     "ava": "ava test/**",
-    "coverage": "nyc npm run ava",
+    "coverage": "BABEL_ENV=coverage nyc npm run ava",
     "coveralls": "npm run coverage; nyc report --reporter=text-lcov | coveralls",
     "docs": "cd ./docs; node generate.js",
     "compile": "./node_modules/.bin/babel -d lib/ src/",
@@ -15,7 +15,7 @@
   },
   "precommit": [
     "docs",
-    "test"
+    "lint"
   ],
   "repository": {
     "type": "git",
@@ -43,6 +43,7 @@
     "babel-cli": "^6.9.0",
     "babel-core": "^6.9.1",
     "babel-plugin-transform-object-assign": "^6.8.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015": "^6.9.0",
     "coveralls": "^2.12.0",
     "eslint": "^3.17.1",
@@ -59,7 +60,7 @@
   },
   "ava": {
     "require": [
-      "babel-register"
+      "babel-core/register"
     ],
     "babel": "inherit"
   }

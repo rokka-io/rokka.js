@@ -1,4 +1,4 @@
-# rokka.js [![NPM version][npm-version-image]][npm-url] [![Dependency Status][dependencies-image]][dependencies-url]
+# rokka.js [![NPM version][npm-version-image]][npm-url] [![Build Status][build-status-image]][build-status-url] [![Coverage][coverage-image]][coverage-url] [![Dependency Status][dependencies-image]][dependencies-url]
 
 JavaScript client library for [rokka](https://rokka.io/).
 
@@ -426,6 +426,12 @@ rokka.stats.get('myorg', '2017-01-01', '2017-01-31')
 
 [npm-url]: https://npmjs.com/package/rokka
 [npm-version-image]: https://img.shields.io/npm/v/rokka.svg?style=flat-square
+
+[build-status-url]: https://travis-ci.org/rokka-io/rokka.js
+[build-status-image]: https://img.shields.io/travis/rokka-io/rokka.js/master.svg?style=flat-square
+
+[coverage-url]: https://coveralls.io/github/rokka-io/rokka.js?branch=master
+[coverage-image]: https://img.shields.io/coveralls/rokka-io/rokka.js/master.svg?style=flat-square
 
 [dependencies-url]: https://david-dm.org/rokka-io/rokka.js
 [dependencies-image]: https://david-dm.org/rokka-io/rokka.js.svg?style=flat-square
