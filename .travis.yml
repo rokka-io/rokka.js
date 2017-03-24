@@ -4,6 +4,8 @@ node_js:
   - '6'
 sudo: false
 script:
-  - npm run lint
+  - npm run test
   - npm run docs
   - npm run compile
+after_success:
+  - npm run coveralls
