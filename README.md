@@ -59,7 +59,7 @@ All properties are optional since certain calls don't require credentials.
 
 ### Users
 
-#### rokka.users.create(email) → Promise
+#### rokka.users.create(email, [organization) → Promise
 
 Register a new user for the rokka service.
 
