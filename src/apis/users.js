@@ -16,10 +16,11 @@ export default (state) => {
    * ```
    *
    * @param {string} email address of a user
+   * @param {string} [organization = null] to create
    * @return {Promise}
    */
-  users.create = (email) => {
-    return state.request('POST', 'users', { email: email }, null, { noAuthHeaders: true })
+  users.create = (email, organization = null) => {
+    return state.request('POST', 'users', { email, organization }, null, { noAuthHeaders: true })
   }
 
   return {
