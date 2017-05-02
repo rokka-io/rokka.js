@@ -6,7 +6,7 @@ const requestStub = td.replace(transport, 'default')
 
 import rka from '../../src'
 
-const knownOperations = ['resize', 'rotate', 'dropshadow', 'trim', 'crop', 'noop', 'composition', 'blur']
+const knownOperations = ['resize', 'autorotate', 'rotate', 'dropshadow', 'trim', 'crop', 'noop', 'composition', 'blur']
 
 test('known operation functions exist', t => {
   t.plan(knownOperations.length)
