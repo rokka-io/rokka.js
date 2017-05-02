@@ -10,7 +10,7 @@ operations.resize = (width, height, options = {}) => {
   }
 }
 
-operations.rotate = (width, height, rotateDirection, options = {}) => {
+operations.autoRotate = (width, height, rotateDirection, options = {}) => {
   options.width = width
   options.height = height
   options.rotate_direction = rotateDirection
