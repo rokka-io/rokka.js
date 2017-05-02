@@ -3,6 +3,7 @@ import operations from './operations'
 import organizations from './organizations'
 import render from './render'
 import sourceimages from './sourceimages'
+import stackoptions from './stackoptions'
 import stacks from './stacks'
 import stats from './stats'
 import users from './users'
@@ -15,6 +16,7 @@ export default (state) => {
     organizations(state),
     render(state),
     sourceimages(state),
+    stackoptions(state),
     stacks(state),
     stats(state),
     users(state)
