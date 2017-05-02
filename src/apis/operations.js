@@ -61,7 +61,7 @@ operations.composition = (width, height, mode, options = {}) => {
 }
 
 operations.blur = (sigma, radius) => {
-  const options = {sigma, radius}
+  const options = { sigma, radius }
 
   return {
     name: 'blur',
