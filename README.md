@@ -335,6 +335,24 @@ rokka.operations.list()
 
 <!-- End ../src/apis/operations.js -->
 
+<!-- Start ../src/apis/stackoptions.js -->
+
+### Stack options
+
+#### rokka.stackoptions.get() → Promise
+
+Returns a json-schema like definition of options which can be set on a stack.
+
+```js
+rokka.stackoptions.get()
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
+---
+
+<!-- End ../src/apis/stackoptions.js -->
+
 <!-- Start ../src/apis/stacks.js -->
 
 ### Stacks
