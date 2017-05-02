@@ -6,7 +6,7 @@ const requestStub = td.replace(transport, 'default')
 
 import rka from '../../src'
 
-const knownOperations = ['resize', 'rotate', 'dropshadow', 'trim', 'crop', 'noop']
+const knownOperations = ['resize', 'rotate', 'dropshadow', 'trim', 'crop', 'noop', 'composition', 'blur']
 
 test('known operation functions exist', t => {
   t.plan(knownOperations.length)
@@ -21,7 +21,7 @@ test('known operation functions exist', t => {
 test('operations.list', t => {
   const rokka = rka({ apiKey: 'APIKEY' })
 
-  rokka.operations.list('myorg')
+  rokka.operations.list()
 
   const expectedArgs = {
     method: 'GET',
