@@ -7,7 +7,7 @@ const requestStub = td.replace(transport, 'default')
 import rka from '../../src'
 
 test('stackoptions.get', t => {
-  const rokka = rka({ apiKey: 'APIKEY' })
+  const rokka = rka()
 
   rokka.stackoptions.get()
 

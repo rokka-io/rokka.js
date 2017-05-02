@@ -19,7 +19,7 @@ test('known operation functions exist', t => {
 })
 
 test('operations.list', t => {
-  const rokka = rka({ apiKey: 'APIKEY' })
+  const rokka = rka()
 
   rokka.operations.list()
 
