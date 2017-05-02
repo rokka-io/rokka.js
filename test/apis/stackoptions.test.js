@@ -6,15 +6,16 @@ const requestStub = td.replace(transport, 'default')
 
 import rka from '../../src'
 
-test('users.create', t => {
-  const rokka = rka({ apiKey: 'APIKEY' })
+test('stackoptions.get', t => {
+  const rokka = rka()
 
-  rokka.users.create('user@example.org', 'user-at-example-organization')
+  rokka.stackoptions.get()
 
   const expectedArgs = {
-    method: 'POST',
-    uri: 'https://api.rokka.io/users',
-    body: { email: 'user@example.org', organization: 'user-at-example-organization' }
+    method: 'GET',
+    uri: 'https://api.rokka.io/stackoptions',
+    body: null,
+    qs: null
   }
 
   td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))

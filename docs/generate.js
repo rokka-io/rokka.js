@@ -8,6 +8,7 @@ const sources = [
   '../src/apis/memberships.js',
   '../src/apis/sourceimages.js',
   '../src/apis/operations.js',
+  '../src/apis/stackoptions.js',
   '../src/apis/stacks.js',
   '../src/apis/render.js',
   '../src/apis/stats.js'

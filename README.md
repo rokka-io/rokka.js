@@ -309,12 +309,14 @@ If the third parameter (field) is specified, it will just delete this field.
 
 #### Available operations
 
-- `rokka.operations.resize(width, height, options={})`
-- `rokka.operations.rotate(angle, options={})`
-- `rokka.operations.dropshadow(options={})`
-- `rokka.operations.trim(options={})`
-- `rokka.operations.crop(options={})`
+- `rokka.operations.resize(width, height, options = {})`
+- `rokka.operations.rotate(angle, options = {})`
+- `rokka.operations.dropshadow(options = {})`
+- `rokka.operations.trim(options = {})`
+- `rokka.operations.crop(width, height, options = {})`
 - `rokka.operations.noop()`
+- `rokka.operations.composition(width, height, mode, options = {})`
+- `rokka.operations.blur(sigma, radius)`
 
 Please refer to the
 [rokka API documentation](https://rokka.io/documentation/references/operations.html)
@@ -332,6 +334,24 @@ rokka.operations.list()
 ---
 
 <!-- End ../src/apis/operations.js -->
+
+<!-- Start ../src/apis/stackoptions.js -->
+
+### Stack options
+
+#### rokka.stackoptions.get() → Promise
+
+Returns a json-schema like definition of options which can be set on a stack.
+
+```js
+rokka.stackoptions.get()
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
+---
+
+<!-- End ../src/apis/stackoptions.js -->
 
 <!-- Start ../src/apis/stacks.js -->
 
