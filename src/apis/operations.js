@@ -82,6 +82,7 @@ operations.blur = (sigma, radius) => {
  * #### Available operations
  *
  * - `rokka.operations.resize(width, height, options = {})`
+ * - `rokka.operations.autorotate(options = {})`
  * - `rokka.operations.rotate(angle, options = {})`
  * - `rokka.operations.dropshadow(options = {})`
  * - `rokka.operations.trim(options = {})`
