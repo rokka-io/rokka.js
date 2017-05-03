@@ -10,11 +10,7 @@ operations.resize = (width, height, options = {}) => {
   }
 }
 
-operations.autorotate = (width, height, rotationDirection, options = {}) => {
-  options.width = width
-  options.height = height
-  options.rotation_direction = rotationDirection
-
+operations.autorotate = (options = {}) => {
   return {
     name: 'autorotate',
     options
