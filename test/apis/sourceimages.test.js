@@ -137,3 +137,18 @@ test('sourceimages.delete', t => {
 
   td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
 })
+
+test('sourceimages.deleteWithBinaryHash', t => {
+  const rokka = rka({ apiKey: 'APIKEY' })
+
+  rokka.sourceimages.deleteWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e158a3ee822a')
+
+  const expectedArgs = {
+    method: 'DELETE',
+    uri: 'https://api.rokka.io/sourceimages/myorg',
+    qs: { binaryHash: 'b23e17047329b417d3902dc1a5a7e158a3ee822a' },
+    body: null
+  }
+
+  td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
+})

@@ -203,6 +203,26 @@ export default (state) => {
   }
 
   /**
+   * Delete source images by its binary hash.
+   *
+   * ```js
+   * rokka.sourceimages.deleteWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e158a3ee822a')
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
+   * ```
+   *
+   * @authenticated
+   * @param  {string}  organization name
+   * @param  {string}  binaryHash   binary image hash
+   * @return {Promise}
+   */
+  sourceimages.deleteWithBinaryHash = (organization, binaryHash) => {
+    const queryParams = { binaryHash: binaryHash }
+
+    return state.request('DELETE', `sourceimages/${organization}`, null, queryParams)
+  }
+
+  /**
    * ### Dynamic metadata
    *
    * See [the dynamic metadata documentation](https://rokka.io/documentation/references/dynamic-metadata.html) for
@@ -222,17 +242,26 @@ export default (state) => {
    *   y: 100,
    *   width: 50,
    *   height: 50
+   * },
+   * {
+   *   deletePrevious: false
    * }).then(function(result) {})
    *   .catch(function(err) {});
    * ```
    *
-   * @param {string} organization name
-   * @param {string} hash         image hash
+   * @param {string} organization  name
+   * @param {string} hash          image hash
    * @param {{width: number, height: number, x: number, y: number}} coords x, y starting from top left
+   * @param {{deletePrevious: bool}} options={} Optional: only {deletePrevious: true/false} yet, false is default
    * @returns {Promise}
    */
-  sourceimages.setSubjectArea = (organization, hash, coords) => {
-    return state.request('PUT', `sourceimages/${organization}/${hash}/meta/dynamic/subject_area`, coords)
+  sourceimages.setSubjectArea = function (organization, hash, coords, options = {}) {
+    var queryParams = {}
+    if (options.hasOwnProperty('deletePrevious') && options.deletePrevious === true) {
+      queryParams.deletePrevious = 'true'
+    }
+
+    return state.request('PUT', 'sourceimages/' + organization + '/' + hash + '/meta/dynamic/subject_area', coords, queryParams)
   }
 
   /**

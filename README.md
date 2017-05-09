@@ -215,12 +215,22 @@ rokka.sourceimages.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
   .catch(function(err) {});
 ```
 
+#### rokka.sourceimages.deleteWithBinaryHash(organization, binaryHash) → Promise
+
+Delete source images by its binary hash.
+
+```js
+rokka.sourceimages.deleteWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e158a3ee822a')
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
 ### Dynamic metadata
 
 See [the dynamic metadata documentation](https://rokka.io/documentation/references/dynamic-metadata.html) for
 more information.
 
-#### rokka.sourceimages.setSubjectArea(organization, hash, coords) → Promise
+#### rokka.sourceimages.setSubjectArea()(organization, hash, coords, options) → Promise
 
 Set the subject area of a source image.
 
@@ -234,6 +244,9 @@ rokka.sourceimages.setSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0
   y: 100,
   width: 50,
   height: 50
+},
+{
+  deletePrevious: false
 }).then(function(result) {})
   .catch(function(err) {});
 ```
