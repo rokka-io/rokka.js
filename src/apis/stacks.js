@@ -72,10 +72,10 @@ export default (state) => {
    * @param  {mixed}   operations   array or single stack operation object
    * @return {Promise}
    */
-  stacks.create = (organization, name, operations) => {
+  stacks.create = (organization, name, operations, options = {}) => {
     operations = Array.isArray(operations) ? operations : [operations]
 
-    return state.request('PUT', `stacks/${organization}/${name}`, operations)
+    return state.request('PUT', `stacks/${organization}/${name}`, {operations, options})
   }
 
   /**

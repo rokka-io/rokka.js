@@ -38,18 +38,19 @@ test('stacks.get', t => {
 
 test('stacks.create', t => {
   const rokka = rka({ apiKey: 'APIKEY' })
-
+  const options = {'jpg.quality': 76}
   const operations = [
     rokka.operations.rotate(45),
     rokka.operations.resize(100, 100)
   ]
 
-  rokka.stacks.create('myorg', 'mystack', operations)
+  rokka.stacks.create('myorg', 'mystack', operations, options)
 
   const expectedArgs = {
     method: 'PUT',
     uri: 'https://api.rokka.io/stacks/myorg/mystack',
-    body: operations,
+    body: {operations,
+      options},
     qs: null
   }
 
