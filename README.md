@@ -251,7 +251,7 @@ rokka.sourceimages.setSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0
   .catch(function(err) {});
 ```
 
-#### rokka.sourceimages.removeSubjectArea(organization, hash) → Promise
+#### rokka.sourceimages.removeSubjectArea(organization, hash, [options={}]) → Promise
 
 Removes the subject area from a source image.
 

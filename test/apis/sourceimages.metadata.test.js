@@ -51,7 +51,23 @@ test('sourceimages.removeSubjectArea', t => {
     method: 'DELETE',
     uri: 'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/subject_area',
     body: null,
-    qs: null,
+    qs: {deletePrevious: 'false'},
+    json: true
+  }
+
+  td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
+})
+
+test('sourceimages.removeSubjectArea.deletePrevious', t => {
+  const rokka = rka({ apiKey: 'APIKEY' })
+
+  rokka.sourceimages.removeSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {deletePrevious: true})
+
+  const expectedArgs = {
+    method: 'DELETE',
+    uri: 'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/subject_area',
+    body: null,
+    qs: {deletePrevious: 'true'},
     json: true
   }
 
