@@ -272,10 +272,13 @@ export default (state) => {
    *
    * @param {string} organization
    * @param {string} hash
+   * @param {{deletePrevious: bool}} [options={}] Optional: only {deletePrevious: true/false} yet, false is default
    * @return {Promise}
    */
-  sourceimages.removeSubjectArea = (organization, hash) => {
-    return state.request('DELETE', `sourceimages/${organization}/${hash}/meta/dynamic/subject_area`)
+  sourceimages.removeSubjectArea = (organization, hash, options = {}) => {
+    options.deletePrevious = options.deletePrevious ? 'true' : 'false'
+
+    return state.request('DELETE', `sourceimages/${organization}/${hash}/meta/dynamic/subject_area`, null, options)
   }
 
   /**
