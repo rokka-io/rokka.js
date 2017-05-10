@@ -15,7 +15,7 @@ test('sourceimages.setSubjectArea', t => {
 
   const expectedArgs = {
     method: 'PUT',
-    uri: 'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/SubjectArea',
+    uri: 'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/subject_area',
     body: subjectArea,
     qs: null,
     json: true
@@ -31,7 +31,7 @@ test('sourceimages.removeSubjectArea', t => {
 
   const expectedArgs = {
     method: 'DELETE',
-    uri: 'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/SubjectArea',
+    uri: 'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/subject_area',
     body: null,
     qs: null,
     json: true

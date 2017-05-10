@@ -232,7 +232,7 @@ export default (state) => {
    * @returns {Promise}
    */
   sourceimages.setSubjectArea = (organization, hash, coords) => {
-    return state.request('PUT', `sourceimages/${organization}/${hash}/meta/dynamic/SubjectArea`, coords)
+    return state.request('PUT', `sourceimages/${organization}/${hash}/meta/dynamic/subject_area`, coords)
   }
 
   /**
@@ -249,7 +249,7 @@ export default (state) => {
    * @return {Promise}
    */
   sourceimages.removeSubjectArea = (organization, hash) => {
-    return state.request('DELETE', `sourceimages/${organization}/${hash}/meta/dynamic/SubjectArea`)
+    return state.request('DELETE', `sourceimages/${organization}/${hash}/meta/dynamic/subject_area`)
   }
 
   /**
