@@ -230,7 +230,7 @@ rokka.sourceimages.deleteWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e1
 See [the dynamic metadata documentation](https://rokka.io/documentation/references/dynamic-metadata.html) for
 more information.
 
-#### rokka.sourceimages.setSubjectArea()(organization, hash, coords, options) → Promise
+#### rokka.sourceimages.setSubjectArea(organization, hash, coords, [options={}]) → Promise
 
 Set the subject area of a source image.
 

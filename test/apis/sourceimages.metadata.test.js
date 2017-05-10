@@ -17,7 +17,7 @@ test('sourceimages.setSubjectArea', t => {
     method: 'PUT',
     uri: 'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/subject_area',
     body: subjectArea,
-    qs: {},
+    qs: {deletePrevious: 'false'},
     json: true
   }
 

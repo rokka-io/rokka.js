@@ -252,16 +252,13 @@ export default (state) => {
    * @param {string} organization  name
    * @param {string} hash          image hash
    * @param {{width: number, height: number, x: number, y: number}} coords x, y starting from top left
-   * @param {{deletePrevious: bool}} options={} Optional: only {deletePrevious: true/false} yet, false is default
+   * @param {{deletePrevious: bool}} [options={}] Optional: only {deletePrevious: true/false} yet, false is default
    * @returns {Promise}
    */
-  sourceimages.setSubjectArea = function (organization, hash, coords, options = {}) {
-    var queryParams = {}
-    if (options.hasOwnProperty('deletePrevious') && options.deletePrevious === true) {
-      queryParams.deletePrevious = 'true'
-    }
+  sourceimages.setSubjectArea = (organization, hash, coords, options = {}) => {
+    options.deletePrevious = options.deletePrevious ? 'true' : 'false'
 
-    return state.request('PUT', 'sourceimages/' + organization + '/' + hash + '/meta/dynamic/subject_area', coords, queryParams)
+    return state.request('PUT', 'sourceimages/' + organization + '/' + hash + '/meta/dynamic/subject_area', coords, options)
   }
 
   /**
