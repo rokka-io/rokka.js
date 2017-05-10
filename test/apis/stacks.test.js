@@ -49,8 +49,7 @@ test('stacks.create', t => {
   const expectedArgs = {
     method: 'PUT',
     uri: 'https://api.rokka.io/stacks/myorg/mystack',
-    body: {operations,
-      options},
+    body: {operations, options},
     qs: null
   }
 
