@@ -378,7 +378,7 @@ rokka.stacks.get('myorg', 'mystack')
   .catch(function(result) {});
 ```
 
-#### rokka.stacks.create(organization, name, operations) → Promise
+#### rokka.stacks.create(organization, name, operations, [options=null]) → Promise
 
 Create a new stack.
 

@@ -67,12 +67,13 @@ export default (state) => {
    * ```
    *
    * @authenticated
-   * @param  {string}  organization name
-   * @param  {string}  name         stack name
-   * @param  {mixed}   operations   array or single stack operation object
+   * @param  {string}       organization   name
+   * @param  {string}       name           stack name
+   * @param  {Array|Object} operations     array or single stack operation object
+   * @param  {Object|null}  [options=null] stack options
    * @return {Promise}
    */
-  stacks.create = (organization, name, operations, options = {}) => {
+  stacks.create = (organization, name, operations, options = null) => {
     operations = Array.isArray(operations) ? operations : [operations]
 
     return state.request('PUT', `stacks/${organization}/${name}`, {operations, options})
