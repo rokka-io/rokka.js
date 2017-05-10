@@ -33,7 +33,7 @@ test('sourceimages.setSubjectArea.deletePrevious', t => {
 
   const expectedArgs = {
     method: 'PUT',
-    uri: 'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/SubjectArea',
+    uri: 'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/subject_area',
     body: subjectArea,
     qs: {deletePrevious: 'true'},
     json: true
