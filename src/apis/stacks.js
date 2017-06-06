@@ -67,16 +67,20 @@ export default (state) => {
    * ```
    *
    * @authenticated
-   * @param  {string}       organization   name
-   * @param  {string}       name           stack name
-   * @param  {Array|Object} operations     array or single stack operation object
-   * @param  {Object|null}  [options=null] stack options
+   * @param  {string}       organization      name
+   * @param  {string}       name              stack name
+   * @param  {Array|Object} operations        array or single stack operation object
+   * @param  {Object|null}  [options=null]    stack options
+   * @param  {boolean}      [overwrite=false] overwrite stack, if it already exists
    * @return {Promise}
    */
-  stacks.create = (organization, name, operations, options = null) => {
+  stacks.create = (organization, name, operations, options = null, overwrite = false) => {
     operations = Array.isArray(operations) ? operations : [operations]
-
-    return state.request('PUT', `stacks/${organization}/${name}`, {operations, options})
+    var queryParams = []
+    if (overwrite) {
+      queryParams['overwrite'] = 'true'
+    }
+    return state.request('PUT', `stacks/${organization}/${name}`, {operations, options}, queryParams)
   }
 
   /**
