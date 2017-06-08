@@ -50,7 +50,7 @@ test('stacks.create', t => {
     method: 'PUT',
     uri: 'https://api.rokka.io/stacks/myorg/mystack',
     body: {operations, options},
-    qs: []
+    qs: {}
   }
 
   td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
@@ -70,7 +70,7 @@ test('stacks.createOverwrite', t => {
     method: 'PUT',
     uri: 'https://api.rokka.io/stacks/myorg/mystack',
     body: {operations, options},
-    qs: {'overwrite': 'true'}
+    qs: {overwrite: 'true'}
   }
 
   td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))

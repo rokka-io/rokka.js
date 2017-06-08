@@ -76,10 +76,12 @@ export default (state) => {
    */
   stacks.create = (organization, name, operations, options = null, overwrite = false) => {
     operations = Array.isArray(operations) ? operations : [operations]
-    var queryParams = []
+    const queryParams = {}
+
     if (overwrite) {
-      queryParams['overwrite'] = 'true'
+      queryParams.overwrite = 'true'
     }
+
     return state.request('PUT', `stacks/${organization}/${name}`, {operations, options}, queryParams)
   }
 
