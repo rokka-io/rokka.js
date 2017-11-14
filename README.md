@@ -405,29 +405,28 @@ Not supported anymore since 0.27 is just using a single stack operation object (
 var operations = [
   rokka.operations.rotate(45),
   rokka.operations.resize(100, 100)
-];
+]
 
 // stack options are optional
-var options = [
-  "jpg.quality" : 80,
-  "webp.quality": 80
- ]
+var options = {
+  'jpg.quality': 80,
+  'webp.quality': 80
+}
 
 // stack expressions are optional
 var expressions = [
-  rokka.expression("options.dpr > 2", ["jpg.quality": 60, "webp.quality": 60]),
-];
+  rokka.expressions.default('options.dpr > 2', { 'jpg.quality': 60, 'webp.quality': 60 })
+]
 
 // query params are optional
-var queryParams = {'overwrite': true}
-
+var queryParams = { overwrite: true }
 rokka.stacks.create(
-   'myorg',
-   'mystack',
-   {'operations' => operations, 'options' => options, 'expressions' => expressions},
-   queryParams
+  'test',
+  'mystack',
+  { operations: operations, options: options, expressions: expressions },
+  queryParams
 ).then(function(result) {})
-  .catch(function(err) {});
+ .catch(function(err) {})
 ```
 
 #### rokka.stacks.delete(organization, name) → Promise

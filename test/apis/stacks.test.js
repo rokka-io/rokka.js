@@ -35,7 +35,7 @@ test('stacks.get', t => {
   td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
 })
 
-test('stacks.createOld', t => {
+test('stacks.create (version <=0.26)', t => {
   const rokka = rka({ apiKey: 'APIKEY' })
   const options = {'jpg.quality': 76}
   const operations = [
@@ -75,6 +75,27 @@ test('stacks.create', t => {
   td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
 })
 
+test('stacks.create (with expressions)', t => {
+  const rokka = rka({ apiKey: 'APIKEY' })
+  const options = {'jpg.quality': 76}
+  const operations = [
+    rokka.operations.rotate(45),
+    rokka.operations.resize(100, 100)
+  ]
+  const expressions = [
+    rokka.expressions.default('options.dpr >= 2', {'jpg.quality': 60, 'webp.quality': 60})
+  ]
+  rokka.stacks.create('myorg', 'mystack', {operations: operations, options: options, expressions: expressions})
+  const expectedArgs = {
+    method: 'PUT',
+    uri: 'https://api.rokka.io/stacks/myorg/mystack',
+    body: {operations: operations, options: options, expressions: expressions},
+    qs: {}
+  }
+
+  td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
+})
+
 test('stacks.createOverwrite', t => {
   const rokka = rka({ apiKey: 'APIKEY' })
   const options = {'jpg.quality': 76}
@@ -95,7 +116,7 @@ test('stacks.createOverwrite', t => {
   td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
 })
 
-test('stacks.createOverwriteOld', t => {
+test('stacks.createOverwrite (version <=0.26)', t => {
   const rokka = rka({ apiKey: 'APIKEY' })
   const options = {'jpg.quality': 76}
   const operations = [

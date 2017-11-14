@@ -1,6 +1,7 @@
 import memberships from './memberships'
 import operations from './operations'
 import organizations from './organizations'
+import expressions from './expressions'
 import render from './render'
 import sourceimages from './sourceimages'
 import stackoptions from './stackoptions'
@@ -14,6 +15,7 @@ export default (state) => {
     memberships(state),
     operations(state),
     organizations(state),
+    expressions(state),
     render(state),
     sourceimages(state),
     stackoptions(state),
