@@ -55,34 +55,72 @@ export default (state) => {
   /**
    * Create a new stack.
    *
+   * The signature of this method changed in 0.27.
+   *
+   * The old signature still mostly works, but will be deprecated with 1.0.0.
+   * Not supported anymore since 0.27 is just using a single stack operation object (without wrapping it in an array)
+   *   as 3rd parameter
+   *
    * ```js
    * var operations = [
    *   rokka.operations.rotate(45),
    *   rokka.operations.resize(100, 100)
    * ];
    *
-   * rokka.stacks.create('myorg', 'mystack', operations)
-   *   .then(function(result) {})
+   * // stack options are optional
+   * var options = [
+   *   "jpg.quality" : 80,
+   *   "webp.quality": 80
+   *  ]
+   *
+   * // stack expressions are optional
+   * var expressions = [
+   *   rokka.expression("options.dpr > 2", ["jpg.quality": 60, "webp.quality": 60]),
+   * ];
+   *
+   * // query params are optional
+   * var queryParams = {'overwrite': true}
+   *
+   * rokka.stacks.create(
+   *    'myorg',
+   *    'mystack',
+   *    {'operations' => operations, 'options' => options, 'expressions' => expressions},
+   *    queryParams
+   * ).then(function(result) {})
    *   .catch(function(err) {});
    * ```
    *
    * @authenticated
-   * @param  {string}       organization      name
-   * @param  {string}       name              stack name
-   * @param  {Array|Object} operations        array or single stack operation object
-   * @param  {Object|null}  [options=null]    stack options
-   * @param  {boolean}      [overwrite=false] overwrite stack, if it already exists
+   * @param  {string}       organization name
+   * @param  {string}       name         stack name
+   * @param  {Object}       stackConfig  object with the stack config of stack operations, options and expressions.
+   * @param  {{overwrite: bool}} [params={}]  params       query params, only {overwrite: true|false} is currently supported
    * @return {Promise}
    */
-  stacks.create = (organization, name, operations, options = null, overwrite = false) => {
-    operations = Array.isArray(operations) ? operations : [operations]
-    const queryParams = {}
 
-    if (overwrite) {
+  stacks.create = (organization, name, stackConfig, params = {}) => {
+    const queryParams = Object.assign({}, params)
+    let body = {}
+
+    // backwards compatibility for previous signature:
+    // create(organization, name, operations, options = null, overwrite = false)
+    if (Array.isArray(stackConfig)) {
+      body.operations = stackConfig
+      body.options = params
+      const _overwrite = arguments.length > 4 ? arguments[4] : false
+      if (_overwrite) {
+        queryParams.overwrite = _overwrite
+      }
+    } else {
+      body = stackConfig
+    }
+
+    // convert overwrite to a string
+    if (queryParams.overwrite) {
       queryParams.overwrite = 'true'
     }
 
-    return state.request('PUT', `stacks/${organization}/${name}`, {operations, options}, queryParams)
+    return state.request('PUT', `stacks/${organization}/${name}`, body, queryParams)
   }
 
   /**
