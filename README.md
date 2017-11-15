@@ -391,19 +391,41 @@ rokka.stacks.get('myorg', 'mystack')
   .catch(function(result) {});
 ```
 
-#### rokka.stacks.create(organization, name, operations, [options=null], [overwrite=false]) → Promise
+#### rokka.stacks.create(organization, name, stackConfig, [params={}]) → Promise
 
 Create a new stack.
 
+The signature of this method changed in 0.27.
+
+Using a single stack operation object (without an enclosing array) as the 3rd parameter (stackConfig) is
+ since version 0.27.0 not supported anymore.
+
 ```js
-var operations = [
+const operations = [
   rokka.operations.rotate(45),
   rokka.operations.resize(100, 100)
-];
+]
 
-rokka.stacks.create('myorg', 'mystack', operations)
-  .then(function(result) {})
-  .catch(function(err) {});
+// stack options are optional
+const options = {
+  'jpg.quality': 80,
+  'webp.quality': 80
+}
+
+// stack expressions are optional
+const expressions = [
+  rokka.expressions.default('options.dpr > 2', { 'jpg.quality': 60, 'webp.quality': 60 })
+]
+
+// query params are optional
+var queryParams = { overwrite: true }
+rokka.stacks.create(
+  'test',
+  'mystack',
+  { operations, options, expressions },
+  queryParams
+).then(function(result) {})
+ .catch(function(err) {})
 ```
 
 #### rokka.stacks.delete(organization, name) → Promise
