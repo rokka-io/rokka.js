@@ -57,24 +57,23 @@ export default (state) => {
    *
    * The signature of this method changed in 0.27.
    *
-   * The old signature still mostly works, but will be deprecated with 1.0.0.
-   * Not supported anymore since 0.27 is just using a single stack operation object (without wrapping it in an array)
-   *   as 3rd parameter
+   * Using a single stack operation object (without an enclosing array) as the 3rd parameter (stackConfig) is
+   *  since version 0.27.0 not supported anymore.
    *
    * ```js
-   * var operations = [
+   * const operations = [
    *   rokka.operations.rotate(45),
    *   rokka.operations.resize(100, 100)
    * ]
    *
    * // stack options are optional
-   * var options = {
+   * const options = {
    *   'jpg.quality': 80,
    *   'webp.quality': 80
    * }
    *
    * // stack expressions are optional
-   * var expressions = [
+   * const expressions = [
    *   rokka.expressions.default('options.dpr > 2', { 'jpg.quality': 60, 'webp.quality': 60 })
    * ]
    *
@@ -83,7 +82,7 @@ export default (state) => {
    * rokka.stacks.create(
    *   'test',
    *   'mystack',
-   *   { operations: operations, options: options, expressions: expressions },
+   *   { operations, options, expressions },
    *   queryParams
    * ).then(function(result) {})
    *  .catch(function(err) {})
@@ -112,11 +111,6 @@ export default (state) => {
       }
     } else {
       body = stackConfig
-    }
-
-    // convert overwrite to a string
-    if (queryParams.overwrite) {
-      queryParams.overwrite = 'true'
     }
 
     return state.request('PUT', `stacks/${organization}/${name}`, body, queryParams)

@@ -68,7 +68,7 @@ test('stacks.create', t => {
   const expectedArgs = {
     method: 'PUT',
     uri: 'https://api.rokka.io/stacks/myorg/mystack',
-    body: {operations, options},
+    body: { operations, options },
     qs: {}
   }
 
@@ -85,11 +85,11 @@ test('stacks.create (with expressions)', t => {
   const expressions = [
     rokka.expressions.default('options.dpr >= 2', {'jpg.quality': 60, 'webp.quality': 60})
   ]
-  rokka.stacks.create('myorg', 'mystack', {operations: operations, options: options, expressions: expressions})
+  rokka.stacks.create('myorg', 'mystack', { operations, options, expressions })
   const expectedArgs = {
     method: 'PUT',
     uri: 'https://api.rokka.io/stacks/myorg/mystack',
-    body: {operations: operations, options: options, expressions: expressions},
+    body: { operations, options, expressions },
     qs: {}
   }
 
@@ -104,13 +104,13 @@ test('stacks.createOverwrite', t => {
     rokka.operations.resize(100, 100)
   ]
 
-  rokka.stacks.create('myorg', 'mystack', {operations: operations, options: options}, {overwrite: true})
+  rokka.stacks.create('myorg', 'mystack', { operations, options }, {overwrite: true})
 
   const expectedArgs = {
     method: 'PUT',
     uri: 'https://api.rokka.io/stacks/myorg/mystack',
     body: {operations, options},
-    qs: {overwrite: 'true'}
+    qs: {overwrite: true}
   }
 
   td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
@@ -130,7 +130,7 @@ test('stacks.createOverwrite (version <=0.26)', t => {
     method: 'PUT',
     uri: 'https://api.rokka.io/stacks/myorg/mystack',
     body: {operations, options},
-    qs: {overwrite: 'true'}
+    qs: {overwrite: true}
   }
 
   td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))

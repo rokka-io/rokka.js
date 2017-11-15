@@ -7,7 +7,7 @@ const expressions = {}
  */
 export default (state) => {
   expressions.default = (expression, options) => {
-    return {expression: expression, overrides: {options: options}}
+    return { expression, overrides: { options } }
   }
 
   return {
