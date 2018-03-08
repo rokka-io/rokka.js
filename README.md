@@ -5,7 +5,7 @@ JavaScript client library for [rokka](https://rokka.io/).
 ## Install
 
 ```bash
-$ npm install rokka --save
+$ npm install rokka babel-runtime --save
 ```
 
 ## Usage
