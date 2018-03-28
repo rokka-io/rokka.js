@@ -237,6 +237,24 @@ export default (state) => {
   }
 
   /**
+   * Restore image by hash.
+   *
+   * ```js
+   * rokka.sourceimages.restore('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
+   * ```
+   *
+   * @authenticated
+   * @param  {string}  organization name
+   * @param  {string}  hash         image hash
+   * @return {Promise}
+   */
+  sourceimages.restore = (organization, hash) => {
+    return state.request('POST', `sourceimages/${organization}/${hash}/restore`)
+  }
+
+  /**
    * ### Dynamic metadata
    *
    * See [the dynamic metadata documentation](https://rokka.io/documentation/references/dynamic-metadata.html) for

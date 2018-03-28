@@ -174,6 +174,21 @@ test('sourceimages.delete', t => {
   td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
 })
 
+test('sourceimages.restore', t => {
+  const rokka = rka({ apiKey: 'APIKEY' })
+
+  rokka.sourceimages.restore('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+
+  const expectedArgs = {
+    method: 'POST',
+    uri: 'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/restore',
+    qs: null,
+    body: null
+  }
+
+  td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
+})
+
 test('sourceimages.deleteWithBinaryHash', t => {
   const rokka = rka({ apiKey: 'APIKEY' })
 
