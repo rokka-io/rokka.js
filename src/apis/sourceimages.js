@@ -255,6 +255,31 @@ export default (state) => {
   }
 
   /**
+   * Copy image by hash to another org.
+   *
+   * ```js
+   * rokka.sourceimages.copy('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'anotherorg', true)
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
+   * ```
+   *
+   * @authenticated
+   * @param  {string}  organization            the org the image is copied from
+   * @param  {string}  hash                    image hash
+   * @param  {string}  destinationOrganization the org the image is copied to
+   * @param  {boolean} [overwrite = false]     if an existing image should be overwritten
+   *
+   * @return {Promise}
+   */
+  sourceimages.copy = (organization, hash, destinationOrganization, overwrite = true) => {
+    const headers = {'Destination': destinationOrganization}
+    if (overwrite === false) {
+      headers['Overwrite'] = 'F'
+    }
+    return state.request('COPY', `sourceimages/${organization}/${hash}`, null, null, {headers: headers})
+  }
+
+  /**
    * ### Dynamic metadata
    *
    * See [the dynamic metadata documentation](https://rokka.io/documentation/references/dynamic-metadata.html) for

@@ -189,6 +189,38 @@ test('sourceimages.restore', t => {
   td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
 })
 
+test('sourceimages.copy', t => {
+  const rokka = rka({ apiKey: 'APIKEY' })
+
+  rokka.sourceimages.copy('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'otherorg')
+
+  const expectedArgs = {
+    method: 'COPY',
+    uri: 'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
+    qs: null,
+    body: null,
+    headers: {'Api-Version': 1, 'Api-Key': 'APIKEY', 'Destination': 'otherorg'}
+  }
+
+  td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
+})
+
+test('sourceimages.copy with no overwrite', t => {
+  const rokka = rka({ apiKey: 'APIKEY' })
+
+  rokka.sourceimages.copy('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'otherorg', false)
+
+  const expectedArgs = {
+    method: 'COPY',
+    uri: 'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
+    qs: null,
+    body: null,
+    headers: {'Api-Version': 1, 'Api-Key': 'APIKEY', 'Destination': 'otherorg', 'Overwrite': 'F'}
+  }
+
+  td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
+})
+
 test('sourceimages.deleteWithBinaryHash', t => {
   const rokka = rka({ apiKey: 'APIKEY' })
 
