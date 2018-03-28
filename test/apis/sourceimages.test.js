@@ -123,6 +123,42 @@ test('sourceimages.create', t => {
   return promise
 })
 
+test('sourceimages.create with metata', t => {
+  const matchArgs = {
+    method: 'POST',
+    uri: 'https://api.rokka.io/sourceimages/myorg',
+    formData: {'meta_user[0]': {'foo': 'bar'}}
+  }
+
+  td.when(requestStub(td.matchers.contains(matchArgs), td.matchers.anything()))
+    .thenResolve({ statusCode: 200, body: '{}' })
+
+  const expectedArgs = Object.assign({}, matchArgs, {
+    qs: null,
+    formData: {
+      filedata: {
+        value: new Buffer('DATA'),
+        options: { filename: 'picture.png' }
+      }
+    }
+  })
+
+  const rokka = rka({ apiKey: 'APIKEY' })
+
+  const mockStream = new stream.Readable()
+  mockStream._read = () => true
+
+  const promise = rokka.sourceimages.create('myorg', 'picture.png', mockStream, {'meta_user': {'foo': 'bar'}})
+    .then(() => {
+      td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
+    })
+
+  mockStream.emit('data', new Buffer('DATA'))
+  mockStream.emit('end')
+
+  return promise
+})
+
 test('sourceimages.delete', t => {
   const rokka = rka({ apiKey: 'APIKEY' })
 

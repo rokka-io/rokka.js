@@ -95,7 +95,7 @@ export default (config = {}) => {
           ]
         }
       } else {
-        const formData = {}
+        const formData = payload.formData || {}
 
         formData[payload.name] = {
           value: payload.contents,
