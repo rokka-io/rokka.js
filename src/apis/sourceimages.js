@@ -139,8 +139,9 @@ export default (state) => {
    *
    * With directly adding metadata:
    *
+   * ```
    * rokka.sourceimages.create('myorg', 'picture.png', file, {'meta_user': {'foo' => 'bar'}})
-   *
+   * ```
    *
    * @authenticated
    * @param  {string} organization    name
@@ -177,7 +178,7 @@ export default (state) => {
       }
     })
     .then((data) => {
-      var formData = {}
+      const formData = {}
       if (metadata !== null) {
         Object.keys(metadata).forEach(function (o) {
           formData[o + '[0]'] = metadata[o]

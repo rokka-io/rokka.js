@@ -207,7 +207,9 @@ rokka.sourceimages.create('myorg', 'picture.png', file)
 
 With directly adding metadata:
 
+```
 rokka.sourceimages.create('myorg', 'picture.png', file, {'meta_user': {'foo' => 'bar'}})
+```
 
 #### rokka.sourceimages.delete(organization, hash) → Promise
 
