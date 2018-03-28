@@ -137,13 +137,19 @@ export default (state) => {
    *   .catch(function(err) {});
    * ```
    *
+   * With directly adding metadata:
+   *
+   * rokka.sourceimages.create('myorg', 'picture.png', file, {'meta_user': {'foo' => 'bar'}})
+   *
+   *
    * @authenticated
-   * @param  {string} organization name
-   * @param  {string} fileName     file name
-   * @param  {*}      binaryData   either a readable stream (in node.js only) or a binary string
+   * @param  {string} organization    name
+   * @param  {string} fileName        file name
+   * @param  {*}      binaryData      either a readable stream (in node.js only) or a binary string
+   * @param  {Object} [metadata=null] optional, metadata to be added, either user or dynamic
    * @return {Promise}
    */
-  sourceimages.create = (organization, fileName, binaryData) => {
+  sourceimages.create = (organization, fileName, binaryData, metadata = null) => {
     const options = {
       multipart: true
     }
@@ -171,8 +177,15 @@ export default (state) => {
       }
     })
     .then((data) => {
+      var formData = {}
+      if (metadata !== null) {
+        Object.keys(metadata).forEach(function (o) {
+          formData[o + '[0]'] = metadata[o]
+        })
+      }
       const payload = {
         name: 'filedata',
+        formData: formData,
         filename: fileName,
         contents: data
       }

@@ -194,7 +194,7 @@ rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
   .catch(function(err) {});
 ```
 
-#### rokka.sourceimages.create(organization, fileName, binaryData) → Promise
+#### rokka.sourceimages.create(organization, fileName, binaryData, [metadata=null]) → Promise
 
 Upload an image.
 
@@ -204,6 +204,10 @@ rokka.sourceimages.create('myorg', 'picture.png', file)
   .then(function(result) {})
   .catch(function(err) {});
 ```
+
+With directly adding metadata:
+
+rokka.sourceimages.create('myorg', 'picture.png', file, {'meta_user': {'foo' => 'bar'}})
 
 #### rokka.sourceimages.delete(organization, hash) → Promise
 
