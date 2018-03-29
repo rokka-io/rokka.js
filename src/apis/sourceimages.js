@@ -267,16 +267,16 @@ export default (state) => {
    * @param  {string}  organization            the org the image is copied from
    * @param  {string}  hash                    image hash
    * @param  {string}  destinationOrganization the org the image is copied to
-   * @param  {boolean} [overwrite = false]     if an existing image should be overwritten
+   * @param  {boolean} [overwrite=true]     if an existing image should be overwritten
    *
    * @return {Promise}
    */
   sourceimages.copy = (organization, hash, destinationOrganization, overwrite = true) => {
     const headers = {'Destination': destinationOrganization}
-    if (overwrite === false) {
+    if (!overwrite) {
       headers['Overwrite'] = 'F'
     }
-    return state.request('COPY', `sourceimages/${organization}/${hash}`, null, null, {headers: headers})
+    return state.request('COPY', `sourceimages/${organization}/${hash}`, null, null, {headers})
   }
 
   /**
