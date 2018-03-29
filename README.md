@@ -231,6 +231,26 @@ rokka.sourceimages.deleteWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e1
   .catch(function(err) {});
 ```
 
+#### rokka.sourceimages.restore(organization, hash) → Promise
+
+Restore image by hash.
+
+```js
+rokka.sourceimages.restore('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
+#### rokka.sourceimages.copy(organization, hash, destinationOrganization, [overwrite=true]) → Promise
+
+Copy image by hash to another org.
+
+```js
+rokka.sourceimages.copy('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'anotherorg', true)
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
 ### Dynamic metadata
 
 See [the dynamic metadata documentation](https://rokka.io/documentation/references/dynamic-metadata.html) for

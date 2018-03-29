@@ -237,6 +237,49 @@ export default (state) => {
   }
 
   /**
+   * Restore image by hash.
+   *
+   * ```js
+   * rokka.sourceimages.restore('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
+   * ```
+   *
+   * @authenticated
+   * @param  {string}  organization name
+   * @param  {string}  hash         image hash
+   * @return {Promise}
+   */
+  sourceimages.restore = (organization, hash) => {
+    return state.request('POST', `sourceimages/${organization}/${hash}/restore`)
+  }
+
+  /**
+   * Copy image by hash to another org.
+   *
+   * ```js
+   * rokka.sourceimages.copy('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'anotherorg', true)
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
+   * ```
+   *
+   * @authenticated
+   * @param  {string}  organization            the org the image is copied from
+   * @param  {string}  hash                    image hash
+   * @param  {string}  destinationOrganization the org the image is copied to
+   * @param  {boolean} [overwrite=true]     if an existing image should be overwritten
+   *
+   * @return {Promise}
+   */
+  sourceimages.copy = (organization, hash, destinationOrganization, overwrite = true) => {
+    const headers = {'Destination': destinationOrganization}
+    if (!overwrite) {
+      headers['Overwrite'] = 'F'
+    }
+    return state.request('COPY', `sourceimages/${organization}/${hash}`, null, null, {headers})
+  }
+
+  /**
    * ### Dynamic metadata
    *
    * See [the dynamic metadata documentation](https://rokka.io/documentation/references/dynamic-metadata.html) for

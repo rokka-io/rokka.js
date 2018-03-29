@@ -58,9 +58,9 @@ export default (config = {}) => {
     request (method, path, payload = null, queryParams = null, options = {}) {
       const uri = [state.apiHost, path].join('/')
 
-      const headers = {
-        'Api-Version': state.apiVersion
-      }
+      const headers = options.headers || {}
+
+      headers['Api-Version'] = state.apiVersion
 
       if (options.noAuthHeaders !== true) {
         if (!state.apiKey) {
