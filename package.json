@@ -1,6 +1,6 @@
 {
   "name": "rokka",
-  "version": "0.28.0",
+  "version": "0.28.1",
   "description": "JavaScript client library for rokka.io",
   "main": "index.js",
   "scripts": {
