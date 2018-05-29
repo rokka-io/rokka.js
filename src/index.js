@@ -84,15 +84,22 @@ export default (config = {}) => {
         request.body = payload
       } else if (typeof window !== 'undefined') {
         request.headers['Content-Type'] = 'multipart/form-data'
+        const formData = payload.formData || {}
+        const data = [{
+          'Content-Disposition': `form-data; name="filedata"; filename="${payload.filename}"`,
+          body: payload.contents
+        }]
+
+        Object.keys(formData).forEach(function (meta) {
+          data.push({
+            'Content-Disposition': 'form-data; name="' + meta + '"',
+            body: JSON.stringify(formData[meta])
+          })
+        })
 
         request.multipart = {
           chunked: false,
-          data: [
-            {
-              'Content-Disposition': `form-data; name="filedata"; filename="${payload.filename}"`,
-              body: payload.contents
-            }
-          ]
+          data: data
         }
       } else {
         const formData = payload.formData || {}
