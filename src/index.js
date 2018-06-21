@@ -78,8 +78,9 @@ export default (config = {}) => {
         timeout: state.transportOptions.requestTimeout,
         resolveWithFullResponse: true
       }
-
-      if (options.multipart !== true) {
+      if (options.form === true) {
+        request.form = payload || {}
+      } else if (options.multipart !== true) {
         request.json = true
         request.body = payload
       } else if (typeof window !== 'undefined') {
