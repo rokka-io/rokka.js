@@ -199,6 +199,45 @@ export default (state) => {
   }
 
   /**
+   * Upload an image by url.
+   *
+   * ```js
+   * rokka.sourceimages.createByUrl('myorg', 'https://rokka.rokka.io/dynamic/f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912.png')
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
+   * ```
+   *
+   * With directly adding metadata:
+   *
+   * ```
+   * rokka.sourceimages.createByUrl('myorg',  'https://rokka.rokka.io/dynamic/f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912.png', {'meta_user': {'foo' => 'bar'}})
+   * ```
+   *
+   * @authenticated
+   * @param  {string} organization    name
+   * @param  {string} url             The URL to the remote image
+   * @param  {Object} [metadata=null] optional, metadata to be added, either user or dynamic
+   * @return {Promise}
+   */
+  sourceimages.createByUrl = (organization, url, metadata = null) => {
+    const options = {
+      form: true
+    }
+    const formData = {'url[0]': url}
+    if (metadata !== null) {
+      Object.keys(metadata).forEach(function (o) {
+        formData[o + '[0]'] = metadata[o]
+      })
+    }
+
+    return state.request('POST', `sourceimages/${organization}`, formData, null, options).then((response) => {
+      response.body = JSON.parse(response.body)
+
+      return response
+    })
+  }
+
+  /**
    * Delete image by hash.
    *
    * ```js

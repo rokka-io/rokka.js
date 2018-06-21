@@ -123,6 +123,20 @@ test('sourceimages.create', t => {
   return promise
 })
 
+test('sourceimages.createByUrl', t => {
+  const expectedArgs = {
+    form: {
+      'uri[0]': 'https://rokka.rokka.io/dynamic/f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912.png'
+    },
+    qs: null
+  }
+
+  const rokka = rka({ apiKey: 'APIKEY' })
+
+  rokka.sourceimages.createByUrl('myorg', 'https://rokka.rokka.io/dynamic/f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912.png')
+  td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
+})
+
 test('sourceimages.create with metata', t => {
   const matchArgs = {
     method: 'POST',
