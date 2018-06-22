@@ -1,9 +1,8 @@
 {
   "name": "rokka",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "JavaScript client library for rokka.io",
   "main": "index.js",
-  "module": "src/index.js",
   "scripts": {
     "test": "npm run lint && npm run ava",
     "lint": "./node_modules/.bin/eslint .",
