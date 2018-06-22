@@ -2,12 +2,12 @@ import test from 'ava'
 import td from 'testdouble'
 
 import * as apis from '../src/apis'
-const apisStub = td.replace(apis, 'default')
 
 import * as transport from '../src/transport'
-const requestStub = td.replace(transport, 'default')
 
 import rokka from '../src'
+const apisStub = td.replace(apis, 'default')
+const requestStub = td.replace(transport, 'default')
 
 test('simple authorized request invocation', t => {
   rokka({ apiKey: 'APIKEY' })
@@ -24,12 +24,12 @@ test('simple non-authorized request invocation', t => {
   request('get', 'test', null, null, { noAuthHeaders: true })
 })
 
-test('missing API key', t => {
+test('missing API key', async t => {
   rokka()
 
   const request = td.explain(apisStub).calls.slice(-1)[0].args[0].request
 
-  t.throws(request('get', 'test'), 'Missing required property `apiKey`')
+  await t.throws(request('get', 'test'), 'Missing required property `apiKey`')
 })
 
 test('request argument handling', t => {

@@ -2,16 +2,24 @@
 
 JavaScript client library for [rokka](https://rokka.io/).
 
+rokka.js runs on node as well as [within the supported browsers](http://browserl.ist/?q=%3E0.1%25%2C+not+op_mini+all). 
+To use in a browser, either use a script tag using [https://unpkg.com/rokka/index.js](https://unpkg.com/rokka/index.js) or import it using the ES6 module syntax:
+```js
+import rokka from 'rokka'
+```
+
 ## Install
 
 ```bash
-$ npm install rokka babel-runtime --save
+$ npm install rokka --save
+# If using on the server side, babel-runtime is required to run it:
+$ npm install babel-runtime --save
 ```
 
 ## Usage
 
 ```js
-var rokka = require('rokka')({
+const rokka = require('rokka')({
   apiKey: 'apikey'
 });
 
@@ -33,7 +41,7 @@ rokka.sourceimages.list('myorg')
 Initializing the rokka client.
 
 ```js
-var rokka = require('rokka')({
+const rokka = require('rokka')({
   apiKey: 'apikey',       // required for certain operations
   apiHost: '<url>',       // default: https://api.rokka.io
   apiVersion: <number>,   // default: 1

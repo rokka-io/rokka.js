@@ -18,7 +18,7 @@ const defaults = {
  * Initializing the rokka client.
  *
  * ```js
- * var rokka = require('rokka')({
+ * const rokka = require('rokka')({
  *   apiKey: 'apikey',       // required for certain operations
  *   apiHost: '<url>',       // default: https://api.rokka.io
  *   apiVersion: <number>,   // default: 1

@@ -1,1 +1,8 @@
-src/
+.idea
+.travis.yml
+.nvmrc
+.eslintrc
+test/
+.envrc
+.eslintignore
+docs/

@@ -3,9 +3,9 @@ import td from 'testdouble'
 import stream from 'stream'
 
 import * as transport from '../../src/transport'
-const requestStub = td.replace(transport, 'default')
 
 import rka from '../../src'
+const requestStub = td.replace(transport, 'default')
 
 test('sourceimages.list', t => {
   const rokka = rka({ apiKey: 'APIKEY' })
@@ -101,7 +101,7 @@ test('sourceimages.create', t => {
     qs: null,
     formData: {
       filedata: {
-        value: new Buffer('DATA'),
+        value: Buffer.from('DATA'),
         options: { filename: 'picture.png' }
       }
     }
@@ -117,7 +117,7 @@ test('sourceimages.create', t => {
       td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
     })
 
-  mockStream.emit('data', new Buffer('DATA'))
+  mockStream.emit('data', Buffer.from('DATA'))
   mockStream.emit('end')
 
   return promise
@@ -137,7 +137,7 @@ test('sourceimages.create with metata', t => {
     qs: null,
     formData: {
       filedata: {
-        value: new Buffer('DATA'),
+        value: Buffer.from('DATA'),
         options: { filename: 'picture.png' }
       }
     }
@@ -153,7 +153,7 @@ test('sourceimages.create with metata', t => {
       td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
     })
 
-  mockStream.emit('data', new Buffer('DATA'))
+  mockStream.emit('data', Buffer.from('DATA'))
   mockStream.emit('end')
 
   return promise

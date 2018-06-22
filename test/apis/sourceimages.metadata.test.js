@@ -2,9 +2,9 @@ import test from 'ava'
 import td from 'testdouble'
 
 import * as transport from '../../src/transport'
-const requestStub = td.replace(transport, 'default')
 
 import rka from '../../src'
+const requestStub = td.replace(transport, 'default')
 
 test('sourceimages.setSubjectArea', t => {
   const rokka = rka({ apiKey: 'APIKEY' })

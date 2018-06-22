@@ -177,25 +177,25 @@ export default (state) => {
         resolve(binaryData)
       }
     })
-    .then((data) => {
-      const formData = {}
-      if (metadata !== null) {
-        Object.keys(metadata).forEach(function (o) {
-          formData[o + '[0]'] = metadata[o]
-        })
-      }
-      const payload = {
-        name: 'filedata',
-        formData: formData,
-        filename: fileName,
-        contents: data
-      }
-      return state.request('POST', `sourceimages/${organization}`, payload, null, options).then((response) => {
-        response.body = JSON.parse(response.body)
+      .then((data) => {
+        const formData = {}
+        if (metadata !== null) {
+          Object.keys(metadata).forEach(function (o) {
+            formData[o + '[0]'] = metadata[o]
+          })
+        }
+        const payload = {
+          name: 'filedata',
+          formData: formData,
+          filename: fileName,
+          contents: data
+        }
+        return state.request('POST', `sourceimages/${organization}`, payload, null, options).then((response) => {
+          response.body = JSON.parse(response.body)
 
-        return response
+          return response
+        })
       })
-    })
   }
 
   /**
