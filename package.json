@@ -12,7 +12,7 @@
     "coveralls": "npm run coverage; nyc report --reporter=text-lcov | coveralls",
     "docs": "cd ./docs; node generate.js",
     "compile": "BABEL_ENV=production babel -d lib/ src/",
-    "prepublish": "npm run compile",
+    "prepare": "npm run compile",
     "watch": "babel -watch -d lib/ src/"
   },
   "precommit": [
