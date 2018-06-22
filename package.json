@@ -1,8 +1,9 @@
 {
   "name": "rokka",
-  "version": "0.28.1",
+  "version": "1.0.0",
   "description": "JavaScript client library for rokka.io",
   "main": "index.js",
+  "module": "src/index.js",
   "scripts": {
     "test": "npm run lint && npm run ava",
     "lint": "./node_modules/.bin/eslint .",
@@ -10,9 +11,9 @@
     "coverage": "BABEL_ENV=coverage nyc npm run ava",
     "coveralls": "npm run coverage; nyc report --reporter=text-lcov | coveralls",
     "docs": "cd ./docs; node generate.js",
-    "compile": "./node_modules/.bin/babel -d lib/ src/",
+    "compile": "BABEL_ENV=production babel -d lib/ src/",
     "prepublish": "npm run compile",
-    "watch": "./node_modules/.bin/babel -watch -d lib/ src/"
+    "watch": "babel -watch -d lib/ src/"
   },
   "precommit": [
     "docs",
@@ -36,33 +37,33 @@
   "homepage": "https://github.com/rokka-io/rokka.js#readme",
   "dependencies": {
     "promise-retry": "^1.1.1",
-    "request": "^2.79.0",
-    "request-promise": "^4.0.0"
+    "request": "^2.87.0",
+    "request-promise": "^4.2.2"
   },
   "devDependencies": {
-    "ava": "^0.18.2",
-    "babel-cli": "^6.9.0",
-    "babel-core": "^6.9.1",
+    "ava": "^0.25.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
     "babel-plugin-transform-object-assign": "^6.8.0",
     "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-es2015": "^6.9.0",
-    "coveralls": "^2.12.0",
-    "eslint": "^3.17.1",
-    "eslint-config-standard": "^7.0.1",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^2.1.1",
+    "babel-preset-env": "^1.7.0",
+    "coveralls": "^3.0.1",
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
     "markdox": "^0.1.10",
-    "nyc": "^10.1.2",
+    "nyc": "^12.0.2",
     "pre-commit": "^1.1.3",
-    "testdouble": "^2.0.4"
-  },
-  "peerDependencies": {
-    "babel-polyfill": "^6.3.14"
+    "testdouble": "^3.8.1"
   },
   "ava": {
     "require": [
       "babel-core/register"
     ],
-    "babel": "inherit"
+    "babel": "inherit",
+    "failWithoutAssertions": false
   }
 }

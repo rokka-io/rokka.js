@@ -2,9 +2,9 @@ import test from 'ava'
 import td from 'testdouble'
 
 import * as apis from '../src/apis'
-const apisStub = td.replace(apis, 'default')
 
 import rokka from '../src'
+const apisStub = td.replace(apis, 'default')
 
 test('default options', t => {
   const expectedState = {

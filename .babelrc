@@ -1,5 +1,13 @@
 {
-  "presets": ["es2015"],
+  "presets": [
+    ["env", {
+      "targets": {
+        "browsers": [">0.1%", "not op_mini all"],
+        "node": "current"
+      },
+      "useBuiltIns": true
+    }]
+  ],
   "plugins": [
     "transform-runtime",
     "transform-object-assign"

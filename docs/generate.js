@@ -34,7 +34,7 @@ markdox.process(sources, options, function () {
 
   readmeStr = readmeStr
     .replace(/(<!-- DOCS -->)(?:\r|\n|.)+(<!-- ENDDOCS -->)/gm,
-              '$1' + docsStr + '$2')
+      '$1' + docsStr + '$2')
 
   fs.writeFileSync(readme, readmeStr)
   fs.unlinkSync(tmpFile)
