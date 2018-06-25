@@ -216,7 +216,7 @@ rokka.sourceimages.create('myorg', 'picture.png', file)
 With directly adding metadata:
 
 ```
-rokka.sourceimages.create('myorg', 'picture.png', file, {'meta_user': {'foo' => 'bar'}})
+rokka.sourceimages.create('myorg', 'picture.png', file, {'meta_user': {'foo': 'bar'}})
 ```
 
 #### rokka.sourceimages.createByUrl(organization, url, [metadata=null]) → Promise
@@ -232,7 +232,7 @@ rokka.sourceimages.createByUrl('myorg', 'https://rokka.rokka.io/dynamic/f4d3f334
 With directly adding metadata:
 
 ```
-rokka.sourceimages.createByUrl('myorg',  'https://rokka.rokka.io/dynamic/f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912.png', {'meta_user': {'foo' => 'bar'}})
+rokka.sourceimages.createByUrl('myorg',  'https://rokka.rokka.io/dynamic/f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912.png', {'meta_user': {'foo': 'bar'}})
 ```
 
 #### rokka.sourceimages.delete(organization, hash) → Promise

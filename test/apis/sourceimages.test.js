@@ -123,11 +123,11 @@ test('sourceimages.create', t => {
   return promise
 })
 
-test('sourceimages.create with metata', t => {
+test('sourceimages.create with metadata', t => {
   const matchArgs = {
     method: 'POST',
     uri: 'https://api.rokka.io/sourceimages/myorg',
-    formData: {'meta_user[0]': {'foo': 'bar'}}
+    formData: {'meta_user[0]': JSON.stringify({'foo': 'bar'})}
   }
 
   td.when(requestStub(td.matchers.contains(matchArgs), td.matchers.anything()))
