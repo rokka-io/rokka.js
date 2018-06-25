@@ -140,7 +140,7 @@ export default (state) => {
    * With directly adding metadata:
    *
    * ```
-   * rokka.sourceimages.create('myorg', 'picture.png', file, {'meta_user': {'foo' => 'bar'}})
+   * rokka.sourceimages.create('myorg', 'picture.png', file, {'meta_user': {'foo': 'bar'}})
    * ```
    *
    * @authenticated
@@ -181,7 +181,8 @@ export default (state) => {
         const formData = {}
         if (metadata !== null) {
           Object.keys(metadata).forEach(function (o) {
-            formData[o + '[0]'] = metadata[o]
+            const data = metadata[o]
+            formData[o + '[0]'] = typeof data === 'string' ? data : JSON.stringify(data)
           })
         }
         const payload = {
@@ -210,7 +211,7 @@ export default (state) => {
    * With directly adding metadata:
    *
    * ```
-   * rokka.sourceimages.createByUrl('myorg',  'https://rokka.rokka.io/dynamic/f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912.png', {'meta_user': {'foo' => 'bar'}})
+   * rokka.sourceimages.createByUrl('myorg',  'https://rokka.rokka.io/dynamic/f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912.png', {'meta_user': {'foo': 'bar'}})
    * ```
    *
    * @authenticated
@@ -226,7 +227,8 @@ export default (state) => {
     const formData = {'url[0]': url}
     if (metadata !== null) {
       Object.keys(metadata).forEach(function (o) {
-        formData[o + '[0]'] = metadata[o]
+        const data = metadata[o]
+        formData[o + '[0]'] = typeof data === 'string' ? data : JSON.stringify(data)
       })
     }
 
