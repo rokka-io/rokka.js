@@ -1,4 +1,3 @@
-const stackoptions = {}
 
 /**
  * ### Stack options
@@ -6,6 +5,8 @@ const stackoptions = {}
  * @module stackoptions
  */
 export default (state) => {
+  const stackoptions = {}
+
   /**
    * Returns a json-schema like definition of options which can be set on a stack.
    *

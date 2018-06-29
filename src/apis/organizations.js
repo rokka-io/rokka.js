@@ -1,11 +1,11 @@
-const organizations = {}
-
 /**
  * ### Organizations
  *
  * @module organizations
  */
 export default (state) => {
+  const organizations = {}
+
   /**
    * Get a list of organizations.
    *

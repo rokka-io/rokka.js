@@ -1,4 +1,3 @@
-const stats = {}
 
 /**
  * ### Stats
@@ -6,6 +5,8 @@ const stats = {}
  * @module stats
  */
 export default (state) => {
+  const stats = {}
+
   /**
    * Retrieve statistics about an organization.
    *
