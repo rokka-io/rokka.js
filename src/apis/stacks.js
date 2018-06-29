@@ -1,4 +1,3 @@
-const stacks = {}
 
 /**
  * ### Stacks
@@ -6,6 +5,8 @@ const stacks = {}
  * @module stacks
  */
 export default (state) => {
+  const stacks = {}
+
   /**
    * Get a list of available stacks.
    *

@@ -1,13 +1,13 @@
 import { stringifyOperations } from '../utils'
 
-const render = {}
-
 /**
  * ### Render
  *
  * @module render
  */
 export default (state) => {
+  const render = {}
+
   /**
    * Get URL for rendering an image.
    *

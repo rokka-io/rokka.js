@@ -1,15 +1,15 @@
 import { isStream } from '../utils'
 
-const sourceimages = {
-  meta: {}
-}
-
 /**
  * ### Source Images
  *
  * @module sourceimages
  */
 export default (state) => {
+  const sourceimages = {
+    meta: {}
+  }
+
   /**
    * Get a list of source images.
    *

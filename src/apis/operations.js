@@ -1,81 +1,3 @@
-const operations = {}
-
-operations.resize = (width, height, options = {}) => {
-  options.width = width
-  options.height = height
-
-  return {
-    name: 'resize',
-    options
-  }
-}
-
-operations.autorotate = (options = {}) => {
-  return {
-    name: 'autorotate',
-    options
-  }
-}
-
-operations.rotate = (angle, options = {}) => {
-  options.angle = angle
-
-  return {
-    name: 'rotate',
-    options
-  }
-}
-
-operations.dropshadow = (options = {}) => {
-  return {
-    name: 'dropshadow',
-    options
-  }
-}
-
-operations.trim = (options = {}) => {
-  return {
-    name: 'trim',
-    options
-  }
-}
-
-operations.crop = (width, height, options = {}) => {
-  options.width = width
-  options.height = height
-
-  return {
-    name: 'crop',
-    options
-  }
-}
-
-operations.noop = () => {
-  return {
-    name: 'noop'
-  }
-}
-
-operations.composition = (width, height, mode, options = {}) => {
-  options.width = width
-  options.height = height
-  options.mode = mode
-
-  return {
-    name: 'composition',
-    options
-  }
-}
-
-operations.blur = (sigma, radius) => {
-  const options = { sigma, radius }
-
-  return {
-    name: 'blur',
-    options
-  }
-}
-
 /**
  * ### Operations
  *
@@ -97,6 +19,84 @@ operations.blur = (sigma, radius) => {
  * @module operations
  */
 export default (state) => {
+  const operations = {}
+
+  operations.resize = (width, height, options = {}) => {
+    options.width = width
+    options.height = height
+
+    return {
+      name: 'resize',
+      options
+    }
+  }
+
+  operations.autorotate = (options = {}) => {
+    return {
+      name: 'autorotate',
+      options
+    }
+  }
+
+  operations.rotate = (angle, options = {}) => {
+    options.angle = angle
+
+    return {
+      name: 'rotate',
+      options
+    }
+  }
+
+  operations.dropshadow = (options = {}) => {
+    return {
+      name: 'dropshadow',
+      options
+    }
+  }
+
+  operations.trim = (options = {}) => {
+    return {
+      name: 'trim',
+      options
+    }
+  }
+
+  operations.crop = (width, height, options = {}) => {
+    options.width = width
+    options.height = height
+
+    return {
+      name: 'crop',
+      options
+    }
+  }
+
+  operations.noop = () => {
+    return {
+      name: 'noop'
+    }
+  }
+
+  operations.composition = (width, height, mode, options = {}) => {
+    options.width = width
+    options.height = height
+    options.mode = mode
+
+    return {
+      name: 'composition',
+      options
+    }
+  }
+
+  operations.blur = (sigma, radius) => {
+    const options = { sigma, radius }
+
+    return {
+      name: 'blur',
+      options
+    }
+  }
+
   /**
    * Get a list of available stack operations.
    *

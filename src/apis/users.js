@@ -1,11 +1,11 @@
-const users = {}
-
 /**
  * ### Users
  *
  * @module users
  */
 export default (state) => {
+  const users = {}
+
   /**
    * Register a new user for the rokka service.
    *
