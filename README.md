@@ -202,7 +202,7 @@ rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
   .catch(function(err) {});
 ```
 
-#### rokka.sourceimages.create(organization, fileName, binaryData, [metadata=null]) → Promise
+#### rokka.sourceimages.create(organization, fileName, binaryData, [metadata=null], [options={}]) → Promise
 
 Upload an image.
 
@@ -219,7 +219,7 @@ With directly adding metadata:
 rokka.sourceimages.create('myorg', 'picture.png', file, {'meta_user': {'foo': 'bar'}})
 ```
 
-#### rokka.sourceimages.createByUrl(organization, url, [metadata=null]) → Promise
+#### rokka.sourceimages.createByUrl(organization, url, [metadata=null], [options={}]) → Promise
 
 Upload an image by url.
 

@@ -148,10 +148,11 @@ export default (state) => {
    * @param  {string} fileName        file name
    * @param  {*}      binaryData      either a readable stream (in node.js only) or a binary string
    * @param  {Object} [metadata=null] optional, metadata to be added, either user or dynamic
+   * @param  {{optimize_source: bool}} [options={}] Optional: only {optimize_source: true/false} yet, false is default
    * @return {Promise}
    */
-  sourceimages.create = (organization, fileName, binaryData, metadata = null) => {
-    const options = {
+  sourceimages.create = (organization, fileName, binaryData, metadata = null, options = {}) => {
+    const config = {
       multipart: true
     }
 
@@ -185,13 +186,18 @@ export default (state) => {
             formData[o + '[0]'] = typeof data === 'string' ? data : JSON.stringify(data)
           })
         }
+        if (options !== null) {
+          Object.keys(options).forEach(function (o) {
+            formData[o] = options[o]
+          })
+        }
         const payload = {
           name: 'filedata',
           formData: formData,
           filename: fileName,
           contents: data
         }
-        return state.request('POST', `sourceimages/${organization}`, payload, null, options).then((response) => {
+        return state.request('POST', `sourceimages/${organization}`, payload, null, config).then((response) => {
           response.body = JSON.parse(response.body)
 
           return response
@@ -215,15 +221,17 @@ export default (state) => {
    * ```
    *
    * @authenticated
-   * @param  {string} organization    name
-   * @param  {string} url             The URL to the remote image
-   * @param  {Object} [metadata=null] optional, metadata to be added, either user or dynamic
+   * @param  {string} organization     name
+   * @param  {string} url              The URL to the remote image
+   * @param  {Object} [metadata=null]  optional, metadata to be added, either user or dynamic
+   * @param  {{optimize_source: bool}} [options={}] Optional: only {optimize_source: true/false} yet, false is default
    * @return {Promise}
    */
-  sourceimages.createByUrl = (organization, url, metadata = null) => {
-    const options = {
+  sourceimages.createByUrl = (organization, url, metadata = null, options = {}) => {
+    const config = {
       form: true
     }
+
     const formData = {'url[0]': url}
     if (metadata !== null) {
       Object.keys(metadata).forEach(function (o) {
@@ -232,7 +240,13 @@ export default (state) => {
       })
     }
 
-    return state.request('POST', `sourceimages/${organization}`, formData, null, options).then((response) => {
+    if (options !== null) {
+      Object.keys(options).forEach(function (o) {
+        formData[o] = options[o]
+      })
+    }
+
+    return state.request('POST', `sourceimages/${organization}`, formData, null, config).then((response) => {
       response.body = JSON.parse(response.body)
 
       return response
