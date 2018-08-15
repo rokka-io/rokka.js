@@ -10,7 +10,8 @@
   ],
   "plugins": [
     "transform-runtime",
-    "transform-object-assign"
+    "transform-object-assign",
+    "transform-object-rest-spread"
   ],
   "env": {
     "coverage": {
