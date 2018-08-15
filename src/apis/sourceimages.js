@@ -179,16 +179,13 @@ export default (state) => {
       }
     })
       .then((data) => {
-        const formData = {}
+        const formData = {
+          ...options
+        }
         if (metadata !== null) {
           Object.keys(metadata).forEach(function (o) {
             const data = metadata[o]
             formData[o + '[0]'] = typeof data === 'string' ? data : JSON.stringify(data)
-          })
-        }
-        if (options !== null) {
-          Object.keys(options).forEach(function (o) {
-            formData[o] = options[o]
           })
         }
         const payload = {
@@ -232,17 +229,14 @@ export default (state) => {
       form: true
     }
 
-    const formData = {'url[0]': url}
+    const formData = {
+      'url[0]': url,
+      ...options
+    }
     if (metadata !== null) {
       Object.keys(metadata).forEach(function (o) {
         const data = metadata[o]
         formData[o + '[0]'] = typeof data === 'string' ? data : JSON.stringify(data)
-      })
-    }
-
-    if (options !== null) {
-      Object.keys(options).forEach(function (o) {
-        formData[o] = options[o]
       })
     }
 
