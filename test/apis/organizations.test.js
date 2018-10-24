@@ -18,20 +18,31 @@ test('organizations.get', t => {
     qs: null
   }
 
-  td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
+  td.verify(
+    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+  )
 })
 
 test('organizations.create', t => {
   const rokka = rka({ apiKey: 'APIKEY' })
 
-  rokka.organizations.create('myorg', 'billing@example.org', 'Organization Inc.')
+  rokka.organizations.create(
+    'myorg',
+    'billing@example.org',
+    'Organization Inc.'
+  )
 
   const expectedArgs = {
     method: 'PUT',
     uri: 'https://api.rokka.io/organizations/myorg',
-    body: { billing_email: 'billing@example.org', display_name: 'Organization Inc.' },
+    body: {
+      billing_email: 'billing@example.org',
+      display_name: 'Organization Inc.'
+    },
     qs: null
   }
 
-  td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
+  td.verify(
+    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+  )
 })

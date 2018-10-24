@@ -18,5 +18,7 @@ test('stackoptions.get', t => {
     qs: null
   }
 
-  td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
+  td.verify(
+    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+  )
 })

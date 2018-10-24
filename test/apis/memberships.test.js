@@ -8,20 +8,31 @@ const requestStub = td.replace(transport, 'default')
 
 test('memberships.ROLES', t => {
   const rokka = rka()
-  t.deepEqual(rokka.memberships.ROLES, { READ: 'read', WRITE: 'write', ADMIN: 'admin' })
+  t.deepEqual(rokka.memberships.ROLES, {
+    READ: 'read',
+    WRITE: 'write',
+    ADMIN: 'admin'
+  })
 })
 
 test('memberships.create', t => {
   const rokka = rka({ apiKey: 'APIKEY' })
 
-  rokka.memberships.create('myorg', 'user@example.org', rokka.memberships.ROLES.ADMIN)
+  rokka.memberships.create(
+    'myorg',
+    'user@example.org',
+    rokka.memberships.ROLES.ADMIN
+  )
 
   const expectedArgs = {
     method: 'PUT',
-    uri: 'https://api.rokka.io/organizations/myorg/memberships/user@example.org',
+    uri:
+      'https://api.rokka.io/organizations/myorg/memberships/user@example.org',
     body: { role: 'admin' },
     qs: null
   }
 
-  td.verify(requestStub(td.matchers.contains(expectedArgs), td.matchers.anything()))
+  td.verify(
+    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+  )
 })

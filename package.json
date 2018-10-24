@@ -13,7 +13,7 @@
     "compile": "BABEL_ENV=production babel -d lib/ src/",
     "prepare": "npm run compile",
     "watch": "babel -watch -d lib/ src/",
-    "fix": "prettier-eslint --write src/**/*.js"
+    "fix": "prettier-eslint --write '{src,test}/**/*.js'"
   },
   "repository": {
     "type": "git",
