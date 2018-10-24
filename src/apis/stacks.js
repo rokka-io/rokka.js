@@ -1,10 +1,9 @@
-
 /**
  * ### Stacks
  *
  * @module stacks
  */
-export default (state) => {
+export default state => {
   const stacks = {}
 
   /**
@@ -97,7 +96,7 @@ export default (state) => {
    * @return {Promise}
    */
 
-  stacks.create = (organization, name, stackConfig, params = {}) => {
+  stacks.create = (organization, name, stackConfig, params = {}, ...rest) => {
     const queryParams = Object.assign({}, params)
     let body = {}
 
@@ -106,7 +105,7 @@ export default (state) => {
     if (Array.isArray(stackConfig)) {
       body.operations = stackConfig
       body.options = params
-      const _overwrite = arguments.length > 4 ? arguments[4] : false
+      const _overwrite = rest.length > 0 ? rest[0] : false
       if (_overwrite) {
         queryParams.overwrite = _overwrite
       }
@@ -114,7 +113,12 @@ export default (state) => {
       body = stackConfig
     }
 
-    return state.request('PUT', `stacks/${organization}/${name}`, body, queryParams)
+    return state.request(
+      'PUT',
+      `stacks/${organization}/${name}`,
+      body,
+      queryParams
+    )
   }
 
   /**

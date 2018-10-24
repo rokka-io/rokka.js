@@ -5,7 +5,7 @@ import { stringifyOperations } from '../utils'
  *
  * @module render
  */
-export default (state) => {
+export default state => {
   const render = {}
 
   /**

@@ -55,7 +55,7 @@ export default (config = {}) => {
     transportOptions: Object.assign(defaults.transport, config.transport),
 
     // functions
-    request (method, path, payload = null, queryParams = null, options = {}) {
+    request(method, path, payload = null, queryParams = null, options = {}) {
       const uri = [state.apiHost, path].join('/')
 
       const headers = options.headers || {}
@@ -86,12 +86,16 @@ export default (config = {}) => {
       } else if (typeof window !== 'undefined') {
         request.headers['Content-Type'] = 'multipart/form-data'
         const formData = payload.formData || {}
-        const data = [{
-          'Content-Disposition': `form-data; name="filedata"; filename="${payload.filename}"`,
-          body: payload.contents
-        }]
+        const data = [
+          {
+            'Content-Disposition': `form-data; name="filedata"; filename="${
+              payload.filename
+            }"`,
+            body: payload.contents
+          }
+        ]
 
-        Object.keys(formData).forEach(function (meta) {
+        Object.keys(formData).forEach(function(meta) {
           data.push({
             'Content-Disposition': 'form-data; name="' + meta + '"',
             body: JSON.stringify(formData[meta])
@@ -119,8 +123,5 @@ export default (config = {}) => {
     }
   }
 
-  return Object.assign(
-    {},
-    modules(state)
-  )
+  return Object.assign({}, modules(state))
 }

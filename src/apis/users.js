@@ -3,7 +3,7 @@
  *
  * @module users
  */
-export default (state) => {
+export default state => {
   const users = {}
 
   /**
@@ -20,7 +20,9 @@ export default (state) => {
    * @return {Promise}
    */
   users.create = (email, organization = null) => {
-    return state.request('POST', 'users', { email, organization }, null, { noAuthHeaders: true })
+    return state.request('POST', 'users', { email, organization }, null, {
+      noAuthHeaders: true
+    })
   }
 
   return {

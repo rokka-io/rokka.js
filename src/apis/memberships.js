@@ -1,4 +1,3 @@
-
 /**
  * ### Memberships
  *
@@ -10,14 +9,14 @@
  *
  * @module memberships
  */
-export default (state) => {
+export default state => {
   const memberships = {}
 
-  const ROLES = memberships.ROLES = {
+  const ROLES = (memberships.ROLES = {
     READ: 'read',
     WRITE: 'write',
     ADMIN: 'admin'
-  }
+  })
 
   /**
    * Add a member to an organization.
@@ -35,7 +34,11 @@ export default (state) => {
    * @return {Promise}
    */
   memberships.create = (organization, email, role) => {
-    if (Object.keys(ROLES).map((key) => ROLES[key]).indexOf(role) === -1) {
+    if (
+      Object.keys(ROLES)
+        .map(key => ROLES[key])
+        .indexOf(role) === -1
+    ) {
       return Promise.reject(new Error(`Invalid role "${role}"`))
     }
 

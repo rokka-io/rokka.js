@@ -9,7 +9,7 @@ import stacks from './stacks'
 import stats from './stats'
 import users from './users'
 
-export default (state) => {
+export default state => {
   return Object.assign(
     {},
     memberships(state),
