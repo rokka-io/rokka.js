@@ -77,6 +77,16 @@ rokka.users.create('user@example.org')
   .catch(function(err) {});
 ```
 
+#### rokka.users.getId() → Promise
+
+Get user_id for current user
+
+```js
+rokka.users.getId()
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
 ---
 
 <!-- End ../src/apis/users.js -->
@@ -117,14 +127,45 @@ rokka.organizations.create('myorg', 'billing@example.org', 'Organization Inc.')
 
 - `rokka.memberships.ROLES.READ` - read-only access
 - `rokka.memberships.ROLES.WRITE` - read-write access
+- `rokka.memberships.ROLES.UPLOAD` - upload-only access
 - `rokka.memberships.ROLES.ADMIN` - administrative access
 
-#### rokka.memberships.create(organization, email, role) → Promise
+#### rokka.memberships.create(organization, userId, roles) → Promise
 
 Add a member to an organization.
 
 ```js
-rokka.memberships.create('myorg', 'user@example.org', rokka.memberships.ROLES.WRITE)
+rokka.memberships.create('myorg', '613547f8-e26d-48f6-8a6a-552c18b1a290', [rokka.memberships.ROLES.WRITE])
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
+#### rokka.memberships.delete(organization, userId) → Promise
+
+Delete a member in an organization.
+
+```js
+rokka.memberships.delete('myorg', '613547f8-e26d-48f6-8a6a-552c18b1a290')
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
+#### rokka.memberships.createWithNewUser(organization, roles) → Promise
+
+Create a user and membership associated to this organization.
+
+```js
+rokka.memberships.createWithNewUser('myorg', [rokka.memberships.ROLES.READ])
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
+#### rokka.memberships.list(organization) → Promise
+
+Lists members in an organization.
+
+```js
+rokka.memberships.list('myorg')
   .then(function(result) {})
   .catch(function(err) {});
 ```

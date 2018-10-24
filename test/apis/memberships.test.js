@@ -11,11 +11,33 @@ test('memberships.ROLES', t => {
   t.deepEqual(rokka.memberships.ROLES, {
     READ: 'read',
     WRITE: 'write',
+    UPLOAD: 'upload',
     ADMIN: 'admin'
   })
 })
 
 test('memberships.create', t => {
+  const rokka = rka({ apiKey: 'APIKEY' })
+
+  rokka.memberships.create('myorg', 'user@example.org', [
+    rokka.memberships.ROLES.UPLOAD,
+    rokka.memberships.ROLES.READ
+  ])
+
+  const expectedArgs = {
+    method: 'PUT',
+    uri:
+      'https://api.rokka.io/organizations/myorg/memberships/user@example.org',
+    body: { roles: ['upload', 'read'] },
+    qs: null
+  }
+
+  td.verify(
+    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+  )
+})
+
+test('memberships.createWithString', t => {
   const rokka = rka({ apiKey: 'APIKEY' })
 
   rokka.memberships.create(
@@ -28,7 +50,7 @@ test('memberships.create', t => {
     method: 'PUT',
     uri:
       'https://api.rokka.io/organizations/myorg/memberships/user@example.org',
-    body: { role: 'admin' },
+    body: { roles: ['admin'] },
     qs: null
   }
 
