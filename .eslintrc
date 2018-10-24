@@ -7,4 +7,3 @@ env:
 
 rules:
   prefer-const: error
-  space-before-function-paren: off

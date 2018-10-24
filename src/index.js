@@ -55,7 +55,7 @@ export default (config = {}) => {
     transportOptions: Object.assign(defaults.transport, config.transport),
 
     // functions
-    request(method, path, payload = null, queryParams = null, options = {}) {
+    request (method, path, payload = null, queryParams = null, options = {}) {
       const uri = [state.apiHost, path].join('/')
 
       const headers = options.headers || {}
@@ -95,7 +95,7 @@ export default (config = {}) => {
           }
         ]
 
-        Object.keys(formData).forEach(function(meta) {
+        Object.keys(formData).forEach(function (meta) {
           data.push({
             'Content-Disposition': 'form-data; name="' + meta + '"',
             body: JSON.stringify(formData[meta])
