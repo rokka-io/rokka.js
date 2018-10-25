@@ -25,6 +25,21 @@ export default state => {
     })
   }
 
+  /**
+   * Get user_id for current user
+   *
+   * ```js
+   * rokka.users.getId()
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
+   * ```
+   *
+   * @return {Promise}
+   */
+  users.getId = () => {
+    return state.request('GET', 'user').then(result => result.body.user_id)
+  }
+
   return {
     users
   }
