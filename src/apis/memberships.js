@@ -30,12 +30,12 @@ export default state => {
    *
    * @authenticated
    * @param  {string}        organization name
-   * @param  {string}        userId       email address of a registered rokka user
+   * @param  {string}        userId       UUID of user to add to the organization
    * @param  {string|array}  roles        user roles (`rokka.memberships.ROLES`)
    * @return {Promise}
    */
   memberships.create = (organization, userId, roles) => {
-    if (typeof roles === 'string' || roles instanceof String) {
+    if (typeof roles === 'string') {
       roles = [roles]
     }
 
@@ -65,7 +65,7 @@ export default state => {
    *
    * @authenticated
    * @param  {string}        organization name
-   * @param  {string}        userId       email address of a registered rokka user
+   * @param  {string}        userId       UUID of user to add to the organization
    * @return {Promise}
    */
   memberships.delete = (organization, userId) => {
