@@ -10,13 +10,12 @@
  * @module memberships
  */
 export default state => {
-  const memberships = {}
-
-  const ROLES = (memberships.ROLES = {
+  const ROLES = {
     READ: 'read',
     WRITE: 'write',
     ADMIN: 'admin'
-  })
+  }
+  const memberships = { ROLES }
 
   /**
    * Add a member to an organization.
