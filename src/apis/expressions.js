@@ -1,10 +1,9 @@
-
 /**
  * ### expressions
  *
  * @module expressions
  */
-export default (state) => {
+export default state => {
   const expressions = {}
 
   expressions.default = (expression, options) => {

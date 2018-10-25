@@ -3,7 +3,7 @@
  *
  * @module organizations
  */
-export default (state) => {
+export default state => {
   const organizations = {}
 
   /**
@@ -19,7 +19,7 @@ export default (state) => {
    * @param  {string}  name organization
    * @return {Promise}
    */
-  organizations.get = (name) => {
+  organizations.get = name => {
     return state.request('GET', `organizations/${name}`)
   }
 
@@ -40,8 +40,8 @@ export default (state) => {
    */
   organizations.create = (name, billingEmail, displayName) => {
     return state.request('PUT', `organizations/${name}`, {
-      'billing_email': billingEmail,
-      'display_name': displayName
+      billing_email: billingEmail,
+      display_name: displayName
     })
   }
 

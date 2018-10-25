@@ -1,10 +1,9 @@
-
 /**
  * ### Stats
  *
  * @module stats
  */
-export default (state) => {
+export default state => {
   const stats = {}
 
   /**

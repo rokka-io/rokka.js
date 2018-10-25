@@ -86,10 +86,14 @@ export default (config = {}) => {
       } else if (typeof window !== 'undefined') {
         request.headers['Content-Type'] = 'multipart/form-data'
         const formData = payload.formData || {}
-        const data = [{
-          'Content-Disposition': `form-data; name="filedata"; filename="${payload.filename}"`,
-          body: payload.contents
-        }]
+        const data = [
+          {
+            'Content-Disposition': `form-data; name="filedata"; filename="${
+              payload.filename
+            }"`,
+            body: payload.contents
+          }
+        ]
 
         Object.keys(formData).forEach(function (meta) {
           data.push({
@@ -119,8 +123,5 @@ export default (config = {}) => {
     }
   }
 
-  return Object.assign(
-    {},
-    modules(state)
-  )
+  return Object.assign({}, modules(state))
 }

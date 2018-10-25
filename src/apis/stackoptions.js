@@ -1,10 +1,9 @@
-
 /**
  * ### Stack options
  *
  * @module stackoptions
  */
-export default (state) => {
+export default state => {
   const stackoptions = {}
 
   /**
@@ -19,7 +18,9 @@ export default (state) => {
    * @return {Promise}
    */
   stackoptions.get = () => {
-    return state.request('GET', 'stackoptions', null, null, { noAuthHeaders: true })
+    return state.request('GET', 'stackoptions', null, null, {
+      noAuthHeaders: true
+    })
   }
 
   return {

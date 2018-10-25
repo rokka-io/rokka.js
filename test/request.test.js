@@ -75,5 +75,7 @@ test('retry options handling', t => {
 
   request('get', 'test')
 
-  td.verify(requestStub(td.matchers.isA(Object), td.matchers.contains(transportOptions)))
+  td.verify(
+    requestStub(td.matchers.isA(Object), td.matchers.contains(transportOptions))
+  )
 })

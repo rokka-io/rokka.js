@@ -18,7 +18,7 @@
  *
  * @module operations
  */
-export default (state) => {
+export default state => {
   const operations = {}
 
   operations.resize = (width, height, options = {}) => {
@@ -109,7 +109,9 @@ export default (state) => {
    * @return {Promise}
    */
   operations.list = () => {
-    return state.request('GET', 'operations', null, null, { noAuthHeaders: true })
+    return state.request('GET', 'operations', null, null, {
+      noAuthHeaders: true
+    })
   }
 
   return {

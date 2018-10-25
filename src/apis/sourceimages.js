@@ -5,7 +5,7 @@ import { isStream } from '../utils'
  *
  * @module sourceimages
  */
-export default (state) => {
+export default state => {
   const sourceimages = {
     meta: {}
   }
@@ -49,7 +49,10 @@ export default (state) => {
    * @param  {Object} params Query string params (limit, offset, sort and search)
    * @return {Promise}
    */
-  sourceimages.list = (organization, { limit = null, offset = null, sort = null, search = null } = {}) => {
+  sourceimages.list = (
+    organization,
+    { limit = null, offset = null, sort = null, search = null } = {}
+  ) => {
     let queryParams = {}
 
     if (limit !== null) {
@@ -68,7 +71,12 @@ export default (state) => {
       queryParams = Object.assign(queryParams, search)
     }
 
-    return state.request('GET', `sourceimages/${organization}`, null, queryParams)
+    return state.request(
+      'GET',
+      `sourceimages/${organization}`,
+      null,
+      queryParams
+    )
   }
 
   /**
@@ -106,7 +114,12 @@ export default (state) => {
   sourceimages.getWithBinaryHash = (organization, binaryHash) => {
     const queryParams = { binaryHash: binaryHash }
 
-    return state.request('GET', `sourceimages/${organization}`, null, queryParams)
+    return state.request(
+      'GET',
+      `sourceimages/${organization}`,
+      null,
+      queryParams
+    )
   }
 
   /**
@@ -151,12 +164,18 @@ export default (state) => {
    * @param  {{optimize_source: bool}} [options={}] Optional: only {optimize_source: true/false} yet, false is default
    * @return {Promise}
    */
-  sourceimages.create = (organization, fileName, binaryData, metadata = null, options = {}) => {
+  sourceimages.create = (
+    organization,
+    fileName,
+    binaryData,
+    metadata = null,
+    options = {}
+  ) => {
     const config = {
       multipart: true
     }
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       /*!
        * Stream and Buffer are only supported by node.js and not browsers natively
        * We just asume that a browser based solution will provide the binaryData
@@ -177,29 +196,31 @@ export default (state) => {
       } else {
         resolve(binaryData)
       }
-    })
-      .then((data) => {
-        const formData = {
-          ...options
-        }
-        if (metadata !== null) {
-          Object.keys(metadata).forEach(function (o) {
-            const data = metadata[o]
-            formData[o + '[0]'] = typeof data === 'string' ? data : JSON.stringify(data)
-          })
-        }
-        const payload = {
-          name: 'filedata',
-          formData: formData,
-          filename: fileName,
-          contents: data
-        }
-        return state.request('POST', `sourceimages/${organization}`, payload, null, config).then((response) => {
+    }).then(data => {
+      const formData = {
+        ...options
+      }
+      if (metadata !== null) {
+        Object.keys(metadata).forEach(function (o) {
+          const data = metadata[o]
+          formData[o + '[0]'] =
+            typeof data === 'string' ? data : JSON.stringify(data)
+        })
+      }
+      const payload = {
+        name: 'filedata',
+        formData: formData,
+        filename: fileName,
+        contents: data
+      }
+      return state
+        .request('POST', `sourceimages/${organization}`, payload, null, config)
+        .then(response => {
           response.body = JSON.parse(response.body)
 
           return response
         })
-      })
+    })
   }
 
   /**
@@ -224,7 +245,12 @@ export default (state) => {
    * @param  {{optimize_source: bool}} [options={}] Optional: only {optimize_source: true/false} yet, false is default
    * @return {Promise}
    */
-  sourceimages.createByUrl = (organization, url, metadata = null, options = {}) => {
+  sourceimages.createByUrl = (
+    organization,
+    url,
+    metadata = null,
+    options = {}
+  ) => {
     const config = {
       form: true
     }
@@ -236,15 +262,18 @@ export default (state) => {
     if (metadata !== null) {
       Object.keys(metadata).forEach(function (o) {
         const data = metadata[o]
-        formData[o + '[0]'] = typeof data === 'string' ? data : JSON.stringify(data)
+        formData[o + '[0]'] =
+          typeof data === 'string' ? data : JSON.stringify(data)
       })
     }
 
-    return state.request('POST', `sourceimages/${organization}`, formData, null, config).then((response) => {
-      response.body = JSON.parse(response.body)
+    return state
+      .request('POST', `sourceimages/${organization}`, formData, null, config)
+      .then(response => {
+        response.body = JSON.parse(response.body)
 
-      return response
-    })
+        return response
+      })
   }
 
   /**
@@ -282,7 +311,12 @@ export default (state) => {
   sourceimages.deleteWithBinaryHash = (organization, binaryHash) => {
     const queryParams = { binaryHash: binaryHash }
 
-    return state.request('DELETE', `sourceimages/${organization}`, null, queryParams)
+    return state.request(
+      'DELETE',
+      `sourceimages/${organization}`,
+      null,
+      queryParams
+    )
   }
 
   /**
@@ -320,12 +354,23 @@ export default (state) => {
    *
    * @return {Promise}
    */
-  sourceimages.copy = (organization, hash, destinationOrganization, overwrite = true) => {
-    const headers = {'Destination': destinationOrganization}
+  sourceimages.copy = (
+    organization,
+    hash,
+    destinationOrganization,
+    overwrite = true
+  ) => {
+    const headers = { Destination: destinationOrganization }
     if (!overwrite) {
       headers['Overwrite'] = 'F'
     }
-    return state.request('COPY', `sourceimages/${organization}/${hash}`, null, null, {headers})
+    return state.request(
+      'COPY',
+      `sourceimages/${organization}/${hash}`,
+      null,
+      null,
+      { headers }
+    )
   }
 
   /**
@@ -364,7 +409,16 @@ export default (state) => {
   sourceimages.setSubjectArea = (organization, hash, coords, options = {}) => {
     options.deletePrevious = options.deletePrevious ? 'true' : 'false'
 
-    return state.request('PUT', 'sourceimages/' + organization + '/' + hash + '/meta/dynamic/subject_area', coords, options)
+    return state.request(
+      'PUT',
+      'sourceimages/' +
+        organization +
+        '/' +
+        hash +
+        '/meta/dynamic/subject_area',
+      coords,
+      options
+    )
   }
 
   /**
@@ -384,7 +438,12 @@ export default (state) => {
   sourceimages.removeSubjectArea = (organization, hash, options = {}) => {
     options.deletePrevious = options.deletePrevious ? 'true' : 'false'
 
-    return state.request('DELETE', `sourceimages/${organization}/${hash}/meta/dynamic/subject_area`, null, options)
+    return state.request(
+      'DELETE',
+      `sourceimages/${organization}/${hash}/meta/dynamic/subject_area`,
+      null,
+      options
+    )
   }
 
   /**
@@ -416,7 +475,11 @@ export default (state) => {
    * @return {Promise}
    */
   sourceimages.meta.add = (organization, hash, data) => {
-    return state.request('PATCH', `sourceimages/${organization}/${hash}/meta/user`, data)
+    return state.request(
+      'PATCH',
+      `sourceimages/${organization}/${hash}/meta/user`,
+      data
+    )
   }
 
   /**
@@ -440,7 +503,11 @@ export default (state) => {
    * @return {Promise}
    */
   sourceimages.meta.replace = (organization, hash, data) => {
-    return state.request('PUT', `sourceimages/${organization}/${hash}/meta/user`, data)
+    return state.request(
+      'PUT',
+      `sourceimages/${organization}/${hash}/meta/user`,
+      data
+    )
   }
 
   /**
@@ -465,7 +532,10 @@ export default (state) => {
    */
   sourceimages.meta.delete = (organization, hash, field = null) => {
     const fieldpath = field ? `/${field}` : ''
-    return state.request('DELETE', `sourceimages/${organization}/${hash}/meta/user${fieldpath}`)
+    return state.request(
+      'DELETE',
+      `sourceimages/${organization}/${hash}/meta/user${fieldpath}`
+    )
   }
 
   return {

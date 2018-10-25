@@ -6,16 +6,20 @@ import promiseRetry from 'promise-retry'
 // This code is mainly copied from
 // https://github.com/CanTireInnovations/request-promise-retry/blob/master/index.js
 
-const retryRequest = (promiseRequest) =>
-  (req, options) => promiseRetry(
-    retry => promiseRequest(req)
-      .catch(err => {
-        if (err.statusCode !== 429 && err.statusCode !== 502 && err.statusCode !== 503 && err.statusCode !== 504) {
+const retryRequest = promiseRequest => (req, options) =>
+  promiseRetry(
+    retry =>
+      promiseRequest(req).catch(err => {
+        if (
+          err.statusCode !== 429 &&
+          err.statusCode !== 502 &&
+          err.statusCode !== 503 &&
+          err.statusCode !== 504
+        ) {
           throw err
         }
         retry(err)
-      })
-    ,
+      }),
     options
   )
 
