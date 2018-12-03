@@ -18,7 +18,7 @@ export default state => {
    * @authenticated
    * @param  {string}  organization  name
    * @param  {number}  [limit=null]
-   * @param  {number}  [offset=null]
+   * @param  {string}  [offset=null] cursor
    * @return {Promise}
    */
   stacks.list = (organization, limit = null, offset = null) => {
