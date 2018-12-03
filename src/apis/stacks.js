@@ -17,16 +17,12 @@ export default state => {
    *
    * @authenticated
    * @param  {string}  organization  name
-   * @param  {number}  [limit=null]
-   * @param  {number}  [offset=null]
+   * @param  {string}  [offset=null] cursor
    * @return {Promise}
    */
-  stacks.list = (organization, limit = null, offset = null) => {
+  stacks.list = (organization, offset = null) => {
     const queryParams = {}
 
-    if (limit !== null) {
-      queryParams.limit = limit
-    }
     if (offset !== null) {
       queryParams.offset = offset
     }

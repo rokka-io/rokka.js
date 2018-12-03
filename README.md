@@ -462,7 +462,7 @@ rokka.stackoptions.get()
 
 ### Stacks
 
-#### rokka.stacks.list(organization, [limit=null], [offset=null]) → Promise
+#### rokka.stacks.list(organization, [offset=null]) → Promise
 
 Get a list of available stacks.
 
