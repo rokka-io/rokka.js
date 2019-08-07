@@ -7,6 +7,7 @@ import sourceimages from './sourceimages'
 import stackoptions from './stackoptions'
 import stacks from './stacks'
 import stats from './stats'
+import billing from './billing'
 import users from './users'
 
 export default state => {
@@ -21,6 +22,7 @@ export default state => {
     stackoptions(state),
     stacks(state),
     stats(state),
-    users(state)
+    users(state),
+    billing(state)
   )
 }
