@@ -51,7 +51,13 @@ export default state => {
    */
   sourceimages.list = (
     organization,
-    { limit = null, offset = null, sort = null, search = null } = {}
+    {
+      limit = null,
+      offset = null,
+      sort = null,
+      search = null,
+      facets = null
+    } = {}
   ) => {
     let queryParams = {}
 
@@ -60,6 +66,9 @@ export default state => {
     }
     if (offset !== null) {
       queryParams.offset = offset
+    }
+    if (facets !== null) {
+      queryParams.facets = facets
     }
     if (sort !== null) {
       if (Array.isArray(sort)) {
@@ -138,6 +147,29 @@ export default state => {
    */
   sourceimages.download = (organization, hash) => {
     return state.request('GET', `sourceimages/${organization}/${hash}/download`)
+  }
+
+  /**
+   * Autolabels an image.
+   *
+   * You need to be a paying customer to be able to use this.
+   *
+   * ```js
+   * rokka.sourceimages.autolabel('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
+   * ```
+   *
+   * @authenticated
+   * @param  {string}  organization name
+   * @param  {string}  hash         image hash
+   * @return {Promise}
+   */
+  sourceimages.autolabel = (organization, hash) => {
+    return state.request(
+      'POST',
+      `sourceimages/${organization}/${hash}/autolabel`
+    )
   }
 
   /**

@@ -243,6 +243,18 @@ rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
   .catch(function(err) {});
 ```
 
+#### rokka.sourceimages.autolabel(organization, hash) → Promise
+
+Autolabels an image.
+
+You need to be a paying customer to be able to use this.
+
+```js
+rokka.sourceimages.autolabel('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
 #### rokka.sourceimages.create(organization, fileName, binaryData, [metadata=null], [options={}]) → Promise
 
 Upload an image.
