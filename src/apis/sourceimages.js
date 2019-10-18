@@ -248,8 +248,6 @@ export default state => {
       return state
         .request('POST', `sourceimages/${organization}`, payload, null, config)
         .then(response => {
-          response.body = JSON.parse(response.body)
-
           return response
         })
     })

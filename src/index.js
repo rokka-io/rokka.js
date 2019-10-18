@@ -1,5 +1,8 @@
 import transport from './transport'
 import modules from './apis'
+import RokkaResponse from './response'
+import queryString from 'query-string'
+import FormData from 'form-data'
 
 const defaults = {
   apiHost: 'https://api.rokka.io',
@@ -56,8 +59,16 @@ export default (config = {}) => {
 
     // functions
     request (method, path, payload = null, queryParams = null, options = {}) {
-      const uri = [state.apiHost, path].join('/')
-
+      let uri = [state.apiHost, path].join('/')
+      if (
+        queryParams &&
+        !(
+          Object.entries(queryParams).length === 0 &&
+          queryParams.constructor === Object
+        )
+      ) {
+        uri += '?' + queryString.stringify(queryParams)
+      }
       const headers = options.headers || {}
 
       headers['Api-Version'] = state.apiVersion
@@ -72,8 +83,6 @@ export default (config = {}) => {
 
       const request = {
         method: method,
-        uri: uri,
-        qs: queryParams,
         headers: headers,
         timeout: state.transportOptions.requestTimeout,
         resolveWithFullResponse: true
@@ -85,7 +94,7 @@ export default (config = {}) => {
         request.body = payload
       } else if (typeof window !== 'undefined') {
         request.headers['Content-Type'] = 'multipart/form-data'
-        const formData = payload.formData || {}
+        const formData = payload.formData || new FormData()
         const data = [
           {
             'Content-Disposition': `form-data; name="filedata"; filename="${
@@ -107,19 +116,24 @@ export default (config = {}) => {
           data: data
         }
       } else {
-        const formData = payload.formData || {}
+        // FIXME: this...
+        // const data = payload.formData || {}
+        const data = new FormData()
 
-        formData[payload.name] = {
-          value: payload.contents,
-          options: {
-            filename: payload.filename
-          }
-        }
+        data.append(payload.name, payload.contents, {
+          filename: payload.filename
+        })
 
-        request.formData = formData
+        request.body = data
       }
 
-      return transport(request, state.transportOptions)
+      return transport(uri, request, state.transportOptions).then(
+        async response => {
+          const rokkaResponse = RokkaResponse(response)
+          rokkaResponse.body = await rokkaResponse.getBody()
+          return rokkaResponse
+        }
+      )
     }
   }
 

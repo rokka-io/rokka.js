@@ -1,12 +1,11 @@
-import request from 'request-promise'
-import promiseRetry from 'promise-retry'
+import fetch from 'cross-fetch'
 
 // When the API sends a 429 back, retry it for 10 times
 // We also retry on server errors 502, 503 and 504
 // This code is mainly copied from
 // https://github.com/CanTireInnovations/request-promise-retry/blob/master/index.js
 
-const retryRequest = promiseRequest => (req, options) =>
+/* const retryRequest = promiseRequest => (req, options) =>
   promiseRetry(
     retry =>
       promiseRequest(req).catch(err => {
@@ -22,5 +21,6 @@ const retryRequest = promiseRequest => (req, options) =>
       }),
     options
   )
-
-export default retryRequest(request)
+*/
+export default fetch
+// export default retryRequest(request)
