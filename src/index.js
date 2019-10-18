@@ -96,9 +96,7 @@ export default (config = {}) => {
         const formData = payload.formData || {}
         const requestData = new FormData()
 
-        requestData.append(payload.name, payload.contents, {
-          filename: payload.filename
-        })
+        requestData.append(payload.name, payload.contents, payload.filename)
 
         Object.keys(formData).forEach(function (meta) {
           requestData.append(meta, JSON.stringify(formData[meta]))
