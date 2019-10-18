@@ -13,12 +13,14 @@ test('stackoptions.get', t => {
 
   const expectedArgs = {
     method: 'GET',
-    uri: 'https://api.rokka.io/stackoptions',
-    body: null,
-    qs: null
+    body: null
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/stackoptions',
+      td.matchers.contains(expectedArgs),
+      td.matchers.anything()
+    )
   )
 })

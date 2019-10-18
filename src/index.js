@@ -107,13 +107,16 @@ export default (config = {}) => {
         request.body = requestData
       }
 
-      return transport(uri, request, state.transportOptions).then(
-        async response => {
+      const t = transport(uri, request, state.transportOptions)
+      // currently in the tests, we don't have then...
+      if (t && t.then) {
+        return t.then(async response => {
           const rokkaResponse = RokkaResponse(response)
-          rokkaResponse.body = await rokkaResponse.getBody()
+          rokkaResponse.body = await rokkaResponse._getBody()
           return rokkaResponse
-        }
-      )
+        })
+      }
+      return t
     }
   }
 

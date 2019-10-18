@@ -43,9 +43,7 @@ test('request argument handling', t => {
 
   const expectedArgs = {
     method,
-    uri: `${apiHost}/${path}`,
     body,
-    qs: queryParams,
     headers: { 'Api-Version': apiVersion, 'Api-Key': apiKey },
     json: true,
     resolveWithFullResponse: true,
@@ -58,7 +56,13 @@ test('request argument handling', t => {
 
   request(method, path, body, queryParams)
 
-  td.verify(requestStub(expectedArgs, td.matchers.isA(Object)))
+  td.verify(
+    requestStub(
+      `${apiHost}/${path}?limit=100&offset=200`,
+      expectedArgs,
+      td.matchers.isA(Object)
+    )
+  )
 })
 
 test('retry options handling', t => {
@@ -76,6 +80,10 @@ test('retry options handling', t => {
   request('get', 'test')
 
   td.verify(
-    requestStub(td.matchers.isA(Object), td.matchers.contains(transportOptions))
+    requestStub(
+      'https://api.rokka.io/test',
+      td.matchers.isA(Object),
+      td.matchers.contains(transportOptions)
+    )
   )
 })

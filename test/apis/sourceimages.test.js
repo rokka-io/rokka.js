@@ -1,10 +1,9 @@
 import test from 'ava'
 import td from 'testdouble'
 import stream from 'stream'
-
 import * as transport from '../../src/transport'
-
 import rka from '../../src'
+
 const requestStub = td.replace(transport, 'default')
 
 test('sourceimages.list', t => {
@@ -14,13 +13,15 @@ test('sourceimages.list', t => {
 
   const expectedArgs = {
     method: 'GET',
-    uri: 'https://api.rokka.io/sourceimages/myorg',
-    body: null,
-    qs: {}
+    body: null
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/sourceimages/myorg',
+      td.matchers.contains(expectedArgs),
+      td.matchers.anything()
+    )
   )
 })
 
@@ -36,13 +37,15 @@ test('sourceimages.list with args', t => {
 
   const expectedArgs = {
     method: 'GET',
-    uri: 'https://api.rokka.io/sourceimages/myorg',
-    body: null,
-    qs: Object.assign({}, search, { limit: 23, offset: 23 })
+    body: null
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/sourceimages/myorg?height=64&limit=23&offset=23&user%3Aint%3Aid=42',
+      td.matchers.contains(expectedArgs),
+      td.matchers.anything()
+    )
   )
 })
 
@@ -53,14 +56,15 @@ test('sourceimages.get', t => {
 
   const expectedArgs = {
     method: 'GET',
-    uri:
-      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
-    body: null,
-    qs: null
+    body: null
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
+      td.matchers.contains(expectedArgs),
+      td.matchers.anything()
+    )
   )
 })
 
@@ -74,13 +78,15 @@ test('sourceimages.getWithBinaryHash', t => {
 
   const expectedArgs = {
     method: 'GET',
-    uri: 'https://api.rokka.io/sourceimages/myorg',
-    qs: { binaryHash: 'b23e17047329b417d3902dc1a5a7e158a3ee822a' },
     body: null
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/sourceimages/myorg?binaryHash=b23e17047329b417d3902dc1a5a7e158a3ee822a',
+      td.matchers.contains(expectedArgs),
+      td.matchers.anything()
+    )
   )
 })
 
@@ -94,22 +100,21 @@ test('sourceimages.download', t => {
 
   const expectedArgs = {
     method: 'GET',
-    uri:
-      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/download',
-    qs: null,
     body: null
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/download',
+      td.matchers.contains(expectedArgs),
+      td.matchers.anything()
+    )
   )
 })
 
 test('sourceimages.create', t => {
   const matchArgs = {
-    method: 'POST',
-    uri: 'https://api.rokka.io/sourceimages/myorg',
-    formData: {}
+    method: 'POST'
   }
 
   td.when(
@@ -117,13 +122,8 @@ test('sourceimages.create', t => {
   ).thenResolve({ statusCode: 200, body: '{}' })
 
   const expectedArgs = Object.assign({}, matchArgs, {
-    qs: null,
-    formData: {
-      filedata: {
-        value: Buffer.from('DATA'),
-        options: { filename: 'picture.png' }
-      }
-    }
+    // body is a formdata, but hard to check... if anyone knows how, please tell me
+    body: {}
   })
 
   const rokka = rka({ apiKey: 'APIKEY' })
@@ -135,7 +135,11 @@ test('sourceimages.create', t => {
     .create('myorg', 'picture.png', mockStream)
     .then(() => {
       td.verify(
-        requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+        requestStub(
+          'https://api.rokka.io/sourceimages/myorg',
+          td.matchers.contains(expectedArgs),
+          td.matchers.anything()
+        )
       )
     })
 
@@ -147,9 +151,7 @@ test('sourceimages.create', t => {
 
 test('sourceimages.create with metadata', t => {
   const matchArgs = {
-    method: 'POST',
-    uri: 'https://api.rokka.io/sourceimages/myorg',
-    formData: { 'meta_user[0]': JSON.stringify({ foo: 'bar' }) }
+    method: 'POST'
   }
 
   td.when(
@@ -157,13 +159,8 @@ test('sourceimages.create with metadata', t => {
   ).thenResolve({ statusCode: 200, body: '{}' })
 
   const expectedArgs = Object.assign({}, matchArgs, {
-    qs: null,
-    formData: {
-      filedata: {
-        value: Buffer.from('DATA'),
-        options: { filename: 'picture.png' }
-      }
-    }
+    // body is a formdata, but hard to check... if anyone knows how, please tell me
+    body: {}
   })
 
   const rokka = rka({ apiKey: 'APIKEY' })
@@ -175,7 +172,11 @@ test('sourceimages.create with metadata', t => {
     .create('myorg', 'picture.png', mockStream, { meta_user: { foo: 'bar' } })
     .then(() => {
       td.verify(
-        requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+        requestStub(
+          'https://api.rokka.io/sourceimages/myorg',
+          td.matchers.contains(expectedArgs),
+          td.matchers.anything()
+        )
       )
     })
 
@@ -192,14 +193,15 @@ test('sourceimages.delete', t => {
 
   const expectedArgs = {
     method: 'DELETE',
-    uri:
-      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
-    qs: null,
     body: null
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
+      td.matchers.contains(expectedArgs),
+      td.matchers.anything()
+    )
   )
 })
 
@@ -213,14 +215,15 @@ test('sourceimages.restore', t => {
 
   const expectedArgs = {
     method: 'POST',
-    uri:
-      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/restore',
-    qs: null,
     body: null
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/restore',
+      td.matchers.contains(expectedArgs),
+      td.matchers.anything()
+    )
   )
 })
 
@@ -235,15 +238,16 @@ test('sourceimages.copy', t => {
 
   const expectedArgs = {
     method: 'COPY',
-    uri:
-      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
-    qs: null,
     body: null,
     headers: { 'Api-Version': 1, 'Api-Key': 'APIKEY', Destination: 'otherorg' }
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
+      td.matchers.contains(expectedArgs),
+      td.matchers.anything()
+    )
   )
 })
 
@@ -259,9 +263,6 @@ test('sourceimages.copy with no overwrite', t => {
 
   const expectedArgs = {
     method: 'COPY',
-    uri:
-      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
-    qs: null,
     body: null,
     headers: {
       'Api-Version': 1,
@@ -272,7 +273,11 @@ test('sourceimages.copy with no overwrite', t => {
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
+      td.matchers.contains(expectedArgs),
+      td.matchers.anything()
+    )
   )
 })
 
@@ -286,12 +291,14 @@ test('sourceimages.deleteWithBinaryHash', t => {
 
   const expectedArgs = {
     method: 'DELETE',
-    uri: 'https://api.rokka.io/sourceimages/myorg',
-    qs: { binaryHash: 'b23e17047329b417d3902dc1a5a7e158a3ee822a' },
     body: null
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/sourceimages/myorg?binaryHash=b23e17047329b417d3902dc1a5a7e158a3ee822a',
+      td.matchers.contains(expectedArgs),
+      td.matchers.anything()
+    )
   )
 })

@@ -13,7 +13,6 @@ test('users.create', t => {
 
   const expectedArgs = {
     method: 'POST',
-    uri: 'https://api.rokka.io/users',
     body: {
       email: 'user@example.org',
       organization: 'user-at-example-organization'
@@ -21,7 +20,11 @@ test('users.create', t => {
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/users',
+      td.matchers.contains(expectedArgs),
+      td.matchers.anything()
+    )
   )
 })
 
@@ -30,12 +33,14 @@ test('users.getId', t => {
 
   const expectedArgs = {
     method: 'GET',
-    uri: 'https://api.rokka.io/user',
-    body: null,
-    qs: null
+    body: null
   }
   td.when(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/user',
+      td.matchers.contains(expectedArgs),
+      td.matchers.anything()
+    )
   ).thenResolve({ statusCode: 200, body: { user_id: 'abc' } })
 
   rokka.users.getId().then(userId => {

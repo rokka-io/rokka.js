@@ -238,11 +238,13 @@ export default state => {
         filename: fileName,
         contents: data
       }
-      return state
-        .request('POST', `sourceimages/${organization}`, payload, null, config)
-        .then(response => {
-          return response
-        })
+      return state.request(
+        'POST',
+        `sourceimages/${organization}`,
+        payload,
+        null,
+        config
+      )
     })
   }
 
