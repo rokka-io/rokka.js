@@ -218,13 +218,6 @@ export default state => {
         const chunks = []
         binaryData.on('data', chunk => chunks.push(chunk))
         binaryData.on('end', () => resolve(Buffer.concat(chunks)))
-      } else if (typeof window !== 'undefined') {
-        const fileReader = new window.FileReader()
-        fileReader.onload = function (e) {
-          resolve(e.target.result)
-        }
-
-        fileReader.readAsArrayBuffer(binaryData)
       } else {
         resolve(binaryData)
       }

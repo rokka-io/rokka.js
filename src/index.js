@@ -92,39 +92,19 @@ export default (config = {}) => {
       } else if (options.multipart !== true) {
         request.json = true
         request.body = payload
-      } else if (typeof window !== 'undefined') {
-        request.headers['Content-Type'] = 'multipart/form-data'
-        const formData = payload.formData || new FormData()
-        const data = [
-          {
-            'Content-Disposition': `form-data; name="filedata"; filename="${
-              payload.filename
-            }"`,
-            body: payload.contents
-          }
-        ]
-
-        Object.keys(formData).forEach(function (meta) {
-          data.push({
-            'Content-Disposition': 'form-data; name="' + meta + '"',
-            body: JSON.stringify(formData[meta])
-          })
-        })
-
-        request.multipart = {
-          chunked: false,
-          data: data
-        }
       } else {
-        // FIXME: this...
-        // const data = payload.formData || {}
-        const data = new FormData()
+        const formData = payload.formData || {}
+        const requestData = new FormData()
 
-        data.append(payload.name, payload.contents, {
+        requestData.append(payload.name, payload.contents, {
           filename: payload.filename
         })
 
-        request.body = data
+        Object.keys(formData).forEach(function (meta) {
+          requestData.append(meta, JSON.stringify(formData[meta]))
+        })
+
+        request.body = requestData
       }
 
       return transport(uri, request, state.transportOptions).then(
