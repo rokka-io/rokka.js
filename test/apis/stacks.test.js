@@ -58,7 +58,7 @@ test('stacks.create', t => {
 
   const expectedArgs = {
     method: 'PUT',
-    body: { operations, options }
+    body: JSON.stringify({ operations, options })
   }
 
   td.verify(
@@ -82,7 +82,7 @@ test('stacks.create (version <=0.26)', t => {
 
   const expectedArgs = {
     method: 'PUT',
-    body: { operations, options }
+    body: JSON.stringify({ operations, options })
   }
 
   td.verify(
@@ -110,7 +110,7 @@ test('stacks.create (with expressions)', t => {
   rokka.stacks.create('myorg', 'mystack', { operations, options, expressions })
   const expectedArgs = {
     method: 'PUT',
-    body: { operations, options, expressions }
+    body: JSON.stringify({ operations, options, expressions })
   }
 
   td.verify(
@@ -139,7 +139,7 @@ test('stacks.createOverwrite', t => {
 
   const expectedArgs = {
     method: 'PUT',
-    body: { operations, options }
+    body: JSON.stringify({ operations, options })
   }
 
   td.verify(
@@ -163,7 +163,7 @@ test('stacks.createOverwrite (version <=0.26)', t => {
 
   const expectedArgs = {
     method: 'PUT',
-    body: { operations, options }
+    body: JSON.stringify({ operations, options })
   }
 
   td.verify(

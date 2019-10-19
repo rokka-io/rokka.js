@@ -26,7 +26,7 @@ test('memberships.createWithArray', t => {
   ])
   const expectedArgs = {
     method: 'PUT',
-    body: { roles: ['upload', 'read'] }
+    body: JSON.stringify({ roles: ['upload', 'read'] })
   }
 
   td.verify(
@@ -66,7 +66,7 @@ test('memberships.createWithNewUser', t => {
 
   const expectedArgs = {
     method: 'POST',
-    body: { roles: ['upload', 'read'] }
+    body: JSON.stringify({ roles: ['upload', 'read'] })
   }
 
   td.verify(

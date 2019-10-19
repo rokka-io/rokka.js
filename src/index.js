@@ -105,6 +105,9 @@ export default (config = {}) => {
         request.body = requestData
       }
 
+      if (request.json && request.body && typeof request.body === 'object') {
+        request.body = JSON.stringify(request.body)
+      }
       const t = transport(uri, request, state.transportOptions)
       // currently in the tests, we don't have then...
       if (t && t.then) {

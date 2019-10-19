@@ -36,10 +36,10 @@ test('organizations.create', t => {
 
   const expectedArgs = {
     method: 'PUT',
-    body: {
+    body: JSON.stringify({
       billing_email: 'billing@example.org',
       display_name: 'Organization Inc.'
-    }
+    })
   }
 
   td.verify(

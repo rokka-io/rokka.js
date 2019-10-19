@@ -13,10 +13,10 @@ test('users.create', t => {
 
   const expectedArgs = {
     method: 'POST',
-    body: {
+    body: JSON.stringify({
       email: 'user@example.org',
       organization: 'user-at-example-organization'
-    }
+    })
   }
 
   td.verify(

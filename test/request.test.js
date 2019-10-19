@@ -38,7 +38,7 @@ test('request argument handling', t => {
   const apiKey = 'APIKEY'
   const path = 'test'
   const method = 'post'
-  const body = { test: 'value' }
+  const body = JSON.stringify({ test: 'value' })
   const queryParams = { limit: 100, offset: 200 }
 
   const expectedArgs = {

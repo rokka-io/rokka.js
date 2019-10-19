@@ -19,7 +19,7 @@ test('sourceimages.setSubjectArea', t => {
 
   const expectedArgs = {
     method: 'PUT',
-    body: subjectArea,
+    body: JSON.stringify(subjectArea),
     json: true
   }
 
@@ -46,7 +46,7 @@ test('sourceimages.setSubjectArea.deletePrevious', t => {
 
   const expectedArgs = {
     method: 'PUT',
-    body: subjectArea,
+    body: JSON.stringify(subjectArea),
     json: true
   }
 
@@ -123,7 +123,7 @@ test('sourceimages.meta.add', t => {
 
   const expectedArgs = {
     method: 'PATCH',
-    body: userData,
+    body: JSON.stringify(userData),
     json: true
   }
 
@@ -149,7 +149,7 @@ test('sourceimages.meta.replace', t => {
 
   const expectedArgs = {
     method: 'PUT',
-    body: userData,
+    body: JSON.stringify(userData),
     json: true
   }
 
