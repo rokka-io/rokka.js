@@ -110,13 +110,13 @@ export default (config = {}) => {
       if (t && t.then) {
         return t.then(async response => {
           const rokkaResponse = RokkaResponse(response)
+          rokkaResponse.body = await rokkaResponse._getBody()
           if (response.status >= 400) {
-            rokkaResponse.error = await rokkaResponse._getText()
+            rokkaResponse.error = rokkaResponse.body
             rokkaResponse.message =
-              response.status + ' - ' + rokkaResponse.error
+              response.status + ' - ' + JSON.stringify(rokkaResponse.body)
             throw rokkaResponse
           }
-          rokkaResponse.body = await rokkaResponse._getBody()
           return rokkaResponse
         })
       }
