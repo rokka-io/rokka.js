@@ -292,13 +292,13 @@ export default state => {
       })
     }
 
-    return state
-      .request('POST', `sourceimages/${organization}`, formData, null, config)
-      .then(response => {
-        response.body = JSON.parse(response.body)
-
-        return response
-      })
+    return state.request(
+      'POST',
+      `sourceimages/${organization}`,
+      formData,
+      null,
+      config
+    )
   }
 
   /**
