@@ -19,8 +19,7 @@ test('stats.get', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/stats/myorg?from=2017-01-01&to=2017-01-31',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })

@@ -26,8 +26,7 @@ test('sourceimages.setSubjectArea', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/subject_area?deletePrevious=false',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -53,8 +52,7 @@ test('sourceimages.setSubjectArea.deletePrevious', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/subject_area?deletePrevious=true',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -76,8 +74,7 @@ test('sourceimages.removeSubjectArea', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/subject_area?deletePrevious=false',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -100,8 +97,7 @@ test('sourceimages.removeSubjectArea.deletePrevious', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/subject_area?deletePrevious=true',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -130,8 +126,7 @@ test('sourceimages.meta.add', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/user',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -156,8 +151,7 @@ test('sourceimages.meta.replace', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/user',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -179,8 +173,7 @@ test('sourceimages.meta.replace', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/user',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })

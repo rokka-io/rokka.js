@@ -13,7 +13,8 @@ const defaults = {
     retries: 10,
     minTimeout: 1000,
     maxTimeout: 10000,
-    randomize: true
+    randomize: true,
+    factor: 2
   }
 }
 
@@ -81,11 +82,25 @@ export default (config = {}) => {
         headers['Api-Key'] = state.apiKey
       }
 
+      const retryDelay = (attempt, error, response) => {
+        // from https://github.com/tim-kos/node-retry/blob/master/lib/retry.js
+        var random = state.transportOptions.randomize ? Math.random() + 1 : 1
+
+        var timeout = Math.round(
+          random *
+            state.transportOptions.minTimeout *
+            Math.pow(state.transportOptions.factor, attempt)
+        )
+        timeout = Math.min(timeout, state.transportOptions.maxTimeout)
+        return timeout
+      }
+
       const request = {
         method: method,
         headers: headers,
         timeout: state.transportOptions.requestTimeout,
-        resolveWithFullResponse: true
+        retries: state.transportOptions.retries,
+        retryDelay
       }
       if (options.form === true) {
         request.form = payload || {}
@@ -108,7 +123,8 @@ export default (config = {}) => {
       if (request.json && request.body && typeof request.body === 'object') {
         request.body = JSON.stringify(request.body)
       }
-      const t = transport(uri, request, state.transportOptions)
+
+      const t = transport(uri, request)
       // currently in the tests, we don't have then...
       if (t && t.then) {
         return t.then(async response => {

@@ -22,8 +22,7 @@ test('users.create', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/users',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -36,11 +35,7 @@ test('users.getId', t => {
     body: null
   }
   td.when(
-    requestStub(
-      'https://api.rokka.io/user',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
-    )
+    requestStub('https://api.rokka.io/user', td.matchers.contains(expectedArgs))
   ).thenResolve({ statusCode: 200, body: { user_id: 'abc' } })
 
   rokka.users.getId().then(userId => {

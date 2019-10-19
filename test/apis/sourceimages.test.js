@@ -19,8 +19,7 @@ test('sourceimages.list', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/sourceimages/myorg',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -43,8 +42,7 @@ test('sourceimages.list with args', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/sourceimages/myorg?height=64&limit=23&offset=23&user%3Aint%3Aid=42',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -62,8 +60,7 @@ test('sourceimages.get', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -84,8 +81,7 @@ test('sourceimages.getWithBinaryHash', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/sourceimages/myorg?binaryHash=b23e17047329b417d3902dc1a5a7e158a3ee822a',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -106,8 +102,7 @@ test('sourceimages.download', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/download',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -137,8 +132,7 @@ test('sourceimages.create', t => {
       td.verify(
         requestStub(
           'https://api.rokka.io/sourceimages/myorg',
-          td.matchers.contains(expectedArgs),
-          td.matchers.anything()
+          td.matchers.contains(expectedArgs)
         )
       )
     })
@@ -174,8 +168,7 @@ test('sourceimages.create with metadata', t => {
       td.verify(
         requestStub(
           'https://api.rokka.io/sourceimages/myorg',
-          td.matchers.contains(expectedArgs),
-          td.matchers.anything()
+          td.matchers.contains(expectedArgs)
         )
       )
     })
@@ -199,8 +192,7 @@ test('sourceimages.delete', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -221,8 +213,7 @@ test('sourceimages.restore', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/restore',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -245,8 +236,7 @@ test('sourceimages.copy', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -275,8 +265,7 @@ test('sourceimages.copy with no overwrite', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -297,8 +286,7 @@ test('sourceimages.deleteWithBinaryHash', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/sourceimages/myorg?binaryHash=b23e17047329b417d3902dc1a5a7e158a3ee822a',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })

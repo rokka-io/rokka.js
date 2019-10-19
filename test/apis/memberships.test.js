@@ -32,8 +32,7 @@ test('memberships.createWithArray', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/organizations/myorg/memberships/user@example.org',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -50,8 +49,7 @@ test('memberships.delete', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/organizations/myorg/memberships/user@example.org',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -72,8 +70,7 @@ test('memberships.createWithNewUser', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/organizations/myorg/memberships',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -90,8 +87,7 @@ test('memberships.list', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/organizations/myorg/memberships',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })

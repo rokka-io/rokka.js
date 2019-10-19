@@ -18,8 +18,7 @@ test('stacks.list', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/stacks/myorg',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -37,8 +36,7 @@ test('stacks.get', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/stacks/myorg/mystack',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -64,8 +62,7 @@ test('stacks.create', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/stacks/myorg/mystack',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -88,8 +85,7 @@ test('stacks.create (version <=0.26)', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/stacks/myorg/mystack',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -116,8 +112,7 @@ test('stacks.create (with expressions)', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/stacks/myorg/mystack',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -145,8 +140,7 @@ test('stacks.createOverwrite', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/stacks/myorg/mystack?overwrite=true',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -169,8 +163,7 @@ test('stacks.createOverwrite (version <=0.26)', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/stacks/myorg/mystack?overwrite=true',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -188,8 +181,7 @@ test('stacks.delete', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/stacks/myorg/mystack',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })

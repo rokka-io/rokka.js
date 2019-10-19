@@ -46,8 +46,8 @@ test('request argument handling', t => {
     body,
     headers: { 'Api-Version': apiVersion, 'Api-Key': apiKey },
     json: true,
-    resolveWithFullResponse: true,
-    timeout: 30000
+    timeout: 30000,
+    retries: 10
   }
 
   rokka({ apiHost, apiKey, apiVersion })
@@ -59,18 +59,14 @@ test('request argument handling', t => {
   td.verify(
     requestStub(
       `${apiHost}/${path}?limit=100&offset=200`,
-      expectedArgs,
-      td.matchers.isA(Object)
+      td.matchers.contains(expectedArgs)
     )
   )
 })
 
 test('retry options handling', t => {
   const transportOptions = {
-    retries: 23,
-    minTimeout: 2323,
-    maxTimeout: 232323,
-    randomize: false
+    retries: 23
   }
 
   rokka({ apiKey: 'APIKEY', transport: transportOptions })
@@ -82,7 +78,6 @@ test('retry options handling', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/test',
-      td.matchers.isA(Object),
       td.matchers.contains(transportOptions)
     )
   )

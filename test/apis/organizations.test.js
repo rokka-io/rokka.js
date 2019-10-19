@@ -19,8 +19,7 @@ test('organizations.get', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/organizations/myorg',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
@@ -45,8 +44,7 @@ test('organizations.create', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/organizations/myorg',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })

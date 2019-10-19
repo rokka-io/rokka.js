@@ -41,8 +41,7 @@ test('operations.list', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/operations',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })

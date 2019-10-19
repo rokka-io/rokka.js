@@ -19,8 +19,7 @@ test('stackoptions.get', t => {
   td.verify(
     requestStub(
       'https://api.rokka.io/stackoptions',
-      td.matchers.contains(expectedArgs),
-      td.matchers.anything()
+      td.matchers.contains(expectedArgs)
     )
   )
 })
