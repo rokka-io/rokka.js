@@ -2,9 +2,9 @@ import fetch from 'cross-fetch'
 // from https://github.com/jonbern/fetch-retry
 // and https://github.com/jonbern/fetch-retry/pull/27
 export default (url, options) => {
-  var retries = 3
-  var retryDelay = 1000
-  var retryOn = [429, 502, 503, 504]
+  let retries = 3
+  let retryDelay = 1000
+  let retryOn = [429, 502, 503, 504]
   if (options && options.retries !== undefined) {
     if (isPositiveInteger(options.retries)) {
       retries = options.retries
@@ -38,7 +38,7 @@ export default (url, options) => {
   }
 
   return new Promise(function (resolve, reject) {
-    var wrappedFetch = function (attempt) {
+    const wrappedFetch = function (attempt) {
       fetch(url, options)
         .then(function (response) {
           if (
@@ -46,37 +46,41 @@ export default (url, options) => {
             retryOn.indexOf(response.status) === -1
           ) {
             resolve(response)
-          } else if (typeof retryOn === 'function') {
+            return
+          }
+          if (typeof retryOn === 'function') {
             if (retryOn(attempt, null, response)) {
               retry(attempt, null, response)
-            } else {
-              resolve(response)
+              return
             }
-          } else {
-            if (attempt < retries) {
-              retry(attempt, null, response)
-            } else {
-              resolve(response)
-            }
+            resolve(response)
+            return
           }
+          if (attempt < retries) {
+            retry(attempt, null, response)
+            return
+          }
+          resolve(response)
         })
         .catch(function (error) {
           if (typeof retryOn === 'function') {
             if (retryOn(attempt, error, null)) {
               retry(attempt, error, null)
-            } else {
-              reject(error)
+              return
             }
-          } else if (attempt < retries) {
-            retry(attempt, error, null)
-          } else {
             reject(error)
+            return
           }
+          if (attempt < retries) {
+            retry(attempt, error, null)
+            return
+          }
+          reject(error)
         })
     }
 
     function retry (attempt, error, response) {
-      var delay =
+      const delay =
         typeof retryDelay === 'function'
           ? retryDelay(attempt, error, response)
           : retryDelay

@@ -18,6 +18,15 @@ const defaults = {
   }
 }
 
+const getResponseBody = async response => {
+  if (response.headers && response.json) {
+    if (response.headers.get('content-type') === 'application/json') {
+      return response.json()
+    }
+    return response.text()
+  }
+  return response.body
+}
 /**
  * Initializing the rokka client.
  *
@@ -84,15 +93,14 @@ export default (config = {}) => {
 
       const retryDelay = (attempt, error, response) => {
         // from https://github.com/tim-kos/node-retry/blob/master/lib/retry.js
-        var random = state.transportOptions.randomize ? Math.random() + 1 : 1
+        const random = state.transportOptions.randomize ? Math.random() + 1 : 1
 
-        var timeout = Math.round(
+        const timeout = Math.round(
           random *
             state.transportOptions.minTimeout *
             Math.pow(state.transportOptions.factor, attempt)
         )
-        timeout = Math.min(timeout, state.transportOptions.maxTimeout)
-        return timeout
+        return Math.min(timeout, state.transportOptions.maxTimeout)
       }
 
       const request = {
@@ -129,7 +137,7 @@ export default (config = {}) => {
       if (t && t.then) {
         return t.then(async response => {
           const rokkaResponse = RokkaResponse(response)
-          rokkaResponse.body = await rokkaResponse._getBody()
+          rokkaResponse.body = await getResponseBody(response)
           if (response.status >= 400) {
             rokkaResponse.error = rokkaResponse.body
             rokkaResponse.message =
