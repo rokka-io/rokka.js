@@ -1,6 +1,4 @@
-'use strict'
-var fetch = require('cross-fetch')
-
+import fetch from 'cross-fetch'
 // from https://github.com/jonbern/fetch-retry
 // and https://github.com/jonbern/fetch-retry/pull/27
 export default (url, options) => {
