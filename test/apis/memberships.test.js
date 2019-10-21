@@ -4,6 +4,7 @@ import td from 'testdouble'
 import * as transport from '../../src/transport'
 
 import rka from '../../src'
+
 const requestStub = td.replace(transport, 'default')
 
 test('memberships.ROLES', t => {
@@ -23,39 +24,16 @@ test('memberships.createWithArray', t => {
     rokka.memberships.ROLES.UPLOAD,
     rokka.memberships.ROLES.READ
   ])
-
   const expectedArgs = {
     method: 'PUT',
-    uri:
-      'https://api.rokka.io/organizations/myorg/memberships/user@example.org',
-    body: { roles: ['upload', 'read'] },
-    qs: null
+    body: JSON.stringify({ roles: ['upload', 'read'] })
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
-  )
-})
-
-test('memberships.createWithString', t => {
-  const rokka = rka({ apiKey: 'APIKEY' })
-
-  rokka.memberships.create(
-    'myorg',
-    'user@example.org',
-    rokka.memberships.ROLES.ADMIN
-  )
-
-  const expectedArgs = {
-    method: 'PUT',
-    uri:
+    requestStub(
       'https://api.rokka.io/organizations/myorg/memberships/user@example.org',
-    body: { roles: ['admin'] },
-    qs: null
-  }
-
-  td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+      td.matchers.contains(expectedArgs)
+    )
   )
 })
 
@@ -65,15 +43,14 @@ test('memberships.delete', t => {
   rokka.memberships.delete('myorg', 'user@example.org')
 
   const expectedArgs = {
-    method: 'DELETE',
-    uri:
-      'https://api.rokka.io/organizations/myorg/memberships/user@example.org',
-    body: null,
-    qs: null
+    method: 'DELETE'
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/organizations/myorg/memberships/user@example.org',
+      td.matchers.contains(expectedArgs)
+    )
   )
 })
 
@@ -87,13 +64,14 @@ test('memberships.createWithNewUser', t => {
 
   const expectedArgs = {
     method: 'POST',
-    uri: 'https://api.rokka.io/organizations/myorg/memberships',
-    body: { roles: ['upload', 'read'] },
-    qs: null
+    body: JSON.stringify({ roles: ['upload', 'read'] })
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/organizations/myorg/memberships',
+      td.matchers.contains(expectedArgs)
+    )
   )
 })
 
@@ -103,13 +81,13 @@ test('memberships.list', t => {
   rokka.memberships.list('myorg')
 
   const expectedArgs = {
-    method: 'GET',
-    uri: 'https://api.rokka.io/organizations/myorg/memberships',
-    body: null,
-    qs: null
+    method: 'GET'
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/organizations/myorg/memberships',
+      td.matchers.contains(expectedArgs)
+    )
   )
 })

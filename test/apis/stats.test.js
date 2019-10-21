@@ -13,12 +13,13 @@ test('stats.get', t => {
 
   const expectedArgs = {
     method: 'GET',
-    uri: 'https://api.rokka.io/stats/myorg',
-    qs: { from: '2017-01-01', to: '2017-01-31' },
     body: null
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/stats/myorg?from=2017-01-01&to=2017-01-31',
+      td.matchers.contains(expectedArgs)
+    )
   )
 })

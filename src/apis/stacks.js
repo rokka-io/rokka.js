@@ -97,7 +97,7 @@ export default state => {
    */
 
   stacks.create = (organization, name, stackConfig, params = {}, ...rest) => {
-    const queryParams = Object.assign({}, params)
+    let queryParams = Object.assign({}, params)
     let body = {}
 
     // backwards compatibility for previous signature:
@@ -106,6 +106,7 @@ export default state => {
       body.operations = stackConfig
       body.options = params
       const _overwrite = rest.length > 0 ? rest[0] : false
+      queryParams = {}
       if (_overwrite) {
         queryParams.overwrite = _overwrite
       }

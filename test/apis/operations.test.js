@@ -35,12 +35,13 @@ test('operations.list', t => {
 
   const expectedArgs = {
     method: 'GET',
-    uri: 'https://api.rokka.io/operations',
-    body: null,
-    qs: null
+    body: null
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/operations',
+      td.matchers.contains(expectedArgs)
+    )
   )
 })

@@ -1,5 +1,8 @@
 import transport from './transport'
 import modules from './apis'
+import RokkaResponse from './response'
+import queryString from 'query-string'
+import FormData from 'form-data'
 
 const defaults = {
   apiHost: 'https://api.rokka.io',
@@ -10,10 +13,20 @@ const defaults = {
     retries: 10,
     minTimeout: 1000,
     maxTimeout: 10000,
-    randomize: true
+    randomize: true,
+    factor: 2
   }
 }
 
+const getResponseBody = async response => {
+  if (response.headers && response.json) {
+    if (response.headers.get('content-type') === 'application/json') {
+      return response.json()
+    }
+    return response.text()
+  }
+  return response.body
+}
 /**
  * Initializing the rokka client.
  *
@@ -56,8 +69,16 @@ export default (config = {}) => {
 
     // functions
     request (method, path, payload = null, queryParams = null, options = {}) {
-      const uri = [state.apiHost, path].join('/')
-
+      let uri = [state.apiHost, path].join('/')
+      if (
+        queryParams &&
+        !(
+          Object.entries(queryParams).length === 0 &&
+          queryParams.constructor === Object
+        )
+      ) {
+        uri += '?' + queryString.stringify(queryParams)
+      }
       const headers = options.headers || {}
 
       headers['Api-Version'] = state.apiVersion
@@ -70,56 +91,63 @@ export default (config = {}) => {
         headers['Api-Key'] = state.apiKey
       }
 
+      const retryDelay = (attempt, error, response) => {
+        // from https://github.com/tim-kos/node-retry/blob/master/lib/retry.js
+        const random = state.transportOptions.randomize ? Math.random() + 1 : 1
+
+        const timeout = Math.round(
+          random *
+            state.transportOptions.minTimeout *
+            Math.pow(state.transportOptions.factor, attempt)
+        )
+        return Math.min(timeout, state.transportOptions.maxTimeout)
+      }
+
       const request = {
         method: method,
-        uri: uri,
-        qs: queryParams,
         headers: headers,
         timeout: state.transportOptions.requestTimeout,
-        resolveWithFullResponse: true
+        retries: state.transportOptions.retries,
+        retryDelay
       }
       if (options.form === true) {
         request.form = payload || {}
       } else if (options.multipart !== true) {
         request.json = true
         request.body = payload
-      } else if (typeof window !== 'undefined') {
-        request.headers['Content-Type'] = 'multipart/form-data'
-        const formData = payload.formData || {}
-        const data = [
-          {
-            'Content-Disposition': `form-data; name="filedata"; filename="${
-              payload.filename
-            }"`,
-            body: payload.contents
-          }
-        ]
-
-        Object.keys(formData).forEach(function (meta) {
-          data.push({
-            'Content-Disposition': 'form-data; name="' + meta + '"',
-            body: JSON.stringify(formData[meta])
-          })
-        })
-
-        request.multipart = {
-          chunked: false,
-          data: data
-        }
       } else {
         const formData = payload.formData || {}
+        const requestData = new FormData()
 
-        formData[payload.name] = {
-          value: payload.contents,
-          options: {
-            filename: payload.filename
-          }
-        }
+        requestData.append(payload.name, payload.contents, payload.filename)
 
-        request.formData = formData
+        Object.keys(formData).forEach(function (meta) {
+          requestData.append(meta, JSON.stringify(formData[meta]))
+        })
+
+        request.body = requestData
       }
 
-      return transport(request, state.transportOptions)
+      if (request.json && request.body && typeof request.body === 'object') {
+        request.body = JSON.stringify(request.body)
+      }
+
+      const t = transport(uri, request)
+      // currently in the tests, we don't have then...
+      if (t && t.then) {
+        return t.then(async response => {
+          const rokkaResponse = RokkaResponse(response)
+          rokkaResponse.body = await getResponseBody(response)
+          if (response.status >= 400) {
+            rokkaResponse.error = rokkaResponse.body
+            rokkaResponse.message =
+              response.status + ' - ' + JSON.stringify(rokkaResponse.body)
+            throw rokkaResponse
+          }
+          return rokkaResponse
+        })
+      }
+      return t
     }
   }
 

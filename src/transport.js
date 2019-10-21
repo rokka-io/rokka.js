@@ -1,26 +1,103 @@
-import request from 'request-promise'
-import promiseRetry from 'promise-retry'
+import fetch from 'cross-fetch'
+// from https://github.com/jonbern/fetch-retry
+// and https://github.com/jonbern/fetch-retry/pull/27
+export default (url, options) => {
+  let retries = 3
+  let retryDelay = 1000
+  let retryOn = [429, 502, 503, 504]
+  if (options && options.retries !== undefined) {
+    if (isPositiveInteger(options.retries)) {
+      retries = options.retries
+    } else {
+      throw new ArgumentError('retries must be a positive integer')
+    }
+  }
 
-// When the API sends a 429 back, retry it for 10 times
-// We also retry on server errors 502, 503 and 504
-// This code is mainly copied from
-// https://github.com/CanTireInnovations/request-promise-retry/blob/master/index.js
+  if (options && options.retryDelay !== undefined) {
+    if (
+      isPositiveInteger(options.retryDelay) ||
+      typeof options.retryDelay === 'function'
+    ) {
+      retryDelay = options.retryDelay
+    } else {
+      throw new ArgumentError(
+        'retryDelay must be a positive integer or a function returning a positive integer'
+      )
+    }
+  }
 
-const retryRequest = promiseRequest => (req, options) =>
-  promiseRetry(
-    retry =>
-      promiseRequest(req).catch(err => {
-        if (
-          err.statusCode !== 429 &&
-          err.statusCode !== 502 &&
-          err.statusCode !== 503 &&
-          err.statusCode !== 504
-        ) {
-          throw err
-        }
-        retry(err)
-      }),
-    options
-  )
+  if (options && options.retryOn) {
+    if (
+      Array.isArray(options.retryOn) ||
+      typeof options.retryOn === 'function'
+    ) {
+      retryOn = options.retryOn
+    } else {
+      throw new ArgumentError('retryOn property expects an array or function')
+    }
+  }
 
-export default retryRequest(request)
+  return new Promise(function (resolve, reject) {
+    const wrappedFetch = function (attempt) {
+      fetch(url, options)
+        .then(function (response) {
+          if (
+            Array.isArray(retryOn) &&
+            retryOn.indexOf(response.status) === -1
+          ) {
+            resolve(response)
+            return
+          }
+          if (typeof retryOn === 'function') {
+            if (retryOn(attempt, null, response)) {
+              retry(attempt, null, response)
+              return
+            }
+            resolve(response)
+            return
+          }
+          if (attempt < retries) {
+            retry(attempt, null, response)
+            return
+          }
+          resolve(response)
+        })
+        .catch(function (error) {
+          if (typeof retryOn === 'function') {
+            if (retryOn(attempt, error, null)) {
+              retry(attempt, error, null)
+              return
+            }
+            reject(error)
+            return
+          }
+          if (attempt < retries) {
+            retry(attempt, error, null)
+            return
+          }
+          reject(error)
+        })
+    }
+
+    function retry (attempt, error, response) {
+      const delay =
+        typeof retryDelay === 'function'
+          ? retryDelay(attempt, error, response)
+          : retryDelay
+      setTimeout(function () {
+        wrappedFetch(++attempt)
+      }, delay)
+    }
+
+    wrappedFetch(0)
+  })
+}
+
+function isPositiveInteger (value) {
+  return Number.isInteger(value) && value >= 0
+}
+
+function ArgumentError (message) {
+  this.name = 'ArgumentError'
+  this.message = message
+}

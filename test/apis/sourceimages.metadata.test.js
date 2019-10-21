@@ -19,15 +19,15 @@ test('sourceimages.setSubjectArea', t => {
 
   const expectedArgs = {
     method: 'PUT',
-    uri:
-      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/subject_area',
-    body: subjectArea,
-    qs: { deletePrevious: 'false' },
+    body: JSON.stringify(subjectArea),
     json: true
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/subject_area?deletePrevious=false',
+      td.matchers.contains(expectedArgs)
+    )
   )
 })
 
@@ -45,15 +45,15 @@ test('sourceimages.setSubjectArea.deletePrevious', t => {
 
   const expectedArgs = {
     method: 'PUT',
-    uri:
-      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/subject_area',
-    body: subjectArea,
-    qs: { deletePrevious: 'true' },
+    body: JSON.stringify(subjectArea),
     json: true
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/subject_area?deletePrevious=true',
+      td.matchers.contains(expectedArgs)
+    )
   )
 })
 
@@ -67,15 +67,15 @@ test('sourceimages.removeSubjectArea', t => {
 
   const expectedArgs = {
     method: 'DELETE',
-    uri:
-      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/subject_area',
     body: null,
-    qs: { deletePrevious: 'false' },
     json: true
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/subject_area?deletePrevious=false',
+      td.matchers.contains(expectedArgs)
+    )
   )
 })
 
@@ -90,15 +90,15 @@ test('sourceimages.removeSubjectArea.deletePrevious', t => {
 
   const expectedArgs = {
     method: 'DELETE',
-    uri:
-      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/subject_area',
     body: null,
-    qs: { deletePrevious: 'true' },
     json: true
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/dynamic/subject_area?deletePrevious=true',
+      td.matchers.contains(expectedArgs)
+    )
   )
 })
 
@@ -119,15 +119,15 @@ test('sourceimages.meta.add', t => {
 
   const expectedArgs = {
     method: 'PATCH',
-    uri:
-      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/user',
-    body: userData,
-    qs: null,
+    body: JSON.stringify(userData),
     json: true
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/user',
+      td.matchers.contains(expectedArgs)
+    )
   )
 })
 
@@ -144,15 +144,15 @@ test('sourceimages.meta.replace', t => {
 
   const expectedArgs = {
     method: 'PUT',
-    uri:
-      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/user',
-    body: userData,
-    qs: null,
+    body: JSON.stringify(userData),
     json: true
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/user',
+      td.matchers.contains(expectedArgs)
+    )
   )
 })
 
@@ -166,14 +166,14 @@ test('sourceimages.meta.replace', t => {
 
   const expectedArgs = {
     method: 'DELETE',
-    uri:
-      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/user',
     body: null,
-    qs: null,
     json: true
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/sourceimages/myorg/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/meta/user',
+      td.matchers.contains(expectedArgs)
+    )
   )
 })

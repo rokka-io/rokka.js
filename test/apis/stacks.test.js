@@ -13,12 +13,13 @@ test('stacks.list', t => {
 
   const expectedArgs = {
     method: 'GET',
-    uri: 'https://api.rokka.io/stacks/myorg',
-    body: null,
-    qs: {}
+    body: null
   }
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/stacks/myorg',
+      td.matchers.contains(expectedArgs)
+    )
   )
 })
 
@@ -29,13 +30,40 @@ test('stacks.get', t => {
 
   const expectedArgs = {
     method: 'GET',
-    uri: 'https://api.rokka.io/stacks/myorg/mystack',
-    body: null,
-    qs: null
+    body: null
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/stacks/myorg/mystack',
+      td.matchers.contains(expectedArgs)
+    )
+  )
+})
+
+test('stacks.create', t => {
+  const rokka = rka({ apiKey: 'APIKEY' })
+  const options = { 'jpg.quality': 77 }
+  const operations = [
+    rokka.operations.rotate(45),
+    rokka.operations.resize(100, 100)
+  ]
+
+  rokka.stacks.create('myorg', 'mystack', {
+    operations: operations,
+    options: options
+  })
+
+  const expectedArgs = {
+    method: 'PUT',
+    body: JSON.stringify({ operations, options })
+  }
+
+  td.verify(
+    requestStub(
+      'https://api.rokka.io/stacks/myorg/mystack',
+      td.matchers.contains(expectedArgs)
+    )
   )
 })
 
@@ -51,44 +79,20 @@ test('stacks.create (version <=0.26)', t => {
 
   const expectedArgs = {
     method: 'PUT',
-    uri: 'https://api.rokka.io/stacks/myorg/mystack',
-    body: { operations, options },
-    qs: {}
+    body: JSON.stringify({ operations, options })
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
-  )
-})
-
-test('stacks.create', t => {
-  const rokka = rka({ apiKey: 'APIKEY' })
-  const options = { 'jpg.quality': 76 }
-  const operations = [
-    rokka.operations.rotate(45),
-    rokka.operations.resize(100, 100)
-  ]
-
-  rokka.stacks.create('myorg', 'mystack', {
-    operations: operations,
-    options: options
-  })
-
-  const expectedArgs = {
-    method: 'PUT',
-    uri: 'https://api.rokka.io/stacks/myorg/mystack',
-    body: { operations, options },
-    qs: {}
-  }
-
-  td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/stacks/myorg/mystack',
+      td.matchers.contains(expectedArgs)
+    )
   )
 })
 
 test('stacks.create (with expressions)', t => {
   const rokka = rka({ apiKey: 'APIKEY' })
-  const options = { 'jpg.quality': 76 }
+  const options = { 'jpg.quality': 78 }
   const operations = [
     rokka.operations.rotate(45),
     rokka.operations.resize(100, 100)
@@ -102,13 +106,14 @@ test('stacks.create (with expressions)', t => {
   rokka.stacks.create('myorg', 'mystack', { operations, options, expressions })
   const expectedArgs = {
     method: 'PUT',
-    uri: 'https://api.rokka.io/stacks/myorg/mystack',
-    body: { operations, options, expressions },
-    qs: {}
+    body: JSON.stringify({ operations, options, expressions })
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/stacks/myorg/mystack',
+      td.matchers.contains(expectedArgs)
+    )
   )
 })
 
@@ -129,13 +134,14 @@ test('stacks.createOverwrite', t => {
 
   const expectedArgs = {
     method: 'PUT',
-    uri: 'https://api.rokka.io/stacks/myorg/mystack',
-    body: { operations, options },
-    qs: { overwrite: true }
+    body: JSON.stringify({ operations, options })
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/stacks/myorg/mystack?overwrite=true',
+      td.matchers.contains(expectedArgs)
+    )
   )
 })
 
@@ -151,13 +157,14 @@ test('stacks.createOverwrite (version <=0.26)', t => {
 
   const expectedArgs = {
     method: 'PUT',
-    uri: 'https://api.rokka.io/stacks/myorg/mystack',
-    body: { operations, options },
-    qs: { overwrite: true }
+    body: JSON.stringify({ operations, options })
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/stacks/myorg/mystack?overwrite=true',
+      td.matchers.contains(expectedArgs)
+    )
   )
 })
 
@@ -168,12 +175,13 @@ test('stacks.delete', t => {
 
   const expectedArgs = {
     method: 'DELETE',
-    uri: 'https://api.rokka.io/stacks/myorg/mystack',
-    body: null,
-    qs: null
+    body: null
   }
 
   td.verify(
-    requestStub(td.matchers.contains(expectedArgs), td.matchers.anything())
+    requestStub(
+      'https://api.rokka.io/stacks/myorg/mystack',
+      td.matchers.contains(expectedArgs)
+    )
   )
 })

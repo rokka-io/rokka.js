@@ -218,13 +218,6 @@ export default state => {
         const chunks = []
         binaryData.on('data', chunk => chunks.push(chunk))
         binaryData.on('end', () => resolve(Buffer.concat(chunks)))
-      } else if (typeof window !== 'undefined') {
-        const fileReader = new window.FileReader()
-        fileReader.onload = function (e) {
-          resolve(e.target.result)
-        }
-
-        fileReader.readAsArrayBuffer(binaryData)
       } else {
         resolve(binaryData)
       }
@@ -245,13 +238,13 @@ export default state => {
         filename: fileName,
         contents: data
       }
-      return state
-        .request('POST', `sourceimages/${organization}`, payload, null, config)
-        .then(response => {
-          response.body = JSON.parse(response.body)
-
-          return response
-        })
+      return state.request(
+        'POST',
+        `sourceimages/${organization}`,
+        payload,
+        null,
+        config
+      )
     })
   }
 
@@ -299,13 +292,13 @@ export default state => {
       })
     }
 
-    return state
-      .request('POST', `sourceimages/${organization}`, formData, null, config)
-      .then(response => {
-        response.body = JSON.parse(response.body)
-
-        return response
-      })
+    return state.request(
+      'POST',
+      `sourceimages/${organization}`,
+      formData,
+      null,
+      config
+    )
   }
 
   /**
