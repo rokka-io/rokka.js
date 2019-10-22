@@ -123,6 +123,26 @@ export default state => {
     return state.request('GET', path)
   }
 
+  /**
+   * Get info of a member in an organization.
+   *
+   * ```js
+   * rokka.memberships.get('myorg',userId)
+   *   .then(function(result) {})
+   *   .catch(function(err) {});
+   * ```
+   *
+   * @authenticated
+   * @param  {string}        organization name
+   * @param  {string}        rokka userId
+   * @return {Promise}
+   */
+  memberships.get = (organization, userId) => {
+    const path = `organizations/${organization}/memberships/${userId}`
+
+    return state.request('GET', path)
+  }
+
   return {
     memberships
   }

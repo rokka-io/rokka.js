@@ -170,6 +170,16 @@ rokka.memberships.list('myorg')
   .catch(function(err) {});
 ```
 
+#### rokka.memberships.get(organization, rokka) → Promise
+
+Get info of a member in an organization.
+
+```js
+rokka.memberships.get('myorg',userId)
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
 ---
 
 <!-- End ../src/apis/memberships.js -->
