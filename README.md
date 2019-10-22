@@ -213,7 +213,7 @@ Check out [the rokka documentation](https://rokka.io/documentation/references/se
 Sorting works with user metadata as well and can be passed as either an array or as a
 comma separated string.
 
-#### rokka.sourceimages.get(organization, hash) → Promise
+#### rokka.sourceimages.get(organization, hash, queryParams) → Promise
 
 Get information of a source image by hash.
 

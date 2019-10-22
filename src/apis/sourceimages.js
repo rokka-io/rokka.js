@@ -56,7 +56,8 @@ export default state => {
       offset = null,
       sort = null,
       search = null,
-      facets = null
+      facets = null,
+      deleted = null
     } = {}
   ) => {
     let queryParams = {}
@@ -70,6 +71,10 @@ export default state => {
     if (facets !== null) {
       queryParams.facets = facets
     }
+    if (deleted !== null) {
+      queryParams.deleted = deleted
+    }
+
     if (sort !== null) {
       if (Array.isArray(sort)) {
         sort = sort.join(',')
@@ -100,10 +105,16 @@ export default state => {
    * @authenticated
    * @param  {string}  organization name
    * @param  {string}  hash         image hash
+   * @param  {Object}  queryParams  like {deleted: true}
    * @return {Promise}
    */
-  sourceimages.get = (organization, hash) => {
-    return state.request('GET', `sourceimages/${organization}/${hash}`)
+  sourceimages.get = (organization, hash, queryParams = {}) => {
+    return state.request(
+      'GET',
+      `sourceimages/${organization}/${hash}`,
+      null,
+      queryParams
+    )
   }
 
   /**
