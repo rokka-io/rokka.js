@@ -134,7 +134,7 @@ export default state => {
    *
    * @authenticated
    * @param  {string}        organization name
-   * @param  {string}        rokka userId
+   * @param  {string}        userId
    * @return {Promise}
    */
   memberships.get = (organization, userId) => {

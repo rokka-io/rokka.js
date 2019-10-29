@@ -170,7 +170,7 @@ rokka.memberships.list('myorg')
   .catch(function(err) {});
 ```
 
-#### rokka.memberships.get(organization, rokka) → Promise
+#### rokka.memberships.get(organization, userId) → Promise
 
 Get info of a member in an organization.
 
