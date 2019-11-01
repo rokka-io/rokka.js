@@ -604,4 +604,4 @@ rokka.stats.get('myorg', '2017-01-01', '2017-01-31')
 [coverage-image]: https://img.shields.io/coveralls/rokka-io/rokka.js/master.svg?style=flat-square
 
 [dependencies-url]: https://david-dm.org/rokka-io/rokka.js
-[dependencies-image]: https://david-dm.org/rokka-io/rokka.js.svg?style=flat-square
+[dependencies-image]: https://badgen.net/david/dep/rokka-io/rokka.js
