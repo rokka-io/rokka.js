@@ -1,4 +1,5 @@
-# rokka.js [![NPM version][npm-version-image]][npm-url] [![Build Status][build-status-image]][build-status-url] [![Coverage][coverage-image]][coverage-url] [![Dependency Status][dependencies-image]][dependencies-url]
+# rokka.js [![NPM version][npm-version-image]][npm-url] [![Build Status][build-status-image]][build-status-url] [![Coverage][coverage-image]][coverage-url] [![Dependency Status][dependencies-image]][dependencies-url] [![bundlephobia zipped](https://badgen.net/bundlephobia/min/rokka)](https://bundlephobia.com/result?p=rokka) [![bundlephobia minified](https://badgen.net/bundlephobia/minzip/rokka)](https://bundlephobia.com/result?p=rokka) 
+
 
 JavaScript client library for [rokka](https://rokka.io/).
 
