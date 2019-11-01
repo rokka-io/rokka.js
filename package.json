@@ -3,6 +3,12 @@
   "version": "2.0.0",
   "description": "JavaScript client library for rokka.io",
   "main": "index.js",
+  "unpkg": "dist/index.umd.min.js",
+  "jsdelivr": "dist/index.umd.min.js",
+  "files": [
+    "/dist/*",
+    "/src/*"
+  ],
   "scripts": {
     "test": "npm run lint && npm run ava",
     "lint": "./node_modules/.bin/eslint .",
@@ -13,7 +19,8 @@
     "compile": "BABEL_ENV=production babel -d lib/ src/",
     "prepare": "npm run compile",
     "watch": "babel -watch -d lib/ src/",
-    "fix": "prettier-eslint --write '{src,test}/**/*.js'"
+    "fix": "prettier-eslint --write '{src,test}/**/*.js'",
+    "build": "rm -rf ./dist && rollup -c"
   },
   "repository": {
     "type": "git",
@@ -57,6 +64,10 @@
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
     "prettier-eslint-cli": "^4.7.1",
+    "rollup": "^1.26.2",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.1.2",
     "testdouble": "^3.12.4"
   },
   "ava": {
