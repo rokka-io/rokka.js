@@ -11,7 +11,7 @@ export default {
       name: 'rokka',
       sourcemap: true,
       globals: {
-        'form-data': 'formData',
+        'form-data': 'FormData',
         'cross-fetch': 'fetch'
       }
     },
