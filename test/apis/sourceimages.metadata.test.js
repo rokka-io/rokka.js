@@ -156,7 +156,7 @@ test('sourceimages.meta.replace', t => {
   )
 })
 
-test('sourceimages.meta.replace', t => {
+test('sourceimages.meta.delete', t => {
   const rokka = rka({ apiKey: 'APIKEY' })
 
   rokka.sourceimages.meta.delete(

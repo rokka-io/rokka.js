@@ -13,7 +13,7 @@
   "scripts": {
     "test": "npm run lint && npm run ava",
     "lint": "./node_modules/.bin/eslint .",
-    "ava": "ava test/**",
+    "ava": "ava",
     "coverage": "BABEL_ENV=coverage nyc npm run ava",
     "coveralls": "npm run coverage; nyc report --reporter=text-lcov | coveralls",
     "docs": "cd ./docs; node generate.js",
@@ -39,31 +39,29 @@
   },
   "homepage": "https://github.com/rokka-io/rokka.js#readme",
   "dependencies": {
+    "@babel/preset-env": "^7.6.3",
+    "@babel/register": "^7.6.2",
     "cross-fetch": "^3.0.4",
     "form-data": "^2.5.1",
     "query-string": "^6.8.3"
   },
   "devDependencies": {
-    "ava": "^0.25.0",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-plugin-transform-object-assign": "^6.8.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/runtime-corejs2": "^7.6.3",
+    "ava": "^2.4.0",
     "coveralls": "^3.0.7",
-    "eslint": "^4.19.1",
-    "eslint-config-standard": "^11.0.0",
+    "eslint": "^6.6.0",
+    "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-promise": "^3.8.0",
-    "eslint-plugin-standard": "^3.1.0",
-    "husky": "^1.3.1",
-    "lint-staged": "^7.3.0",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "husky": "^3.0.9",
+    "lint-staged": "^9.4.2",
     "markdox": "^0.1.10",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
-    "prettier-eslint-cli": "^4.7.1",
+    "prettier-eslint-cli": "^5.0.0",
     "rollup": "^1.26.3",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
@@ -72,9 +70,8 @@
   },
   "ava": {
     "require": [
-      "babel-core/register"
+      "@babel/register"
     ],
-    "babel": "inherit",
     "failWithoutAssertions": false
   },
   "husky": {
