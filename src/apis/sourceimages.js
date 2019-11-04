@@ -396,7 +396,7 @@ export default state => {
   ) => {
     const headers = { Destination: destinationOrganization }
     if (!overwrite) {
-      headers['Overwrite'] = 'F'
+      headers.Overwrite = 'F'
     }
     return state.request(
       'COPY',

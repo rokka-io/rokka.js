@@ -24,14 +24,6 @@ test('simple non-authorized request invocation', t => {
   request('get', 'test', null, null, { noAuthHeaders: true })
 })
 
-test('missing API key', async t => {
-  rokka()
-
-  const request = td.explain(apisStub).calls.slice(-1)[0].args[0].request
-
-  await t.throws(request('get', 'test'), 'Missing required property `apiKey`')
-})
-
 test('request argument handling', t => {
   const apiHost = 'https://api.example.org'
   const apiVersion = 23
