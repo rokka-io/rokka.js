@@ -2,7 +2,8 @@
   "name": "rokka",
   "version": "2.0.0",
   "description": "JavaScript client library for rokka.io",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
   "unpkg": "dist/index.umd.min.js",
   "jsdelivr": "dist/index.umd.min.js",
   "files": [
@@ -16,11 +17,10 @@
     "coverage": "BABEL_ENV=coverage nyc npm run ava",
     "coveralls": "npm run coverage; nyc report --reporter=text-lcov | coveralls",
     "docs": "cd ./docs; node generate.js",
-    "compile": "BABEL_ENV=production babel -d lib/ src/",
+    "compile": "rm -rf ./dist && rollup -c",
     "prepare": "npm run compile",
-    "watch": "babel -watch -d lib/ src/",
-    "fix": "prettier-eslint --write '{src,test}/**/*.js'",
-    "build": "rm -rf ./dist && rollup -c"
+    "watch": "rollup -c -w",
+    "fix": "prettier-eslint --write '{src,test}/**/*.js'"
   },
   "repository": {
     "type": "git",
