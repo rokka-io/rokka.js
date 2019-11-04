@@ -4,7 +4,7 @@
 JavaScript client library for [rokka](https://rokka.io/).
 
 rokka.js runs on node as well as [within the supported browsers](http://browserl.ist/?q=%3E0.1%25%2C+not+op_mini+all). 
-To use in a browser, either use a script tag using [https://unpkg.com/rokka/index.js](https://unpkg.com/rokka/index.js) or import it using the ES6 module syntax:
+To use in a browser, either use a script tag using [https://unpkg.com/rokka](https://unpkg.com/rokka) or import it using the ES6 module syntax:
 ```js
 import rokka from 'rokka'
 ```
