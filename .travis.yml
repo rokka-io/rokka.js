@@ -9,3 +9,12 @@ script:
   - npm run compile
 after_success:
   - npm run coveralls
+deploy:
+  provider: npm
+  email: me@chregu.tv
+  skip_cleanup: true
+  api_key:
+    secure: oS3APR1umacCOQrLeFrnl6Va8WRRAYg3pHKbTNm/3+2KWdYM6mxJxY77tfW7g/JnJ/lUjP2cZ0r2pn44dSryMAKHK3WDbuMgH+s7e51skH2oP7y9zKJ43LBHJaCXJXKtuTz8Hn5MXNoj+zaCdQtIXWT5gfvZC9fX694BVQiyePmXE0KTeRikMMszMY6SBwIGNqGBY6THPJYmHnL+Ek4W1/bZ0ExjbuUKISCSs4MCqUYdfdvdfdVZuH9YqchGSvkSt3tz/qZBy+pbLEBlho5ah8fDDhzQDaSazXYjhtX/eLWjmFhbHVjKfgvJ3v5nhBPYpL4JSBR4QgBUQgydnYPatZY5lHvvOee5a4OHzGlCnTlOyb5Z7bu/LwqFGtYiNT5k6yQn24JlB6R6ELcLGLs3nHfJpFBXFUZdNM8XTpW6F3ixIC1pbXB+WvoAwNnG2SyyBxUxCgHH9+XrlVOSB9trhjtSgf58KFZOlimTXK7nqfQpjIEewqOBZSEfsefwzmXyPsFlNeJnvv41vmxJbnabM75BDLD8TIK59Ci7HX0OBfD0mMcERXmYvQyhXQqBC5mscLO/ntklsdmV6KwWiMRCTRhlVcGLhabxcf26PWr+D4ULK2T9DwhorO4IrpuEMrteOVPw979lxKJl1a5mwMvMhQj3ZV7VVGndqpSJKI/vVoE=
+  on:
+    all_branches: true
+    tags: true
