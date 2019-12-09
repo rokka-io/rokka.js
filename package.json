@@ -1,6 +1,6 @@
 {
   "name": "rokka",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "JavaScript client library for rokka.io",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -20,7 +20,7 @@
     "compile": "rm -rf ./dist && rollup -c",
     "prepare": "npm run compile",
     "watch": "rollup -c -w",
-    "fix": "prettier-eslint --write '{src,tests}/**/*.js'"
+    "fix": "prettier-eslint --write '{src,tests}/**/*.{js,ts}'"
   },
   "repository": {
     "type": "git",
@@ -42,12 +42,13 @@
     "@babel/preset-env": "^7.6.3",
     "@babel/register": "^7.6.2",
     "cross-fetch": "^3.0.4",
-    "form-data": "^2.5.1",
+    "form-data": "^3.0.0",
     "query-string": "^6.8.3"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/runtime-corejs2": "^7.6.3",
+    "@types/jest": "^24.0.23",
     "coveralls": "^3.0.7",
     "eslint": "^6.6.0",
     "eslint-config-standard": "^14.1.0",
@@ -66,7 +67,10 @@
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^5.1.2",
-    "testdouble": "^3.12.4"
+    "rollup-plugin-typescript2": "^0.25.3",
+    "testdouble": "^3.12.4",
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.3"
   },
   "husky": {
     "hooks": {

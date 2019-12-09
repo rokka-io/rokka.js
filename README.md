@@ -37,7 +37,7 @@ rokka.sourceimages.list('myorg')
 
 <!-- DOCS -->
 
-<!-- Start ../src/index.js -->
+<!-- Start ../src/index.ts -->
 
 Initializing the rokka client.
 
@@ -62,13 +62,13 @@ All properties are optional since certain calls don't require credentials.
 
 ---
 
-<!-- End ../src/index.js -->
+<!-- End ../src/index.ts -->
 
 <!-- Start ../src/apis/users.js -->
 
 ### Users
 
-#### rokka.users.create(email, [organization) → Promise
+#### rokka.users.users.create(email, [organization) → Promise
 
 Register a new user for the rokka service.
 
@@ -78,7 +78,7 @@ rokka.users.create('user@example.org')
   .catch(function(err) {});
 ```
 
-#### rokka.users.getId() → Promise
+#### rokka.users.users.getId() → Promise
 
 Get user_id for current user
 
@@ -92,7 +92,27 @@ rokka.users.getId()
 
 <!-- End ../src/apis/users.js -->
 
-<!-- Start ../src/apis/organizations.js -->
+<!-- Start ../src/apis/billing.ts -->
+
+### Billing
+
+#### rokka.billing.get(organization, [from=null], [to=null]) → Promise
+
+Retrieve statistics about the billing of an organization
+
+If `from` and `to` are not specified, the API will return data for the last 30 days.
+
+```js
+rokka.billing.get('myorg', '2017-01-01', '2017-01-31')
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
+---
+
+<!-- End ../src/apis/billing.ts -->
+
+<!-- Start ../src/apis/organizations.ts -->
 
 ### Organizations
 
@@ -118,7 +138,7 @@ rokka.organizations.create('myorg', 'billing@example.org', 'Organization Inc.')
 
 ---
 
-<!-- End ../src/apis/organizations.js -->
+<!-- End ../src/apis/organizations.ts -->
 
 <!-- Start ../src/apis/memberships.js -->
 
@@ -131,7 +151,7 @@ rokka.organizations.create('myorg', 'billing@example.org', 'Organization Inc.')
 - `rokka.memberships.ROLES.UPLOAD` - upload-only access
 - `rokka.memberships.ROLES.ADMIN` - administrative access
 
-#### rokka.memberships.create(organization, userId, roles) → Promise
+#### rokka.memberships.memberships.create(organization, userId, roles) → Promise
 
 Add a member to an organization.
 
@@ -141,7 +161,7 @@ rokka.memberships.create('myorg', '613547f8-e26d-48f6-8a6a-552c18b1a290', [rokka
   .catch(function(err) {});
 ```
 
-#### rokka.memberships.delete(organization, userId) → Promise
+#### rokka.memberships.memberships.delete(organization, userId) → Promise
 
 Delete a member in an organization.
 
@@ -151,7 +171,7 @@ rokka.memberships.delete('myorg', '613547f8-e26d-48f6-8a6a-552c18b1a290')
   .catch(function(err) {});
 ```
 
-#### rokka.memberships.createWithNewUser(organization, roles) → Promise
+#### rokka.memberships.memberships.createWithNewUser(organization, roles) → Promise
 
 Create a user and membership associated to this organization.
 
@@ -161,7 +181,7 @@ rokka.memberships.createWithNewUser('myorg', [rokka.memberships.ROLES.READ])
   .catch(function(err) {});
 ```
 
-#### rokka.memberships.list(organization) → Promise
+#### rokka.memberships.memberships.list(organization) → Promise
 
 Lists members in an organization.
 
@@ -171,7 +191,7 @@ rokka.memberships.list('myorg')
   .catch(function(err) {});
 ```
 
-#### rokka.memberships.get(organization, userId) → Promise
+#### rokka.memberships.memberships.get(organization, userId) → Promise
 
 Get info of a member in an organization.
 
@@ -189,7 +209,7 @@ rokka.memberships.get('myorg',userId)
 
 ### Source Images
 
-#### rokka.sourceimages.list(organization, params) → Promise
+#### rokka.sourceimages.sourceimages.list(organization, params) → Promise
 
 Get a list of source images.
 
@@ -224,7 +244,7 @@ Check out [the rokka documentation](https://rokka.io/documentation/references/se
 Sorting works with user metadata as well and can be passed as either an array or as a
 comma separated string.
 
-#### rokka.sourceimages.get(organization, hash, queryParams) → Promise
+#### rokka.sourceimages.sourceimages.get(organization, hash, queryParams) → Promise
 
 Get information of a source image by hash.
 
@@ -234,7 +254,7 @@ rokka.sourceimages.get('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
   .catch(function(err) {});
 ```
 
-#### rokka.sourceimages.getWithBinaryHash(organization, binaryHash) → Promise
+#### rokka.sourceimages.sourceimages.getWithBinaryHash(organization, binaryHash) → Promise
 
 Get information of a source image by its binary hash.
 
@@ -244,7 +264,7 @@ rokka.sourceimages.getWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e158a
   .catch(function(err) {});
 ```
 
-#### rokka.sourceimages.download(organization, hash) → Promise
+#### rokka.sourceimages.sourceimages.download(organization, hash) → Promise
 
 Download image by hash.
 
@@ -254,7 +274,7 @@ rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
   .catch(function(err) {});
 ```
 
-#### rokka.sourceimages.autolabel(organization, hash) → Promise
+#### rokka.sourceimages.sourceimages.autolabel(organization, hash) → Promise
 
 Autolabels an image.
 
@@ -266,7 +286,7 @@ rokka.sourceimages.autolabel('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a'
   .catch(function(err) {});
 ```
 
-#### rokka.sourceimages.create(organization, fileName, binaryData, [metadata=null], [options={}]) → Promise
+#### rokka.sourceimages.sourceimages.create(organization, fileName, binaryData, [metadata=null], [options={}]) → Promise
 
 Upload an image.
 
@@ -283,7 +303,7 @@ With directly adding metadata:
 rokka.sourceimages.create('myorg', 'picture.png', file, {'meta_user': {'foo': 'bar'}})
 ```
 
-#### rokka.sourceimages.createByUrl(organization, url, [metadata=null], [options={}]) → Promise
+#### rokka.sourceimages.sourceimages.createByUrl(organization, url, [metadata=null], [options={}]) → Promise
 
 Upload an image by url.
 
@@ -299,7 +319,7 @@ With directly adding metadata:
 rokka.sourceimages.createByUrl('myorg',  'https://rokka.rokka.io/dynamic/f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912.png', {'meta_user': {'foo': 'bar'}})
 ```
 
-#### rokka.sourceimages.delete(organization, hash) → Promise
+#### rokka.sourceimages.sourceimages.delete(organization, hash) → Promise
 
 Delete image by hash.
 
@@ -309,7 +329,7 @@ rokka.sourceimages.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
   .catch(function(err) {});
 ```
 
-#### rokka.sourceimages.deleteWithBinaryHash(organization, binaryHash) → Promise
+#### rokka.sourceimages.sourceimages.deleteWithBinaryHash(organization, binaryHash) → Promise
 
 Delete source images by its binary hash.
 
@@ -319,7 +339,7 @@ rokka.sourceimages.deleteWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e1
   .catch(function(err) {});
 ```
 
-#### rokka.sourceimages.restore(organization, hash) → Promise
+#### rokka.sourceimages.sourceimages.restore(organization, hash) → Promise
 
 Restore image by hash.
 
@@ -329,7 +349,7 @@ rokka.sourceimages.restore('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
   .catch(function(err) {});
 ```
 
-#### rokka.sourceimages.copy(organization, hash, destinationOrganization, [overwrite=true]) → Promise
+#### rokka.sourceimages.sourceimages.copy(organization, hash, destinationOrganization, [overwrite=true]) → Promise
 
 Copy image by hash to another org.
 
@@ -344,7 +364,7 @@ rokka.sourceimages.copy('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'an
 See [the dynamic metadata documentation](https://rokka.io/documentation/references/dynamic-metadata.html) for
 more information.
 
-#### rokka.sourceimages.setSubjectArea(organization, hash, coords, [options={}]) → Promise
+#### rokka.sourceimages.sourceimages.setSubjectArea(organization, hash, coords, [options={}]) → Promise
 
 Set the subject area of a source image.
 
@@ -365,7 +385,7 @@ rokka.sourceimages.setSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0
   .catch(function(err) {});
 ```
 
-#### rokka.sourceimages.removeSubjectArea(organization, hash, [options={}]) → Promise
+#### rokka.sourceimages.sourceimages.removeSubjectArea(organization, hash, [options={}]) → Promise
 
 Removes the subject area from a source image.
 
@@ -380,7 +400,7 @@ rokka.sourceimages.removeSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bac
 See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
 for more information.
 
-#### rokka.sourceimages.meta.add(organization, hash, data) → Promise
+#### rokka.sourceimages.sourceimages.meta.add(organization, hash, data) → Promise
 
 Add user metadata to a source image.
 
@@ -396,7 +416,7 @@ rokka.sourceimages.meta.add('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
   .catch(function(err) {});
 ```
 
-#### rokka.sourceimages.meta.replace(organization, hash, data) → Promise
+#### rokka.sourceimages.sourceimages.meta.replace(organization, hash, data) → Promise
 
 Replace user metadata of a source image with the passed data.
 
@@ -411,7 +431,7 @@ rokka.sourceimages.meta.replace('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a4
   .catch(function(err) {});
 ```
 
-#### rokka.sourceimages.meta.delete(organization, hash, [field=null]) → Promise
+#### rokka.sourceimages.sourceimages.meta.delete(organization, hash, [field=null]) → Promise
 
 Replace user metadata of a source image with the passed data.
 
@@ -449,7 +469,7 @@ If the third parameter (field) is specified, it will just delete this field.
 Please refer to the
 [rokka API documentation](https://rokka.io/documentation/references/operations.html)
 
-#### rokka.operations.list() → Promise
+#### rokka.operations.operations.list() → Promise
 
 Get a list of available stack operations.
 
@@ -463,7 +483,7 @@ rokka.operations.list()
 
 <!-- End ../src/apis/operations.js -->
 
-<!-- Start ../src/apis/stackoptions.js -->
+<!-- Start ../src/apis/stackoptions.ts -->
 
 ### Stack options
 
@@ -479,13 +499,13 @@ rokka.stackoptions.get()
 
 ---
 
-<!-- End ../src/apis/stackoptions.js -->
+<!-- End ../src/apis/stackoptions.ts -->
 
 <!-- Start ../src/apis/stacks.js -->
 
 ### Stacks
 
-#### rokka.stacks.list(organization, [limit=null], [offset=null]) → Promise
+#### rokka.stacks.stacks.list(organization, [limit=null], [offset=null]) → Promise
 
 Get a list of available stacks.
 
@@ -495,7 +515,7 @@ rokka.stacks.list('myorg')
   .catch(function(err) {});
 ```
 
-#### rokka.stacks.get(organization, name) → Promise
+#### rokka.stacks.stacks.get(organization, name) → Promise
 
 Get details about a stack.
 
@@ -505,7 +525,7 @@ rokka.stacks.get('myorg', 'mystack')
   .catch(function(result) {});
 ```
 
-#### rokka.stacks.create(organization, name, stackConfig, [params={}]) → Promise
+#### rokka.stacks.stacks.create(organization, name, stackConfig, [params={}]) → Promise
 
 Create a new stack.
 
@@ -542,7 +562,7 @@ rokka.stacks.create(
  .catch(function(err) {})
 ```
 
-#### rokka.stacks.delete(organization, name) → Promise
+#### rokka.stacks.stacks.delete(organization, name) → Promise
 
 Delete a stack.
 
@@ -556,7 +576,7 @@ rokka.stacks.delete('myorg', 'mystack')
 
 <!-- End ../src/apis/stacks.js -->
 
-<!-- Start ../src/apis/render.js -->
+<!-- Start ../src/apis/render.ts -->
 
 ### Render
 
@@ -570,13 +590,13 @@ rokka.render.getUrl('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'png', 
 
 ---
 
-<!-- End ../src/apis/render.js -->
+<!-- End ../src/apis/render.ts -->
 
 <!-- Start ../src/apis/stats.js -->
 
 ### Stats
 
-#### rokka.stats.get(organization, [from=null], [to=null]) → Promise
+#### rokka.stats.stats.get(organization, [from=null], [to=null]) → Promise
 
 Retrieve statistics about an organization.
 

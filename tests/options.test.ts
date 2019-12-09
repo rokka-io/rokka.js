@@ -19,6 +19,7 @@ describe('options', () => {
       }
     }
     rokka()
+    // @ts-ignore
     expect(apis.mock.calls[0][0]).toMatchObject(expectedState)
   })
 
@@ -31,6 +32,7 @@ describe('options', () => {
     }
 
     rokka(customOptions)
+    // @ts-ignore
     expect(apis.mock.calls[1][0]).toMatchObject(customOptions)
   })
 
@@ -43,6 +45,7 @@ describe('options', () => {
     }
 
     rokka({ transport: transportOptions })
+    // @ts-ignore
     expect(apis.mock.calls[2][0].transportOptions).toMatchObject(
       transportOptions
     )

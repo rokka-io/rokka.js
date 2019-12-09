@@ -1,10 +1,17 @@
 import fetch from 'cross-fetch'
 // from https://github.com/jonbern/fetch-retry
 // and https://github.com/jonbern/fetch-retry/pull/27
-export default (url, options) => {
+export default (
+  url,
+  options: {
+    retryDelay?: Function | number
+    retries?: number
+    retryOn?: Function | number[]
+  }
+) => {
   let retries = 3
-  let retryDelay = 1000
-  let retryOn = [429, 502, 503, 504]
+  let retryDelay: Function | number = 1000
+  let retryOn: Function | number[] = [429, 502, 503, 504]
   if (options && options.retries !== undefined) {
     if (isPositiveInteger(options.retries)) {
       retries = options.retries
@@ -39,7 +46,7 @@ export default (url, options) => {
 
   return new Promise(function (resolve, reject) {
     const wrappedFetch = function (attempt) {
-      fetch(url, options)
+      fetch(url, options as any)
         .then(function (response) {
           if (
             Array.isArray(retryOn) &&

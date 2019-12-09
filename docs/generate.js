@@ -2,15 +2,16 @@ const fs = require('fs')
 const markdox = require('markdox')
 
 const sources = [
-  '../src/index.js',
+  '../src/index.ts',
   '../src/apis/users.js',
-  '../src/apis/organizations.js',
+  '../src/apis/billing.ts',
+  '../src/apis/organizations.ts',
   '../src/apis/memberships.js',
   '../src/apis/sourceimages.js',
   '../src/apis/operations.js',
-  '../src/apis/stackoptions.js',
+  '../src/apis/stackoptions.ts',
   '../src/apis/stacks.js',
-  '../src/apis/render.js',
+  '../src/apis/render.ts',
   '../src/apis/stats.js'
 ]
 const readme = '../README.md'
@@ -32,9 +33,10 @@ markdox.process(sources, options, function () {
     .replace(/&quot;/g, "'")
     .replace(/&amp;/g, '&')
 
-  readmeStr = readmeStr
-    .replace(/(<!-- DOCS -->)(?:\r|\n|.)+(<!-- ENDDOCS -->)/gm,
-      '$1' + docsStr + '$2')
+  readmeStr = readmeStr.replace(
+    /(<!-- DOCS -->)(?:\r|\n|.)+(<!-- ENDDOCS -->)/gm,
+    '$1' + docsStr + '$2'
+  )
 
   fs.writeFileSync(readme, readmeStr)
   fs.unlinkSync(tmpFile)
