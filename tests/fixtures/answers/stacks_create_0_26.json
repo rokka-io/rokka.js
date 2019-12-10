@@ -1,0 +1,33 @@
+{
+  "response": {
+    "size": 0,
+    "timeout": 30000
+  },
+  "body": {
+    "name": "mystack026",
+    "organization": "rokka-js-tests",
+    "created": "2019-12-10T09:04:22+00:00",
+    "stack_operations": [
+      {
+        "name": "rotate",
+        "options": {
+          "angle": 47
+        }
+      },
+      {
+        "name": "resize",
+        "options": {
+          "width": 120,
+          "height": 120
+        }
+      }
+    ],
+    "stack_options": {
+      "jpg.quality": 76
+    },
+    "stack_expressions": [],
+    "stack_variables": {}
+  },
+  "statusCode": 201,
+  "statusMessage": "Created"
+}

@@ -1,0 +1,384 @@
+[
+    {
+        "scope": "https://api.rokka.io:443",
+        "method": "GET",
+        "path": "/stats/rokka-js-tests?from=2019-11-01&to=2019-11-30",
+        "body": "",
+        "status": 200,
+        "response": {
+            "space_in_bytes": [
+                {
+                    "timestamp": "2019-11-30T00:00:00+00:00",
+                    "value": 5231255208.7761,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-29T00:00:00+00:00",
+                    "value": 5231255208.7761,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-28T00:00:00+00:00",
+                    "value": 5231255208.7761,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-27T00:00:00+00:00",
+                    "value": 5231255208.7761,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-26T00:00:00+00:00",
+                    "value": 5226143878.2304,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-25T00:00:00+00:00",
+                    "value": 5226143878.2304,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-24T00:00:00+00:00",
+                    "value": 5226143878.2304,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-23T00:00:00+00:00",
+                    "value": 5226143878.2304,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-22T00:00:00+00:00",
+                    "value": 5226143878.2304,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-21T00:00:00+00:00",
+                    "value": 5226143878.2304,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-20T00:00:00+00:00",
+                    "value": 5196235309.3372,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-19T00:00:00+00:00",
+                    "value": 5196235309.3372,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-18T00:00:00+00:00",
+                    "value": 5196235309.3372,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-17T00:00:00+00:00",
+                    "value": 5196235309.3372,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-16T00:00:00+00:00",
+                    "value": 5196235309.3372,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-15T00:00:00+00:00",
+                    "value": 5196235309.3372,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-14T00:00:00+00:00",
+                    "value": 5196235309.3372,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-13T00:00:00+00:00",
+                    "value": 5196235309.3372,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-12T00:00:00+00:00",
+                    "value": 5196235309.3372,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-11T00:00:00+00:00",
+                    "value": 5196235309.3372,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-10T00:00:00+00:00",
+                    "value": 5196235309.3372,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-09T00:00:00+00:00",
+                    "value": 5196235309.3372,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-08T00:00:00+00:00",
+                    "value": 5194651548.7133,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-07T00:00:00+00:00",
+                    "value": 5192201888.71,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-06T00:00:00+00:00",
+                    "value": 5192201888.71,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-05T00:00:00+00:00",
+                    "value": 5192201888.71,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-04T00:00:00+00:00",
+                    "value": 5192201888.71,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-03T00:00:00+00:00",
+                    "value": 5192201888.71,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-02T00:00:00+00:00",
+                    "value": 5164421208.285,
+                    "unit": "Bytes"
+                },
+                {
+                    "timestamp": "2019-11-01T00:00:00+00:00",
+                    "value": 5164421208.285,
+                    "unit": "Bytes"
+                }
+            ],
+            "number_of_files": [
+                {
+                    "timestamp": "2019-11-30T00:00:00+00:00",
+                    "value": 3201,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-29T00:00:00+00:00",
+                    "value": 3201,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-28T00:00:00+00:00",
+                    "value": 3201,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-27T00:00:00+00:00",
+                    "value": 3201,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-26T00:00:00+00:00",
+                    "value": 3200,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-25T00:00:00+00:00",
+                    "value": 3200,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-24T00:00:00+00:00",
+                    "value": 3200,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-23T00:00:00+00:00",
+                    "value": 3200,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-22T00:00:00+00:00",
+                    "value": 3200,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-21T00:00:00+00:00",
+                    "value": 3200,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-20T00:00:00+00:00",
+                    "value": 3194,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-19T00:00:00+00:00",
+                    "value": 3194,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-18T00:00:00+00:00",
+                    "value": 3194,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-17T00:00:00+00:00",
+                    "value": 3194,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-16T00:00:00+00:00",
+                    "value": 3194,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-15T00:00:00+00:00",
+                    "value": 3194,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-14T00:00:00+00:00",
+                    "value": 3194,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-13T00:00:00+00:00",
+                    "value": 3194,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-12T00:00:00+00:00",
+                    "value": 3194,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-11T00:00:00+00:00",
+                    "value": 3194,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-10T00:00:00+00:00",
+                    "value": 3194,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-09T00:00:00+00:00",
+                    "value": 3194,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-08T00:00:00+00:00",
+                    "value": 3192,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-07T00:00:00+00:00",
+                    "value": 3191,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-06T00:00:00+00:00",
+                    "value": 3191,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-05T00:00:00+00:00",
+                    "value": 3191,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-04T00:00:00+00:00",
+                    "value": 3191,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-03T00:00:00+00:00",
+                    "value": 3191,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-02T00:00:00+00:00",
+                    "value": 3189,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-01T00:00:00+00:00",
+                    "value": 3189,
+                    "unit": null
+                }
+            ],
+            "bytes_downloaded": [
+                {
+                    "timestamp": "2019-11-26T00:00:00+00:00",
+                    "value": 47900253,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-21T00:00:00+00:00",
+                    "value": 75417344,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-12T00:00:00+00:00",
+                    "value": 31803438,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-11T00:00:00+00:00",
+                    "value": 74472,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-09T00:00:00+00:00",
+                    "value": 29535842,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-08T00:00:00+00:00",
+                    "value": 755410,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-07T00:00:00+00:00",
+                    "value": 3464679,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-06T00:00:00+00:00",
+                    "value": 20072058,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-05T00:00:00+00:00",
+                    "value": 6265633,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-04T00:00:00+00:00",
+                    "value": 4209520,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-03T00:00:00+00:00",
+                    "value": 58485234,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-02T00:00:00+00:00",
+                    "value": 424304,
+                    "unit": null
+                },
+                {
+                    "timestamp": "2019-11-01T00:00:00+00:00",
+                    "value": 113534,
+                    "unit": null
+                }
+            ],
+            "bytes_downloaded_external": []
+        },
+        "responseIsBinary": false
+    }
+]

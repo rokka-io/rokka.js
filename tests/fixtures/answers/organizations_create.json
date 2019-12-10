@@ -1,0 +1,16 @@
+{
+  "response": {
+    "size": 0,
+    "timeout": 30000
+  },
+  "body": {
+    "id": "2bcced39-5e64-4c7c-b0c0-49e2b9c93507",
+    "display_name": "Organization Inc.",
+    "name": "rokka-js-test-new",
+    "billing_email": "billing@example.org",
+    "created": "2019-12-10T08:51:36+00:00",
+    "master_organization": "rokka-js-test-new"
+  },
+  "statusCode": 200,
+  "statusMessage": "OK"
+}

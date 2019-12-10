@@ -1,0 +1,75 @@
+[
+    {
+        "scope": "https://api.rokka.io:443",
+        "method": "PUT",
+        "path": "/stacks/rokka-js-tests/mystack_expressions",
+        "body": {
+            "operations": [
+                {
+                    "name": "rotate",
+                    "options": {
+                        "angle": 45
+                    }
+                },
+                {
+                    "name": "resize",
+                    "options": {
+                        "width": 100,
+                        "height": 100
+                    }
+                }
+            ],
+            "options": {
+                "jpg.quality": 78
+            },
+            "expressions": [
+                {
+                    "expression": "options.dpr >= 2",
+                    "overrides": {
+                        "options": {
+                            "jpg.quality": 60,
+                            "webp.quality": 60
+                        }
+                    }
+                }
+            ]
+        },
+        "status": 201,
+        "response": {
+            "name": "mystack_expressions",
+            "organization": "rokka-js-tests",
+            "created": "2019-12-10T09:07:00+00:00",
+            "stack_operations": [
+                {
+                    "name": "rotate",
+                    "options": {
+                        "angle": 45
+                    }
+                },
+                {
+                    "name": "resize",
+                    "options": {
+                        "width": 100,
+                        "height": 100
+                    }
+                }
+            ],
+            "stack_options": {
+                "jpg.quality": 78
+            },
+            "stack_expressions": [
+                {
+                    "expression": "options.dpr >= 2",
+                    "overrides": {
+                        "options": {
+                            "jpg.quality": 60,
+                            "webp.quality": 60
+                        }
+                    }
+                }
+            ],
+            "stack_variables": {}
+        },
+        "responseIsBinary": false
+    }
+]

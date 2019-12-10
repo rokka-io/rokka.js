@@ -1,0 +1,26 @@
+{
+  "response": {
+    "size": 0,
+    "timeout": 30000
+  },
+  "body": {
+    "hash": "063c3dce6a528d8944a63185bd4c7b161454ee4f",
+    "short_hash": "063c3d",
+    "binary_hash": "498fed612f01199cd6702f5effe5fa7bb67e44f4",
+    "created": "2019-12-10T11:13:24+00:00",
+    "name": "cartman.svg",
+    "mimetype": "image/svg+xml",
+    "format": "svg",
+    "size": 1203,
+    "width": 104,
+    "height": 97,
+    "organization": "rokka-js-tests",
+    "link": "/sourceimages/rokka-js-tests/063c3dce6a528d8944a63185bd4c7b161454ee4f",
+    "user_metadata": {
+      "foo": "bar"
+    },
+    "opaque": false
+  },
+  "statusCode": 200,
+  "statusMessage": "OK"
+}

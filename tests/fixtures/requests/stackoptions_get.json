@@ -1,0 +1,199 @@
+[
+    {
+        "scope": "https://api.rokka.io:443",
+        "method": "GET",
+        "path": "/stackoptions",
+        "body": "",
+        "status": 200,
+        "response": {
+            "properties": {
+                "basestack": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "pattern": "[a-z0-9\\-_]+"
+                },
+                "jpg.quality": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 80
+                },
+                "pngquant.quality": {
+                    "type": "integer",
+                    "minimum": 10,
+                    "maximum": 100,
+                    "default": 98
+                },
+                "webp.quality": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 80
+                },
+                "heif.quality": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 40
+                },
+                "av1.quality": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 50
+                },
+                "webm.quality": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 50
+                },
+                "mp4.quality": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 50
+                },
+                "gif.quality": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 60
+                },
+                "jp2.quality": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 40
+                },
+                "optim.quality": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 10,
+                    "default": 4
+                },
+                "png.compression_level": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9,
+                    "default": 7
+                },
+                "dpr": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 10,
+                    "default": 1
+                },
+                "optim.ttl_shared": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "autoformat": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "autoformat.exclude": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null
+                },
+                "jpg.transparency.convert": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "source_file": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "optim.disable_all": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "optim.immediate": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "remote_fullurl_allow": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ],
+                    "default": null
+                },
+                "remote_basepath": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "pattern": "^https?://"
+                },
+                "jpg.transparency.autoformat": {
+                    "type": "string",
+                    "default": "false",
+                    "values": [
+                        "true",
+                        "false",
+                        "png",
+                        "webp"
+                    ]
+                },
+                "jpg.transparency.color": {
+                    "type": "string",
+                    "default": "FFFFFF"
+                },
+                "content_disposition": {
+                    "type": "string",
+                    "default": "inline",
+                    "values": [
+                        "inline",
+                        "attachment"
+                    ]
+                },
+                "timing_origin": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ],
+                    "default": null
+                },
+                "interlacing.mode": {
+                    "type": "string",
+                    "default": "plane",
+                    "values": [
+                        "none",
+                        "line",
+                        "plane",
+                        "partition"
+                    ]
+                },
+                "remote_fullurl_whitelist": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": null
+                },
+                "timestamp": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null
+                },
+                "fps": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 25,
+                    "default": 10
+                }
+            }
+        },
+        "responseIsBinary": false
+    }
+]

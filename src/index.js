@@ -133,21 +133,17 @@ export default (config = {}) => {
       }
 
       const t = transport(uri, request)
-      // currently in the tests, we don't have then...
-      if (t && t.then) {
-        return t.then(async response => {
-          const rokkaResponse = RokkaResponse(response)
-          rokkaResponse.body = await getResponseBody(response)
-          if (response.status >= 400) {
-            rokkaResponse.error = rokkaResponse.body
-            rokkaResponse.message =
-              response.status + ' - ' + JSON.stringify(rokkaResponse.body)
-            throw rokkaResponse
-          }
-          return rokkaResponse
-        })
-      }
-      return t
+      return t.then(async response => {
+        const rokkaResponse = RokkaResponse(response)
+        rokkaResponse.body = await getResponseBody(response)
+        if (response.status >= 400) {
+          rokkaResponse.error = rokkaResponse.body
+          rokkaResponse.message =
+            response.status + ' - ' + JSON.stringify(rokkaResponse.body)
+          throw rokkaResponse
+        }
+        return rokkaResponse
+      })
     }
   }
 

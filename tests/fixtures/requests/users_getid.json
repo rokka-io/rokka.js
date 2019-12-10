@@ -1,0 +1,13 @@
+[
+    {
+        "scope": "https://api.rokka.io:443",
+        "method": "GET",
+        "path": "/user",
+        "body": "",
+        "status": 200,
+        "response": {
+            "user_id": "9727f161-d236-4e89-8a03-b0da1a68efdc"
+        },
+        "responseIsBinary": false
+    }
+]
