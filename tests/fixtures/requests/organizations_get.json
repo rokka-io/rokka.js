@@ -1,0 +1,18 @@
+[
+    {
+        "scope": "https://api.rokka.io:443",
+        "method": "GET",
+        "path": "/organizations/rokka-js-tests",
+        "body": "",
+        "status": 200,
+        "response": {
+            "id": "4eebf31f-6afa-412c-8b94-3458922896a4",
+            "display_name": "rokka-js-tests",
+            "name": "rokka-js-tests",
+            "billing_email": "rokka-test@example.org",
+            "created": "2019-12-10T07:11:24+00:00",
+            "master_organization": "rokka-js-tests"
+        },
+        "responseIsBinary": false
+    }
+]

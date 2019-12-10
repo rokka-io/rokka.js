@@ -1,0 +1,22 @@
+[
+    {
+        "scope": "https://api.rokka.io:443",
+        "method": "COPY",
+        "path": "/sourceimages/rokka-js-tests/063c3dce6a528d8944a63185bd4c7b161454ee4f",
+        "body": "",
+        "status": 412,
+        "response": {},
+        "reqheaders": {
+            "destination": [
+                "rokka-js-tests-new2"
+            ],
+            "overwrite": [
+                "F"
+            ],
+            "api-version": [
+                "1"
+            ]
+        },
+        "responseIsBinary": false
+    }
+]

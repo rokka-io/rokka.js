@@ -1,0 +1,19 @@
+{
+  "response": {
+    "size": 0,
+    "timeout": 30000
+  },
+  "body": {
+    "user_id": "679cd7aa-5445-4d6a-8d56-930557a2a77e",
+    "email": "rokka-test@example.org",
+    "roles": [
+      "upload",
+      "read"
+    ],
+    "api_key": "NEW_APIKEY",
+    "organization_id": "4eebf31f-6afa-412c-8b94-3458922896a4",
+    "active": true
+  },
+  "statusCode": 201,
+  "statusMessage": "Created"
+}

@@ -1,0 +1,36 @@
+[
+    {
+        "scope": "https://api.rokka.io:443",
+        "method": "GET",
+        "path": "/stacks/rokka-js-tests/mystack",
+        "body": "",
+        "status": 200,
+        "response": {
+            "name": "mystack",
+            "organization": "rokka-js-tests",
+            "created": "2019-12-10T09:04:22+00:00",
+            "stack_operations": [
+                {
+                    "name": "rotate",
+                    "options": {
+                        "angle": 45
+                    }
+                },
+                {
+                    "name": "resize",
+                    "options": {
+                        "width": 100,
+                        "height": 100
+                    }
+                }
+            ],
+            "stack_options": {
+                "jpg.quality": 77
+            },
+            "stack_expressions": [],
+            "link": "/stacks/rokka-js-tests/mystack",
+            "stack_variables": {}
+        },
+        "responseIsBinary": false
+    }
+]
