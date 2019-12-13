@@ -1,4 +1,4 @@
-export function stringifyOperations (operations) {
+export function stringifyOperations(operations) {
   operations = Array.isArray(operations) ? operations : [operations]
 
   return operations
@@ -17,7 +17,7 @@ export function stringifyOperations (operations) {
     .join('--')
 }
 
-export function isStream (stream) {
+export function isStream(stream) {
   return (
     stream !== null &&
     typeof stream === 'object' &&
