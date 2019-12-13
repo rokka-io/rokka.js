@@ -1,0 +1,50 @@
+[
+    {
+        "scope": "https://api.rokka.io:443",
+        "method": "GET",
+        "path": "/sourceimages/rokka-js-tests?height=64&limit=2&offset=1&user%3Aint%3Aid=42",
+        "body": "",
+        "status": 200,
+        "response": {
+            "total": 3,
+            "items": [
+                {
+                    "hash": "fe5d9a097df0e93cf9570cbdb0386b137b4c9ed2",
+                    "short_hash": "fe5d9a",
+                    "binary_hash": "63a65da81cae86964e3369b4431b80252f9404b0",
+                    "created": "2019-12-10T10:45:32+00:00",
+                    "name": "schweiz.jpg",
+                    "mimetype": "image/svg+xml",
+                    "format": "svg",
+                    "size": 1202,
+                    "width": 104,
+                    "height": 97,
+                    "organization": "rokka-js-tests",
+                    "link": "/sourceimages/rokka-js-tests/fe5d9a097df0e93cf9570cbdb0386b137b4c9ed2",
+                    "opaque": false
+                },
+                {
+                    "hash": "b32fcb212a2a13220c5ad7f8c71bd6ef5dfd0027",
+                    "short_hash": "b32fcb",
+                    "binary_hash": "1215617542b2926a80396eecf97980359f772aad",
+                    "created": "2019-12-10T10:30:59+00:00",
+                    "name": "schweiz.jpg",
+                    "mimetype": "image/jpeg",
+                    "format": "jpg",
+                    "size": 2190,
+                    "width": 68,
+                    "height": 68,
+                    "organization": "rokka-js-tests",
+                    "link": "/sourceimages/rokka-js-tests/b32fcb212a2a13220c5ad7f8c71bd6ef5dfd0027",
+                    "opaque": true
+                }
+            ],
+            "links": {
+                "prev": {
+                    "href": "/sourceimages/rokka-js-tests?limit=2"
+                }
+            }
+        },
+        "responseIsBinary": false
+    }
+]

@@ -1,0 +1,11 @@
+[
+    {
+        "scope": "https://api.rokka.io:443",
+        "method": "DELETE",
+        "path": "/organizations/rokka-js-tests/memberships/679cd7aa-5445-4d6a-8d56-930557a2a77e",
+        "body": "",
+        "status": 204,
+        "response": "",
+        "responseIsBinary": false
+    }
+]

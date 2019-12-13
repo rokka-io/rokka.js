@@ -1,0 +1,26 @@
+[
+    {
+        "scope": "https://api.rokka.io:443",
+        "method": "PUT",
+        "path": "/organizations/rokka-js-tests/memberships/679cd7aa-5445-4d6a-8d56-930557a2a77e",
+        "body": {
+            "roles": [
+                "upload",
+                "write"
+            ]
+        },
+        "status": 200,
+        "response": {
+            "user_id": "679cd7aa-5445-4d6a-8d56-930557a2a77e",
+            "email": "rokka-test@example.org",
+            "roles": [
+                "upload",
+                "write"
+            ],
+            "organization_id": "4eebf31f-6afa-412c-8b94-3458922896a4",
+            "active": true,
+            "last_access": "2019-12-10T09:34:57+00:00"
+        },
+        "responseIsBinary": false
+    }
+]

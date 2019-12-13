@@ -1,0 +1,18 @@
+[
+    {
+        "scope": "https://api.rokka.io:443",
+        "method": "POST",
+        "path": "/users",
+        "body": {
+            "email": "user@example.org",
+            "organization": "rokka-js-tests-new2"
+        },
+        "status": 200,
+        "response": {
+            "id": "c6b56803-e6f7-4798-a3ee-6fd761548d89",
+            "email": "user@example.org",
+            "api_key": "ANOTHER_API_KEY"
+        },
+        "responseIsBinary": false
+    }
+]

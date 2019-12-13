@@ -1,0 +1,37 @@
+[
+    {
+        "scope": "https://api.rokka.io:443",
+        "method": "PUT",
+        "path": "/sourceimages/rokka-js-tests/fe5d9a097df0e93cf9570cbdb0386b137b4c9ed2/meta/dynamic/subject_area?deletePrevious=false",
+        "body": {
+            "x": 100,
+            "y": 100,
+            "width": 50,
+            "height": 50
+        },
+        "status": 201,
+        "response": {
+            "hash": "e551164763cdbabcd0b75b144f3f08112844a81f",
+            "short_hash": "e55116",
+            "binary_hash": "63a65da81cae86964e3369b4431b80252f9404b0",
+            "created": "2019-12-10T10:45:32+00:00",
+            "name": "schweiz.jpg",
+            "mimetype": "image/svg+xml",
+            "format": "svg",
+            "size": 1202,
+            "width": 104,
+            "height": 97,
+            "organization": "rokka-js-tests",
+            "dynamic_metadata": {
+                "subject_area": {
+                    "width": 50,
+                    "height": 50,
+                    "x": 100,
+                    "y": 100
+                }
+            },
+            "opaque": false
+        },
+        "responseIsBinary": false
+    }
+]

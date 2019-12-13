@@ -1,0 +1,13 @@
+{
+  "response": {
+    "size": 0,
+    "timeout": 30000
+  },
+  "body": {
+    "id": "c6b56803-e6f7-4798-a3ee-6fd761548d89",
+    "email": "user@example.org",
+    "api_key": "ANOTHER_API_KEY"
+  },
+  "statusCode": 200,
+  "statusMessage": "OK"
+}

@@ -1,0 +1,502 @@
+{
+  "response": {
+    "size": 0,
+    "timeout": 30000
+  },
+  "body": {
+    "resize": {
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Width of resize."
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Height of resize."
+        },
+        "mode": {
+          "type": "string",
+          "default": "box",
+          "values": [
+            "box",
+            "absolute",
+            "fill"
+          ],
+          "description": "Mode of resizing operation. Please see operations documentation for details on each one."
+        },
+        "upscale": {
+          "type": "boolean",
+          "default": true,
+          "description": "Allow the resulting image to be bigger than the original one."
+        },
+        "upscale_dpr": {
+          "type": "boolean",
+          "default": true,
+          "description": "With the dpr stack option set, allow the resulting image to be \"dpr\" times bigger than the original one, even if \"upscale\" is false."
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "If set to false, will not use this operation for rendering."
+        }
+      },
+      "oneOf": [
+        "width",
+        "height"
+      ],
+      "description": ""
+    },
+    "rotate": {
+      "properties": {
+        "angle": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 360,
+          "description": "Clockwise rotation angle of the image. Can be fractional, example: \"120.3\""
+        },
+        "background_color": {
+          "type": "string",
+          "default": "FFFFFF",
+          "pattern": "[0-9a-fA-F]{6}",
+          "description": "Color to use in background in hex without the # sign, example: \"0F0F0F\""
+        },
+        "background_opacity": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Opacity of background. Default is 0, transparent. Goes up to 100 for opaque."
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "If set to false, will not use this operation for rendering."
+        }
+      },
+      "required": [
+        "angle"
+      ],
+      "description": ""
+    },
+    "autorotate": {
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Width of box to rotate to fit."
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Height of box to rotate to fit."
+        },
+        "rotation_direction": {
+          "type": "string",
+          "values": [
+            "clockwise",
+            "counterclockwise"
+          ],
+          "description": "Direction of rotation if we rotate. Clockwise or counterclockwise."
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "If set to false, will not use this operation for rendering."
+        }
+      },
+      "required": [],
+      "description": ""
+    },
+    "dropshadow": {
+      "properties": {
+        "horizontal": {
+          "type": "integer",
+          "minimum": -100,
+          "maximum": 100,
+          "default": 0,
+          "description": "Horizontal offset of shadow."
+        },
+        "vertical": {
+          "type": "integer",
+          "minimum": -100,
+          "maximum": 100,
+          "default": 0,
+          "description": "Vertical offset of shadow."
+        },
+        "opacity": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 100,
+          "description": "Opacity of shadow. Default is 0, transparent. Goes up to 100 for opaque."
+        },
+        "sigma": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000,
+          "default": 0.5,
+          "description": "Sigma controls the fuzziness of the shadow within the radius. Small values like 0.5 work best for good results."
+        },
+        "blur_radius": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000,
+          "default": 0,
+          "description": "Radius of edge blurring, controls how far it can spread. In pixels."
+        },
+        "color": {
+          "type": "string",
+          "default": "000000",
+          "pattern": "[0-9a-fA-F]{6}",
+          "description": "Color to use for shadow in hex without the # sign, example: \"0F0F0F\""
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "If set to false, will not use this operation for rendering."
+        }
+      },
+      "required": [],
+      "description": ""
+    },
+    "trim": {
+      "properties": {
+        "fuzzy": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 0,
+          "description": "How fuzzy the color look up is to remove as background. The value 0 is a good default for clear images."
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "If set to false, will not use this operation for rendering."
+        }
+      },
+      "required": [],
+      "description": ""
+    },
+    "noop": {
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "If set to false, will not use this operation for rendering."
+        }
+      },
+      "required": [],
+      "description": "Deprecated! Use an empty stack operations collection to get the same behaviour"
+    },
+    "crop": {
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Width to which the image will be cropped."
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Height to which the image will be cropped."
+        },
+        "anchor": {
+          "type": "string",
+          "default": "auto",
+          "pattern": "\\b(subjectarea|smart|face|auto|croparea|((center|left|right|(0|[1-9][0-9]{0,3}|10000))[_-](center|top|bottom|(0|[1-9][0-9]{0,3}|10000))))\\b",
+          "description": "Anchor from where to crop from. Please see the operations documentation for details."
+        },
+        "fallback": {
+          "type": "string",
+          "default": "center_center",
+          "pattern": "\\b(subjectarea|smart|face|auto|croparea|((center|left|right|(0|[1-9][0-9]{0,3}|10000))[_-](center|top|bottom|(0|[1-9][0-9]{0,3}|10000))))\\b",
+          "description": "Anchor fallback to use, when no subject area could be found."
+        },
+        "mode": {
+          "type": "string",
+          "default": "absolute",
+          "values": [
+            "absolute",
+            "ratio"
+          ],
+          "description": "If width and height should be taken as absolute values or as a ratio."
+        },
+        "area": {
+          "type": "string",
+          "default": null,
+          "pattern": "^[a-zA-Z0-9_]+$",
+          "description": "If a special area per image should taken for subject or crop area."
+        },
+        "scale": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 100,
+          "description": "Scales the crop box down to the specified percentage. Use mainly with the ratio mode."
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "If set to false, will not use this operation for rendering."
+        }
+      },
+      "required": [
+        "width",
+        "height"
+      ],
+      "description": ""
+    },
+    "composition": {
+      "properties": {
+        "mode": {
+          "type": "string",
+          "values": [
+            "foreground",
+            "background"
+          ],
+          "description": "Mode of composition. Please refer to the documentation for details."
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Width of the composed image."
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Height of the composed image."
+        },
+        "resize_mode": {
+          "type": "string",
+          "default": "box",
+          "values": [
+            "box",
+            "absolute",
+            "fill"
+          ],
+          "description": "Mode of resizing operation when including an image. Please see operations documentation for details on each one."
+        },
+        "resize_to_primary": {
+          "type": "boolean",
+          "default": false,
+          "description": "Mode of resizing operation when including an image. Please see operations documentation for details on each one."
+        },
+        "anchor": {
+          "type": "string",
+          "default": "auto",
+          "pattern": "\\b(subjectarea|smart|face|auto|croparea|((center|left|right|(0|[1-9][0-9]{0,3}|10000))[_-](center|top|bottom|(0|[1-9][0-9]{0,3}|10000))))\\b",
+          "description": "Anchor where to place the composition, based on mode. Please see the operations documentation for details."
+        },
+        "secondary_color": {
+          "type": "string",
+          "default": "000000",
+          "pattern": "[0-9a-fA-F]{6}",
+          "description": "Color to use as filler in hex without the # sign, example: \"0F0F0F\""
+        },
+        "secondary_opacity": {
+          "type": "integer",
+          "default": 100,
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Opacity of filler. Default is 0, transparent. Goes up to 100 for opaque."
+        },
+        "secondary_image": {
+          "type": "string",
+          "default": null,
+          "description": "Image to use for filler"
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "If set to false, will not use this operation for rendering."
+        }
+      },
+      "required": [],
+      "description": ""
+    },
+    "blur": {
+      "properties": {
+        "sigma": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 4,
+          "description": "Affects how blurred the image is"
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "If set to false, will not use this operation for rendering."
+        }
+      },
+      "required": [
+        "sigma"
+      ],
+      "description": ""
+    },
+    "primitive": {
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200,
+          "default": 20,
+          "description": "How many elements"
+        },
+        "mode": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9,
+          "default": 0,
+          "description": "Mode"
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "If set to false, will not use this operation for rendering."
+        }
+      },
+      "required": [],
+      "description": ""
+    },
+    "grayscale": {
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "If set to false, will not use this operation for rendering."
+        }
+      },
+      "required": [],
+      "description": ""
+    },
+    "sepia": {
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "If set to false, will not use this operation for rendering."
+        }
+      },
+      "required": [],
+      "description": ""
+    },
+    "modulate": {
+      "properties": {
+        "brightness": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 500,
+          "default": 100,
+          "description": "Brightness adjustments in %, 100 means no adjustments"
+        },
+        "saturation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 500,
+          "default": 100,
+          "description": "Saturation adjustments in %, 100 means no adjustments"
+        },
+        "hue": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 360,
+          "default": 0,
+          "description": "Hue adjustments in degrees, 0 means no adjustments, 180 means to opposite color on the color wheel.   "
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "If set to false, will not use this operation for rendering."
+        }
+      },
+      "required": [],
+      "description": ""
+    },
+    "alpha": {
+      "properties": {
+        "mode": {
+          "type": "string",
+          "default": "mask",
+          "values": [
+            "mask",
+            "remove",
+            "extract",
+            "apply"
+          ],
+          "description": "Mode of alpha operation. Please see operations documentation for details on each one."
+        },
+        "opacity": {
+          "type": "integer",
+          "default": 50,
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Opacity of for mode \"apply\". Default is 50. Goes from 0 up to 100 for opaque."
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "If set to false, will not use this operation for rendering."
+        }
+      },
+      "required": [],
+      "description": ""
+    },
+    "glitch": {
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10,
+          "default": 4,
+          "description": "How much glitch should be applied. Default is 4"
+        },
+        "random": {
+          "type": "string",
+          "description": "Just a random string to circumvent caching for different results. Has no influence on the result"
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "If set to false, will not use this operation for rendering."
+        }
+      },
+      "required": [],
+      "description": ""
+    },
+    "addframes": {
+      "properties": {
+        "delay": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000,
+          "default": 10,
+          "description": "How much delay between frames. Default 10."
+        },
+        "frames": {
+          "type": "string",
+          "description": "Frames to be added"
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "If set to false, will not use this operation for rendering."
+        }
+      },
+      "required": [],
+      "description": ""
+    }
+  },
+  "statusCode": 200,
+  "statusMessage": "OK"
+}

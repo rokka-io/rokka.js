@@ -11,16 +11,16 @@
     "/src/*"
   ],
   "scripts": {
-    "test": "npm run lint && npm run ava",
+    "test": "npm run lint && npm run jest",
     "lint": "./node_modules/.bin/eslint .",
-    "ava": "ava",
-    "coverage": "BABEL_ENV=coverage nyc npm run ava",
-    "coveralls": "npm run coverage; nyc report --reporter=text-lcov | coveralls",
+    "jest": "jest",
+    "coverage": "BABEL_ENV=coverage npm run jest -- --coverage",
+    "coveralls": "BABEL_ENV=coverage npm run jest -- --coverage --coverageReporters=text-lcov | coveralls",
     "docs": "cd ./docs; node generate.js",
     "compile": "rm -rf ./dist && rollup -c",
     "prepare": "npm run compile",
     "watch": "rollup -c -w",
-    "fix": "prettier-eslint --write '{src,test}/**/*.js'"
+    "fix": "prettier-eslint --write '{src,tests}/**/*.js'"
   },
   "repository": {
     "type": "git",
@@ -42,13 +42,12 @@
     "@babel/preset-env": "^7.6.3",
     "@babel/register": "^7.6.2",
     "cross-fetch": "^3.0.4",
-    "form-data": "^2.5.1",
+    "form-data": "^3.0.0",
     "query-string": "^6.8.3"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/runtime-corejs2": "^7.6.3",
-    "ava": "^2.4.0",
     "coveralls": "^3.0.7",
     "eslint": "^6.6.0",
     "eslint-config-standard": "^14.1.0",
@@ -57,9 +56,10 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "husky": "^3.0.9",
+    "jest": "^24.9.0",
     "lint-staged": "^9.4.2",
     "markdox": "^0.1.10",
-    "nyc": "^14.1.1",
+    "nock": "^11.7.0",
     "prettier": "^1.18.2",
     "prettier-eslint-cli": "^5.0.0",
     "rollup": "^1.26.3",
@@ -67,12 +67,6 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^5.1.2",
     "testdouble": "^3.12.4"
-  },
-  "ava": {
-    "require": [
-      "@babel/register"
-    ],
-    "failWithoutAssertions": false
   },
   "husky": {
     "hooks": {
