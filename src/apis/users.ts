@@ -5,13 +5,14 @@
  */
 
 import { Response } from '../response'
+import { State } from '../index'
 
 export interface Users {
   create(email: string, organization: string | null): Promise<Response>
-  getId(): string
+  getId(): Promise<string>
 }
 
-export default state => {
+export default (state: State) => {
   const users: Users = {
     /**
      * Register a new user for the rokka service.
@@ -46,7 +47,7 @@ export default state => {
      *
      * @return {Promise}
      */
-    getId: (): string => {
+    getId: (): Promise<string> => {
       return state.request('GET', 'user').then(result => result.body.user_id)
     }
   }

@@ -6,7 +6,7 @@
     "allowSyntheticDefaultImports": true,
     "declaration": true,
     "esModuleInterop": true,
-    "strict": false // to be fixed later
+    "strict": true
   },
   "include": ["./src/**/*"]
 }

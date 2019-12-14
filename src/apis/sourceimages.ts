@@ -1,20 +1,24 @@
 import { isStream } from '../utils'
 import { Response } from '../response'
+import { State } from '../index'
 
 interface SearchQueryParams {
-  limit?: number
-  offset?: string | number
-  sort?: string | string[]
-  search?: { [key: string]: string }
-  facets?: string
-  deleted?: boolean
+  [key: string]: any
+  limit?: number | null
+  offset?: string | number | null
+  sort?: string | string[] | null
+  search?: { [key: string]: string } | null
+  facets?: string | null
+  deleted?: boolean | null
 }
 
 interface GetQueryParams {
+  [key: string]: boolean | undefined
   deleted?: boolean
 }
 
 interface CreateMetadata {
+  [key: string]: any
   meta_user?: any
   meta_dynamic?: any
 }
@@ -43,8 +47,8 @@ export interface SourceimagesMeta {
 
 export interface Sourceimages {
   list: (
-    organization,
-    { limit, offset, sort, search, facets, deleted }?: SearchQueryParams
+    organization: string,
+    params?: SearchQueryParams | undefined
   ) => Promise<Response>
   get: (
     organization: string,
@@ -101,7 +105,7 @@ export interface Sourceimages {
  *
  * @module sourceimages
  */
-export default state => {
+export default (state: State) => {
   const sourceimages: Sourceimages = {
     /**
      * Get a list of source images.
@@ -326,14 +330,14 @@ export default state => {
         // of the image as String. But patches are welcome for stream alternatives
         // in browsers
         if (isStream(binaryData)) {
-          const chunks = []
-          binaryData.on('data', chunk => chunks.push(chunk))
+          const chunks: any = []
+          binaryData.on('data', (chunk: any) => chunks.push(chunk))
           binaryData.on('end', () => resolve(Buffer.concat(chunks)))
         } else {
           resolve(binaryData)
         }
       }).then(data => {
-        const formData = {
+        const formData: any = {
           ...options
         }
         if (metadata !== null) {
@@ -391,7 +395,7 @@ export default state => {
         form: true
       }
 
-      const formData = {
+      const formData: any = {
         'url[0]': url,
         ...options
       }
@@ -695,7 +699,7 @@ export default state => {
       delete: (
         organization: string,
         hash: string,
-        field: string = null
+        field: string | null = null
       ): Promise<Response> => {
         const fieldpath = field ? `/${field}` : ''
         return state.request(

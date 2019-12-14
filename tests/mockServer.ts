@@ -44,7 +44,10 @@ interface Options {
   returnError?: boolean
 }
 
-export const query = async (call, { mockFile, returnError }: Options = {}) => {
+export const query = async (
+  call: () => void,
+  { mockFile, returnError }: Options = {}
+) => {
   let nockRes = null
   if (mockFile) {
     // load fixture
@@ -67,7 +70,7 @@ export const query = async (call, { mockFile, returnError }: Options = {}) => {
   return response
 }
 
-export const checkAnswer = (response, file) => {
+export const checkAnswer = (response: any, file: string) => {
   const filePath = join(responseDir, file)
   let json
   if (fs.existsSync(filePath)) {
@@ -82,7 +85,10 @@ export const checkAnswer = (response, file) => {
   return json
 }
 
-export const queryAndCheckAnswer = async (call, args: Options = {}) => {
+export const queryAndCheckAnswer = async (
+  call: () => void,
+  args: Options = {}
+) => {
   return query(call, args).then(queryResponse => {
     if (args.mockFile) {
       return checkAnswer(queryResponse, args.mockFile)

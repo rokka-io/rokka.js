@@ -7,8 +7,13 @@ export interface Response {
   message?: string
 }
 
-export default (originalResponse = {}): Response => {
-  const response = {
+export interface OriginalResponse {
+  status: number
+  statusText: string
+}
+
+export default (originalResponse: OriginalResponse): Response => {
+  return {
     response: originalResponse,
     body: null,
     get statusCode() {
@@ -18,5 +23,4 @@ export default (originalResponse = {}): Response => {
       return this.response.statusText
     }
   }
-  return response
 }

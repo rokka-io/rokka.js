@@ -1,4 +1,5 @@
 import { stringifyOperations } from '../utils'
+import { State } from '../index'
 
 export interface Render {
   getUrl(
@@ -14,7 +15,7 @@ export interface Render {
  *
  * @module render
  */
-export default state => {
+export default (state: State) => {
   const render: Render = {
     /**
      * Get URL for rendering an image.

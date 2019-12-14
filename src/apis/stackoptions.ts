@@ -5,12 +5,13 @@
  */
 
 import { Response } from '../response'
+import { State } from '../index'
 
 export interface StackOptions {
   get(): Promise<Response>
 }
 
-export default (state): { stackoptions: StackOptions } => {
+export default (state: State): { stackoptions: StackOptions } => {
   const stackoptions: StackOptions = {
     /**
      * Returns a json-schema like definition of options which can be set on a stack.

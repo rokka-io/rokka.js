@@ -19,9 +19,11 @@
  * @module operations
  */
 import { StackOperation } from './stacks'
+import { State } from '../index'
+import { Response } from '../response'
 
 export interface StackOperationOptions {
-  [key: string]: string | number | boolean
+  [key: string]: string | number | boolean | undefined | null
   enabled?: boolean
 }
 export enum ResizeMode {
@@ -66,6 +68,7 @@ export interface CompositionOperationsOptions extends StackOperationOptions {
 }
 
 export interface Operations {
+  [key: string]: Function
   resize(
     width: number,
     height: number,
@@ -91,7 +94,7 @@ export interface Operations {
   list(): Promise<Response>
 }
 
-export default state => {
+export default (state: State) => {
   const operations: Operations = {
     resize: (
       width: number,
@@ -107,7 +110,7 @@ export default state => {
       }
     },
     autorotate: (
-      options: StackOperationOptions | null = {}
+      options: StackOperationOptions | undefined = {}
     ): StackOperation => {
       return {
         name: 'autorotate',

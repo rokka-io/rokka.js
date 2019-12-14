@@ -4,6 +4,7 @@
  * @module organizations
  */
 import { Response } from '../response'
+import { State } from '../index'
 
 export interface Organizations {
   get(name: string): Promise<Response>
@@ -14,7 +15,7 @@ export interface Organizations {
   ): Promise<Response>
 }
 
-export default state => {
+export default (state: State) => {
   const organizations: Organizations = {
     /**
      * Get a list of organizations.
