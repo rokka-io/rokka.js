@@ -39,13 +39,13 @@
   },
   "homepage": "https://github.com/rokka-io/rokka.js#readme",
   "dependencies": {
-    "@babel/preset-env": "^7.7.6",
-    "@babel/register": "^7.7.4",
     "cross-fetch": "^3.0.4",
     "form-data": "^3.0.0",
     "query-string": "^6.9.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.7.6",
+    "@babel/register": "^7.7.4",
     "@babel/plugin-transform-runtime": "^7.7.6",
     "@babel/runtime-corejs2": "^7.7.6",
     "@types/jest": "^24.0.23",
