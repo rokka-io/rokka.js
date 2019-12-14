@@ -5,15 +5,16 @@
  */
 
 import { Response } from '../response'
+import { State } from '../index'
 
 export interface Stats {
   get(
     organization: string,
-    from: string | null,
-    to: string | null
+    from?: string | null,
+    to?: string | null
   ): Promise<Response>
 }
-export default state => {
+export default (state: State) => {
   const stats: Stats = {
     /**
      * Retrieve statistics about an organization.
@@ -32,7 +33,11 @@ export default state => {
      *
      * @return {Promise}
      */
-    get: (organization: string, from: string = null, to: string = null) => {
+    get: (
+      organization: string,
+      from: string | null = null,
+      to: string | null = null
+    ): Promise<any> => {
       return state.request('GET', `stats/${organization}`, null, {
         from,
         to

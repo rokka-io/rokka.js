@@ -1,4 +1,5 @@
 import { Response } from '../response'
+import { State } from '../index'
 
 /**
  * ### Memberships
@@ -32,8 +33,14 @@ export enum Role {
   ADMIN = 'admin'
 }
 
-export default state => {
-  const ROLES = {
+export default (state: State) => {
+  const ROLES: {
+    [key: string]: Role
+    READ: Role
+    WRITE: Role
+    UPLOAD: Role
+    ADMIN: Role
+  } = {
     READ: Role.READ,
     WRITE: Role.WRITE,
     UPLOAD: Role.UPLOAD,

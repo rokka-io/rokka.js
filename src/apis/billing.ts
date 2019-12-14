@@ -4,12 +4,13 @@
  * @module billing
  */
 import { Response } from '../response'
+import { State } from '../index'
 
 export interface Billing {
   get(organization: string, from?: string, to?: string): Promise<Response>
 }
 
-export default state => {
+export default (state: State) => {
   const billing: Billing = {
     /**
      * Retrieve statistics about the billing of an organization
@@ -28,7 +29,11 @@ export default state => {
      *
      * @return {Promise}
      */
-    get: (organization, from = null, to = null): Promise<Response> => {
+    get: (
+      organization,
+      from = undefined,
+      to = undefined
+    ): Promise<Response> => {
       return state.request('GET', `billing/${organization}`, null, {
         from,
         to

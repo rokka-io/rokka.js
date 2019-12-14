@@ -6,6 +6,7 @@
 
 import { Response } from '../response'
 import { Expression } from './expressions'
+import { State } from '../index'
 
 export interface Stacks {
   delete(organization: string, name: string): Promise<Response>
@@ -28,10 +29,10 @@ export interface Stacks {
 export interface StackOperation {
   name: string
   options?: {
-    [key: string]: string | number | boolean
+    [key: string]: string | number | boolean | undefined | null
   }
   expressions?: {
-    [key: string]: string | number | boolean
+    [key: string]: string | number | boolean | undefined | null
   }
 }
 
@@ -45,7 +46,7 @@ interface StackConfig {
   expressions?: Expression[]
 }
 
-export default state => {
+export default (state: State) => {
   const stacks = {
     /**
      * Get a list of available stacks.
@@ -94,7 +95,7 @@ export default state => {
      * @return {Promise}
      */
 
-    get: (organization, name): Promise<Response> => {
+    get: (organization: string, name: string): Promise<Response> => {
       return state.request('GET', `stacks/${organization}/${name}`)
     },
 

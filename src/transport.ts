@@ -2,23 +2,26 @@ import fetch from 'cross-fetch'
 // from https://github.com/jonbern/fetch-retry
 // and https://github.com/jonbern/fetch-retry/pull/27
 
-function isPositiveInteger(value) {
+function isPositiveInteger(value: any) {
   return Number.isInteger(value) && value >= 0
 }
 
-function ArgumentError(message) {
-  this.name = 'ArgumentError'
-  this.message = message
+class ArgumentError {
+  [x: string]: string
+  constructor(message: string) {
+    this.name = 'ArgumentError'
+    this.message = message
+  }
 }
 
 export default (
-  url,
+  url: string,
   options: {
     retryDelay?: Function | number
     retries?: number
     retryOn?: Function | number[]
   }
-) => {
+): Promise<Response> => {
   let retries = 3
   let retryDelay: Function | number = 1000
   let retryOn: Function | number[] = [429, 502, 503, 504]
@@ -55,7 +58,7 @@ export default (
   }
 
   return new Promise(function(resolve, reject) {
-    function retry(attempt, error, response) {
+    function retry(attempt: number, error: string | null, response: any) {
       const delay =
         typeof retryDelay === 'function'
           ? retryDelay(attempt, error, response)
@@ -65,7 +68,7 @@ export default (
         wrappedFetch(++attempt)
       }, delay)
     }
-    const wrappedFetch = function(attempt) {
+    const wrappedFetch = function(attempt: number) {
       fetch(url, options as any)
         .then(function(response) {
           if (

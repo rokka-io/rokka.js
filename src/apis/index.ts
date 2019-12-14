@@ -9,6 +9,7 @@ import stacks, { Stacks } from './stacks'
 import stats, { Stats } from './stats'
 import billing, { Billing } from './billing'
 import users, { Users } from './users'
+import { State } from '../index'
 
 export interface RokkaApi {
   billing: Billing
@@ -24,8 +25,8 @@ export interface RokkaApi {
   users: Users
 }
 
-export default state => {
-  const foo: RokkaApi = Object.assign(
+export default (state: State) => {
+  const api: RokkaApi = Object.assign(
     {},
     memberships(state),
     operations(state),
@@ -39,5 +40,5 @@ export default state => {
     users(state),
     billing(state)
   )
-  return foo
+  return api
 }

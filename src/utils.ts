@@ -1,11 +1,24 @@
-export function stringifyOperations(operations) {
-  operations = Array.isArray(operations) ? operations : [operations]
+import { StackOperation } from './apis/stacks'
 
-  return operations
+export function stringifyOperations(
+  operations: StackOperation | StackOperation[]
+) {
+  const stackoperations: StackOperation[] = Array.isArray(operations)
+    ? operations
+    : [operations]
+
+  return stackoperations
     .map(operation => {
       const name = operation.name
       const options = Object.keys(operation.options || {})
-        .map(k => `${k}-${operation.options[k]}`)
+        .map(
+          k =>
+            `${k}-${
+              operation.options && operation.options[k]
+                ? operation.options[k]
+                : '__undefined__'
+            }`
+        )
         .join('-')
 
       if (!options) {
@@ -17,7 +30,7 @@ export function stringifyOperations(operations) {
     .join('--')
 }
 
-export function isStream(stream) {
+export function isStream(stream: any) {
   return (
     stream !== null &&
     typeof stream === 'object' &&

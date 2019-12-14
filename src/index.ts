@@ -1,13 +1,16 @@
 import transport from './transport'
 import modules, { RokkaApi } from './apis'
-import RokkaResponse, { Response as RokkaResponseInterface } from './response'
+import RokkaResponse, {
+  OriginalResponse,
+  Response as RokkaResponseInterface
+} from './response'
 import { stringify } from 'query-string'
 import FormData from 'form-data'
 
 export interface Config {
   apiKey?: string
   apiHost?: string // default: https://api.rokka.io
-  apiVersion?: number // default: 1
+  apiVersion?: number | string // default: 1
   renderHost?: string // default: https://{organization}.rokka.io
   debug?: boolean // default: false
   transport?: {
@@ -21,7 +24,7 @@ export interface Config {
 
 interface RequestOptions {
   headers?: object
-  noAuthHeaders: boolean
+  noAuthHeaders?: boolean
   form?: boolean
   multipart?: boolean
 }
@@ -40,7 +43,7 @@ const defaults = {
   }
 }
 
-const getResponseBody = async response => {
+const getResponseBody = async (response: any) => {
   if (response.headers && response.json) {
     if (response.headers.get('content-type') === 'application/json') {
       return response.json()
@@ -48,6 +51,34 @@ const getResponseBody = async response => {
     return response.text()
   }
   return response.body
+}
+
+interface Request {
+  method: string
+  headers: { 'Api-Version'?: string | number; 'Api-Key'?: string }
+  timeout: number | undefined
+  retries: number | undefined | any
+  retryDelay: (attempt: number) => number
+  form: {}
+  json: boolean
+  body: any
+}
+
+export interface State {
+  apiKey: string | undefined
+  apiHost: string
+  apiVersion: number | string
+  renderHost: string
+  transportOptions: any
+  request(
+    method: string,
+    path: string,
+    payload?: any | null | undefined,
+    queryParams?: {
+      [key: string]: string | number | boolean | undefined | null
+    } | null,
+    options?: RequestOptions | undefined | null
+  ): Promise<RokkaResponseInterface>
 }
 
 /**
@@ -78,7 +109,7 @@ const getResponseBody = async response => {
  * @module rokka
  */
 export default (config: Config = {}): RokkaApi => {
-  const state = {
+  const state: State = {
     // config
     apiKey: config.apiKey,
     apiHost: config.apiHost || defaults.apiHost,
@@ -88,12 +119,12 @@ export default (config: Config = {}): RokkaApi => {
 
     // functions
     request(
-      method,
-      path,
-      payload = null,
-      queryParams = null,
+      method: string,
+      path: string,
+      payload: any | null = null,
+      queryParams: { [key: string]: string | number | boolean } | null = null,
       options: RequestOptions = { noAuthHeaders: false }
-    ): Promise<RokkaResponseInterface> | Promise<any> {
+    ): Promise<RokkaResponseInterface> {
       let uri = [state.apiHost, path].join('/')
       if (
         queryParams &&
@@ -104,7 +135,8 @@ export default (config: Config = {}): RokkaApi => {
       ) {
         uri += '?' + stringify(queryParams)
       }
-      const headers = options.headers || {}
+      const headers: { 'Api-Version'?: string | number; 'Api-Key'?: string } =
+        options.headers || {}
 
       headers['Api-Version'] = state.apiVersion
 
@@ -116,7 +148,7 @@ export default (config: Config = {}): RokkaApi => {
         headers['Api-Key'] = state.apiKey
       }
 
-      const retryDelay = attempt => {
+      const retryDelay = (attempt: number) => {
         // from https://github.com/tim-kos/node-retry/blob/master/lib/retry.js
         const random = state.transportOptions.randomize ? Math.random() + 1 : 1
 
@@ -128,7 +160,7 @@ export default (config: Config = {}): RokkaApi => {
         return Math.min(timeout, state.transportOptions.maxTimeout)
       }
 
-      const request = {
+      const request: Request = {
         method: method,
         headers: headers,
         timeout: state.transportOptions.requestTimeout,
@@ -162,9 +194,7 @@ export default (config: Config = {}): RokkaApi => {
 
       const t = transport(uri, request)
       return t.then(
-        async (response: {
-          status: number
-        }): Promise<RokkaResponseInterface> => {
+        async (response: OriginalResponse): Promise<RokkaResponseInterface> => {
           const rokkaResponse = RokkaResponse(response)
           rokkaResponse.body = await getResponseBody(response)
           if (response.status >= 400) {
