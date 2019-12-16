@@ -4,11 +4,11 @@
  * @module users
  */
 
-import { Response } from '../response'
+import { RokkaResponse } from '../response'
 import { State } from '../index'
 
 export interface Users {
-  create(email: string, organization: string | null): Promise<Response>
+  create(email: string, organization: string | null): Promise<RokkaResponse>
   getId(): Promise<string>
 }
 
@@ -30,7 +30,7 @@ export default (state: State) => {
     create: (
       email: string,
       organization: string | null = null
-    ): Promise<Response> => {
+    ): Promise<RokkaResponse> => {
       return state.request('POST', 'users', { email, organization }, null, {
         noAuthHeaders: true
       })

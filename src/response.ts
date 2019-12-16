@@ -1,5 +1,7 @@
-export interface Response {
-  response: any
+/// <reference lib="dom" />
+
+export interface RokkaResponse {
+  response: Response
   body: any
   statusCode: number
   statusMessage: string
@@ -7,12 +9,21 @@ export interface Response {
   message?: string
 }
 
-export interface OriginalResponse {
-  status: number
-  statusText: string
+export interface RokkaListResponseBody {
+  total: number
+  cursor?: string
+  links?: {
+    next?: { href: string }
+    prev?: { href: string }
+  }
+  items: any[]
 }
 
-export default (originalResponse: OriginalResponse): Response => {
+export interface RokkaListResponse extends RokkaResponse {
+  body: RokkaListResponseBody
+}
+
+export default (originalResponse: Response): RokkaResponse => {
   return {
     response: originalResponse,
     body: null,

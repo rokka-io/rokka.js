@@ -1,4 +1,4 @@
-import { Response } from '../response'
+import { RokkaResponse } from '../response'
 import { State } from '../index'
 
 /**
@@ -20,11 +20,11 @@ export interface Memberships {
     organization: string,
     userId: string,
     roles: Role | Role[]
-  ): Promise<Response>
-  delete(organization: string, userId: string): Promise<Response>
-  createWithNewUser(organization: string, roles: Role[]): Promise<Response>
-  list(organization: string): Promise<Response>
-  get(organization: string, userId: string): Promise<Response>
+  ): Promise<RokkaResponse>
+  delete(organization: string, userId: string): Promise<RokkaResponse>
+  createWithNewUser(organization: string, roles: Role[]): Promise<RokkaResponse>
+  list(organization: string): Promise<RokkaResponse>
+  get(organization: string, userId: string): Promise<RokkaResponse>
 }
 export enum Role {
   READ = 'read',
@@ -68,7 +68,7 @@ export default (state: State) => {
       organization: string,
       userId: string,
       roles: Role | Role[]
-    ): Promise<Response> => {
+    ): Promise<RokkaResponse> => {
       if (typeof roles === 'string') {
         roles = [roles]
       }
@@ -102,7 +102,7 @@ export default (state: State) => {
      * @param  {string}        userId       UUID of user to add to the organization
      * @return {Promise}
      */
-    delete: (organization, userId): Promise<Response> => {
+    delete: (organization, userId): Promise<RokkaResponse> => {
       const path = `organizations/${organization}/memberships/${userId}`
 
       return state.request('DELETE', path)
@@ -125,7 +125,7 @@ export default (state: State) => {
     createWithNewUser: (
       organization: string,
       roles: Role[]
-    ): Promise<Response> => {
+    ): Promise<RokkaResponse> => {
       roles.forEach(role => {
         if (
           Object.keys(ROLES)
@@ -154,7 +154,7 @@ export default (state: State) => {
      * @param  {string}        organization name
      * @return {Promise}
      */
-    list: (organization: string): Promise<Response> => {
+    list: (organization: string): Promise<RokkaResponse> => {
       const path = `organizations/${organization}/memberships`
 
       return state.request('GET', path)
@@ -174,7 +174,7 @@ export default (state: State) => {
      * @param  {string}        userId
      * @return {Promise}
      */
-    get: (organization: string, userId: string): Promise<Response> => {
+    get: (organization: string, userId: string): Promise<RokkaResponse> => {
       const path = `organizations/${organization}/memberships/${userId}`
 
       return state.request('GET', path)

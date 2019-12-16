@@ -3,11 +3,11 @@
  *
  * @module billing
  */
-import { Response } from '../response'
+import { RokkaResponse } from '../response'
 import { State } from '../index'
 
 export interface Billing {
-  get(organization: string, from?: string, to?: string): Promise<Response>
+  get(organization: string, from?: string, to?: string): Promise<RokkaResponse>
 }
 
 export default (state: State) => {
@@ -33,7 +33,7 @@ export default (state: State) => {
       organization,
       from = undefined,
       to = undefined
-    ): Promise<Response> => {
+    ): Promise<RokkaResponse> => {
       return state.request('GET', `billing/${organization}`, null, {
         from,
         to

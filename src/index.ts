@@ -1,8 +1,7 @@
 import transport from './transport'
 import modules, { RokkaApi } from './apis'
 import RokkaResponse, {
-  OriginalResponse,
-  Response as RokkaResponseInterface
+  RokkaResponse as RokkaResponseInterface
 } from './response'
 import { stringify } from 'query-string'
 import FormData from 'form-data'
@@ -28,6 +27,7 @@ interface RequestOptions {
   form?: boolean
   multipart?: boolean
 }
+
 const defaults = {
   apiHost: 'https://api.rokka.io',
   renderHost: 'https://{organization}.rokka.io',
@@ -194,7 +194,7 @@ export default (config: Config = {}): RokkaApi => {
 
       const t = transport(uri, request)
       return t.then(
-        async (response: OriginalResponse): Promise<RokkaResponseInterface> => {
+        async (response: Response): Promise<RokkaResponseInterface> => {
           const rokkaResponse = RokkaResponse(response)
           rokkaResponse.body = await getResponseBody(response)
           if (response.status >= 400) {
