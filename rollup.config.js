@@ -22,7 +22,10 @@ export default [
       resolve(),
       terser({
         include: [/^.+\.min\.js$/],
-        sourcemap: true
+        sourcemap: true,
+        output: {
+          comments: false
+        }
       })
     ],
     external: ['cross-fetch', 'form-data']

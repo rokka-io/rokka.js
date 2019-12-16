@@ -4,7 +4,7 @@
  * @module stats
  */
 
-import { Response } from '../response'
+import { RokkaResponse } from '../response'
 import { State } from '../index'
 
 export interface Stats {
@@ -12,7 +12,7 @@ export interface Stats {
     organization: string,
     from?: string | null,
     to?: string | null
-  ): Promise<Response>
+  ): Promise<RokkaResponse>
 }
 export default (state: State) => {
   const stats: Stats = {

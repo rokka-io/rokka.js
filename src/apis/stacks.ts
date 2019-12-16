@@ -4,26 +4,26 @@
  * @module stacks
  */
 
-import { Response } from '../response'
+import { RokkaResponse } from '../response'
 import { Expression } from './expressions'
 import { State } from '../index'
 
 export interface Stacks {
-  delete(organization: string, name: string): Promise<Response>
-  get(organization: string, name: string): Promise<Response>
+  delete(organization: string, name: string): Promise<RokkaResponse>
+  get(organization: string, name: string): Promise<RokkaResponse>
   create(
     organization: string,
     name: string,
     stackConfig: StackConfig | StackOperation[],
     params?: { overwrite?: boolean } | StackOptions,
     ...rest: boolean[]
-  ): Promise<Response>
+  ): Promise<RokkaResponse>
 
   list(
     organization: string,
     limit?: number | null,
     offset?: string | null
-  ): Promise<Response>
+  ): Promise<RokkaResponse>
 }
 
 export interface StackOperation {
@@ -67,7 +67,7 @@ export default (state: State) => {
       organization: string,
       limit: number | null = null,
       offset: string | null = null
-    ): Promise<Response> => {
+    ): Promise<RokkaResponse> => {
       const queryParams: { limit?: number; offset?: string } = {}
 
       if (limit !== null) {
@@ -95,7 +95,7 @@ export default (state: State) => {
      * @return {Promise}
      */
 
-    get: (organization: string, name: string): Promise<Response> => {
+    get: (organization: string, name: string): Promise<RokkaResponse> => {
       return state.request('GET', `stacks/${organization}/${name}`)
     },
 
@@ -149,7 +149,7 @@ export default (state: State) => {
       stackConfig: StackConfig | StackOperation[],
       params: { overwrite?: boolean } | StackOptions = {},
       ...rest: boolean[]
-    ): Promise<Response> => {
+    ): Promise<RokkaResponse> => {
       let queryParams = Object.assign({}, params)
       let body: StackConfig = {}
 
@@ -189,7 +189,7 @@ export default (state: State) => {
      * @param  {string}  name         stack name
      * @return {Promise}
      */
-    delete: (organization: string, name: string): Promise<Response> => {
+    delete: (organization: string, name: string): Promise<RokkaResponse> => {
       return state.request('DELETE', `stacks/${organization}/${name}`)
     }
   }

@@ -20,7 +20,7 @@
  */
 import { StackOperation } from './stacks'
 import { State } from '../index'
-import { Response } from '../response'
+import { RokkaResponse } from '../response'
 
 export interface StackOperationOptions {
   [key: string]: string | number | boolean | undefined | null
@@ -91,7 +91,7 @@ export interface Operations {
     options?: CompositionOperationsOptions
   ): StackOperation
   blur(sigma: number, radius?: number): StackOperation
-  list(): Promise<Response>
+  list(): Promise<RokkaResponse>
 }
 
 export default (state: State) => {
@@ -193,7 +193,7 @@ export default (state: State) => {
      *
      * @return {Promise}
      */
-    list: (): Promise<Response> => {
+    list: (): Promise<RokkaResponse> => {
       return state.request('GET', 'operations', null, null, {
         noAuthHeaders: true
       })

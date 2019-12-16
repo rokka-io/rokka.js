@@ -3,16 +3,16 @@
  *
  * @module organizations
  */
-import { Response } from '../response'
+import { RokkaResponse } from '../response'
 import { State } from '../index'
 
 export interface Organizations {
-  get(name: string): Promise<Response>
+  get(name: string): Promise<RokkaResponse>
   create(
     name: string,
     billingEmail: string,
     displayName: string
-  ): Promise<Response>
+  ): Promise<RokkaResponse>
 }
 
 export default (state: State) => {

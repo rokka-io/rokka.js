@@ -1,5 +1,9 @@
 import { isStream } from '../utils'
-import { Response } from '../response'
+import {
+  RokkaListResponse,
+  RokkaListResponseBody,
+  RokkaResponse
+} from '../response'
 import { State } from '../index'
 
 interface SearchQueryParams {
@@ -27,77 +31,111 @@ interface CreateOptions {
   optimize_source?: boolean
 }
 
-export interface SourceimagesMeta {
-  add: (
-    organization: string,
-    hash: string,
-    data: { [p: string]: any }
-  ) => Promise<Response>
-  replace: (
-    organization: string,
-    hash: string,
-    data: { [p: string]: any }
-  ) => Promise<Response>
-  delete: (
-    organization: string,
-    hash: string,
-    field?: string
-  ) => Promise<Response>
+interface Sourceimage {
+  // we allow any key to keep it somehow compatible with changes in the backend
+  // gives less safety when TypeScript checking for wrong properties, but at least autocompletion
+  [key: string]: string | number | boolean | undefined
+  hash: string
+  short_hash: string
+  binary_hash: string
+  created: string
+  name: string
+  mimetype: string
+  format: string
+  size: number
+  width: number
+  height: number
+  organization: string
+  link: string
+  static_metadata?: any //FIXME
+  dynamic_metadata?: any //FIXME
+  user_metadata?: any //FIXME
+  opaque?: boolean
+  deleted?: boolean
+}
+interface SourceImagesListResponseBody extends RokkaListResponseBody {
+  items: Sourceimage[]
 }
 
-export interface Sourceimages {
+interface SourceimagesListResponse extends RokkaListResponse {
+  body: SourceImagesListResponseBody
+}
+
+interface SourceimageResponse extends RokkaResponse {
+  body: Sourceimage
+}
+
+export interface APISourceimages {
   list: (
     organization: string,
     params?: SearchQueryParams | undefined
-  ) => Promise<Response>
+  ) => Promise<SourceimagesListResponse>
   get: (
     organization: string,
     hash: string,
     queryParams?: GetQueryParams
-  ) => Promise<Response>
+  ) => Promise<SourceimageResponse>
   getWithBinaryHash: (
     organization: string,
     binaryHash: string
-  ) => Promise<Response>
-  download: (organization: string, hash: string) => Promise<Response>
-  autolabel: (organization: string, hash: string) => Promise<Response>
+  ) => Promise<SourceimagesListResponse>
+  download: (organization: string, hash: string) => Promise<RokkaResponse>
+  autolabel: (organization: string, hash: string) => Promise<RokkaResponse>
   create: (
     organization: string,
     fileName: string,
     binaryData: any,
     metadata?: CreateMetadata | null,
     options?: CreateOptions
-  ) => Promise<Response>
+  ) => Promise<SourceimagesListResponse>
   createByUrl: (
     organization: string,
     url: string,
     metadata?: CreateMetadata | null,
     options?: CreateOptions
-  ) => Promise<Response>
-  delete: (organization: string, hash: string) => Promise<Response>
+  ) => Promise<SourceimagesListResponse>
+  delete: (organization: string, hash: string) => Promise<RokkaResponse>
   deleteWithBinaryHash: (
     organization: string,
     binaryHash: string
-  ) => Promise<Response>
-  restore: (organization: string, hash: string) => Promise<Response>
+  ) => Promise<RokkaResponse>
+  restore: (organization: string, hash: string) => Promise<RokkaResponse>
   copy: (
     organization: string,
     hash: string,
     destinationOrganization: string,
     overwrite?: boolean
-  ) => Promise<Response>
+  ) => Promise<RokkaResponse>
   setSubjectArea: (
     organization: string,
     hash: string,
     coords: { width: number; height: number; x: number; y: number },
     options?: { deletePrevious?: string | boolean }
-  ) => Promise<Response>
+  ) => Promise<RokkaResponse>
   removeSubjectArea: (
     organization: string,
     hash: string,
     options?: { deletePrevious?: string | boolean }
-  ) => Promise<Response>
-  meta: SourceimagesMeta
+  ) => Promise<RokkaResponse>
+  meta: APISourceimagesMeta
+}
+
+export interface APISourceimagesMeta {
+  add: (
+    organization: string,
+    hash: string,
+    data: { [p: string]: any }
+  ) => Promise<RokkaResponse>
+  replace: (
+    organization: string,
+    hash: string,
+    data: { [p: string]: any }
+  ) => Promise<RokkaResponse>
+  delete: (
+    organization: string,
+    hash: string,
+    field?: string
+  ) => Promise<RokkaResponse>
 }
 
 /**
@@ -106,7 +144,7 @@ export interface Sourceimages {
  * @module sourceimages
  */
 export default (state: State) => {
-  const sourceimages: Sourceimages = {
+  const sourceimages: APISourceimages = {
     /**
      * Get a list of source images.
      *
@@ -156,7 +194,7 @@ export default (state: State) => {
         facets = null,
         deleted = null
       }: SearchQueryParams = {}
-    ): Promise<Response> => {
+    ): Promise<RokkaResponse> => {
       let queryParams: SearchQueryParams = {}
 
       if (limit !== null) {
@@ -208,7 +246,7 @@ export default (state: State) => {
       organization: string,
       hash: string,
       queryParams: GetQueryParams = {}
-    ): Promise<Response> => {
+    ): Promise<RokkaResponse> => {
       return state.request(
         'GET',
         `sourceimages/${organization}/${hash}`,
@@ -234,7 +272,7 @@ export default (state: State) => {
     getWithBinaryHash: (
       organization: string,
       binaryHash: string
-    ): Promise<Response> => {
+    ): Promise<RokkaResponse> => {
       const queryParams = { binaryHash: binaryHash }
 
       return state.request(
@@ -259,7 +297,7 @@ export default (state: State) => {
      * @param  {string}  hash         image hash
      * @return {Promise}
      */
-    download: (organization: string, hash: string): Promise<Response> => {
+    download: (organization: string, hash: string): Promise<RokkaResponse> => {
       return state.request(
         'GET',
         `sourceimages/${organization}/${hash}/download`
@@ -282,7 +320,7 @@ export default (state: State) => {
      * @param  {string}  hash         image hash
      * @return {Promise}
      */
-    autolabel: (organization: string, hash: string): Promise<Response> => {
+    autolabel: (organization: string, hash: string): Promise<RokkaResponse> => {
       return state.request(
         'POST',
         `sourceimages/${organization}/${hash}/autolabel`
@@ -319,7 +357,7 @@ export default (state: State) => {
       binaryData: any,
       metadata: CreateMetadata | null = null,
       options: CreateOptions = {}
-    ): Promise<Response> => {
+    ): Promise<RokkaResponse> => {
       const config = {
         multipart: true
       }
@@ -390,7 +428,7 @@ export default (state: State) => {
       url: string,
       metadata: CreateMetadata | null = null,
       options: CreateOptions = {}
-    ): Promise<Response> => {
+    ): Promise<RokkaResponse> => {
       const config = {
         form: true
       }
@@ -430,7 +468,7 @@ export default (state: State) => {
      * @param  {string}  hash         image hash
      * @return {Promise}
      */
-    delete: (organization: string, hash: string): Promise<Response> => {
+    delete: (organization: string, hash: string): Promise<RokkaResponse> => {
       return state.request('DELETE', `sourceimages/${organization}/${hash}`)
     },
 
@@ -451,7 +489,7 @@ export default (state: State) => {
     deleteWithBinaryHash: (
       organization: string,
       binaryHash: string
-    ): Promise<Response> => {
+    ): Promise<RokkaResponse> => {
       const queryParams = { binaryHash: binaryHash }
 
       return state.request(
@@ -476,7 +514,7 @@ export default (state: State) => {
      * @param  {string}  hash         image hash
      * @return {Promise}
      */
-    restore: (organization: string, hash: string): Promise<Response> => {
+    restore: (organization: string, hash: string): Promise<RokkaResponse> => {
       return state.request(
         'POST',
         `sourceimages/${organization}/${hash}/restore`
@@ -505,7 +543,7 @@ export default (state: State) => {
       hash: string,
       destinationOrganization: string,
       overwrite = true
-    ): Promise<Response> => {
+    ): Promise<RokkaResponse> => {
       const headers: { Destination: string; Overwrite?: string } = {
         Destination: destinationOrganization
       }
@@ -559,7 +597,7 @@ export default (state: State) => {
       hash: string,
       coords: { width: number; height: number; x: number; y: number },
       options: { deletePrevious?: string | boolean } = {}
-    ): Promise<Response> => {
+    ): Promise<RokkaResponse> => {
       options.deletePrevious = options.deletePrevious ? 'true' : 'false'
 
       return state.request(
@@ -592,7 +630,7 @@ export default (state: State) => {
       organization: string,
       hash: string,
       options: { deletePrevious?: string | boolean } = {}
-    ): Promise<Response> => {
+    ): Promise<RokkaResponse> => {
       options.deletePrevious = options.deletePrevious ? 'true' : 'false'
 
       return state.request(
@@ -636,7 +674,7 @@ export default (state: State) => {
         organization: string,
         hash: string,
         data: { [key: string]: any }
-      ): Promise<Response> => {
+      ): Promise<RokkaResponse> => {
         return state.request(
           'PATCH',
           `sourceimages/${organization}/${hash}/meta/user`,
@@ -668,7 +706,7 @@ export default (state: State) => {
         organization: string,
         hash: string,
         data: { [key: string]: any }
-      ): Promise<Response> => {
+      ): Promise<RokkaResponse> => {
         return state.request(
           'PUT',
           `sourceimages/${organization}/${hash}/meta/user`,
@@ -700,7 +738,7 @@ export default (state: State) => {
         organization: string,
         hash: string,
         field: string | null = null
-      ): Promise<Response> => {
+      ): Promise<RokkaResponse> => {
         const fieldpath = field ? `/${field}` : ''
         return state.request(
           'DELETE',

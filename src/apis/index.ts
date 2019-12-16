@@ -3,7 +3,7 @@ import operations, { Operations } from './operations'
 import organizations, { Organizations } from './organizations'
 import expressions, { Expressions } from './expressions'
 import render, { Render } from './render'
-import sourceimages, { Sourceimages } from './sourceimages'
+import sourceimages, { APISourceimages } from './sourceimages'
 import stackoptions, { StackOptions } from './stackoptions'
 import stacks, { Stacks } from './stacks'
 import stats, { Stats } from './stats'
@@ -18,7 +18,7 @@ export interface RokkaApi {
   operations: Operations
   organizations: Organizations
   render: Render
-  sourceimages: Sourceimages
+  sourceimages: APISourceimages
   stackoptions: StackOptions
   stacks: Stacks
   stats: Stats

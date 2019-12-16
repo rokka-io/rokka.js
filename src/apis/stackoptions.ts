@@ -4,11 +4,11 @@
  * @module stackoptions
  */
 
-import { Response } from '../response'
+import { RokkaResponse } from '../response'
 import { State } from '../index'
 
 export interface StackOptions {
-  get(): Promise<Response>
+  get(): Promise<RokkaResponse>
 }
 
 export default (state: State): { stackoptions: StackOptions } => {
@@ -24,7 +24,7 @@ export default (state: State): { stackoptions: StackOptions } => {
      *
      * @return {Promise}
      */
-    get: (): Promise<Response> => {
+    get: (): Promise<RokkaResponse> => {
       return state.request('GET', 'stackoptions', null, null, {
         noAuthHeaders: true
       })
