@@ -21,10 +21,27 @@ interface GetQueryParams {
   deleted?: boolean
 }
 
+interface MetaDataUser {
+  [key: string]: string | string[] | boolean | number
+}
+
+interface MetaDataDynamic {
+  [key: string]: { [key: string]: any } | undefined
+  version?: { text: string }
+  subject_area?: { x: number; y: number; width?: number; height?: number }
+  crop_area?: { x: number; y: number; width: number; height: number }
+}
+
+interface MetaDataOptions {
+  [key: string]: any
+  visual_binaryhash?: boolean
+}
+
 interface CreateMetadata {
   [key: string]: any
-  meta_user?: any
-  meta_dynamic?: any
+  meta_user?: MetaDataUser
+  meta_dynamic?: MetaDataDynamic
+  options?: MetaDataUser
 }
 
 interface CreateOptions {
@@ -34,7 +51,13 @@ interface CreateOptions {
 interface Sourceimage {
   // we allow any key to keep it somehow compatible with changes in the backend
   // gives less safety when TypeScript checking for wrong properties, but at least autocompletion
-  [key: string]: string | number | boolean | undefined
+  [key: string]:
+    | string
+    | number
+    | boolean
+    | undefined
+    | MetaDataDynamic
+    | MetaDataUser
   hash: string
   short_hash: string
   binary_hash: string
@@ -47,14 +70,18 @@ interface Sourceimage {
   height: number
   organization: string
   link: string
-  static_metadata?: any //FIXME
-  dynamic_metadata?: any //FIXME
-  user_metadata?: any //FIXME
+  static_metadata?: any
+  dynamic_metadata?: MetaDataDynamic
+  user_metadata?: MetaDataUser
   opaque?: boolean
   deleted?: boolean
 }
+
 interface SourceImagesListResponseBody extends RokkaListResponseBody {
   items: Sourceimage[]
+  total: number
+  cursor: string
+  links: { prev?: { href: string }; next?: { href: string } }
 }
 
 interface SourceimagesListResponse extends RokkaListResponse {
