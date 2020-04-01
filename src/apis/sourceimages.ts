@@ -48,7 +48,7 @@ interface CreateOptions {
   optimize_source?: boolean
 }
 
-interface Sourceimage {
+export interface Sourceimage {
   // we allow any key to keep it somehow compatible with changes in the backend
   // gives less safety when TypeScript checking for wrong properties, but at least autocompletion
   [key: string]:
@@ -77,7 +77,7 @@ interface Sourceimage {
   deleted?: boolean
 }
 
-interface SourceImagesListResponseBody extends RokkaListResponseBody {
+interface SourceimagesListResponseBody extends RokkaListResponseBody {
   items: Sourceimage[]
   total: number
   cursor: string
@@ -85,7 +85,7 @@ interface SourceImagesListResponseBody extends RokkaListResponseBody {
 }
 
 interface SourceimagesListResponse extends RokkaListResponse {
-  body: SourceImagesListResponseBody
+  body: SourceimagesListResponseBody
 }
 
 interface SourceimageResponse extends RokkaResponse {
