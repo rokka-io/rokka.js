@@ -1,5 +1,3 @@
-/// <reference lib="dom" />
-
 export interface RokkaResponse {
   response: Response
   body: any
