@@ -11,7 +11,7 @@ describe('operations', () => {
   })
 
   it('known operations functions exists', async () => {
-    const knownOperations = [
+    const knownOperations: string[] = [
       'resize',
       'autorotate',
       'rotate',

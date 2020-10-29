@@ -158,7 +158,7 @@ describe('sourceimages', () => {
     expect(resp.body.items[0].hash).toBe(
       '063c3dce6a528d8944a63185bd4c7b161454ee4f'
     )
-    expect(resp.body.items[0].user_metadata.foo).toBe('bar')
+    expect(resp.body.items[0].user_metadata?.foo).toBe('bar')
   })
 
   it('sourceimages.delete', async () => {

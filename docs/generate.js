@@ -1,17 +1,21 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const fs = require('fs')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const markdox = require('markdox')
 
 const sources = [
-  '../src/index.js',
-  '../src/apis/users.js',
-  '../src/apis/organizations.js',
-  '../src/apis/memberships.js',
-  '../src/apis/sourceimages.js',
-  '../src/apis/operations.js',
-  '../src/apis/stackoptions.js',
-  '../src/apis/stacks.js',
-  '../src/apis/render.js',
-  '../src/apis/stats.js'
+  '../src/index.ts',
+  '../src/apis/users.ts',
+  '../src/apis/billing.ts',
+  '../src/apis/organizations.ts',
+  '../src/apis/memberships.ts',
+  '../src/apis/sourceimages.ts',
+  '../src/apis/sourceimages.meta.ts',
+  '../src/apis/operations.ts',
+  '../src/apis/stackoptions.ts',
+  '../src/apis/stacks.ts',
+  '../src/apis/render.ts',
+  '../src/apis/stats.ts'
 ]
 const readme = '../README.md'
 const tmpFile = './API.md'
@@ -21,7 +25,7 @@ const options = {
   output: tmpFile
 }
 
-markdox.process(sources, options, function () {
+markdox.process(sources, options, function() {
   let docsStr = fs.readFileSync(tmpFile, 'utf8')
   let readmeStr = fs.readFileSync(readme, 'utf8')
 
@@ -32,9 +36,10 @@ markdox.process(sources, options, function () {
     .replace(/&quot;/g, "'")
     .replace(/&amp;/g, '&')
 
-  readmeStr = readmeStr
-    .replace(/(<!-- DOCS -->)(?:\r|\n|.)+(<!-- ENDDOCS -->)/gm,
-      '$1' + docsStr + '$2')
+  readmeStr = readmeStr.replace(
+    /(<!-- DOCS -->)(?:\r|\n|.)+(<!-- ENDDOCS -->)/gm,
+    '$1' + docsStr + '$2'
+  )
 
   fs.writeFileSync(readme, readmeStr)
   fs.unlinkSync(tmpFile)

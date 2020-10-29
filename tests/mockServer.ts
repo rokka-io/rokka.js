@@ -1,19 +1,19 @@
 import nock from 'nock'
 import { join } from 'path'
 import fs from 'fs'
-import rka from '../src'
+import rka, { Config } from '../src'
 
 const nockBack = nock.back
 nockBack.setMode('record')
 nockBack.fixtures = join(__dirname, 'fixtures/requests/')
 const responseDir = join(__dirname, 'fixtures/answers/')
 // don't save rawHeaders into fixtures. not needed and change too often
-const afterRecord = scopes => {
+const afterRecord = (scopes: object[]) => {
   return (
     scopes
       // don't store local requests to fixtures
-      .filter(scope => !scope.scope.match(/127.0.0.1/))
-      .map(scope => {
+      .filter((scope: any) => !scope.scope.match(/127.0.0.1/))
+      .map((scope: any) => {
         if (scope.rawHeaders) {
           delete scope.rawHeaders
         }
@@ -25,8 +25,9 @@ const afterRecord = scopes => {
       })
   )
 }
+
 export const rokka = ({ noAuth = false } = {}) => {
-  const config = {
+  const config: Config = {
     transport: { retries: 0 }
   }
   if (noAuth !== true) {
@@ -34,10 +35,19 @@ export const rokka = ({ noAuth = false } = {}) => {
   }
   return rka(config)
 }
+
 // set to true, in case you need that for some requests
 const recorder = { enable_reqheaders_recording: false }
 
-export const query = async (call, { mockFile, returnError } = {}) => {
+interface Options {
+  mockFile?: string
+  returnError?: boolean
+}
+
+export const query = async (
+  call: () => void,
+  { mockFile, returnError }: Options = {}
+) => {
   let nockRes = null
   if (mockFile) {
     // load fixture
@@ -60,7 +70,7 @@ export const query = async (call, { mockFile, returnError } = {}) => {
   return response
 }
 
-export const checkAnswer = (response, file) => {
+export const checkAnswer = (response: any, file: string) => {
   const filePath = join(responseDir, file)
   let json
   if (fs.existsSync(filePath)) {
@@ -75,7 +85,10 @@ export const checkAnswer = (response, file) => {
   return json
 }
 
-export const queryAndCheckAnswer = async (call, args = {}) => {
+export const queryAndCheckAnswer = async (
+  call: () => void,
+  args: Options = {}
+) => {
   return query(call, args).then(queryResponse => {
     if (args.mockFile) {
       return checkAnswer(queryResponse, args.mockFile)

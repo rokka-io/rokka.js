@@ -5,7 +5,7 @@
 
     <? if (!comment.ignore) { ?>
       <? if (comment.name) { ?>
-          #### rokka.<?= comment.raw.ctx.string -?>
+          #### rokka.<?= doc.javadoc[0].raw.tags[0].string -?>.<?= comment.raw.ctx.string -?>
           <?= '(' + (comment.paramStr || '') + ')' -?>
           <? if (comment.returnTags.length > 0) { -?> →
             <? comment.returnTags.forEach(function(returnTag) { -?>

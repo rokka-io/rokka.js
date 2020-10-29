@@ -1,8 +1,32 @@
 import transport from './transport'
-import modules from './apis'
-import RokkaResponse from './response'
-import queryString from 'query-string'
+import modules, { RokkaApi } from './apis'
+import RokkaResponse, {
+  RokkaResponse as RokkaResponseInterface
+} from './response'
+import { stringify } from 'query-string'
 import FormData from 'form-data'
+
+export interface Config {
+  apiKey?: string
+  apiHost?: string // default: https://api.rokka.io
+  apiVersion?: number | string // default: 1
+  renderHost?: string // default: https://{organization}.rokka.io
+  debug?: boolean // default: false
+  transport?: {
+    requestTimeout?: number // milliseconds to wait for rokka server response (default: 30000)
+    retries?: number // number of retries when API response is 429 (default: 10)
+    minTimeout?: number // minimum milliseconds between retries (default: 1000)
+    maxTimeout?: number // maximum milliseconds between retries (default: 10000)
+    randomize?: boolean // randomize time between retries (default: true)
+  }
+}
+
+interface RequestOptions {
+  headers?: object
+  noAuthHeaders?: boolean
+  form?: boolean
+  multipart?: boolean
+}
 
 const defaults = {
   apiHost: 'https://api.rokka.io',
@@ -14,11 +38,12 @@ const defaults = {
     minTimeout: 1000,
     maxTimeout: 10000,
     randomize: true,
-    factor: 2
+    factor: 2,
+    debug: false
   }
 }
 
-const getResponseBody = async response => {
+const getResponseBody = async (response: any) => {
   if (response.headers && response.json) {
     if (response.headers.get('content-type') === 'application/json') {
       return response.json()
@@ -27,6 +52,35 @@ const getResponseBody = async response => {
   }
   return response.body
 }
+
+interface Request {
+  method: string
+  headers: { 'Api-Version'?: string | number; 'Api-Key'?: string }
+  timeout: number | undefined
+  retries: number | undefined | any
+  retryDelay: (attempt: number) => number
+  form: {}
+  json: boolean
+  body: any
+}
+
+export interface State {
+  apiKey: string | undefined
+  apiHost: string
+  apiVersion: number | string
+  renderHost: string
+  transportOptions: any
+  request(
+    method: string,
+    path: string,
+    payload?: any | null | undefined,
+    queryParams?: {
+      [key: string]: string | number | boolean | undefined | null
+    } | null,
+    options?: RequestOptions | undefined | null
+  ): Promise<RokkaResponseInterface>
+}
+
 /**
  * Initializing the rokka client.
  *
@@ -54,12 +108,8 @@ const getResponseBody = async response => {
  *
  * @module rokka
  */
-export default (config = {}) => {
-  if (config.debug !== null) {
-    transport.debug = config.debug
-  }
-
-  const state = {
+export default (config: Config = {}): RokkaApi => {
+  const state: State = {
     // config
     apiKey: config.apiKey,
     apiHost: config.apiHost || defaults.apiHost,
@@ -68,7 +118,13 @@ export default (config = {}) => {
     transportOptions: Object.assign(defaults.transport, config.transport),
 
     // functions
-    request (method, path, payload = null, queryParams = null, options = {}) {
+    request(
+      method: string,
+      path: string,
+      payload: any | null = null,
+      queryParams: { [key: string]: string | number | boolean } | null = null,
+      options: RequestOptions = { noAuthHeaders: false }
+    ): Promise<RokkaResponseInterface> {
       let uri = [state.apiHost, path].join('/')
       if (
         queryParams &&
@@ -77,9 +133,10 @@ export default (config = {}) => {
           queryParams.constructor === Object
         )
       ) {
-        uri += '?' + queryString.stringify(queryParams)
+        uri += '?' + stringify(queryParams)
       }
-      const headers = options.headers || {}
+      const headers: { 'Api-Version'?: string | number; 'Api-Key'?: string } =
+        options.headers || {}
 
       headers['Api-Version'] = state.apiVersion
 
@@ -91,7 +148,7 @@ export default (config = {}) => {
         headers['Api-Key'] = state.apiKey
       }
 
-      const retryDelay = (attempt, error, response) => {
+      const retryDelay = (attempt: number) => {
         // from https://github.com/tim-kos/node-retry/blob/master/lib/retry.js
         const random = state.transportOptions.randomize ? Math.random() + 1 : 1
 
@@ -103,17 +160,20 @@ export default (config = {}) => {
         return Math.min(timeout, state.transportOptions.maxTimeout)
       }
 
-      const request = {
+      const request: Request = {
         method: method,
         headers: headers,
         timeout: state.transportOptions.requestTimeout,
         retries: state.transportOptions.retries,
-        retryDelay
+        retryDelay,
+        form: {},
+        json: false,
+        body: undefined
       }
       if (options.form === true) {
         const formData = payload || {}
         const requestData = new FormData()
-        Object.keys(formData).forEach(function (meta) {
+        Object.keys(formData).forEach(function(meta) {
           requestData.append(meta, formData[meta])
         })
         request.body = requestData
@@ -126,7 +186,7 @@ export default (config = {}) => {
 
         requestData.append(payload.name, payload.contents, payload.filename)
 
-        Object.keys(formData).forEach(function (meta) {
+        Object.keys(formData).forEach(function(meta) {
           requestData.append(meta, JSON.stringify(formData[meta]))
         })
 
@@ -138,17 +198,19 @@ export default (config = {}) => {
       }
 
       const t = transport(uri, request)
-      return t.then(async response => {
-        const rokkaResponse = RokkaResponse(response)
-        rokkaResponse.body = await getResponseBody(response)
-        if (response.status >= 400) {
-          rokkaResponse.error = rokkaResponse.body
-          rokkaResponse.message =
-            response.status + ' - ' + JSON.stringify(rokkaResponse.body)
-          throw rokkaResponse
+      return t.then(
+        async (response: Response): Promise<RokkaResponseInterface> => {
+          const rokkaResponse = RokkaResponse(response)
+          rokkaResponse.body = await getResponseBody(response)
+          if (response.status >= 400) {
+            rokkaResponse.error = rokkaResponse.body
+            rokkaResponse.message =
+              response.status + ' - ' + JSON.stringify(rokkaResponse.body)
+            throw rokkaResponse
+          }
+          return rokkaResponse
         }
-        return rokkaResponse
-      })
+      )
     }
   }
 

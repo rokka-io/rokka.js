@@ -37,7 +37,7 @@ rokka.sourceimages.list('myorg')
 
 <!-- DOCS -->
 
-<!-- Start ../src/index.js -->
+<!-- Start ../src/index.ts -->
 
 Initializing the rokka client.
 
@@ -62,9 +62,9 @@ All properties are optional since certain calls don't require credentials.
 
 ---
 
-<!-- End ../src/index.js -->
+<!-- End ../src/index.ts -->
 
-<!-- Start ../src/apis/users.js -->
+<!-- Start ../src/apis/users.ts -->
 
 ### Users
 
@@ -90,9 +90,29 @@ rokka.users.getId()
 
 ---
 
-<!-- End ../src/apis/users.js -->
+<!-- End ../src/apis/users.ts -->
 
-<!-- Start ../src/apis/organizations.js -->
+<!-- Start ../src/apis/billing.ts -->
+
+### Billing
+
+#### rokka.billing.get(organization, [from=null], [to=null]) → Promise
+
+Retrieve statistics about the billing of an organization
+
+If `from` and `to` are not specified, the API will return data for the last 30 days.
+
+```js
+rokka.billing.get('myorg', '2017-01-01', '2017-01-31')
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
+---
+
+<!-- End ../src/apis/billing.ts -->
+
+<!-- Start ../src/apis/organizations.ts -->
 
 ### Organizations
 
@@ -118,9 +138,9 @@ rokka.organizations.create('myorg', 'billing@example.org', 'Organization Inc.')
 
 ---
 
-<!-- End ../src/apis/organizations.js -->
+<!-- End ../src/apis/organizations.ts -->
 
-<!-- Start ../src/apis/memberships.js -->
+<!-- Start ../src/apis/memberships.ts -->
 
 ### Memberships
 
@@ -183,9 +203,9 @@ rokka.memberships.get('myorg',userId)
 
 ---
 
-<!-- End ../src/apis/memberships.js -->
+<!-- End ../src/apis/memberships.ts -->
 
-<!-- Start ../src/apis/sourceimages.js -->
+<!-- Start ../src/apis/sourceimages.ts -->
 
 ### Source Images
 
@@ -375,6 +395,14 @@ rokka.sourceimages.removeSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bac
   .catch(function(err) {});
 ```
 
+---
+
+<!-- End ../src/apis/sourceimages.ts -->
+
+<!-- Start ../src/apis/sourceimages.meta.ts -->
+
+### Source Images
+
 ### User metadata
 
 See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
@@ -428,9 +456,9 @@ If the third parameter (field) is specified, it will just delete this field.
 
 ---
 
-<!-- End ../src/apis/sourceimages.js -->
+<!-- End ../src/apis/sourceimages.meta.ts -->
 
-<!-- Start ../src/apis/operations.js -->
+<!-- Start ../src/apis/operations.ts -->
 
 ### Operations
 
@@ -461,9 +489,9 @@ rokka.operations.list()
 
 ---
 
-<!-- End ../src/apis/operations.js -->
+<!-- End ../src/apis/operations.ts -->
 
-<!-- Start ../src/apis/stackoptions.js -->
+<!-- Start ../src/apis/stackoptions.ts -->
 
 ### Stack options
 
@@ -479,9 +507,9 @@ rokka.stackoptions.get()
 
 ---
 
-<!-- End ../src/apis/stackoptions.js -->
+<!-- End ../src/apis/stackoptions.ts -->
 
-<!-- Start ../src/apis/stacks.js -->
+<!-- Start ../src/apis/stacks.ts -->
 
 ### Stacks
 
@@ -554,9 +582,9 @@ rokka.stacks.delete('myorg', 'mystack')
 
 ---
 
-<!-- End ../src/apis/stacks.js -->
+<!-- End ../src/apis/stacks.ts -->
 
-<!-- Start ../src/apis/render.js -->
+<!-- Start ../src/apis/render.ts -->
 
 ### Render
 
@@ -570,9 +598,9 @@ rokka.render.getUrl('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'png', 
 
 ---
 
-<!-- End ../src/apis/render.js -->
+<!-- End ../src/apis/render.ts -->
 
-<!-- Start ../src/apis/stats.js -->
+<!-- Start ../src/apis/stats.ts -->
 
 ### Stats
 
@@ -590,7 +618,7 @@ rokka.stats.get('myorg', '2017-01-01', '2017-01-31')
 
 ---
 
-<!-- End ../src/apis/stats.js -->
+<!-- End ../src/apis/stats.ts -->
 
 <!-- ENDDOCS -->
 
