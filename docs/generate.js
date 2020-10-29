@@ -10,6 +10,7 @@ const sources = [
   '../src/apis/organizations.ts',
   '../src/apis/memberships.ts',
   '../src/apis/sourceimages.ts',
+  '../src/apis/sourceimages.meta.ts',
   '../src/apis/operations.ts',
   '../src/apis/stackoptions.ts',
   '../src/apis/stacks.ts',

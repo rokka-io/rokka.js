@@ -395,12 +395,20 @@ rokka.sourceimages.removeSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bac
   .catch(function(err) {});
 ```
 
+---
+
+<!-- End ../src/apis/sourceimages.ts -->
+
+<!-- Start ../src/apis/sourceimages.meta.ts -->
+
+### Source Images
+
 ### User metadata
 
 See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
 for more information.
 
-#### rokka.sourceimages.meta(organization, hash, data) → Promise
+#### rokka.sourceimages.meta.add(organization, hash, data) → Promise
 
 Add user metadata to a source image.
 
@@ -416,7 +424,7 @@ rokka.sourceimages.meta.add('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
   .catch(function(err) {});
 ```
 
-#### rokka.sourceimages.replace(organization, hash, data) → Promise
+#### rokka.sourceimages.meta.replace(organization, hash, data) → Promise
 
 Replace user metadata of a source image with the passed data.
 
@@ -431,7 +439,7 @@ rokka.sourceimages.meta.replace('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a4
   .catch(function(err) {});
 ```
 
-#### rokka.sourceimages.delete(organization, hash, [field=null]) → Promise
+#### rokka.sourceimages.meta.delete(organization, hash, [field=null]) → Promise
 
 Replace user metadata of a source image with the passed data.
 
@@ -448,7 +456,7 @@ If the third parameter (field) is specified, it will just delete this field.
 
 ---
 
-<!-- End ../src/apis/sourceimages.ts -->
+<!-- End ../src/apis/sourceimages.meta.ts -->
 
 <!-- Start ../src/apis/operations.ts -->
 
