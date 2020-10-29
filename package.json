@@ -10,6 +10,9 @@
     "/dist/*",
     "/src/*"
   ],
+  "engines": {
+    "node": ">=10"
+  },
   "scripts": {
     "test": "npm run lint && npm run jest",
     "lint": "eslint '{src,tests,docs}/**/*.{js,ts}'",
