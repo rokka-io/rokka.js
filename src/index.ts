@@ -173,7 +173,7 @@ export default (config: Config = {}): RokkaApi => {
       if (options.form === true) {
         const formData = payload || {}
         const requestData = new FormData()
-        Object.keys(formData).forEach(function (meta) {
+        Object.keys(formData).forEach(function(meta) {
           requestData.append(meta, formData[meta])
         })
         request.body = requestData
