@@ -111,7 +111,12 @@ export default (config = {}) => {
         retryDelay
       }
       if (options.form === true) {
-        request.form = payload || {}
+        const formData = payload || {}
+        const requestData = new FormData()
+        Object.keys(formData).forEach(function (meta) {
+          requestData.append(meta, formData[meta])
+        })
+        request.body = requestData
       } else if (options.multipart !== true) {
         request.json = true
         request.body = payload
