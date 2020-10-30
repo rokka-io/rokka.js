@@ -29,7 +29,7 @@ export default [
         }
       })
     ],
-    external: ['cross-fetch', 'form-data', 'js-sha256', 'btoa']
+    external: ['cross-fetch', 'form-data', 'simple-js-sha2-256', 'btoa']
   },
   {
     input: 'src/index.ts',
@@ -45,6 +45,6 @@ export default [
     ],
 
     plugins: [typescript(), commonjs(), resolve()],
-    external: ['cross-fetch', 'form-data', 'query-string', 'btoa', 'js-sha256']
+    external: ['cross-fetch', 'form-data', 'query-string','simple-js-sha2-256', 'btoa']
   }
 ]

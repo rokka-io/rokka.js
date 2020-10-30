@@ -1,6 +1,9 @@
 import { stringifyOperations } from '../utils'
 import { State } from '../index'
-const sha256 = require('js-sha256')
+//const sha256 = require('js-sha256')
+//const {sha256} = require('crypto-hash');
+const sha2_256 = require('simple-js-sha2-256')
+
 //const btoa = require('btoa')
 import btoa from 'btoa'
 type SignUrlWithOptionsType = (
@@ -110,7 +113,7 @@ export default (state: State) => {
 
       const urlPath = urlObject.pathname + urlObject.search
       const sigString = urlPath + ':' + signKey
-      const hash = sha256(sigString)
+      const hash = sha2_256(sigString)
 
       // append new sig
       urlObject.searchParams.append('sig', hash.substring(0, 16))
