@@ -596,6 +596,17 @@ Get URL for rendering an image.
 rokka.render.getUrl('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'png', 'mystack')
 ```
 
+#### rokka.render.signUrl(url, signKey, [{until = null, roundDateUpTo = 300}])
+
+Signs a Rokka URL with an option valid until date.
+
+It also rounds up the date to the next 5 minutes (300 seconds) to
+improve CDN caching, can be changed
+
+#### rokka.render.signUrlWithOptions()
+
+Signs a rokka URL with a sign key and optional signature options.
+
 ---
 
 <!-- End ../src/apis/render.ts -->

@@ -1,7 +1,8 @@
 # 3.0.0 [unreleased]
 
 - Converted to typescript. Even though it's supposed to be 100% backwards compatible, we decided to make this a major release.
-- Moved tests from ava to jest and nock
+- Moved tests from ava to jest and nock.
+- Added `rokka.render.signUrl` method.
 
 # 2.0.1 [04-11-2019]
 

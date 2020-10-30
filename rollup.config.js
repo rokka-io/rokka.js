@@ -12,7 +12,8 @@ export default [
       sourcemap: true,
       globals: {
         'form-data': 'FormData',
-        'cross-fetch': 'fetch'
+        'cross-fetch': 'fetch',
+        'btoa': 'btoa'
       }
     },
 
@@ -28,7 +29,7 @@ export default [
         }
       })
     ],
-    external: ['cross-fetch', 'form-data']
+    external: ['cross-fetch', 'form-data', 'js-sha256', 'btoa']
   },
   {
     input: 'src/index.ts',
@@ -43,7 +44,7 @@ export default [
       }
     ],
 
-    plugins: [typescript(), resolve()],
-    external: ['cross-fetch', 'form-data', 'query-string']
+    plugins: [typescript(), commonjs(), resolve()],
+    external: ['cross-fetch', 'form-data', 'query-string', 'btoa', 'js-sha256']
   }
 ]
