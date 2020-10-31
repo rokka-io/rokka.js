@@ -43,10 +43,7 @@ export interface Render {
   addStackVariables: AddStackVariablesType
 }
 
-/**
- * currently only gets variables
- * @param stack
- */
+// currently only gets stack variables
 const getStackComponents = (
   stack: string
 ): { variables: VariablesInterface; stackString: string } => {
@@ -180,6 +177,7 @@ export default (state: State) => {
      * @param {SignUrlOptions} [{until:Date = null, roundDateUpTo:number = 300}] optional options.
      *                  until: Valid until,
      *                  roundDateUpTo: For improved caching, the date can be rounded up by so many seconds (default: 300)
+     * @return {string}
      */
     signUrl: (url, signKey, { until = null, roundDateUpTo = 300 } = {}) => {
       let options = null
@@ -224,6 +222,16 @@ export default (state: State) => {
       return urlObject.toString()
     },
 
+    /**
+     * Adds stack variables to a rokka URL in a safe way
+     *
+     * Uses the v query parameter, if a variable shouldn't be in the path
+     *
+     * @param {string} url                    The url the stack variables are added to
+     * @param {object} variables              The variables to add
+     * @param {bool}   [removeSafeUrlFromQuery=false] If true, removes some safe characters from the query
+     * @return {string}
+     */
     addStackVariables: (
       url,
       variables,

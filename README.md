@@ -596,7 +596,7 @@ Get URL for rendering an image.
 rokka.render.getUrl('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'png', 'mystack')
 ```
 
-#### rokka.render.signUrl(url, signKey, [{until = null, roundDateUpTo = 300}])
+#### rokka.render.signUrl(url, signKey, [{until:Date = null, roundDateUpTo:number = 300}]) → string
 
 Signs a Rokka URL with an option valid until date.
 
@@ -606,6 +606,12 @@ improve CDN caching, can be changed
 #### rokka.render.signUrlWithOptions()
 
 Signs a rokka URL with a sign key and optional signature options.
+
+#### rokka.render.addStackVariables(url, variables, [removeSafeUrlFromQuery=false]) → string
+
+Adds stack variables to a rokka URL in a safe way
+
+Uses the v query parameter, if a variable shouldn't be in the path
 
 ---
 
