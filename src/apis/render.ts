@@ -20,14 +20,14 @@ type SignUrlType = (
   options?: SignUrlOptions
 ) => string
 
-interface VariablesInterface {
+export interface VariablesInterface {
   [key: string]: string | number | boolean
 }
 
 type AddStackVariablesType = (
   url: string,
   variables: VariablesInterface,
-  removeSafeUrlFromQuery: boolean
+  removeSafeUrlFromQuery?: boolean
 ) => string
 
 export interface Render {
