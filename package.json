@@ -42,7 +42,6 @@
   },
   "homepage": "https://github.com/rokka-io/rokka.js#readme",
   "dependencies": {
-    "btoa": "^1.2.1",
     "cross-fetch": "^3.0.4",
     "form-data": "^3.0.0",
     "query-string": "^6.9.0",

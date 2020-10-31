@@ -1,7 +1,6 @@
 import { stringifyOperations } from '../utils'
 import { State } from '../index'
 import sha2_256 from 'simple-js-sha2-256'
-import btoa from 'btoa'
 
 type SignUrlWithOptionsType = (
   url: string,
@@ -204,8 +203,7 @@ export default (state: State) => {
 
       // generate sigopts
       if (options) {
-        const sigOptsBase64 = btoa(JSON.stringify(options))
-        urlObject.searchParams.set('sigopts', sigOptsBase64)
+        urlObject.searchParams.set('sigopts', JSON.stringify(options))
       } else {
         urlObject.searchParams.delete('sigopts')
       }

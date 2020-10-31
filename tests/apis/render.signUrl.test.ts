@@ -16,7 +16,7 @@ describe('render', () => {
         until: new Date('2050-02-08T08:03:00+01:00')
       })
     ).toBe(
-      'https://myorg.rokka.io/dynamic/c1b110.jpg?sigopts=eyJ1bnRpbCI6IjIwNTAtMDItMDhUMDc6MDU6MDAuMDAwWiJ9&sig=04fc1f815382c2c8'
+      'https://myorg.rokka.io/dynamic/c1b110.jpg?sigopts=%7B%22until%22%3A%222050-02-08T07%3A05%3A00.000Z%22%7D&sig=0f6370995020ce81'
     )
 
     //same sig a minute later
@@ -25,7 +25,7 @@ describe('render', () => {
         until: new Date('2050-02-08T08:04:00+01:00')
       })
     ).toBe(
-      'https://myorg.rokka.io/dynamic/c1b110.jpg?sigopts=eyJ1bnRpbCI6IjIwNTAtMDItMDhUMDc6MDU6MDAuMDAwWiJ9&sig=04fc1f815382c2c8'
+      'https://myorg.rokka.io/dynamic/c1b110.jpg?sigopts=%7B%22until%22%3A%222050-02-08T07%3A05%3A00.000Z%22%7D&sig=0f6370995020ce81'
     )
 
     // different sig 2 minutes later
@@ -34,7 +34,7 @@ describe('render', () => {
         until: new Date('2050-02-08T08:06:00+01:00')
       })
     ).toBe(
-      'https://myorg.rokka.io/dynamic/c1b110.jpg?sigopts=eyJ1bnRpbCI6IjIwNTAtMDItMDhUMDc6MTA6MDAuMDAwWiJ9&sig=d6602e4437b8ea9d'
+      'https://myorg.rokka.io/dynamic/c1b110.jpg?sigopts=%7B%22until%22%3A%222050-02-08T07%3A10%3A00.000Z%22%7D&sig=1b4ef0fce0a76d00'
     )
 
     // keep v querey
@@ -77,7 +77,7 @@ describe('render', () => {
         { until: new Date('2050-02-08T08:03:00+01:00') }
       )
     ).toBe(
-      'https://myorg.rokka.io/dynamic/c1b110.jpg?foo=bar&lala=hello&soso=&sigopts=eyJ1bnRpbCI6IjIwNTAtMDItMDhUMDc6MDU6MDAuMDAwWiJ9&sig=b432c9e281d6568d'
+      'https://myorg.rokka.io/dynamic/c1b110.jpg?foo=bar&lala=hello&soso=&sigopts=%7B%22until%22%3A%222050-02-08T07%3A05%3A00.000Z%22%7D&sig=6f3e929c4a310e27'
     )
   })
 })
