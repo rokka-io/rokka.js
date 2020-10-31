@@ -1,11 +1,8 @@
 import { stringifyOperations } from '../utils'
 import { State } from '../index'
-//const sha256 = require('js-sha256')
-//const {sha256} = require('crypto-hash');
-const sha2_256 = require('simple-js-sha2-256')
-
-//const btoa = require('btoa')
+import sha2_256 from 'simple-js-sha2-256'
 import btoa from 'btoa'
+
 type SignUrlWithOptionsType = (
   url: string,
   signKey: string,
@@ -103,7 +100,7 @@ export default (state: State) => {
       // generate sigopts
       if (options) {
         const sigOptsBase64 = btoa(JSON.stringify(options))
-        urlObject.searchParams.append('sigopts', sigOptsBase64)
+        urlObject.searchParams.set('sigopts', sigOptsBase64)
       } else {
         urlObject.searchParams.delete('sigopts')
       }
