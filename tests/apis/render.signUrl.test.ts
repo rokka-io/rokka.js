@@ -13,7 +13,7 @@ describe('render', () => {
     // time limited
     expect(
       rka.render.signUrl(signPath, signKey, {
-        until: new Date('2050-02-08T08:03:00')
+        until: new Date('2050-02-08T08:03:00+01:00')
       })
     ).toBe(
       'https://myorg.rokka.io/dynamic/c1b110.jpg?sigopts=eyJ1bnRpbCI6IjIwNTAtMDItMDhUMDc6MDU6MDAuMDAwWiJ9&sig=04fc1f815382c2c8'
@@ -22,7 +22,7 @@ describe('render', () => {
     //same sig a minute later
     expect(
       rka.render.signUrl(signPath, signKey, {
-        until: new Date('2050-02-08T08:04:00')
+        until: new Date('2050-02-08T08:04:00+01:00')
       })
     ).toBe(
       'https://myorg.rokka.io/dynamic/c1b110.jpg?sigopts=eyJ1bnRpbCI6IjIwNTAtMDItMDhUMDc6MDU6MDAuMDAwWiJ9&sig=04fc1f815382c2c8'
@@ -31,7 +31,7 @@ describe('render', () => {
     // different sig 2 minutes later
     expect(
       rka.render.signUrl(signPath, signKey, {
-        until: new Date('2050-02-08T08:06:00')
+        until: new Date('2050-02-08T08:06:00+01:00')
       })
     ).toBe(
       'https://myorg.rokka.io/dynamic/c1b110.jpg?sigopts=eyJ1bnRpbCI6IjIwNTAtMDItMDhUMDc6MTA6MDAuMDAwWiJ9&sig=d6602e4437b8ea9d'
@@ -74,7 +74,7 @@ describe('render', () => {
       rka.render.signUrl(
         signPath + '?foo=bar&lala=hello&soso&sig=lala&sigopts=84989',
         signKey,
-        { until: new Date('2050-02-08T08:03:00') }
+        { until: new Date('2050-02-08T08:03:00+01:00') }
       )
     ).toBe(
       'https://myorg.rokka.io/dynamic/c1b110.jpg?foo=bar&lala=hello&soso=&sigopts=eyJ1bnRpbCI6IjIwNTAtMDItMDhUMDc6MDU6MDAuMDAwWiJ9&sig=b432c9e281d6568d'
