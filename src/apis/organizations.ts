@@ -16,7 +16,11 @@ export interface Organizations {
     displayName: string
   ): Promise<RokkaResponse>
 
-  setOption(organizationName:string, name:string, value:boolean|string): Promise<RokkaResponse>
+  setOption(
+    organizationName: string,
+    name: string,
+    value: boolean | string
+  ): Promise<RokkaResponse>
 }
 
 export default (state: State) => {
@@ -62,9 +66,12 @@ export default (state: State) => {
     },
 
     setOption: (organizationName, name, value) => {
-      return state.request('PUT', `organizations/${organizationName}/options/${name}`, value)
+      return state.request(
+        'PUT',
+        `organizations/${organizationName}/options/${name}`,
+        value
+      )
     }
-
   }
 
   return {
