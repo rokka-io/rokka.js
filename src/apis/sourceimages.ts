@@ -36,13 +36,14 @@ interface MetaDataDynamic {
 interface MetaDataOptions {
   [key: string]: any
   visual_binaryhash?: boolean
+  protected?: boolean
 }
 
 interface CreateMetadata {
   [key: string]: any
   meta_user?: MetaDataUser
   meta_dynamic?: MetaDataDynamic
-  options?: MetaDataUser
+  options?: MetaDataOptions
 }
 
 interface CreateOptions {
@@ -76,6 +77,7 @@ export interface Sourceimage {
   user_metadata?: MetaDataUser
   opaque?: boolean
   deleted?: boolean
+  protected?: boolean
 }
 
 interface SourceimagesListResponseBody extends RokkaListResponseBody {
@@ -134,6 +136,13 @@ export interface APISourceimages {
     destinationOrganization: string,
     overwrite?: boolean
   ) => Promise<RokkaResponse>
+  setProtected: (
+    organization: string,
+    hash: string,
+    isProtected: boolean,
+    options?: { deletePrevious?: string | boolean }
+  ) => Promise<RokkaResponse>
+
   setSubjectArea: (
     organization: string,
     hash: string,
@@ -584,6 +593,42 @@ export default (state: State) => {
         null,
         null,
         { headers }
+      )
+    },
+
+    /**
+     * (Un)sets the protected status of an image.
+     *
+     * Important! Returns a different hash, if the protected status changes
+     *
+     * ```js
+     * rokka.sourceimages.setProtected('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', true,
+     * {
+     *   deletePrevious: false
+     * }).then(function(result) {})
+     *   .catch(function(err) {});
+     * ```
+     *
+     * @param {string} organization  name
+     * @param {string} hash          image hash
+     * @param {boolean} isProtected          If image should be protected or not
+
+     * @param {{deletePrevious: boolean}} [options={}] Optional: only {deletePrevious: true/false} yet, false is default
+     * @returns {Promise}
+     */
+    setProtected: (
+      organization: string,
+      hash: string,
+      isProtected: boolean,
+      options: { deletePrevious?: string | boolean } = {}
+    ): Promise<RokkaResponse> => {
+      options.deletePrevious = options.deletePrevious ? 'true' : 'false'
+
+      return state.request(
+        'PUT',
+        'sourceimages/' + organization + '/' + hash + '/options/protected',
+        isProtected,
+        options
       )
     },
 

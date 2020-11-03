@@ -359,6 +359,20 @@ rokka.sourceimages.copy('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'an
   .catch(function(err) {});
 ```
 
+#### rokka.sourceimages.setProtected(organization, hash, isProtected, [options={}]) → Promise
+
+(Un)sets the protected status of an image.
+
+Important! Returns a different hash, if the protected status changes
+
+```js
+rokka.sourceimages.setProtected('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', true,
+{
+  deletePrevious: false
+}).then(function(result) {})
+  .catch(function(err) {});
+```
+
 ### Dynamic metadata
 
 See [the dynamic metadata documentation](https://rokka.io/documentation/references/dynamic-metadata.html) for

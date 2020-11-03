@@ -4,6 +4,7 @@
 - Moved tests from ava to jest and nock.
 - Added `rokka.render.signUrl` method.
 - Added `rokka.render.addStackVariables` method.
+- Added `rokka.sourceimages.setProtected` method (and support for setting it during creation)
 
 # 2.0.1 [04-11-2019]
 
