@@ -5,6 +5,7 @@
 - Added `rokka.render.signUrl` method.
 - Added `rokka.render.addStackVariables` method.
 - Added `rokka.sourceimages.setProtected` method (and support for setting it during creation)
+- Added `rokka.organizations.setOption` method.
 
 # 2.0.1 [04-11-2019]
 
