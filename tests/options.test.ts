@@ -15,8 +15,8 @@ describe('options', () => {
         minTimeout: 1000,
         randomize: true,
         requestTimeout: 30000,
-        retries: 10
-      }
+        retries: 10,
+      },
     }
     rokka()
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
@@ -29,7 +29,7 @@ describe('options', () => {
       apiKey: 'APIKEY',
       apiHost: 'https://api.example.org',
       renderHost: 'https://{organization}.example.org',
-      apiVersion: 2
+      apiVersion: 2,
     }
 
     rokka(customOptions)
@@ -43,14 +43,14 @@ describe('options', () => {
       retries: 23,
       minTimeout: 2323,
       maxTimeout: 232323,
-      randomize: false
+      randomize: false,
     }
 
     rokka({ transport: transportOptions })
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     expect(apis.mock.calls[2][0].transportOptions).toMatchObject(
-      transportOptions
+      transportOptions,
     )
   })
 })

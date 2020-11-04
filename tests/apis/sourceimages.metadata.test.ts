@@ -9,11 +9,11 @@ describe('sourceimages.metadata', () => {
         rokka().sourceimages.setSubjectArea(
           'rokka-js-tests',
           'fe5d9a097df0e93cf9570cbdb0386b137b4c9ed2',
-          subjectArea
+          subjectArea,
         ),
       {
-        mockFile: 'sourceimages_metadata_set_subjectarea.json'
-      }
+        mockFile: 'sourceimages_metadata_set_subjectarea.json',
+      },
     )
   })
 
@@ -26,11 +26,11 @@ describe('sourceimages.metadata', () => {
           'rokka-js-tests',
           'fe5d9a097df0e93cf9570cbdb0386b137b4c9ed2',
           subjectArea,
-          { deletePrevious: true }
+          { deletePrevious: true },
         ),
       {
-        mockFile: 'sourceimages_metadata_set_subjectarea_delete.json'
-      }
+        mockFile: 'sourceimages_metadata_set_subjectarea_delete.json',
+      },
     )
   })
 
@@ -39,11 +39,11 @@ describe('sourceimages.metadata', () => {
       async () =>
         rokka().sourceimages.removeSubjectArea(
           'rokka-js-tests',
-          '76114710a44fb15fb37ecf66bbad250643373990'
+          '76114710a44fb15fb37ecf66bbad250643373990',
         ),
       {
-        mockFile: 'sourceimages_metadata_remove_subjectarea.json'
-      }
+        mockFile: 'sourceimages_metadata_remove_subjectarea.json',
+      },
     )
   })
 
@@ -53,11 +53,11 @@ describe('sourceimages.metadata', () => {
         rokka().sourceimages.removeSubjectArea(
           'rokka-js-tests',
           'e551164763cdbabcd0b75b144f3f08112844a81f',
-          { deletePrevious: true }
+          { deletePrevious: true },
         ),
       {
-        mockFile: 'sourceimages_metadata_remove_subjectarea_delete.json'
-      }
+        mockFile: 'sourceimages_metadata_remove_subjectarea_delete.json',
+      },
     )
   })
 
@@ -65,18 +65,18 @@ describe('sourceimages.metadata', () => {
     const userData = {
       somefield: 'somevalue',
       'int:some_number': 0,
-      delete_this: null
+      delete_this: null,
     }
     await queryAndCheckAnswer(
       async () =>
         rokka().sourceimages.meta.add(
           'rokka-js-tests',
           'fe5d9a097df0e93cf9570cbdb0386b137b4c9ed2',
-          userData
+          userData,
         ),
       {
-        mockFile: 'sourceimages_metadata_add.json'
-      }
+        mockFile: 'sourceimages_metadata_add.json',
+      },
     )
   })
 
@@ -88,11 +88,11 @@ describe('sourceimages.metadata', () => {
         rokka().sourceimages.meta.add(
           'rokka-js-tests',
           'fe5d9a097df0e93cf9570cbdb0386b137b4c9ed2',
-          userData
+          userData,
         ),
       {
-        mockFile: 'sourceimages_metadata_replace.json'
-      }
+        mockFile: 'sourceimages_metadata_replace.json',
+      },
     )
   })
 
@@ -101,11 +101,11 @@ describe('sourceimages.metadata', () => {
       async () =>
         rokka().sourceimages.meta.delete(
           'rokka-js-tests',
-          'fe5d9a097df0e93cf9570cbdb0386b137b4c9ed2'
+          'fe5d9a097df0e93cf9570cbdb0386b137b4c9ed2',
         ),
       {
-        mockFile: 'sourceimages_metadata_delete.json'
-      }
+        mockFile: 'sourceimages_metadata_delete.json',
+      },
     )
   })
 })

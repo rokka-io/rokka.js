@@ -5,8 +5,8 @@ describe('stacks', () => {
     await queryAndCheckAnswer(
       async () => rokka().stacks.list('rokka-js-tests'),
       {
-        mockFile: 'stacks_list.json'
-      }
+        mockFile: 'stacks_list.json',
+      },
     )
   })
 
@@ -14,8 +14,8 @@ describe('stacks', () => {
     await queryAndCheckAnswer(
       async () => rokka().stacks.get('rokka-js-tests', 'mystack'),
       {
-        mockFile: 'stacks_get.json'
-      }
+        mockFile: 'stacks_get.json',
+      },
     )
   })
 
@@ -25,17 +25,17 @@ describe('stacks', () => {
         const options = { 'jpg.quality': 77 }
         const operations = [
           rokka().operations.rotate(45),
-          rokka().operations.resize(100, 100)
+          rokka().operations.resize(100, 100),
         ]
 
         return rokka().stacks.create('rokka-js-tests', 'mystack', {
           operations: operations,
-          options: options
+          options: options,
         })
       },
       {
-        mockFile: 'stacks_create.json'
-      }
+        mockFile: 'stacks_create.json',
+      },
     )
   })
 
@@ -45,19 +45,19 @@ describe('stacks', () => {
         const options = { 'jpg.quality': 76 }
         const operations = [
           rokka().operations.rotate(47),
-          rokka().operations.resize(120, 120)
+          rokka().operations.resize(120, 120),
         ]
 
         return rokka().stacks.create(
           'rokka-js-tests',
           'mystack026',
           operations,
-          options
+          options,
         )
       },
       {
-        mockFile: 'stacks_create_0_26.json'
-      }
+        mockFile: 'stacks_create_0_26.json',
+      },
     )
   })
 
@@ -67,23 +67,23 @@ describe('stacks', () => {
         const options = { 'jpg.quality': 78 }
         const operations = [
           rokka().operations.rotate(45),
-          rokka().operations.resize(100, 100)
+          rokka().operations.resize(100, 100),
         ]
         const expressions = [
           rokka().expressions.default('options.dpr >= 2', {
             'jpg.quality': 60,
-            'webp.quality': 60
-          })
+            'webp.quality': 60,
+          }),
         ]
         return rokka().stacks.create('rokka-js-tests', 'mystack_expressions', {
           operations,
           options,
-          expressions
+          expressions,
         })
       },
       {
-        mockFile: 'stacks_create_expressions.json'
-      }
+        mockFile: 'stacks_create_expressions.json',
+      },
     )
   })
   it('stacks.createOverwrite', async () => {
@@ -92,19 +92,19 @@ describe('stacks', () => {
         const options = { 'jpg.quality': 76 }
         const operations = [
           rokka().operations.rotate(45),
-          rokka().operations.resize(100, 100)
+          rokka().operations.resize(100, 100),
         ]
 
         return rokka().stacks.create(
           'rokka-js-tests',
           'mystack',
           { operations, options },
-          { overwrite: true }
+          { overwrite: true },
         )
       },
       {
-        mockFile: 'stacks_create_overwrite.json'
-      }
+        mockFile: 'stacks_create_overwrite.json',
+      },
     )
   })
 
@@ -114,7 +114,7 @@ describe('stacks', () => {
         const options = { 'jpg.quality': 77 }
         const operations = [
           rokka().operations.rotate(48),
-          rokka().operations.resize(120, 120)
+          rokka().operations.resize(120, 120),
         ]
 
         return rokka().stacks.create(
@@ -122,12 +122,12 @@ describe('stacks', () => {
           'mystack',
           operations,
           options,
-          true
+          true,
         )
       },
       {
-        mockFile: 'stacks_create_overwrite_0_26.json'
-      }
+        mockFile: 'stacks_create_overwrite_0_26.json',
+      },
     )
   })
 
@@ -135,8 +135,8 @@ describe('stacks', () => {
     await queryAndCheckAnswer(
       async () => rokka().stacks.delete('rokka-js-tests', 'mystack'),
       {
-        mockFile: 'stacks_delete.json'
-      }
+        mockFile: 'stacks_delete.json',
+      },
     )
   })
 })

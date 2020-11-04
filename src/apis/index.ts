@@ -38,7 +38,7 @@ export default (state: State) => {
     stacks(state),
     stats(state),
     users(state),
-    billing(state)
+    billing(state),
   )
   return api
 }

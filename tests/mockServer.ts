@@ -28,7 +28,7 @@ const afterRecord = (scopes: object[]) => {
 
 export const rokka = ({ noAuth = false } = {}) => {
   const config: Config = {
-    transport: { retries: 0 }
+    transport: { retries: 0 },
   }
   if (noAuth !== true) {
     config.apiKey = process.env.API_KEY || 'APIKEY'
@@ -46,7 +46,7 @@ interface Options {
 
 export const query = async (
   call: () => void,
-  { mockFile, returnError }: Options = {}
+  { mockFile, returnError }: Options = {},
 ) => {
   let nockRes = null
   if (mockFile) {
@@ -87,7 +87,7 @@ export const checkAnswer = (response: any, file: string) => {
 
 export const queryAndCheckAnswer = async (
   call: () => void,
-  args: Options = {}
+  args: Options = {},
 ) => {
   return query(call, args).then(queryResponse => {
     if (args.mockFile) {

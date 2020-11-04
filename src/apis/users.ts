@@ -29,10 +29,10 @@ export default (state: State) => {
      */
     create: (
       email: string,
-      organization: string | null = null
+      organization: string | null = null,
     ): Promise<RokkaResponse> => {
       return state.request('POST', 'users', { email, organization }, null, {
-        noAuthHeaders: true
+        noAuthHeaders: true,
       })
     },
 
@@ -49,10 +49,10 @@ export default (state: State) => {
      */
     getId: (): Promise<string> => {
       return state.request('GET', 'user').then(result => result.body.user_id)
-    }
+    },
   }
 
   return {
-    users
+    users,
   }
 }

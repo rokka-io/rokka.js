@@ -13,13 +13,13 @@ export interface Organizations {
   create(
     name: string,
     billingEmail: string,
-    displayName: string
+    displayName: string,
   ): Promise<RokkaResponse>
 
   setOption(
     organizationName: string,
     name: string,
-    value: boolean | string
+    value: boolean | string,
   ): Promise<RokkaResponse>
 }
 
@@ -61,7 +61,7 @@ export default (state: State) => {
     create: (name, billingEmail, displayName) => {
       return state.request('PUT', `organizations/${name}`, {
         billing_email: billingEmail,
-        display_name: displayName
+        display_name: displayName,
       })
     },
 
@@ -69,12 +69,12 @@ export default (state: State) => {
       return state.request(
         'PUT',
         `organizations/${organizationName}/options/${name}`,
-        value
+        value,
       )
-    }
+    },
   }
 
   return {
-    organizations
+    organizations,
   }
 }

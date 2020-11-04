@@ -20,7 +20,7 @@ export default (
     retryDelay?: Function | number
     retries?: number
     retryOn?: Function | number[]
-  }
+  },
 ): Promise<Response> => {
   let retries = 3
   let retryDelay: Function | number = 1000
@@ -41,7 +41,7 @@ export default (
       retryDelay = options.retryDelay
     } else {
       throw new ArgumentError(
-        'retryDelay must be a positive integer or a function returning a positive integer'
+        'retryDelay must be a positive integer or a function returning a positive integer',
       )
     }
   }
@@ -57,20 +57,20 @@ export default (
     }
   }
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     function retry(attempt: number, error: string | null, response: any) {
       const delay =
         typeof retryDelay === 'function'
           ? retryDelay(attempt, error, response)
           : retryDelay
-      setTimeout(function() {
+      setTimeout(function () {
         //eslint-disable-next-line @typescript-eslint/no-use-before-define
         wrappedFetch(++attempt)
       }, delay)
     }
-    const wrappedFetch = function(attempt: number) {
+    const wrappedFetch = function (attempt: number) {
       fetch(url, options as any)
-        .then(function(response) {
+        .then(function (response) {
           if (
             Array.isArray(retryOn) &&
             retryOn.indexOf(response.status) === -1
@@ -92,7 +92,7 @@ export default (
           }
           resolve(response)
         })
-        .catch(function(error) {
+        .catch(function (error) {
           if (typeof retryOn === 'function') {
             if (retryOn(attempt, error, null)) {
               retry(attempt, error, null)

@@ -5,8 +5,8 @@ describe('stackoptions', () => {
     await queryAndCheckAnswer(
       async () => rokka({ noAuth: true }).stackoptions.get(),
       {
-        mockFile: 'stackoptions_get.json'
-      }
+        mockFile: 'stackoptions_get.json',
+      },
     )
   })
 })

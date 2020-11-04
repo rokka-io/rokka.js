@@ -21,8 +21,8 @@ describe('addStackVariables', () => {
     '$description: converts $url to $expectedResult with $variables',
     ({ url, variables, cleanerUrl, expectedResult }) => {
       expect(
-        rka.render.addStackVariables(`${rootUrl}${url}`, variables, cleanerUrl)
+        rka.render.addStackVariables(`${rootUrl}${url}`, variables, cleanerUrl),
       ).toBe(`${rootUrl}${expectedResult}`)
-    }
+    },
   )
 })

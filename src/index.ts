@@ -1,7 +1,7 @@
 import transport from './transport'
 import modules, { RokkaApi } from './apis'
 import RokkaResponse, {
-  RokkaResponse as RokkaResponseInterface
+  RokkaResponse as RokkaResponseInterface,
 } from './response'
 import { stringify } from 'query-string'
 import FormData from 'form-data'
@@ -39,8 +39,8 @@ const defaults = {
     maxTimeout: 10000,
     randomize: true,
     factor: 2,
-    debug: false
-  }
+    debug: false,
+  },
 }
 
 const getResponseBody = async (response: any) => {
@@ -77,7 +77,7 @@ export interface State {
     queryParams?: {
       [key: string]: string | number | boolean | undefined | null
     } | null,
-    options?: RequestOptions | undefined | null
+    options?: RequestOptions | undefined | null,
   ): Promise<RokkaResponseInterface>
 }
 
@@ -122,8 +122,10 @@ export default (config: Config = {}): RokkaApi => {
       method: string,
       path: string,
       payload: any | null = null,
-      queryParams: { [key: string]: string | number | boolean } | null = null,
-      options: RequestOptions = { noAuthHeaders: false }
+      queryParams: {
+        [key: string]: string | number | boolean
+      } | null = null,
+      options: RequestOptions = { noAuthHeaders: false },
     ): Promise<RokkaResponseInterface> {
       let uri = [state.apiHost, path].join('/')
       if (
@@ -135,8 +137,10 @@ export default (config: Config = {}): RokkaApi => {
       ) {
         uri += '?' + stringify(queryParams)
       }
-      const headers: { 'Api-Version'?: string | number; 'Api-Key'?: string } =
-        options.headers || {}
+      const headers: {
+        'Api-Version'?: string | number
+        'Api-Key'?: string
+      } = options.headers || {}
 
       headers['Api-Version'] = state.apiVersion
 
@@ -155,7 +159,7 @@ export default (config: Config = {}): RokkaApi => {
         const timeout = Math.round(
           random *
             state.transportOptions.minTimeout *
-            Math.pow(state.transportOptions.factor, attempt)
+            Math.pow(state.transportOptions.factor, attempt),
         )
         return Math.min(timeout, state.transportOptions.maxTimeout)
       }
@@ -168,12 +172,12 @@ export default (config: Config = {}): RokkaApi => {
         retryDelay,
         form: {},
         json: false,
-        body: undefined
+        body: undefined,
       }
       if (options.form === true) {
         const formData = payload || {}
         const requestData = new FormData()
-        Object.keys(formData).forEach(function(meta) {
+        Object.keys(formData).forEach(function (meta) {
           requestData.append(meta, formData[meta])
         })
         request.body = requestData
@@ -186,7 +190,7 @@ export default (config: Config = {}): RokkaApi => {
 
         requestData.append(payload.name, payload.contents, payload.filename)
 
-        Object.keys(formData).forEach(function(meta) {
+        Object.keys(formData).forEach(function (meta) {
           requestData.append(meta, JSON.stringify(formData[meta]))
         })
 
@@ -209,9 +213,9 @@ export default (config: Config = {}): RokkaApi => {
             throw rokkaResponse
           }
           return rokkaResponse
-        }
+        },
       )
-    }
+    },
   }
 
   return Object.assign({}, modules(state))

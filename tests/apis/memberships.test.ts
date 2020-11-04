@@ -6,7 +6,7 @@ describe('memberships', () => {
       READ: 'read',
       WRITE: 'write',
       UPLOAD: 'upload',
-      ADMIN: 'admin'
+      ADMIN: 'admin',
     })
   })
 
@@ -15,12 +15,12 @@ describe('memberships', () => {
       async () => {
         return rokka().memberships.createWithNewUser('rokka-js-tests', [
           rokka().memberships.ROLES.UPLOAD,
-          rokka().memberships.ROLES.READ
+          rokka().memberships.ROLES.READ,
         ])
       },
       {
-        mockFile: 'memberships_create_with_new_user.json'
-      }
+        mockFile: 'memberships_create_with_new_user.json',
+      },
     )
   })
 
@@ -30,12 +30,12 @@ describe('memberships', () => {
         return rokka().memberships.create(
           'rokka-js-tests',
           '679cd7aa-5445-4d6a-8d56-930557a2a77e',
-          [rokka().memberships.ROLES.UPLOAD, rokka().memberships.ROLES.WRITE]
+          [rokka().memberships.ROLES.UPLOAD, rokka().memberships.ROLES.WRITE],
         )
       },
       {
-        mockFile: 'memberships_create_with_array.json'
-      }
+        mockFile: 'memberships_create_with_array.json',
+      },
     )
   })
 
@@ -43,8 +43,8 @@ describe('memberships', () => {
     await queryAndCheckAnswer(
       async () => rokka().memberships.list('rokka-js-tests'),
       {
-        mockFile: 'memberships_list.json'
-      }
+        mockFile: 'memberships_list.json',
+      },
     )
   })
 
@@ -53,11 +53,11 @@ describe('memberships', () => {
       async () =>
         rokka().memberships.delete(
           'rokka-js-tests',
-          '679cd7aa-5445-4d6a-8d56-930557a2a77e'
+          '679cd7aa-5445-4d6a-8d56-930557a2a77e',
         ),
       {
-        mockFile: 'memberships_delete.json'
-      }
+        mockFile: 'memberships_delete.json',
+      },
     )
   })
 })

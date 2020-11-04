@@ -5,7 +5,7 @@ import sha2_256 from 'simple-js-sha2-256'
 type SignUrlWithOptionsType = (
   url: string,
   signKey: string,
-  options?: { until?: string } | null
+  options?: { until?: string } | null,
 ) => string
 
 interface SignUrlOptions {
@@ -16,7 +16,7 @@ interface SignUrlOptions {
 type SignUrlType = (
   url: string,
   signKey: string,
-  options?: SignUrlOptions
+  options?: SignUrlOptions,
 ) => string
 
 export interface VariablesInterface {
@@ -26,7 +26,7 @@ export interface VariablesInterface {
 type AddStackVariablesType = (
   url: string,
   variables: VariablesInterface,
-  removeSafeUrlFromQuery?: boolean
+  removeSafeUrlFromQuery?: boolean,
 ) => string
 
 export interface Render {
@@ -34,7 +34,7 @@ export interface Render {
     organization: string,
     hash: string,
     format: string,
-    mixed: string | object
+    mixed: string | object,
   ): string
 
   signUrl: SignUrlType
@@ -44,7 +44,7 @@ export interface Render {
 
 // currently only gets stack variables
 const getStackComponents = (
-  stack: string
+  stack: string,
 ): { variables: VariablesInterface; stackString: string } => {
   // split by slashes
   // TODO: if we parse operations and options, only the stuff before the first / is a dynamic operation
@@ -86,7 +86,7 @@ const getStackComponents = (
 }
 
 function getUrlComponents(
-  urlObject: URL
+  urlObject: URL,
 ): { stack: string; hash: string; filename?: string; format: string } | false {
   const stackPattern = '(?<stack>.*([^-]|--)|-*)'
   const hashPattern = '(?<hash>[0-9a-f]{6,40})'
@@ -96,14 +96,14 @@ function getUrlComponents(
 
   const regExes = [
     new RegExp(
-      `/${stackPattern}/${hashPattern}/${filenamePattern}\.${formatPattern}`
+      `/${stackPattern}/${hashPattern}/${filenamePattern}\.${formatPattern}`,
     ),
     new RegExp(`/${stackPattern}/${hashPattern}\.${formatPattern}`),
     new RegExp(
-      `/${stackPattern}/${pathPattern}/${filenamePattern}\.${formatPattern}`
+      `/${stackPattern}/${pathPattern}/${filenamePattern}\.${formatPattern}`,
     ),
 
-    new RegExp(`/${stackPattern}/${pathPattern}\.${formatPattern}`)
+    new RegExp(`/${stackPattern}/${pathPattern}\.${formatPattern}`),
   ]
 
   const path = urlObject.pathname
@@ -120,7 +120,7 @@ function getUrlComponents(
       stack: matches.groups['stack'],
       hash: matches.groups['hash'],
       format: matches.groups['format'],
-      filename: matches.groups['filename']
+      filename: matches.groups['filename'],
     }
   }
   return false
@@ -187,7 +187,7 @@ export default (state: State) => {
           until2 = new Date()
           until2.setTime(
             Math.ceil(until.getTime() / (roundDateUpTo * 1000)) *
-              (roundDateUpTo * 1000)
+              (roundDateUpTo * 1000),
           )
         }
         options = { until: until2.toISOString() }
@@ -233,7 +233,7 @@ export default (state: State) => {
     addStackVariables: (
       url,
       variables,
-      removeSafeUrlFromQuery = false
+      removeSafeUrlFromQuery = false,
     ): string => {
       const urlObject = new URL(url)
 
@@ -253,7 +253,7 @@ export default (state: State) => {
       const returnVariables = Object.assign(
         variablesFromPath,
         vQueryParsed,
-        variables
+        variables,
       )
 
       // put variales into url string or v parameter, depending on characters in it
@@ -308,10 +308,10 @@ export default (state: State) => {
       }
 
       return urlObject.toString()
-    }
+    },
   }
 
   return {
-    render
+    render,
   }
 }

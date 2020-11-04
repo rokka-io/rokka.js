@@ -5,8 +5,8 @@ describe('operations', () => {
     await queryAndCheckAnswer(
       async () => rokka({ noAuth: true }).operations.list(),
       {
-        mockFile: 'operations_get.json'
-      }
+        mockFile: 'operations_get.json',
+      },
     )
   })
 
@@ -20,7 +20,7 @@ describe('operations', () => {
       'crop',
       'noop',
       'composition',
-      'blur'
+      'blur',
     ]
 
     const rka = rokka()

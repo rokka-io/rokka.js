@@ -30,6 +30,6 @@ export default (originalResponse: Response): RokkaResponse => {
     },
     get statusMessage() {
       return this.response.statusText
-    }
+    },
   }
 }

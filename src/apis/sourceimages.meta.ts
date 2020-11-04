@@ -40,12 +40,12 @@ export default (state: State): APISourceimagesMeta => {
     add: (
       organization: string,
       hash: string,
-      data: { [key: string]: any }
+      data: { [key: string]: any },
     ): Promise<RokkaResponse> => {
       return state.request(
         'PATCH',
         `sourceimages/${organization}/${hash}/meta/user`,
-        data
+        data,
       )
     },
 
@@ -72,12 +72,12 @@ export default (state: State): APISourceimagesMeta => {
     replace: (
       organization: string,
       hash: string,
-      data: { [key: string]: any }
+      data: { [key: string]: any },
     ): Promise<RokkaResponse> => {
       return state.request(
         'PUT',
         `sourceimages/${organization}/${hash}/meta/user`,
-        data
+        data,
       )
     },
 
@@ -104,13 +104,13 @@ export default (state: State): APISourceimagesMeta => {
     delete: (
       organization: string,
       hash: string,
-      field: string | null = null
+      field: string | null = null,
     ): Promise<RokkaResponse> => {
       const fieldpath = field ? `/${field}` : ''
       return state.request(
         'DELETE',
-        `sourceimages/${organization}/${hash}/meta/user${fieldpath}`
+        `sourceimages/${organization}/${hash}/meta/user${fieldpath}`,
       )
-    }
+    },
   }
 }

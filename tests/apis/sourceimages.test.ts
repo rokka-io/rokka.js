@@ -7,8 +7,8 @@ describe('sourceimages', () => {
     await queryAndCheckAnswer(
       async () => rokka().sourceimages.list('rokka-js-tests'),
       {
-        mockFile: 'sourceimages_list.json'
-      }
+        mockFile: 'sourceimages_list.json',
+      },
     )
   })
 
@@ -17,18 +17,18 @@ describe('sourceimages', () => {
       async () => {
         const search = {
           'user:int:id': '42',
-          height: '64'
+          height: '64',
         }
         return rokka().sourceimages.list('rokka-js-tests', {
           search,
           limit: 2,
-          offset: 1
+          offset: 1,
         })
       },
 
       {
-        mockFile: 'sourceimages_list_with_args.json'
-      }
+        mockFile: 'sourceimages_list_with_args.json',
+      },
     )
   })
 
@@ -37,11 +37,11 @@ describe('sourceimages', () => {
       async () =>
         rokka().sourceimages.get(
           'rokka-js-tests',
-          '063c3dce6a528d8944a63185bd4c7b161454ee4f'
+          '063c3dce6a528d8944a63185bd4c7b161454ee4f',
         ),
       {
-        mockFile: 'sourceimages_get.json'
-      }
+        mockFile: 'sourceimages_get.json',
+      },
     )
   })
 
@@ -50,12 +50,12 @@ describe('sourceimages', () => {
       async () =>
         rokka().sourceimages.getWithBinaryHash(
           'rokka-js-tests',
-          '498fed612f01199cd6702f5effe5fa7bb67e44f4'
+          '498fed612f01199cd6702f5effe5fa7bb67e44f4',
         ),
 
       {
-        mockFile: 'sourceimages_get_binaryhash.json'
-      }
+        mockFile: 'sourceimages_get_binaryhash.json',
+      },
     )
   })
 
@@ -64,11 +64,11 @@ describe('sourceimages', () => {
       async () =>
         rokka().sourceimages.download(
           'rokka-js-tests',
-          '063c3dce6a528d8944a63185bd4c7b161454ee4f'
+          '063c3dce6a528d8944a63185bd4c7b161454ee4f',
         ),
       {
-        mockFile: 'sourceimages_download.json'
-      }
+        mockFile: 'sourceimages_download.json',
+      },
     )
   })
 
@@ -78,7 +78,7 @@ describe('sourceimages', () => {
         '/sourceimages/rokka-js-tests',
         body =>
           body.includes('filename="cartman3.svg"') &&
-          !body.includes('Content-Disposition: form-data; name="meta_user[0]')
+          !body.includes('Content-Disposition: form-data; name="meta_user[0]'),
       )
       .reply(200, {
         total: 1,
@@ -98,19 +98,19 @@ describe('sourceimages', () => {
             link:
               '/sourceimages/rokka-js-tests/fe5d9a097df0e93cf9570cbdb0386b137b4c9ed2',
             deleted: false,
-            opaque: false
-          }
-        ]
+            opaque: false,
+          },
+        ],
       })
 
     const resp = await rokka().sourceimages.create(
       'rokka-js-tests',
       'cartman3.svg',
-      fs.createReadStream('tests/fixtures/cartman.svg')
+      fs.createReadStream('tests/fixtures/cartman.svg'),
     )
 
     expect(resp.body.items[0].hash).toBe(
-      'fe5d9a097df0e93cf9570cbdb0386b137b4c9ed2'
+      'fe5d9a097df0e93cf9570cbdb0386b137b4c9ed2',
     )
   })
 
@@ -120,7 +120,7 @@ describe('sourceimages', () => {
         '/sourceimages/rokka-js-tests',
         body =>
           body.includes('filename="cartman2.svg"') &&
-          body.includes('Content-Disposition: form-data; name="meta_user[0]')
+          body.includes('Content-Disposition: form-data; name="meta_user[0]'),
       )
       .reply(200, {
         total: 1,
@@ -140,23 +140,23 @@ describe('sourceimages', () => {
             link:
               '/sourceimages/rokka-js-tests/063c3dce6a528d8944a63185bd4c7b161454ee4f',
             user_metadata: {
-              foo: 'bar'
+              foo: 'bar',
             },
             deleted: false,
-            opaque: false
-          }
-        ]
+            opaque: false,
+          },
+        ],
       })
 
     const resp = await rokka().sourceimages.create(
       'rokka-js-tests',
       'cartman2.svg',
       fs.createReadStream('tests/fixtures/cartman.svg'),
-      { meta_user: { foo: 'bar' } }
+      { meta_user: { foo: 'bar' } },
     )
 
     expect(resp.body.items[0].hash).toBe(
-      '063c3dce6a528d8944a63185bd4c7b161454ee4f'
+      '063c3dce6a528d8944a63185bd4c7b161454ee4f',
     )
     expect(resp.body.items[0].user_metadata?.foo).toBe('bar')
   })
@@ -166,11 +166,11 @@ describe('sourceimages', () => {
       async () =>
         rokka().sourceimages.delete(
           'rokka-js-tests',
-          '063c3dce6a528d8944a63185bd4c7b161454ee4f'
+          '063c3dce6a528d8944a63185bd4c7b161454ee4f',
         ),
       {
-        mockFile: 'sourceimages_delete.json'
-      }
+        mockFile: 'sourceimages_delete.json',
+      },
     )
   })
 
@@ -179,11 +179,11 @@ describe('sourceimages', () => {
       async () =>
         rokka().sourceimages.restore(
           'rokka-js-tests',
-          '063c3dce6a528d8944a63185bd4c7b161454ee4f'
+          '063c3dce6a528d8944a63185bd4c7b161454ee4f',
         ),
       {
-        mockFile: 'sourceimages_restore.json'
-      }
+        mockFile: 'sourceimages_restore.json',
+      },
     )
   })
 
@@ -193,11 +193,11 @@ describe('sourceimages', () => {
         rokka().sourceimages.copy(
           'rokka-js-tests',
           '063c3dce6a528d8944a63185bd4c7b161454ee4f',
-          'rokka-js-tests-new2'
+          'rokka-js-tests-new2',
         ),
       {
-        mockFile: 'sourceimages_copy.json'
-      }
+        mockFile: 'sourceimages_copy.json',
+      },
     )
   })
 
@@ -208,12 +208,12 @@ describe('sourceimages', () => {
           'rokka-js-tests',
           '063c3dce6a528d8944a63185bd4c7b161454ee4f',
           'rokka-js-tests-new2',
-          false
+          false,
         ),
       {
         mockFile: 'sourceimages_copy_no_overwrite.json',
-        returnError: true
-      }
+        returnError: true,
+      },
     )
   })
 
@@ -222,12 +222,12 @@ describe('sourceimages', () => {
       async () =>
         rokka().sourceimages.deleteWithBinaryHash(
           'rokka-js-tests',
-          '498fed612f01199cd6702f5effe5fa7bb67e44f4'
+          '498fed612f01199cd6702f5effe5fa7bb67e44f4',
         ),
       {
         mockFile: 'sourceimages_delete_with_binary.json',
-        returnError: true
-      }
+        returnError: true,
+      },
     )
   })
 })

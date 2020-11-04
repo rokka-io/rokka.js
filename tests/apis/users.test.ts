@@ -5,17 +5,17 @@ describe('users', () => {
       async () =>
         rokka({ noAuth: true }).users.create(
           'user@example.org',
-          'rokka-js-tests-new2'
+          'rokka-js-tests-new2',
         ),
       {
-        mockFile: 'users_create.json'
-      }
+        mockFile: 'users_create.json',
+      },
     )
   })
 
   it('users.getId', async () => {
     await queryAndCheckAnswer(async () => rokka().users.getId(), {
-      mockFile: 'users_getid.json'
+      mockFile: 'users_getid.json',
     })
   })
 })

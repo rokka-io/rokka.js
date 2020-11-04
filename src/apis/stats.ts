@@ -11,7 +11,7 @@ export interface Stats {
   get(
     organization: string,
     from?: string | null,
-    to?: string | null
+    to?: string | null,
   ): Promise<RokkaResponse>
 }
 export default (state: State) => {
@@ -36,16 +36,16 @@ export default (state: State) => {
     get: (
       organization: string,
       from: string | null = null,
-      to: string | null = null
+      to: string | null = null,
     ): Promise<any> => {
       return state.request('GET', `stats/${organization}`, null, {
         from,
-        to
+        to,
       })
-    }
+    },
   }
 
   return {
-    stats
+    stats,
   }
 }

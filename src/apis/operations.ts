@@ -29,7 +29,7 @@ export interface StackOperationOptions {
 export enum ResizeMode {
   Box = 'box',
   Fill = 'fill',
-  Absolute = 'absolute'
+  Absolute = 'absolute',
 }
 
 export interface ResizeOperationsOptions extends StackOperationOptions {
@@ -52,7 +52,7 @@ export interface CropOperationsOptions extends StackOperationOptions {
 
 export enum CompositionMode {
   Foreground = 'foreground',
-  Background = 'background'
+  Background = 'background',
 }
 
 export interface CompositionOperationsOptions extends StackOperationOptions {
@@ -72,7 +72,7 @@ export interface Operations {
   resize(
     width: number,
     height: number,
-    options?: ResizeOperationsOptions
+    options?: ResizeOperationsOptions,
   ): StackOperation
   autorotate(options?: StackOperationOptions): StackOperation
   rotate(angle: number, options?: StackOperationOptions): StackOperation
@@ -82,13 +82,13 @@ export interface Operations {
   crop(
     width: number,
     height: number,
-    options?: CropOperationsOptions
+    options?: CropOperationsOptions,
   ): StackOperation
   composition(
     width: number,
     height: number,
     mode: string,
-    options?: CompositionOperationsOptions
+    options?: CompositionOperationsOptions,
   ): StackOperation
   blur(sigma: number, radius?: number): StackOperation
   list(): Promise<RokkaResponse>
@@ -99,70 +99,70 @@ export default (state: State) => {
     resize: (
       width: number,
       height: number,
-      options: ResizeOperationsOptions = {}
+      options: ResizeOperationsOptions = {},
     ): StackOperation => {
       options.width = width
       options.height = height
 
       return {
         name: 'resize',
-        options
+        options,
       }
     },
     autorotate: (
-      options: StackOperationOptions | undefined = {}
+      options: StackOperationOptions | undefined = {},
     ): StackOperation => {
       return {
         name: 'autorotate',
-        options
+        options,
       }
     },
     rotate: (
       angle: number,
-      options: StackOperationOptions = {}
+      options: StackOperationOptions = {},
     ): StackOperation => {
       options.angle = angle
 
       return {
         name: 'rotate',
-        options
+        options,
       }
     },
     dropshadow: (options: StackOperationOptions = {}): StackOperation => {
       return {
         name: 'dropshadow',
-        options
+        options,
       }
     },
     trim: (options: StackOperationOptions = {}): StackOperation => {
       return {
         name: 'trim',
-        options
+        options,
       }
     },
     crop: (
       width: number,
       height: number,
-      options: CropOperationsOptions = {}
+      options: CropOperationsOptions = {},
     ): StackOperation => {
       options.width = width
       options.height = height
 
       return {
         name: 'crop',
-        options
+        options,
       }
     },
     noop: (): StackOperation => {
       return {
-        name: 'noop'
+        name: 'noop',
       }
     },
     composition: (
       width: number,
       height: number,
       mode: string,
-      options: StackOperationOptions = {}
+      options: StackOperationOptions = {},
     ): StackOperation => {
       options.width = width
       options.height = height
@@ -170,7 +170,7 @@ export default (state: State) => {
 
       return {
         name: 'composition',
-        options
+        options,
       }
     },
     blur: (sigma: number, radius: number): StackOperation => {
@@ -178,7 +178,7 @@ export default (state: State) => {
 
       return {
         name: 'blur',
-        options
+        options,
       }
     },
 
@@ -195,11 +195,11 @@ export default (state: State) => {
      */
     list: (): Promise<RokkaResponse> => {
       return state.request('GET', 'operations', null, null, {
-        noAuthHeaders: true
+        noAuthHeaders: true,
       })
-    }
+    },
   }
   return {
-    operations
+    operations,
   }
 }

@@ -2,7 +2,7 @@ import { isStream } from '../utils'
 import {
   RokkaListResponse,
   RokkaListResponseBody,
-  RokkaResponse
+  RokkaResponse,
 } from '../response'
 import { State } from '../index'
 import SourceImagesMeta from './sourceimages.meta'
@@ -98,16 +98,16 @@ interface SourceimageResponse extends RokkaResponse {
 export interface APISourceimages {
   list: (
     organization: string,
-    params?: SearchQueryParams | undefined
+    params?: SearchQueryParams | undefined,
   ) => Promise<SourceimagesListResponse>
   get: (
     organization: string,
     hash: string,
-    queryParams?: GetQueryParams
+    queryParams?: GetQueryParams,
   ) => Promise<SourceimageResponse>
   getWithBinaryHash: (
     organization: string,
-    binaryHash: string
+    binaryHash: string,
   ) => Promise<SourceimagesListResponse>
   download: (organization: string, hash: string) => Promise<RokkaResponse>
   autolabel: (organization: string, hash: string) => Promise<RokkaResponse>
@@ -116,43 +116,43 @@ export interface APISourceimages {
     fileName: string,
     binaryData: any,
     metadata?: CreateMetadata | null,
-    options?: CreateOptions
+    options?: CreateOptions,
   ) => Promise<SourceimagesListResponse>
   createByUrl: (
     organization: string,
     url: string,
     metadata?: CreateMetadata | null,
-    options?: CreateOptions
+    options?: CreateOptions,
   ) => Promise<SourceimagesListResponse>
   delete: (organization: string, hash: string) => Promise<RokkaResponse>
   deleteWithBinaryHash: (
     organization: string,
-    binaryHash: string
+    binaryHash: string,
   ) => Promise<RokkaResponse>
   restore: (organization: string, hash: string) => Promise<RokkaResponse>
   copy: (
     organization: string,
     hash: string,
     destinationOrganization: string,
-    overwrite?: boolean
+    overwrite?: boolean,
   ) => Promise<RokkaResponse>
   setProtected: (
     organization: string,
     hash: string,
     isProtected: boolean,
-    options?: { deletePrevious?: string | boolean }
+    options?: { deletePrevious?: string | boolean },
   ) => Promise<RokkaResponse>
 
   setSubjectArea: (
     organization: string,
     hash: string,
     coords: { width: number; height: number; x: number; y: number },
-    options?: { deletePrevious?: string | boolean }
+    options?: { deletePrevious?: string | boolean },
   ) => Promise<RokkaResponse>
   removeSubjectArea: (
     organization: string,
     hash: string,
-    options?: { deletePrevious?: string | boolean }
+    options?: { deletePrevious?: string | boolean },
   ) => Promise<RokkaResponse>
   meta: APISourceimagesMeta
 }
@@ -161,17 +161,17 @@ export interface APISourceimagesMeta {
   add: (
     organization: string,
     hash: string,
-    data: { [p: string]: any }
+    data: { [p: string]: any },
   ) => Promise<RokkaResponse>
   replace: (
     organization: string,
     hash: string,
-    data: { [p: string]: any }
+    data: { [p: string]: any },
   ) => Promise<RokkaResponse>
   delete: (
     organization: string,
     hash: string,
-    field?: string
+    field?: string,
   ) => Promise<RokkaResponse>
 }
 
@@ -229,8 +229,8 @@ export default (state: State) => {
         sort = null,
         search = null,
         facets = null,
-        deleted = null
-      }: SearchQueryParams = {}
+        deleted = null,
+      }: SearchQueryParams = {},
     ): Promise<RokkaResponse> => {
       let queryParams: SearchQueryParams = {}
 
@@ -261,7 +261,7 @@ export default (state: State) => {
         'GET',
         `sourceimages/${organization}`,
         null,
-        queryParams
+        queryParams,
       )
     },
     /**
@@ -282,13 +282,13 @@ export default (state: State) => {
     get: (
       organization: string,
       hash: string,
-      queryParams: GetQueryParams = {}
+      queryParams: GetQueryParams = {},
     ): Promise<RokkaResponse> => {
       return state.request(
         'GET',
         `sourceimages/${organization}/${hash}`,
         null,
-        queryParams
+        queryParams,
       )
     },
 
@@ -308,7 +308,7 @@ export default (state: State) => {
      */
     getWithBinaryHash: (
       organization: string,
-      binaryHash: string
+      binaryHash: string,
     ): Promise<RokkaResponse> => {
       const queryParams = { binaryHash: binaryHash }
 
@@ -316,7 +316,7 @@ export default (state: State) => {
         'GET',
         `sourceimages/${organization}`,
         null,
-        queryParams
+        queryParams,
       )
     },
 
@@ -337,7 +337,7 @@ export default (state: State) => {
     download: (organization: string, hash: string): Promise<RokkaResponse> => {
       return state.request(
         'GET',
-        `sourceimages/${organization}/${hash}/download`
+        `sourceimages/${organization}/${hash}/download`,
       )
     },
 
@@ -360,7 +360,7 @@ export default (state: State) => {
     autolabel: (organization: string, hash: string): Promise<RokkaResponse> => {
       return state.request(
         'POST',
-        `sourceimages/${organization}/${hash}/autolabel`
+        `sourceimages/${organization}/${hash}/autolabel`,
       )
     },
 
@@ -393,10 +393,10 @@ export default (state: State) => {
       fileName: string,
       binaryData: any,
       metadata: CreateMetadata | null = null,
-      options: CreateOptions = {}
+      options: CreateOptions = {},
     ): Promise<RokkaResponse> => {
       const config = {
-        multipart: true
+        multipart: true,
       }
 
       return new Promise(resolve => {
@@ -413,10 +413,10 @@ export default (state: State) => {
         }
       }).then(data => {
         const formData: any = {
-          ...options
+          ...options,
         }
         if (metadata !== null) {
-          Object.keys(metadata).forEach(function(o) {
+          Object.keys(metadata).forEach(function (o) {
             const data = metadata[o]
             formData[o + '[0]'] =
               typeof data === 'string' ? data : JSON.stringify(data)
@@ -426,14 +426,14 @@ export default (state: State) => {
           name: 'filedata',
           formData: formData,
           filename: fileName,
-          contents: data
+          contents: data,
         }
         return state.request(
           'POST',
           `sourceimages/${organization}`,
           payload,
           null,
-          config
+          config,
         )
       })
     },
@@ -464,18 +464,18 @@ export default (state: State) => {
       organization: string,
       url: string,
       metadata: CreateMetadata | null = null,
-      options: CreateOptions = {}
+      options: CreateOptions = {},
     ): Promise<RokkaResponse> => {
       const config = {
-        form: true
+        form: true,
       }
 
       const formData: any = {
         'url[0]': url,
-        ...options
+        ...options,
       }
       if (metadata !== null) {
-        Object.keys(metadata).forEach(function(o) {
+        Object.keys(metadata).forEach(function (o) {
           const data = metadata[o]
           formData[o + '[0]'] =
             typeof data === 'string' ? data : JSON.stringify(data)
@@ -487,7 +487,7 @@ export default (state: State) => {
         `sourceimages/${organization}`,
         formData,
         null,
-        config
+        config,
       )
     },
 
@@ -525,7 +525,7 @@ export default (state: State) => {
      */
     deleteWithBinaryHash: (
       organization: string,
-      binaryHash: string
+      binaryHash: string,
     ): Promise<RokkaResponse> => {
       const queryParams = { binaryHash: binaryHash }
 
@@ -533,7 +533,7 @@ export default (state: State) => {
         'DELETE',
         `sourceimages/${organization}`,
         null,
-        queryParams
+        queryParams,
       )
     },
 
@@ -554,7 +554,7 @@ export default (state: State) => {
     restore: (organization: string, hash: string): Promise<RokkaResponse> => {
       return state.request(
         'POST',
-        `sourceimages/${organization}/${hash}/restore`
+        `sourceimages/${organization}/${hash}/restore`,
       )
     },
 
@@ -579,10 +579,10 @@ export default (state: State) => {
       organization: string,
       hash: string,
       destinationOrganization: string,
-      overwrite = true
+      overwrite = true,
     ): Promise<RokkaResponse> => {
       const headers: { Destination: string; Overwrite?: string } = {
-        Destination: destinationOrganization
+        Destination: destinationOrganization,
       }
       if (!overwrite) {
         headers.Overwrite = 'F'
@@ -592,7 +592,7 @@ export default (state: State) => {
         `sourceimages/${organization}/${hash}`,
         null,
         null,
-        { headers }
+        { headers },
       )
     },
 
@@ -620,7 +620,7 @@ export default (state: State) => {
       organization: string,
       hash: string,
       isProtected: boolean,
-      options: { deletePrevious?: string | boolean } = {}
+      options: { deletePrevious?: string | boolean } = {},
     ): Promise<RokkaResponse> => {
       options.deletePrevious = options.deletePrevious ? 'true' : 'false'
 
@@ -628,7 +628,7 @@ export default (state: State) => {
         'PUT',
         'sourceimages/' + organization + '/' + hash + '/options/protected',
         isProtected,
-        options
+        options,
       )
     },
 
@@ -669,7 +669,7 @@ export default (state: State) => {
       organization: string,
       hash: string,
       coords: { width: number; height: number; x: number; y: number },
-      options: { deletePrevious?: string | boolean } = {}
+      options: { deletePrevious?: string | boolean } = {},
     ): Promise<RokkaResponse> => {
       options.deletePrevious = options.deletePrevious ? 'true' : 'false'
 
@@ -681,7 +681,7 @@ export default (state: State) => {
           hash +
           '/meta/dynamic/subject_area',
         coords,
-        options
+        options,
       )
     },
 
@@ -702,7 +702,7 @@ export default (state: State) => {
     removeSubjectArea: (
       organization: string,
       hash: string,
-      options: { deletePrevious?: string | boolean } = {}
+      options: { deletePrevious?: string | boolean } = {},
     ): Promise<RokkaResponse> => {
       options.deletePrevious = options.deletePrevious ? 'true' : 'false'
 
@@ -710,14 +710,14 @@ export default (state: State) => {
         'DELETE',
         `sourceimages/${organization}/${hash}/meta/dynamic/subject_area`,
         null,
-        options
+        options,
       )
     },
 
-    meta: SourceImagesMeta(state)
+    meta: SourceImagesMeta(state),
   }
 
   return {
-    sourceimages
+    sourceimages,
   }
 }

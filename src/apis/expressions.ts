@@ -20,9 +20,9 @@ export default () => {
   const expressions = {
     default: (expression: string, options: Options): Expression => {
       return { expression, overrides: { options } }
-    }
+    },
   }
   return {
-    expressions
+    expressions,
   }
 }

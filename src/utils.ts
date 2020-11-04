@@ -1,7 +1,7 @@
 import { StackOperation } from './apis/stacks'
 
 export function stringifyOperations(
-  operations: StackOperation | StackOperation[]
+  operations: StackOperation | StackOperation[],
 ) {
   const stackoperations: StackOperation[] = Array.isArray(operations)
     ? operations
@@ -17,7 +17,7 @@ export function stringifyOperations(
               operation.options && operation.options[k]
                 ? operation.options[k]
                 : '__undefined__'
-            }`
+            }`,
         )
         .join('-')
 

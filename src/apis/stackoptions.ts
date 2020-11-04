@@ -26,11 +26,11 @@ export default (state: State): { stackoptions: StackOptions } => {
      */
     get: (): Promise<RokkaResponse> => {
       return state.request('GET', 'stackoptions', null, null, {
-        noAuthHeaders: true
+        noAuthHeaders: true,
       })
-    }
+    },
   }
   return {
-    stackoptions
+    stackoptions,
   }
 }

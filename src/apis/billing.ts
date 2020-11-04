@@ -32,16 +32,16 @@ export default (state: State) => {
     get: (
       organization,
       from = undefined,
-      to = undefined
+      to = undefined,
     ): Promise<RokkaResponse> => {
       return state.request('GET', `billing/${organization}`, null, {
         from,
-        to
+        to,
       })
-    }
+    },
   }
 
   return {
-    billing
+    billing,
   }
 }

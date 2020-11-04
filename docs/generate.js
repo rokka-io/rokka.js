@@ -15,17 +15,17 @@ const sources = [
   '../src/apis/stackoptions.ts',
   '../src/apis/stacks.ts',
   '../src/apis/render.ts',
-  '../src/apis/stats.ts'
+  '../src/apis/stats.ts',
 ]
 const readme = '../README.md'
 const tmpFile = './API.md'
 
 const options = {
   template: './template.md.ejs',
-  output: tmpFile
+  output: tmpFile,
 }
 
-markdox.process(sources, options, function() {
+markdox.process(sources, options, function () {
   let docsStr = fs.readFileSync(tmpFile, 'utf8')
   let readmeStr = fs.readFileSync(readme, 'utf8')
 
@@ -38,7 +38,7 @@ markdox.process(sources, options, function() {
 
   readmeStr = readmeStr.replace(
     /(<!-- DOCS -->)(?:\r|\n|.)+(<!-- ENDDOCS -->)/gm,
-    '$1' + docsStr + '$2'
+    '$1' + docsStr + '$2',
   )
 
   fs.writeFileSync(readme, readmeStr)

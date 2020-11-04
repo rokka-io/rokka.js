@@ -22,7 +22,7 @@ export interface Stacks {
   list(
     organization: string,
     limit?: number | null,
-    offset?: string | null
+    offset?: string | null,
   ): Promise<RokkaResponse>
 }
 
@@ -66,7 +66,7 @@ export default (state: State) => {
     list: (
       organization: string,
       limit: number | null = null,
-      offset: string | null = null
+      offset: string | null = null,
     ): Promise<RokkaResponse> => {
       const queryParams: { limit?: number; offset?: string } = {}
 
@@ -171,7 +171,7 @@ export default (state: State) => {
         'PUT',
         `stacks/${organization}/${name}`,
         body,
-        queryParams
+        queryParams,
       )
     },
 
@@ -191,10 +191,10 @@ export default (state: State) => {
      */
     delete: (organization: string, name: string): Promise<RokkaResponse> => {
       return state.request('DELETE', `stacks/${organization}/${name}`)
-    }
+    },
   }
 
   return {
-    stacks
+    stacks,
   }
 }

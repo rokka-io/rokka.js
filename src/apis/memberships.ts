@@ -19,7 +19,7 @@ export interface Memberships {
   create(
     organization: string,
     userId: string,
-    roles: Role | Role[]
+    roles: Role | Role[],
   ): Promise<RokkaResponse>
   delete(organization: string, userId: string): Promise<RokkaResponse>
   createWithNewUser(organization: string, roles: Role[]): Promise<RokkaResponse>
@@ -30,7 +30,7 @@ export enum Role {
   READ = 'read',
   WRITE = 'write',
   UPLOAD = 'upload',
-  ADMIN = 'admin'
+  ADMIN = 'admin',
 }
 
 export default (state: State) => {
@@ -44,7 +44,7 @@ export default (state: State) => {
     READ: Role.READ,
     WRITE: Role.WRITE,
     UPLOAD: Role.UPLOAD,
-    ADMIN: Role.ADMIN
+    ADMIN: Role.ADMIN,
   }
   const memberships: Memberships = {
     ROLES,
@@ -67,7 +67,7 @@ export default (state: State) => {
     create: (
       organization: string,
       userId: string,
-      roles: Role | Role[]
+      roles: Role | Role[],
     ): Promise<RokkaResponse> => {
       if (typeof roles === 'string') {
         roles = [roles]
@@ -124,7 +124,7 @@ export default (state: State) => {
      */
     createWithNewUser: (
       organization: string,
-      roles: Role[]
+      roles: Role[],
     ): Promise<RokkaResponse> => {
       roles.forEach(role => {
         if (
@@ -178,10 +178,10 @@ export default (state: State) => {
       const path = `organizations/${organization}/memberships/${userId}`
 
       return state.request('GET', path)
-    }
+    },
   }
 
   return {
-    memberships
+    memberships,
   }
 }

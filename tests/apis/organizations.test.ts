@@ -4,8 +4,8 @@ describe('organizations', () => {
     await queryAndCheckAnswer(
       async () => rokka().organizations.get('rokka-js-tests'),
       {
-        mockFile: 'organizations_get.json'
-      }
+        mockFile: 'organizations_get.json',
+      },
     )
   })
 
@@ -15,11 +15,11 @@ describe('organizations', () => {
         rokka().organizations.create(
           'rokka-js-test-new',
           'billing@example.org',
-          'Organization Inc.'
+          'Organization Inc.',
         ),
       {
-        mockFile: 'organizations_create.json'
-      }
+        mockFile: 'organizations_create.json',
+      },
     )
   })
 })
