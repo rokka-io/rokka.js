@@ -33,7 +33,7 @@ export enum Role {
   ADMIN = 'admin',
 }
 
-export default (state: State) => {
+export default (state: State): { memberships: Memberships } => {
   const ROLES: {
     [key: string]: Role
     READ: Role

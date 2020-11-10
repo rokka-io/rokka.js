@@ -14,7 +14,7 @@ export interface Stats {
     to?: string | null,
   ): Promise<RokkaResponse>
 }
-export default (state: State) => {
+export default (state: State): { stats: Stats } => {
   const stats: Stats = {
     /**
      * Retrieve statistics about an organization.

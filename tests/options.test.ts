@@ -19,7 +19,7 @@ describe('options', () => {
       },
     }
     rokka()
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     expect(apis.mock.calls[0][0]).toMatchObject(expectedState)
   })
@@ -33,7 +33,7 @@ describe('options', () => {
     }
 
     rokka(customOptions)
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     expect(apis.mock.calls[1][0]).toMatchObject(customOptions)
   })
@@ -47,7 +47,7 @@ describe('options', () => {
     }
 
     rokka({ transport: transportOptions })
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     expect(apis.mock.calls[2][0].transportOptions).toMatchObject(
       transportOptions,

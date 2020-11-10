@@ -16,7 +16,7 @@ interface Options {
   [key: string]: string | number
 }
 
-export default () => {
+export default (): { expressions: Expressions } => {
   const expressions = {
     default: (expression: string, options: Options): Expression => {
       return { expression, overrides: { options } }

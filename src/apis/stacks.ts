@@ -46,7 +46,7 @@ interface StackConfig {
   expressions?: Expression[]
 }
 
-export default (state: State) => {
+export default (state: State): { stacks: Stacks } => {
   const stacks = {
     /**
      * Get a list of available stacks.

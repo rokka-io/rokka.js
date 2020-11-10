@@ -10,7 +10,7 @@ export interface Billing {
   get(organization: string, from?: string, to?: string): Promise<RokkaResponse>
 }
 
-export default (state: State) => {
+export default (state: State): { billing: Billing } => {
   const billing: Billing = {
     /**
      * Retrieve statistics about the billing of an organization

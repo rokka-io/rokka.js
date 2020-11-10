@@ -2,6 +2,7 @@ import nock from 'nock'
 import { join } from 'path'
 import fs from 'fs'
 import rka, { Config } from '../src'
+import { RokkaApi } from '../src/apis'
 
 const nockBack = nock.back
 nockBack.setMode('record')
@@ -26,7 +27,7 @@ const afterRecord = (scopes: object[]) => {
   )
 }
 
-export const rokka = ({ noAuth = false } = {}) => {
+export const rokka = ({ noAuth = false } = {}): RokkaApi => {
   const config: Config = {
     transport: { retries: 0 },
   }
@@ -47,7 +48,7 @@ interface Options {
 export const query = async (
   call: () => void,
   { mockFile, returnError }: Options = {},
-) => {
+): Promise<any> => {
   let nockRes = null
   if (mockFile) {
     // load fixture
@@ -70,7 +71,8 @@ export const query = async (
   return response
 }
 
-export const checkAnswer = (response: any, file: string) => {
+/* eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types */
+export const checkAnswer = (response: any, file: string): any => {
   const filePath = join(responseDir, file)
   let json
   if (fs.existsSync(filePath)) {
@@ -88,7 +90,7 @@ export const checkAnswer = (response: any, file: string) => {
 export const queryAndCheckAnswer = async (
   call: () => void,
   args: Options = {},
-) => {
+): Promise<any> => {
   return query(call, args).then(queryResponse => {
     if (args.mockFile) {
       return checkAnswer(queryResponse, args.mockFile)

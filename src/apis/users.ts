@@ -12,7 +12,7 @@ export interface Users {
   getId(): Promise<string>
 }
 
-export default (state: State) => {
+export default (state: State): { users: Users } => {
   const users: Users = {
     /**
      * Register a new user for the rokka service.

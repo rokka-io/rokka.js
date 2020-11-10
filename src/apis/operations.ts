@@ -94,7 +94,7 @@ export interface Operations {
   list(): Promise<RokkaResponse>
 }
 
-export default (state: State) => {
+export default (state: State): { operations: Operations } => {
   const operations: Operations = {
     resize: (
       width: number,

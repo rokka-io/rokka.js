@@ -140,7 +140,7 @@ const stringifyBool = (value: string | boolean | number): string | number => {
  *
  * @module render
  */
-export default (state: State) => {
+export default (state: State): { render: Render } => {
   const render: Render = {
     /**
      * Get URL for rendering an image.

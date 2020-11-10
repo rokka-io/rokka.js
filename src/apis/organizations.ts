@@ -23,7 +23,7 @@ export interface Organizations {
   ): Promise<RokkaResponse>
 }
 
-export default (state: State) => {
+export default (state: State): { organizations: Organizations } => {
   const organizations: Organizations = {
     OPTION_PROTECT_DYNAMIC_STACK: 'protect_dynamic_stack',
     /**

@@ -2,7 +2,7 @@ import { StackOperation } from './apis/stacks'
 
 export function stringifyOperations(
   operations: StackOperation | StackOperation[],
-) {
+): string {
   const stackoperations: StackOperation[] = Array.isArray(operations)
     ? operations
     : [operations]
@@ -30,7 +30,7 @@ export function stringifyOperations(
     .join('--')
 }
 
-export function isStream(stream: any) {
+export function isStream(stream: { pipe: Function } | null): boolean {
   return (
     stream !== null &&
     typeof stream === 'object' &&

@@ -25,8 +25,8 @@ export interface RokkaApi {
   users: Users
 }
 
-export default (state: State) => {
-  const api: RokkaApi = Object.assign(
+export default (state: State): RokkaApi => {
+  return Object.assign(
     {},
     memberships(state),
     operations(state),
@@ -40,5 +40,4 @@ export default (state: State) => {
     users(state),
     billing(state),
   )
-  return api
 }

@@ -180,7 +180,7 @@ export interface APISourceimagesMeta {
  *
  * @module sourceimages
  */
-export default (state: State) => {
+export default (state: State): { sourceimages: APISourceimages } => {
   const sourceimages: APISourceimages = {
     /**
      * Get a list of source images.
