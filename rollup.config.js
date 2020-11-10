@@ -1,6 +1,6 @@
 import { terser } from 'rollup-plugin-terser'
 import resolve from '@rollup/plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
+import commonjs from '@rollup/plugin-commonjs'
 import typescript from 'rollup-plugin-typescript2'
 export default [
   {
@@ -13,7 +13,7 @@ export default [
       globals: {
         'form-data': 'FormData',
         'cross-fetch': 'fetch',
-      }
+      },
     },
 
     plugins: [
@@ -21,29 +21,34 @@ export default [
       commonjs(),
       resolve(),
       terser({
-        include: [/^.+\.min\.js$/],
-        sourcemap: true,
+        //        include: [/^.+\.min\.js$/],
         output: {
-          comments: false
-        }
-      })
+          comments: false,
+        },
+      }),
     ],
-    external: ['cross-fetch', 'form-data']
+    external: ['cross-fetch', 'form-data'],
   },
   {
     input: 'src/index.ts',
     output: [
       {
         file: 'dist/index.esm.js',
-        format: 'esm'
+        format: 'esm',
       },
       {
         file: 'dist/index.js',
-        format: 'cjs'
-      }
+        format: 'cjs',
+        exports: 'auto',
+      },
     ],
 
-    plugins: [typescript(), commonjs(), resolve()],
-    external: ['cross-fetch', 'form-data', 'query-string', 'simple-js-sha2-256']
-  }
+    plugins: [typescript(), commonjs({}), resolve()],
+    external: [
+      'cross-fetch',
+      'form-data',
+      'query-string',
+      'simple-js-sha2-256',
+    ],
+  },
 ]
