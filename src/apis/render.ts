@@ -90,8 +90,8 @@ function getUrlComponents(
 ): { stack: string; hash: string; filename?: string; format: string } | false {
   const stackPattern = '(?<stack>.*([^-]|--)|-*)'
   const hashPattern = '(?<hash>[0-9a-f]{6,40})'
-  const filenamePattern = '(?<filename>[A-Za-z-\0-9]+)'
-  const formatPattern = '(?<format>.{3,4})'
+  const filenamePattern = '(?<filename>[^\\/^.]+)'
+  const formatPattern = '(?<format>.{2,4})'
   const pathPattern = '(?<hash>-.+-)'
 
   const regExes = [
