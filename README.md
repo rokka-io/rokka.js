@@ -602,7 +602,7 @@ rokka.stacks.delete('myorg', 'mystack')
 
 ### Render
 
-#### rokka.render.getUrl(organization, hash, format, [mixed]) → string
+#### rokka.render.getUrl(organization, hash, format, [mixed], options) → string
 
 Get URL for rendering an image.
 
@@ -626,6 +626,12 @@ Signs a rokka URL with a sign key and optional signature options.
 Adds stack variables to a rokka URL in a safe way
 
 Uses the v query parameter, if a variable shouldn't be in the path
+
+#### rokka.render.getUrlComponents(urlObject) → UrlComponents|false
+
+Get rokka components from an URL object.
+
+Returns false, if it could not parse it as rokka URL.
 
 ---
 

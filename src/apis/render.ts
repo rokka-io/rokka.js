@@ -29,9 +29,14 @@ type AddStackVariablesType = (
   removeSafeUrlFromQuery?: boolean,
 ) => string
 
-type GetUrlComponentsType = (
-  urlObject: URL,
-) => { stack: string; hash: string; filename?: string; format: string } | false
+interface UrlComponents {
+  stack: string
+  hash: string
+  filename?: string
+  format: string
+}
+
+type GetUrlComponentsType = (urlObject: URL) => UrlComponents | false
 
 export interface Render {
   getUrl(
@@ -153,10 +158,11 @@ export default (state: State): { render: Render } => {
      * rokka.render.getUrl('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'png', 'mystack')
      * ```
      *
-     * @param  {string}       organization name
-     * @param  {string}       hash         image hash
-     * @param  {string}       format       image format: `jpg`, `png` or `gif`
-     * @param  {string|array} [mixed]      optional stack name or an array of stack operation objects
+     * @param  {string}                     organization name
+     * @param  {string}                      hash        image hash
+     * @param  {string}                      format      image format: `jpg`, `png` or `gif`
+     * @param  {string|array}                [mixed]     optional stack name or an array of stack operation objects
+     * @param  {{filename:string|undefined}} options     Optional. filename: Adds the filename to the URL
      * @return {string}
      */
     getUrl: (organization, hash, format, mixed, options) => {
@@ -316,7 +322,15 @@ export default (state: State): { render: Render } => {
 
       return urlObject.toString()
     },
-    getUrlComponents,
+    /**
+     * Get rokka components from an URL object.
+     *
+     * Returns false, if it could not parse it as rokka URL.
+     *
+     * @param {URL} urlObject
+     * @return  {UrlComponents|false}
+     */
+    getUrlComponents: getUrlComponents,
   }
 
   return {
