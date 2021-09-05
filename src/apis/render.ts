@@ -39,6 +39,7 @@ export interface Render {
     hash: string,
     format: string,
     mixed: string | object,
+    options?: { filename?: string },
   ): string
 
   signUrl: SignUrlType
@@ -158,13 +159,16 @@ export default (state: State): { render: Render } => {
      * @param  {string|array} [mixed]      optional stack name or an array of stack operation objects
      * @return {string}
      */
-    getUrl: (organization, hash, format, mixed) => {
+    getUrl: (organization, hash, format, mixed, options) => {
       const host = state.renderHost.replace('{organization}', organization)
       const mixedParam = Array.isArray(mixed)
         ? `dynamic/${stringifyOperations(mixed)}` // array of operations
         : mixed // stack name
       const stack = mixedParam || 'dynamic/noop'
 
+      if (options?.filename) {
+        hash = `${hash}/${options.filename}`
+      }
       return `${host}/${stack}/${hash}.${format}`
     },
 
