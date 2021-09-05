@@ -95,8 +95,7 @@ describe('sourceimages', () => {
             width: 104,
             height: 97,
             organization: 'rokka-js-tests',
-            link:
-              '/sourceimages/rokka-js-tests/fe5d9a097df0e93cf9570cbdb0386b137b4c9ed2',
+            link: '/sourceimages/rokka-js-tests/fe5d9a097df0e93cf9570cbdb0386b137b4c9ed2',
             deleted: false,
             opaque: false,
           },
@@ -137,8 +136,7 @@ describe('sourceimages', () => {
             width: 104,
             height: 97,
             organization: 'rokka-js-tests',
-            link:
-              '/sourceimages/rokka-js-tests/063c3dce6a528d8944a63185bd4c7b161454ee4f',
+            link: '/sourceimages/rokka-js-tests/063c3dce6a528d8944a63185bd4c7b161454ee4f',
             user_metadata: {
               foo: 'bar',
             },

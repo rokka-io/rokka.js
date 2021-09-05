@@ -29,6 +29,10 @@ type AddStackVariablesType = (
   removeSafeUrlFromQuery?: boolean,
 ) => string
 
+type GetUrlComponentsType = (
+  urlObject: URL,
+) => { stack: string; hash: string; filename?: string; format: string } | false
+
 export interface Render {
   getUrl(
     organization: string,
@@ -40,6 +44,7 @@ export interface Render {
   signUrl: SignUrlType
   signUrlWithOptions: SignUrlWithOptionsType
   addStackVariables: AddStackVariablesType
+  getUrlComponents: GetUrlComponentsType
 }
 
 // currently only gets stack variables
@@ -85,9 +90,7 @@ const getStackComponents = (
   return { variables, stackString }
 }
 
-function getUrlComponents(
-  urlObject: URL,
-): { stack: string; hash: string; filename?: string; format: string } | false {
+const getUrlComponents: GetUrlComponentsType = (urlObject: URL) => {
   const stackPattern = '(?<stack>.*([^-]|--)|-*)'
   const hashPattern = '(?<hash>[0-9a-f]{6,40})'
   const filenamePattern = '(?<filename>[^\\/^.]+)'
@@ -309,6 +312,7 @@ export default (state: State): { render: Render } => {
 
       return urlObject.toString()
     },
+    getUrlComponents,
   }
 
   return {
