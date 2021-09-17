@@ -1,13 +1,14 @@
 # 3.0.1 [17-09-2021]
 
 - Actually release the correct version
-- 
+
 # 3.0.0 [17-09-2021]
 
 - Converted to typescript. Even though it's supposed to be 100% backwards compatible, we decided to make this a major release.
 - Moved tests from ava to jest and nock.
 - Added `rokka.render.signUrl` method.
 - Added `rokka.render.addStackVariables` method.
+- Added `rokka.render.getUrlComponents` method.
 - Added `rokka.sourceimages.setProtected` method (and support for setting it during creation)
 - Added `rokka.organizations.setOption` method.
 
