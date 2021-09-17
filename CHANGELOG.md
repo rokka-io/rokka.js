@@ -1,4 +1,4 @@
-# 3.0.0 [unreleased]
+# 3.0.0 [17-09-2021]
 
 - Converted to typescript. Even though it's supposed to be 100% backwards compatible, we decided to make this a major release.
 - Moved tests from ava to jest and nock.
