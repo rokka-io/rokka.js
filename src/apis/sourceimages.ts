@@ -154,6 +154,11 @@ export interface APISourceimages {
     hash: string,
     options?: { deletePrevious?: string | boolean },
   ) => Promise<RokkaResponse>
+  putName: (
+    organization: string,
+    hash: string,
+    name: string,
+  ) => Promise<RokkaListResponse>
   meta: APISourceimagesMeta
 }
 
@@ -713,7 +718,31 @@ export default (state: State): { sourceimages: APISourceimages } => {
         options,
       )
     },
-
+    /**
+     * Change the name of a  source image.
+     *
+     * ```js
+     * rokka.sourceimages.putName('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', name).then(function(result) {})
+     *   .catch(function(err) {});
+     * ```
+     *
+     * @authenticated
+     * @param {string} organization name
+     * @param {string} hash         image hash
+     * @param {string} name         new name of the image
+     * @return {Promise}
+     */
+    putName: (
+      organization: string,
+      hash: string,
+      name: string,
+    ): Promise<RokkaResponse> => {
+      return state.request(
+        'PUT',
+        `sourceimages/${organization}/${hash}/name`,
+        JSON.stringify(name),
+      )
+    },
     meta: SourceImagesMeta(state),
   }
 

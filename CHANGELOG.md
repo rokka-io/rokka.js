@@ -1,3 +1,7 @@
+# 3.1.0 [20-10-2021]
+
+- Added 'rokka.sourceimages.putName' method to change the name of an image.
+
 # 3.0.1 [17-09-2021]
 
 - Actually release the correct version

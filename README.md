@@ -409,6 +409,15 @@ rokka.sourceimages.removeSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bac
   .catch(function(err) {});
 ```
 
+#### rokka.sourceimages.putName(organization, hash, name) → Promise
+
+Change the name of a  source image.
+
+```js
+rokka.sourceimages.putName('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', name).then(function(result) {})
+  .catch(function(err) {});
+```
+
 ---
 
 <!-- End ../src/apis/sourceimages.ts -->
