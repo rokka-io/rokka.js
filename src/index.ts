@@ -106,6 +106,17 @@ export interface State {
  *
  * All properties are optional since certain calls don't require credentials.
  *
+ * If you need to use a proxy, you can do the following
+ *
+ * ```js
+ * import { HttpsProxyAgent } from 'https-proxy-agent'
+ *
+ * const rokka = require('rokka')({
+ *  apiKey: 'apikey'
+ *  transport: {agent: new HttpsProxyAgent(proxy)}
+ * });
+ * ```
+ *
  * @param  {Object} [config={}] configuration properties
  * @return {Object}
  *
