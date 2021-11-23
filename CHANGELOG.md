@@ -1,6 +1,6 @@
-# 3.2.0 [unreleased]
+# 3.2.0 [23-11-2021]
 
-- Add agent transport option.
+- Add agent transport option (for example for adding proxy options. See the README for an example)
 
 # 3.1.0 [20-10-2021]
 
