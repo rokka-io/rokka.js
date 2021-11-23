@@ -54,6 +54,7 @@ const rokka = require('rokka')({
     minTimeout: <number>,      // minimum milliseconds between retries (default: 1000)
     maxTimeout: <number>,      // maximum milliseconds between retries (default: 10000)
     randomize: <boolean>       // randomize time between retries (default: true)
+    agent?: <any>               // an agent to be used with node-fetch, eg. if you need a proxy (default: undefined)
   }
 });
 ```

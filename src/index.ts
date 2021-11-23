@@ -18,6 +18,7 @@ export interface Config {
     minTimeout?: number // minimum milliseconds between retries (default: 1000)
     maxTimeout?: number // maximum milliseconds between retries (default: 10000)
     randomize?: boolean // randomize time between retries (default: true)
+    agent?: string
   }
 }
 
@@ -62,6 +63,7 @@ interface Request {
   form: {}
   json: boolean
   body: any
+  agent?: any
 }
 
 export interface State {
@@ -97,6 +99,7 @@ export interface State {
  *     minTimeout: <number>,      // minimum milliseconds between retries (default: 1000)
  *     maxTimeout: <number>,      // maximum milliseconds between retries (default: 10000)
  *     randomize: <boolean>       // randomize time between retries (default: true)
+ *     agent?: <any>               // an agent to be used with node-fetch, eg. if you need a proxy (default: undefined)
  *   }
  * });
  * ```
@@ -173,6 +176,7 @@ export default (config: Config = {}): RokkaApi => {
         form: {},
         json: false,
         body: undefined,
+        agent: state.transportOptions.agent,
       }
       if (options.form === true) {
         const formData = payload || {}

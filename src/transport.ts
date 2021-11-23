@@ -14,14 +14,14 @@ class ArgumentError {
   }
 }
 
-export default (
-  url: string,
-  options: {
-    retryDelay?: Function | number
-    retries?: number
-    retryOn?: Function | number[]
-  },
-): Promise<Response> => {
+interface Options {
+  retryDelay?: Function | number
+  retries?: number
+  retryOn?: Function | number[]
+  agent?: any
+}
+
+export default (url: string, options: Options): Promise<Response> => {
   let retries = 3
   let retryDelay: Function | number = 1000
   let retryOn: Function | number[] = [429, 502, 503, 504]

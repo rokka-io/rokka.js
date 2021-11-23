@@ -1,3 +1,7 @@
+# 3.2.0 [unreleased]
+
+- Add agent transport option.
+
 # 3.1.0 [20-10-2021]
 
 - Added 'rokka.sourceimages.putName' method to change the name of an image.
