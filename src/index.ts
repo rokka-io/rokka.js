@@ -18,7 +18,7 @@ export interface Config {
     minTimeout?: number // minimum milliseconds between retries (default: 1000)
     maxTimeout?: number // maximum milliseconds between retries (default: 10000)
     randomize?: boolean // randomize time between retries (default: true)
-    agent?: string
+    agent?: any
   }
 }
 
