@@ -9,6 +9,7 @@ import stacks, { Stacks } from './stacks'
 import stats, { Stats } from './stats'
 import billing, { Billing } from './billing'
 import users, { Users } from './users'
+import user, { User } from './user'
 import { State } from '../index'
 
 export interface RokkaApi {
@@ -23,6 +24,7 @@ export interface RokkaApi {
   stacks: Stacks
   stats: Stats
   users: Users
+  user: User
 }
 
 export default (state: State): RokkaApi => {
@@ -39,5 +41,6 @@ export default (state: State): RokkaApi => {
     stats(state),
     users(state),
     billing(state),
+    user(state),
   )
 }

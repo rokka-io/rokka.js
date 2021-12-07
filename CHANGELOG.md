@@ -1,3 +1,7 @@
+# 3.3.0 [07-12-2021]
+
+- Add User Api Keys methods.
+
 # 3.2.0 [23-11-2021]
 
 - Add agent transport option (for example for adding proxy options. See the README for an example)

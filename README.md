@@ -104,6 +104,38 @@ rokka.users.getId()
 
 <!-- End ../src/apis/users.ts -->
 
+<!-- Start ../src/apis/user.ts -->
+
+### User
+
+#### rokka.user.getId() → Promise
+
+Get user_id for current user
+
+#### rokka.user.get()
+
+Get user object for current user
+
+#### rokka.user.listApiKeys()()
+
+List Api Keys of the current user
+
+#### rokka.user.addApiKey()(comment)
+
+Add Api Key to the current user
+
+#### rokka.user.deleteApiKey()(id)
+
+Delete Api Key from the current user
+
+#### rokka.user.getCurrentApiKey()()
+
+Get currently used Api Key
+
+---
+
+<!-- End ../src/apis/user.ts -->
+
 <!-- Start ../src/apis/billing.ts -->
 
 ### Billing

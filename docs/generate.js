@@ -6,6 +6,7 @@ const markdox = require('markdox')
 const sources = [
   '../src/index.ts',
   '../src/apis/users.ts',
+  '../src/apis/user.ts',
   '../src/apis/billing.ts',
   '../src/apis/organizations.ts',
   '../src/apis/memberships.ts',
