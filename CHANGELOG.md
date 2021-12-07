@@ -1,10 +1,11 @@
 # 3.3.0 [07-12-2021]
 
-- Add User Api Keys methods.
+- Added User Api Keys methods. 
+  See https://rokka.io/documentation/references/users-and-memberships.html#rotate-your-api-key for details.
 
 # 3.2.0 [23-11-2021]
 
-- Add agent transport option (for example for adding proxy options. See the README for an example)
+- Added agent transport option (for example for adding proxy options. See the README for an example)
 
 # 3.1.0 [20-10-2021]
 

@@ -19,11 +19,11 @@ interface UserApiKeyResponse extends RokkaResponse {
   body: UserApiKey
 }
 
-interface UserResponse extends RokkaResponse {
-  body: UserApiKey
+interface UserApiKeyListResponse extends RokkaResponse {
+  body: UserApiKey[]
 }
 
-interface UserApiKeyListResponse extends RokkaResponse {
+interface UserResponse extends RokkaResponse {
   body: { id: string; email?: string; api_keys: UserApiKey[] }
 }
 
