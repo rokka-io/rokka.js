@@ -1,6 +1,6 @@
 {
   "name": "rokka",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "description": "JavaScript client library for rokka.io",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
