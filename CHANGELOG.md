@@ -1,4 +1,4 @@
-# 3.4.0 [unreleased]
+# 3.4.0 [10-12-2021]
 
 - Added `rokka.sourceimages.addDynamicMetaData` and `rokka.sourceimages.deleteDynamicMetaData`  method.
 
