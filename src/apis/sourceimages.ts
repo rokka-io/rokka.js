@@ -162,6 +162,12 @@ export interface APISourceimages {
     data: any,
     options: { deletePrevious?: string | boolean },
   ) => Promise<RokkaResponse>
+  deleteDynamicMetaData: (
+    organization: string,
+    hash: string,
+    name: string,
+    options: { deletePrevious?: string | boolean },
+  ) => Promise<RokkaResponse>
 
   putName: (
     organization: string,
@@ -766,6 +772,41 @@ export default (state: State): { sourceimages: APISourceimages } => {
         'PUT',
         'sourceimages/' + organization + '/' + hash + '/meta/dynamic/' + name,
         data,
+        options,
+      )
+    },
+
+    /**
+     * Delete dynamic metadata of an image
+     *
+     * See [the dynamic metadata chapter](https://rokka.io/documentation/references/dynamic-metadata.html) for
+     * details.
+     *
+     * ```js
+     * rokka.sourceimages.addDynamicMetaData('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'crop_area',
+     * {
+     *   deletePrevious: false
+     * }).then(function(result) {})
+     *   .catch(function(err) {});
+     * ```
+     *
+     * @param {string} organization  name
+     * @param {string} hash          image hash
+     * @param {string} name          the name of the dynamic metarea
+     * @param {{deletePrevious: boolean}} [options={}] Optional: only {deletePrevious: true/false} yet, false is default
+     * @returns {Promise}
+     */
+    deleteDynamicMetaData: (
+      organization: string,
+      hash: string,
+      name: string,
+      options: { deletePrevious?: string | boolean } = {},
+    ): Promise<RokkaResponse> => {
+      options.deletePrevious = options.deletePrevious ? 'true' : 'false'
+
+      return state.request(
+        'DELETE',
+        'sourceimages/' + organization + '/' + hash + '/meta/dynamic/' + name,
         options,
       )
     },
