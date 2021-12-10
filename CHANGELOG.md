@@ -1,3 +1,7 @@
+# 3.4.0 [unreleased]
+
+- Added `rokka.sourceimages.addDynamicMetaData` method.
+
 # 3.3.0 [07-12-2021]
 
 - Added User Api Keys methods. 
@@ -9,7 +13,7 @@
 
 # 3.1.0 [20-10-2021]
 
-- Added 'rokka.sourceimages.putName' method to change the name of an image.
+- Added `rokka.sourceimages.putName` method to change the name of an image.
 
 # 3.0.1 [17-09-2021]
 

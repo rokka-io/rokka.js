@@ -453,6 +453,26 @@ rokka.sourceimages.removeSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bac
   .catch(function(err) {});
 ```
 
+#### rokka.sourceimages.addDynamicMetaData(organization, hash, name, data, [options={}]) → Promise
+
+Add/set dynamic metadata to an image
+
+See [the dynamic metadata chapter](https://rokka.io/documentation/references/dynamic-metadata.html) for
+details.
+
+```js
+rokka.sourceimages.addDynamicMetaData('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'crop_area', {
+  x: 100,
+  y: 100,
+  width: 50,
+  height: 50
+},
+{
+  deletePrevious: false
+}).then(function(result) {})
+  .catch(function(err) {});
+```
+
 #### rokka.sourceimages.putName(organization, hash, name) → Promise
 
 Change the name of a  source image.
