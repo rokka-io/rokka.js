@@ -310,7 +310,17 @@ rokka.sourceimages.getWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e158a
 
 #### rokka.sourceimages.download(organization, hash) → Promise
 
-Download image by hash.
+Download image by hash, returns a Stream
+
+```js
+rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
+#### rokka.sourceimages.downloadAsBuffer(organization, hash) → Promise
+
+Download image by hash, returns a Buffer
 
 ```js
 rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')

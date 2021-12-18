@@ -44,12 +44,12 @@ const defaults = {
   },
 }
 
-const getResponseBody = async (response: any) => {
+const getResponseBody = async (response: Response) => {
   if (response.headers && response.json) {
     if (response.headers.get('content-type') === 'application/json') {
       return response.json()
     }
-    return response.text()
+    return response.body
   }
   return response.body
 }

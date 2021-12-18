@@ -6,6 +6,7 @@ import {
 } from '../response'
 import { State } from '../index'
 import SourceImagesMeta from './sourceimages.meta'
+import * as Stream from 'stream'
 
 interface SearchQueryParams {
   [key: string]: any
@@ -48,6 +49,13 @@ interface CreateMetadata {
 
 interface CreateOptions {
   optimize_source?: boolean
+}
+
+interface RokkaDownloadResponse extends RokkaResponse {
+  body: ReadableStream
+}
+interface RokkaDownloadAsBufferResponse extends RokkaResponse {
+  body: Buffer
 }
 
 export interface Sourceimage {
@@ -109,7 +117,16 @@ export interface APISourceimages {
     organization: string,
     binaryHash: string,
   ) => Promise<SourceimagesListResponse>
-  download: (organization: string, hash: string) => Promise<RokkaResponse>
+  download: (
+    organization: string,
+    hash: string,
+    asBuffer: boolean,
+  ) => Promise<RokkaDownloadResponse>
+  downloadAsBuffer: (
+    organization: string,
+    hash: string,
+    asBuffer: boolean,
+  ) => Promise<RokkaDownloadAsBufferResponse>
   autolabel: (organization: string, hash: string) => Promise<RokkaResponse>
   create: (
     organization: string,
@@ -195,6 +212,15 @@ export interface APISourceimagesMeta {
   ) => Promise<RokkaResponse>
 }
 
+async function stream2buffer(stream: Stream): Promise<Buffer> {
+  return new Promise<Buffer>((resolve, reject) => {
+    const _buf = Array<any>()
+
+    stream.on('data', chunk => _buf.push(chunk))
+    stream.on('end', () => resolve(Buffer.concat(_buf)))
+    stream.on('error', err => reject(`error converting stream - ${err}`))
+  })
+}
 /**
  * ### Source Images
  *
@@ -341,7 +367,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
     },
 
     /**
-     * Download image by hash.
+     * Download image by hash, returns a Stream
      *
      * ```js
      * rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
@@ -354,11 +380,39 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * @param  {string}  hash         image hash
      * @return {Promise}
      */
-    download: (organization: string, hash: string): Promise<RokkaResponse> => {
+    download: (
+      organization: string,
+      hash: string,
+    ): Promise<RokkaDownloadResponse> => {
       return state.request(
         'GET',
         `sourceimages/${organization}/${hash}/download`,
       )
+    },
+
+    /**
+     * Download image by hash, returns a Buffer
+     *
+     * ```js
+     * rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+     *   .then(function(result) {})
+     *   .catch(function(err) {});
+     * ```
+     *
+     * @authenticated
+     * @param  {string}  organization name
+     * @param  {string}  hash         image hash
+     * @return {Promise}
+     */
+    downloadAsBuffer: async (
+      organization: string,
+      hash: string,
+    ): Promise<RokkaDownloadAsBufferResponse> => {
+      return await state
+        .request('GET', `sourceimages/${organization}/${hash}/download`)
+        .then(async response => {
+          return { ...response, body: await stream2buffer(response.body) }
+        })
     },
 
     /**

@@ -1,3 +1,8 @@
+# 3.5.0 [unreleased]
+
+- Added `rokka.sourceimages.downloadAsBuffer` to get a Buffer more easily
+- Fixed return type of body for non JSON responses. It's now always a Stream.
+
 # 3.4.0 [10-12-2021]
 
 - Added `rokka.sourceimages.addDynamicMetaData` and `rokka.sourceimages.deleteDynamicMetaData`  method.
