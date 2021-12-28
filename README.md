@@ -755,6 +755,18 @@ rokka.stats.get('myorg', '2017-01-01', '2017-01-31')
 
 <!-- End ../src/apis/stats.ts -->
 
+<!-- Start ../src/apis/request.ts -->
+
+### request
+
+#### rokka.request.request(path, method, body)
+
+Does an authenticated request for any path to the Rokka API
+
+---
+
+<!-- End ../src/apis/request.ts -->
+
 <!-- ENDDOCS -->
 
 [npm-url]: https://npmjs.com/package/rokka

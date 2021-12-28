@@ -17,6 +17,7 @@ const sources = [
   '../src/apis/stacks.ts',
   '../src/apis/render.ts',
   '../src/apis/stats.ts',
+  '../src/apis/request.ts',
 ]
 const readme = '../README.md'
 const tmpFile = './API.md'

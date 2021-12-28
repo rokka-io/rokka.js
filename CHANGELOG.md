@@ -1,6 +1,7 @@
-# 3.5.0 [unreleased]
+# 3.5.0 [28-12-2021]
 
 - Added `rokka.sourceimages.downloadAsBuffer` to get a Buffer more easily
+- Added `rokka.render(path, method, payload)` to do any request against the rokka API
 - Fixed return type of body for non JSON responses. It's now always a Stream.
 
 # 3.4.0 [10-12-2021]
