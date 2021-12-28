@@ -1,3 +1,7 @@
+# 3.5.1 [28-12-2021]
+
+- Fix request interface
+
 # 3.5.0 [28-12-2021]
 
 - Added `rokka.sourceimages.downloadAsBuffer` to get a Buffer more easily

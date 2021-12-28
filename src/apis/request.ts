@@ -8,7 +8,7 @@ import { RokkaResponse } from '../response'
 import { State } from '../index'
 
 export interface Request {
-  (path: string, method: string): Promise<RokkaResponse>
+  (path: string, method?: string, body?: any | null): Promise<RokkaResponse>
 }
 export default (state: State): { request: Request } => {
   /**
