@@ -25,6 +25,7 @@ export interface Config {
 interface RequestOptions {
   headers?: object
   noAuthHeaders?: boolean
+  fallBackToText?: boolean
   form?: boolean
   multipart?: boolean
 }
@@ -44,10 +45,14 @@ const defaults = {
   },
 }
 
-const getResponseBody = async (response: Response) => {
+const getResponseBody = async (response: Response, fallbackToText = false) => {
   if (response.headers && response.json) {
     if (response.headers.get('content-type') === 'application/json') {
       return response.json()
+    }
+
+    if (response.status === 204 || response.status === 201 || fallbackToText) {
+      return response.text()
     }
     return response.body
   }
@@ -139,7 +144,7 @@ export default (config: Config = {}): RokkaApi => {
       queryParams: {
         [key: string]: string | number | boolean
       } | null = null,
-      options: RequestOptions = { noAuthHeaders: false },
+      options: RequestOptions = { noAuthHeaders: false, fallBackToText: false },
     ): Promise<RokkaResponseInterface> {
       let uri = [state.apiHost, path].join('/')
       if (
@@ -220,7 +225,10 @@ export default (config: Config = {}): RokkaApi => {
       return t.then(
         async (response: Response): Promise<RokkaResponseInterface> => {
           const rokkaResponse = RokkaResponse(response)
-          rokkaResponse.body = await getResponseBody(response)
+          rokkaResponse.body = await getResponseBody(
+            response,
+            options.fallBackToText,
+          )
           if (response.status >= 400) {
             rokkaResponse.error = rokkaResponse.body
             rokkaResponse.message =

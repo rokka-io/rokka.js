@@ -120,7 +120,6 @@ export interface APISourceimages {
   download: (
     organization: string,
     hash: string,
-    asBuffer: boolean,
   ) => Promise<RokkaDownloadResponse>
   downloadAsBuffer: (
     organization: string,
@@ -387,6 +386,9 @@ export default (state: State): { sourceimages: APISourceimages } => {
       return state.request(
         'GET',
         `sourceimages/${organization}/${hash}/download`,
+        undefined,
+        undefined,
+        { fallBackToText: true },
       )
     },
 
