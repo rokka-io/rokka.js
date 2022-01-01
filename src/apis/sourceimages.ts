@@ -8,7 +8,7 @@ import { State } from '../index'
 import SourceImagesMeta from './sourceimages.meta'
 import * as Stream from 'stream'
 
-interface SearchQueryParams {
+export interface SearchQueryParams {
   [key: string]: any
   limit?: number | null
   offset?: string | number | null
@@ -23,18 +23,18 @@ interface GetQueryParams {
   deleted?: boolean
 }
 
-interface MetaDataUser {
+export interface MetaDataUser {
   [key: string]: string | string[] | boolean | number
 }
 
-interface MetaDataDynamic {
+export interface MetaDataDynamic {
   [key: string]: { [key: string]: any } | undefined
   version?: { text: string }
   subject_area?: { x: number; y: number; width?: number; height?: number }
   crop_area?: { x: number; y: number; width: number; height: number }
 }
 
-interface MetaDataOptions {
+export interface MetaDataOptions {
   [key: string]: any
   visual_binaryhash?: boolean
   protected?: boolean
@@ -88,18 +88,18 @@ export interface Sourceimage {
   protected?: boolean
 }
 
-interface SourceimagesListResponseBody extends RokkaListResponseBody {
+export interface SourceimagesListResponseBody extends RokkaListResponseBody {
   items: Sourceimage[]
   total: number
   cursor: string
   links: { prev?: { href: string }; next?: { href: string } }
 }
 
-interface SourceimagesListResponse extends RokkaListResponse {
+export interface SourceimagesListResponse extends RokkaListResponse {
   body: SourceimagesListResponseBody
 }
 
-interface SourceimageResponse extends RokkaResponse {
+export interface SourceimageResponse extends RokkaResponse {
   body: Sourceimage
 }
 

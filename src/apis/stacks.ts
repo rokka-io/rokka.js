@@ -40,7 +40,7 @@ export interface StackOptions {
   [key: string]: string | number | boolean
 }
 
-interface StackConfig {
+export interface StackConfig {
   operations?: StackOperation[]
   options?: StackOptions
   expressions?: Expression[]

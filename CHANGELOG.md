@@ -1,3 +1,7 @@
+# 3.6.0 [01-01-2022]
+
+- Export more typescript interfaces 
+
 # 3.5.1 [28-12-2021]
 
 - Fix request interface

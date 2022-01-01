@@ -8,12 +8,12 @@ type SignUrlWithOptionsType = (
   options?: { until?: string } | null,
 ) => string
 
-interface SignUrlOptions {
+export interface SignUrlOptions {
   until?: Date | null
   roundDateUpTo?: number
 }
 
-type SignUrlType = (
+export type SignUrlType = (
   url: string,
   signKey: string,
   options?: SignUrlOptions,
@@ -29,7 +29,7 @@ type AddStackVariablesType = (
   removeSafeUrlFromQuery?: boolean,
 ) => string
 
-interface UrlComponents {
+export interface UrlComponents {
   stack: string
   hash: string
   filename?: string

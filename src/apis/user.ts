@@ -7,7 +7,7 @@
 import { RokkaResponse } from '../response'
 import { State } from '../index'
 
-interface UserApiKey {
+export interface UserApiKey {
   id: string
   accessed?: string
   created?: string
@@ -15,15 +15,15 @@ interface UserApiKey {
   api_key?: string
 }
 
-interface UserApiKeyResponse extends RokkaResponse {
+export interface UserApiKeyResponse extends RokkaResponse {
   body: UserApiKey
 }
 
-interface UserApiKeyListResponse extends RokkaResponse {
+export interface UserApiKeyListResponse extends RokkaResponse {
   body: UserApiKey[]
 }
 
-interface UserResponse extends RokkaResponse {
+export interface UserResponse extends RokkaResponse {
   body: { id: string; email?: string; api_keys: UserApiKey[] }
 }
 
