@@ -6,6 +6,7 @@
 
 import { RokkaResponse } from '../response'
 import { State } from '../index'
+import { _getTokenPayload, _isTokenExpiring } from '../utils'
 
 export interface UserApiKey {
   id: string
@@ -17,6 +18,25 @@ export interface UserApiKey {
 
 export interface UserApiKeyResponse extends RokkaResponse {
   body: UserApiKey
+}
+
+export type ApiToken = string | null
+
+export interface UserKeyToken extends RokkaResponse {
+  token: ApiToken
+}
+
+export interface ApiTokenPayload {
+  [key: string]: string | number | undefined | null
+  exp: number
+  ip?: string
+}
+
+export type ApiTokenGetCallback = (() => ApiToken) | null | undefined
+export type ApiTokenSetCallback = ((token: ApiToken) => void) | null
+
+export interface UserKeyTokenResponse extends RokkaResponse {
+  body: UserKeyToken
 }
 
 export interface UserApiKeyListResponse extends RokkaResponse {
@@ -34,6 +54,11 @@ export interface User {
   deleteApiKey(id: string): Promise<RokkaResponse>
   listApiKeys(): Promise<UserApiKeyListResponse>
   getCurrentApiKey(): Promise<UserApiKeyResponse>
+  getNewToken(apiKey?: string): Promise<UserKeyTokenResponse>
+  getToken(): ApiToken | null
+  setToken(token: ApiToken | null): void
+  isTokenExpiring(atLeastNotForSeconds?: number): boolean
+  tokenValidFor(): number
 }
 
 export default (state: State): { user: User } => {
@@ -134,6 +159,51 @@ export default (state: State): { user: User } => {
      */
     getCurrentApiKey(): Promise<UserApiKeyResponse> {
       return state.request('GET', 'user/apikeys/current')
+    },
+
+    async getNewToken(apiKey?: string): Promise<UserKeyTokenResponse> {
+      if (apiKey) {
+        state.apiKey = apiKey
+      }
+      const response: UserKeyTokenResponse = await state.request(
+        'GET',
+        'user/apikeys/token',
+        undefined,
+        undefined,
+        {
+          forceUseApiKey: apiKey !== undefined && this.tokenValidFor() < 10,
+          noTokenRefresh: true,
+        },
+      )
+
+      this.setToken(response.body.token)
+      return response
+    },
+
+    getToken(): ApiToken {
+      return state.apiTokenGetCallback ? state.apiTokenGetCallback() : null
+    },
+
+    setToken(token: ApiToken) {
+      if (state.apiTokenSetCallback) {
+        state.apiTokenSetCallback(token)
+        state.apiTokenPayload = _getTokenPayload(token)
+      }
+    },
+
+    isTokenExpiring(withinNextSeconds = 3600): boolean {
+      return _isTokenExpiring(
+        state.apiTokenPayload?.exp,
+        state.apiTokenGetCallback,
+        withinNextSeconds,
+      )
+    },
+    tokenValidFor(): number {
+      if (state.apiTokenPayload) {
+        return state.apiTokenPayload.exp
+      }
+      state.apiTokenPayload = _getTokenPayload(state.apiTokenGetCallback)
+      return state.apiTokenPayload?.exp ?? -1
     },
   }
 

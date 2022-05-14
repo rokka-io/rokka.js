@@ -5,11 +5,19 @@ import RokkaResponse, {
 } from './response'
 import { stringify } from 'query-string'
 import FormData from 'form-data'
+import user, {
+  ApiTokenGetCallback,
+  ApiTokenPayload,
+  ApiTokenSetCallback,
+} from './apis/user'
+import { _getTokenPayload, _isTokenExpiring, _tokenValidFor } from './utils'
 
 export interface Config {
   apiKey?: string
   apiHost?: string // default: https://api.rokka.io
   apiVersion?: number | string // default: 1
+  apiTokenGetCallback?: ApiTokenGetCallback
+  apiTokenSetCallback?: ApiTokenSetCallback
   renderHost?: string // default: https://{organization}.rokka.io
   debug?: boolean // default: false
   transport?: {
@@ -28,6 +36,8 @@ interface RequestOptions {
   fallBackToText?: boolean
   form?: boolean
   multipart?: boolean
+  forceUseApiKey?: boolean
+  noTokenRefresh?: boolean
 }
 
 const defaults = {
@@ -74,9 +84,13 @@ interface Request {
 export interface State {
   apiKey: string | undefined
   apiHost: string
+  apiTokenGetCallback?: ApiTokenGetCallback
   apiVersion: number | string
   renderHost: string
   transportOptions: any
+  apiTokenSetCallback?: ApiTokenSetCallback
+  apiTokenPayload: ApiTokenPayload | null
+
   request(
     method: string,
     path: string,
@@ -132,19 +146,27 @@ export default (config: Config = {}): RokkaApi => {
     // config
     apiKey: config.apiKey,
     apiHost: config.apiHost || defaults.apiHost,
+    apiTokenGetCallback: config.apiTokenGetCallback || null,
+    apiTokenSetCallback: config.apiTokenSetCallback || null,
+    apiTokenPayload: null,
     apiVersion: config.apiVersion || defaults.apiVersion,
     renderHost: config.renderHost || defaults.renderHost,
     transportOptions: Object.assign(defaults.transport, config.transport),
 
     // functions
-    request(
+    async request(
       method: string,
       path: string,
       payload: any | null = null,
       queryParams: {
         [key: string]: string | number | boolean
       } | null = null,
-      options: RequestOptions = { noAuthHeaders: false, fallBackToText: false },
+      options: RequestOptions = {
+        noAuthHeaders: false,
+        fallBackToText: false,
+        forceUseApiKey: false,
+        noTokenRefresh: false,
+      },
     ): Promise<RokkaResponseInterface> {
       let uri = [state.apiHost, path].join('/')
       if (
@@ -156,19 +178,39 @@ export default (config: Config = {}): RokkaApi => {
       ) {
         uri += '?' + stringify(queryParams)
       }
+
       const headers: {
         'Api-Version'?: string | number
         'Api-Key'?: string
+        Authorization?: string
       } = options.headers || {}
 
       headers['Api-Version'] = state.apiVersion
 
       if (options.noAuthHeaders !== true) {
-        if (!state.apiKey) {
-          return Promise.reject(new Error('Missing required property `apiKey`'))
+        if (!options.forceUseApiKey && state.apiTokenGetCallback) {
+          let apiToken = state.apiTokenGetCallback()
+          // get a new token, when it's somehow almost expired, but should still be valid
+          if (
+            !options.noTokenRefresh &&
+            _isTokenExpiring(state.apiTokenPayload?.exp, apiToken, 3600) &&
+            _tokenValidFor(state.apiTokenPayload?.exp, apiToken) > 0
+          ) {
+            apiToken = (await user(state).user.getNewToken()).body.token
+          }
+          // set apiTokenExpiry, if not set, to avoid to having to decode it all the time
+          if (!state.apiTokenPayload) {
+            state.apiTokenPayload = _getTokenPayload(apiToken)
+          }
+          headers['Authorization'] = `Bearer ${apiToken}`
+        } else {
+          if (!state.apiKey) {
+            return Promise.reject(
+              new Error('Missing required property `apiKey`'),
+            )
+          }
+          headers['Api-Key'] = state.apiKey
         }
-
-        headers['Api-Key'] = state.apiKey
       }
 
       const retryDelay = (attempt: number) => {
@@ -233,6 +275,11 @@ export default (config: Config = {}): RokkaApi => {
             rokkaResponse.error = rokkaResponse.body
             rokkaResponse.message =
               response.status + ' - ' + JSON.stringify(rokkaResponse.body)
+            // if response is a 403 and we have apiTokenSetCallback, clear the token
+            if (response.status === 403 && state.apiTokenSetCallback) {
+              state.apiTokenSetCallback('')
+              state.apiTokenPayload = null
+            }
             throw rokkaResponse
           }
           return rokkaResponse
