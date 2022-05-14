@@ -171,7 +171,7 @@ export default (state: State): { user: User } => {
         undefined,
         undefined,
         {
-          forceUseApiKey: apiKey !== undefined && this.tokenValidFor() < 10,
+          forceUseApiKey: !!apiKey && this.tokenValidFor() < 10,
           noTokenRefresh: true,
         },
       )

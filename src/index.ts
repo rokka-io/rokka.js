@@ -193,11 +193,19 @@ export default (config: Config = {}): RokkaApi => {
           // get a new token, when it's somehow almost expired, but should still be valid
           if (
             !options.noTokenRefresh &&
-            _isTokenExpiring(state.apiTokenPayload?.exp, apiToken, 3600) &&
-            _tokenValidFor(state.apiTokenPayload?.exp, apiToken) > 0
+            ((apiToken &&
+              _isTokenExpiring(state.apiTokenPayload?.exp, apiToken, 3600) &&
+              _tokenValidFor(state.apiTokenPayload?.exp, apiToken) > 0) ||
+              state.apiKey)
           ) {
-            apiToken = (await user(state).user.getNewToken()).body.token
+            apiToken = (await user(state).user.getNewToken(state.apiKey)).body
+              .token
           }
+          if (!apiToken) {
+            const code = 403
+            throw { error: { code, message: 'no api token' }, status: code }
+          }
+
           // set apiTokenExpiry, if not set, to avoid to having to decode it all the time
           if (!state.apiTokenPayload) {
             state.apiTokenPayload = _getTokenPayload(apiToken)
@@ -225,7 +233,7 @@ export default (config: Config = {}): RokkaApi => {
         return Math.min(timeout, state.transportOptions.maxTimeout)
       }
 
-      const request: Request = {
+      const requestOptions: Request = {
         method: method,
         headers: headers,
         timeout: state.transportOptions.requestTimeout,
@@ -242,10 +250,10 @@ export default (config: Config = {}): RokkaApi => {
         Object.keys(formData).forEach(function (meta) {
           requestData.append(meta, formData[meta])
         })
-        request.body = requestData
+        requestOptions.body = requestData
       } else if (options.multipart !== true) {
-        request.json = true
-        request.body = payload
+        requestOptions.json = true
+        requestOptions.body = payload
       } else {
         const formData = payload.formData || {}
         const requestData = new FormData()
@@ -256,14 +264,18 @@ export default (config: Config = {}): RokkaApi => {
           requestData.append(meta, JSON.stringify(formData[meta]))
         })
 
-        request.body = requestData
+        requestOptions.body = requestData
       }
 
-      if (request.json && request.body && typeof request.body === 'object') {
-        request.body = JSON.stringify(request.body)
+      if (
+        requestOptions.json &&
+        requestOptions.body &&
+        typeof requestOptions.body === 'object'
+      ) {
+        requestOptions.body = JSON.stringify(requestOptions.body)
       }
 
-      const t = transport(uri, request)
+      const t = transport(uri, requestOptions)
       return t.then(
         async (response: Response): Promise<RokkaResponseInterface> => {
           const rokkaResponse = RokkaResponse(response)
@@ -276,9 +288,19 @@ export default (config: Config = {}): RokkaApi => {
             rokkaResponse.message =
               response.status + ' - ' + JSON.stringify(rokkaResponse.body)
             // if response is a 403 and we have apiTokenSetCallback, clear the token
-            if (response.status === 403 && state.apiTokenSetCallback) {
-              state.apiTokenSetCallback('')
-              state.apiTokenPayload = null
+            if (
+              response.status === 403 &&
+              state.apiTokenSetCallback &&
+              state.apiTokenGetCallback
+            ) {
+              // but not when the authorization header changed in the meantime
+              if (
+                headers['Authorization'] ===
+                'Bearer ' + state.apiTokenGetCallback()
+              ) {
+                state.apiTokenSetCallback('')
+                state.apiTokenPayload = null
+              }
             }
             throw rokkaResponse
           }
