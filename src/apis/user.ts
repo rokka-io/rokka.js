@@ -27,10 +27,11 @@ export interface UserKeyToken extends RokkaResponse {
 }
 
 export interface ApiTokenPayload {
-  [key: string]: string | number | undefined | null | boolean
+  [key: string]: string[] | string | number | undefined | null | boolean
   exp: number
   ip?: string
   nr?: boolean
+  ips?: string[]
 }
 
 export type ApiTokenGetCallback = (() => ApiToken) | null | undefined

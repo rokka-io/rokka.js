@@ -90,10 +90,10 @@ export interface RequestQueryParams {
 export interface State {
   apiKey: string | undefined
   apiHost: string
-  apiTokenGetCallback?: ApiTokenGetCallback
   apiVersion: number | string
   renderHost: string
   transportOptions: any
+  apiTokenGetCallback?: ApiTokenGetCallback
   apiTokenSetCallback?: ApiTokenSetCallback
   apiTokenPayload: ApiTokenPayload | null
   apiTokenOptions?: RequestQueryParamsNewToken | null
