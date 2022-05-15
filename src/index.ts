@@ -19,6 +19,7 @@ export interface Config {
   apiVersion?: number | string // default: 1
   apiTokenGetCallback?: ApiTokenGetCallback
   apiTokenSetCallback?: ApiTokenSetCallback
+  apiTokenRefreshTime?: number
   apiTokenOptions?: RequestQueryParamsNewToken | null
   renderHost?: string // default: https://{organization}.rokka.io
   debug?: boolean // default: false
@@ -97,6 +98,7 @@ export interface State {
   apiTokenSetCallback?: ApiTokenSetCallback
   apiTokenPayload: ApiTokenPayload | null
   apiTokenOptions?: RequestQueryParamsNewToken | null
+  apiTokenRefreshTime: number
 
   request(
     method: string,
@@ -112,11 +114,15 @@ export interface State {
  *
  * ```js
  * const rokka = require('rokka')({
- *   apiKey: 'apikey',       // required for certain operations
- *   apiHost: '<url>',       // default: https://api.rokka.io
- *   apiVersion: <number>,   // default: 1
- *   renderHost: '<url>',    // default: https://{organization}.rokka.io
- *   debug: true,            // default: false
+ *   apiKey: 'apikey',                  // required for certain operations
+ *   apiTokenGetCallback?: <() => string> // return JWT token instead of API Key
+ *   apiTokenSetCallback?: <((token: string) => void)> // Stores a newly retrieved JWT token
+ *   apiTokenOptions?: <object>         // The rokka.user.getNewToken query parameter options, default: {}
+ *   apiTokenRefreshTime?: <number>     // how many seconds before the token is expiring, it should be refreshed, default: 3600
+ *   apiHost: '<url>',                  // default: https://api.rokka.io
+ *   apiVersion: <number>,              // default: 1
+ *   renderHost: '<url>',               // default: https://{organization}.rokka.io
+ *   debug: true,                       // default: false
  *   transport: {
  *     requestTimeout: <number>,  // milliseconds to wait for rokka server response (default: 30000)
  *     retries: <number>,         // number of retries when API response is 429 (default: 10)
@@ -155,6 +161,7 @@ export default (config: Config = {}): RokkaApi => {
     apiTokenSetCallback: config.apiTokenSetCallback || null,
     apiTokenPayload: null,
     apiTokenOptions: config.apiTokenOptions || {},
+    apiTokenRefreshTime: config.apiTokenRefreshTime || 3600,
     apiVersion: config.apiVersion || defaults.apiVersion,
     renderHost: config.renderHost || defaults.renderHost,
     transportOptions: Object.assign(defaults.transport, config.transport),
@@ -201,7 +208,11 @@ export default (config: Config = {}): RokkaApi => {
             !options.noTokenRefresh &&
             ((apiToken &&
               state.apiTokenPayload?.rn === true && // is it renewable at all
-              _isTokenExpiring(state.apiTokenPayload?.exp, apiToken, 3600) && // does it expire in the next hour
+              _isTokenExpiring(
+                state.apiTokenPayload?.exp,
+                apiToken,
+                state.apiTokenRefreshTime,
+              ) && // does it expire in the next hour
               _tokenValidFor(state.apiTokenPayload?.exp, apiToken) > 0) || // is it still valid at all
               state.apiKey) //or do we have an apiKey
           ) {

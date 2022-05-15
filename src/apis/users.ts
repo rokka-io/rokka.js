@@ -24,7 +24,7 @@ export default (state: State): { users: Users } => {
      * ```
      *
      * @param {string} email address of a user
-     * @param {string} [organization = null] to create
+     * @param {string} [organization=null] to create
      * @return {Promise}
      */
     create: (

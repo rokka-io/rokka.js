@@ -43,11 +43,15 @@ Initializing the rokka client.
 
 ```js
 const rokka = require('rokka')({
-  apiKey: 'apikey',       // required for certain operations
-  apiHost: '<url>',       // default: https://api.rokka.io
-  apiVersion: <number>,   // default: 1
-  renderHost: '<url>',    // default: https://{organization}.rokka.io
-  debug: true,            // default: false
+  apiKey: 'apikey',                  // required for certain operations
+  apiTokenGetCallback?: <() => string> // return JWT token instead of API Key
+  apiTokenSetCallback?: <((token: string) => void)> // Stores a newly retrieved JWT token
+  apiTokenOptions?: <object>         // The rokka.user.getNewToken query parameter options, default: {}
+  apiTokenRefreshTime?: <number>     // how many seconds before the token is expiring, it should be refreshed, default: 3600
+  apiHost: '<url>',                  // default: https://api.rokka.io
+  apiVersion: <number>,              // default: 1
+  renderHost: '<url>',               // default: https://{organization}.rokka.io
+  debug: true,                       // default: false
   transport: {
     requestTimeout: <number>,  // milliseconds to wait for rokka server response (default: 30000)
     retries: <number>,         // number of retries when API response is 429 (default: 10)
@@ -80,7 +84,7 @@ const rokka = require('rokka')({
 
 ### Users
 
-#### rokka.users.create(email, [organization) → Promise
+#### rokka.users.create(email, [organization=null]) → Promise
 
 Register a new user for the rokka service.
 
@@ -112,25 +116,77 @@ rokka.users.getId()
 
 Get user_id for current user
 
-#### rokka.user.get()
+```js
+rokka.users.getId()
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
+#### rokka.user.get() → Promise
 
 Get user object for current user
 
-#### rokka.user.listApiKeys()()
+```js
+rokka.user.get()
+ .then(function(result) {})
+ .catch(function(err) {});
+```
+
+#### rokka.user.listApiKeys() → Promise
 
 List Api Keys of the current user
 
-#### rokka.user.addApiKey()(comment)
+```js
+rokka.user.listApiKeys()
+ .then(function(result) {})
+ .catch(function(err) {});
+ ```
+
+#### rokka.user.addApiKey(comment) → Promise
 
 Add Api Key to the current user
 
-#### rokka.user.deleteApiKey()(id)
+#### rokka.user.deleteApiKey(id) → Promise
 
 Delete Api Key from the current user
 
-#### rokka.user.getCurrentApiKey()()
+#### rokka.user.getCurrentApiKey() → Promise
 
 Get currently used Api Key
+
+```js
+rokka.user.getCurrentApiKey()
+ .then(function(result) {})
+ .catch(function(err) {});
+```
+
+#### rokka.user.getNewToken()(apiKey, queryParams) → Promise
+
+Gets a new JWT token from the API.
+
+You either provide an API Key or there's a valid JWT token registered to get a new JWT token.
+
+```js
+rokka.user.getNowToken(apiKey, {expires_in: 48 * 3600, renewable: true})
+ .then(function(result) {})
+ .catch(function(err) {});
+```
+
+#### rokka.user.getToken() → string
+
+Gets the currently registered JWT Token from the `apiTokenGetCallback` config function or null
+
+#### rokka.user.setToken(token)
+
+Sets a new JWT token with the `apiTokenSetCallback` function
+
+#### rokka.user.isTokenExpiring()(withinNextSeconds) → boolean
+
+Check if the registered JWT token is expiring within these amount of seconds (default: 3600)
+
+#### rokka.user.getTokenIsValidFor()() → number
+
+How long a token is still valid for (just checking for expiration time
 
 ---
 
