@@ -9,6 +9,7 @@ import user, {
   ApiTokenGetCallback,
   ApiTokenPayload,
   ApiTokenSetCallback,
+  RequestQueryParamsNewToken,
 } from './apis/user'
 import { _getTokenPayload, _isTokenExpiring, _tokenValidFor } from './utils'
 
@@ -18,6 +19,7 @@ export interface Config {
   apiVersion?: number | string // default: 1
   apiTokenGetCallback?: ApiTokenGetCallback
   apiTokenSetCallback?: ApiTokenSetCallback
+  apiTokenOptions?: RequestQueryParamsNewToken | null
   renderHost?: string // default: https://{organization}.rokka.io
   debug?: boolean // default: false
   transport?: {
@@ -81,6 +83,10 @@ interface Request {
   agent?: any
 }
 
+export interface RequestQueryParams {
+  [key: string]: string | number | boolean | undefined | null
+}
+
 export interface State {
   apiKey: string | undefined
   apiHost: string
@@ -90,14 +96,13 @@ export interface State {
   transportOptions: any
   apiTokenSetCallback?: ApiTokenSetCallback
   apiTokenPayload: ApiTokenPayload | null
+  apiTokenOptions?: RequestQueryParamsNewToken | null
 
   request(
     method: string,
     path: string,
     payload?: any | null | undefined,
-    queryParams?: {
-      [key: string]: string | number | boolean | undefined | null
-    } | null,
+    queryParams?: RequestQueryParams | null,
     options?: RequestOptions | undefined | null,
   ): Promise<RokkaResponseInterface>
 }
@@ -149,6 +154,7 @@ export default (config: Config = {}): RokkaApi => {
     apiTokenGetCallback: config.apiTokenGetCallback || null,
     apiTokenSetCallback: config.apiTokenSetCallback || null,
     apiTokenPayload: null,
+    apiTokenOptions: config.apiTokenOptions || {},
     apiVersion: config.apiVersion || defaults.apiVersion,
     renderHost: config.renderHost || defaults.renderHost,
     transportOptions: Object.assign(defaults.transport, config.transport),
@@ -194,9 +200,10 @@ export default (config: Config = {}): RokkaApi => {
           if (
             !options.noTokenRefresh &&
             ((apiToken &&
-              _isTokenExpiring(state.apiTokenPayload?.exp, apiToken, 3600) &&
-              _tokenValidFor(state.apiTokenPayload?.exp, apiToken) > 0) ||
-              state.apiKey)
+              state.apiTokenPayload?.rn === true && // is it renewable at all
+              _isTokenExpiring(state.apiTokenPayload?.exp, apiToken, 3600) && // does it expire in the next hour
+              _tokenValidFor(state.apiTokenPayload?.exp, apiToken) > 0) || // is it still valid at all
+              state.apiKey) //or do we have an apiKey
           ) {
             apiToken = (await user(state).user.getNewToken(state.apiKey)).body
               .token

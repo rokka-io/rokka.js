@@ -5,7 +5,7 @@
  */
 
 import { RokkaResponse } from '../response'
-import { State } from '../index'
+import { RequestQueryParams, State } from '../index'
 import { _getTokenPayload, _isTokenExpiring } from '../utils'
 
 export interface UserApiKey {
@@ -27,9 +27,10 @@ export interface UserKeyToken extends RokkaResponse {
 }
 
 export interface ApiTokenPayload {
-  [key: string]: string | number | undefined | null
+  [key: string]: string | number | undefined | null | boolean
   exp: number
   ip?: string
+  nr?: boolean
 }
 
 export type ApiTokenGetCallback = (() => ApiToken) | null | undefined
@@ -47,6 +48,13 @@ export interface UserResponse extends RokkaResponse {
   body: { id: string; email?: string; api_keys: UserApiKey[] }
 }
 
+export interface RequestQueryParamsNewToken extends RequestQueryParams {
+  renewable?: boolean
+  no_ip_protection?: boolean
+  ips?: string
+  expires_in?: number
+}
+
 export interface User {
   getId(): Promise<string>
   get(): Promise<UserResponse>
@@ -54,7 +62,10 @@ export interface User {
   deleteApiKey(id: string): Promise<RokkaResponse>
   listApiKeys(): Promise<UserApiKeyListResponse>
   getCurrentApiKey(): Promise<UserApiKeyResponse>
-  getNewToken(apiKey?: string): Promise<UserKeyTokenResponse>
+  getNewToken(
+    apiKey?: string,
+    queryParams?: RequestQueryParamsNewToken | null,
+  ): Promise<UserKeyTokenResponse>
   getToken(): ApiToken | null
   setToken(token: ApiToken | null): void
   isTokenExpiring(atLeastNotForSeconds?: number): boolean
@@ -161,15 +172,21 @@ export default (state: State): { user: User } => {
       return state.request('GET', 'user/apikeys/current')
     },
 
-    async getNewToken(apiKey?: string): Promise<UserKeyTokenResponse> {
+    async getNewToken(
+      apiKey?: string,
+      queryParams: RequestQueryParamsNewToken | null = {},
+    ): Promise<UserKeyTokenResponse> {
       if (apiKey) {
         state.apiKey = apiKey
+      }
+      if (!!queryParams) {
+        queryParams = {}
       }
       const response: UserKeyTokenResponse = await state.request(
         'GET',
         'user/apikeys/token',
         undefined,
-        undefined,
+        { ...state.apiTokenOptions, ...queryParams },
         {
           forceUseApiKey: !!apiKey && this.tokenValidFor() < 10,
           noTokenRefresh: true,
