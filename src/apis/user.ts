@@ -31,6 +31,7 @@ export interface ApiTokenPayload {
   [key: string]: string[] | string | number | undefined | null | boolean
   exp: number
   ip?: string
+  expt?: number
   nr?: boolean
   ips?: string[]
 }
