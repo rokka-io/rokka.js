@@ -204,17 +204,22 @@ export default (config: Config = {}): RokkaApi => {
         if (!options.forceUseApiKey && state.apiTokenGetCallback) {
           let apiToken = state.apiTokenGetCallback()
           // get a new token, when it's somehow almost expired, but should still be valid
+          const isTokenValid =
+            apiToken &&
+            state.apiTokenPayload?.rn === true &&
+            _tokenValidFor(state.apiTokenPayload?.exp, apiToken) > 0
+          // if it's not valid, it's also not expiring...
+          const isTokenExpiring =
+            isTokenValid &&
+            _isTokenExpiring(
+              state.apiTokenPayload?.exp,
+              apiToken,
+              state.apiTokenRefreshTime,
+            )
           if (
             !options.noTokenRefresh &&
-            ((apiToken &&
-              state.apiTokenPayload?.rn === true && // is it renewable at all
-              _isTokenExpiring(
-                state.apiTokenPayload?.exp,
-                apiToken,
-                state.apiTokenRefreshTime,
-              ) && // does it expire in the next hour
-              _tokenValidFor(state.apiTokenPayload?.exp, apiToken) > 0) || // is it still valid at all
-              state.apiKey) //or do we have an apiKey
+            ((isTokenValid && isTokenExpiring) ||
+              (!isTokenValid && state.apiKey)) //or do we have an apiKey
           ) {
             apiToken = (await user(state).user.getNewToken(state.apiKey)).body
               .token
