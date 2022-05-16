@@ -6,7 +6,7 @@
 
 import { RokkaResponse } from '../response'
 import { RequestQueryParams, State } from '../index'
-import { _getTokenPayload, _isTokenExpiring } from '../utils'
+import { _getTokenPayload, _isTokenExpiring, _tokenValidFor } from '../utils'
 
 export interface UserApiKey {
   id: string
@@ -22,8 +22,9 @@ export interface UserApiKeyResponse extends RokkaResponse {
 
 export type ApiToken = string | null
 
-export interface UserKeyToken extends RokkaResponse {
+export interface UserKeyTokenBody extends RokkaResponse {
   token: ApiToken
+  payload: ApiTokenPayload
 }
 
 export interface ApiTokenPayload {
@@ -38,7 +39,7 @@ export type ApiTokenGetCallback = (() => ApiToken) | null | undefined
 export type ApiTokenSetCallback = ((token: ApiToken) => void) | null
 
 export interface UserKeyTokenResponse extends RokkaResponse {
-  body: UserKeyToken
+  body: UserKeyTokenBody
 }
 
 export interface UserApiKeyListResponse extends RokkaResponse {
@@ -284,11 +285,10 @@ export default (state: State): { user: User } => {
      * @return {number} The amount of seconds it's still valid for, -1 if it doesn't exist
      */
     getTokenIsValidFor(): number {
-      if (state.apiTokenPayload) {
-        return state.apiTokenPayload.exp
-      }
-      state.apiTokenPayload = _getTokenPayload(state.apiTokenGetCallback)
-      return state.apiTokenPayload?.exp ?? -1
+      return _tokenValidFor(
+        state.apiTokenPayload?.exp,
+        state.apiTokenGetCallback,
+      )
     },
   }
 
