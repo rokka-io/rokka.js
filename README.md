@@ -251,12 +251,12 @@ rokka.organizations.create('myorg', 'billing@example.org', 'Organization Inc.')
 - `rokka.memberships.ROLES.UPLOAD` - upload-only access
 - `rokka.memberships.ROLES.ADMIN` - administrative access
 
-#### rokka.memberships.create(organization, userId, roles) → Promise
+#### rokka.memberships.create(organization, userId, roles, comment) → Promise
 
 Add a member to an organization.
 
 ```js
-rokka.memberships.create('myorg', '613547f8-e26d-48f6-8a6a-552c18b1a290', [rokka.memberships.ROLES.WRITE])
+rokka.memberships.create('myorg', '613547f8-e26d-48f6-8a6a-552c18b1a290', [rokka.memberships.ROLES.WRITE], "An optional comment")
   .then(function(result) {})
   .catch(function(err) {});
 ```
@@ -271,12 +271,12 @@ rokka.memberships.delete('myorg', '613547f8-e26d-48f6-8a6a-552c18b1a290')
   .catch(function(err) {});
 ```
 
-#### rokka.memberships.createWithNewUser(organization, roles) → Promise
+#### rokka.memberships.createWithNewUser(organization, roles, comment) → Promise
 
 Create a user and membership associated to this organization.
 
 ```js
-rokka.memberships.createWithNewUser('myorg', [rokka.memberships.ROLES.READ])
+rokka.memberships.createWithNewUser('myorg', [rokka.memberships.ROLES.READ], "New user for something")
   .then(function(result) {})
   .catch(function(err) {});
 ```
