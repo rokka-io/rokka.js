@@ -82,7 +82,6 @@ export function _getTokenPayload(
   try {
     return jwtDecode<ApiTokenPayload>(token)
   } catch {
-    console.log('Could not decode token')
     return null
   }
 }
