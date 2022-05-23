@@ -310,11 +310,9 @@ export default (config: Config = {}): RokkaApi => {
             rokkaResponse.error = rokkaResponse.body
             rokkaResponse.message =
               response.status + ' - ' + JSON.stringify(rokkaResponse.body)
-            // if response is a 403 and we have apiTokenSetCallback, clear the token
+            // if response is a 401 and we have apiTokenSetCallback, clear the token
             if (
-              response.status === 403 &&
-              rokkaResponse.error &&
-              rokkaResponse.error.invalid_api_token &&
+              response.status === 401 &&
               state.apiTokenSetCallback &&
               state.apiTokenGetCallback
             ) {
