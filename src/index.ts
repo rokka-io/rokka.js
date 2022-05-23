@@ -226,12 +226,26 @@ export default (config: Config = {}): RokkaApi => {
             ((isTokenValid && isTokenExpiring) ||
               (!isTokenValid && state.apiKey)) //or do we have an apiKey
           ) {
-            apiToken = (await user(state).user.getNewToken(state.apiKey)).body
-              .token
+            try {
+              apiToken = (await user(state).user.getNewToken(state.apiKey)).body
+                .token
+            } catch (e: any) {
+              // clear the api token so that we can enforce a new login usually
+              //  a 403 means that we coudn't get a new token (trying to get a longer expiry time for example)
+              if (e && e.statusCode === 403 && state.apiTokenSetCallback) {
+                state.apiTokenSetCallback('', null)
+              }
+            }
           }
           if (!apiToken) {
-            const code = 403
-            throw { error: { code, message: 'no api token' }, status: code }
+            const code = 401
+            throw {
+              error: {
+                code,
+                message: 'No API token (or renewing it did not work correctly)',
+              },
+              status: code,
+            }
           }
 
           // set apiTokenExpiry, if not set, to avoid to having to decode it all the time
