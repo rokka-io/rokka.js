@@ -37,7 +37,9 @@ export interface ApiTokenPayload {
 }
 
 export type ApiTokenGetCallback = (() => ApiToken) | null | undefined
-export type ApiTokenSetCallback = ((token: ApiToken) => void) | null
+export type ApiTokenSetCallback =
+  | ((token: ApiToken, payload?: ApiTokenPayload | null) => void)
+  | null
 
 export interface UserKeyTokenResponse extends RokkaResponse {
   body: UserKeyTokenBody
@@ -256,8 +258,8 @@ export default (state: State): { user: User } => {
      */
     setToken: (token: ApiToken) => {
       if (state.apiTokenSetCallback) {
-        state.apiTokenSetCallback(token)
         state.apiTokenPayload = _getTokenPayload(token)
+        state.apiTokenSetCallback(token, state.apiTokenPayload)
       }
     },
 

@@ -116,7 +116,7 @@ export interface State {
  * const rokka = require('rokka')({
  *   apiKey: 'apikey',                  // required for certain operations
  *   apiTokenGetCallback?: <() => string> // return JWT token instead of API Key
- *   apiTokenSetCallback?: <((token: string) => void)> // Stores a newly retrieved JWT token
+ *   apiTokenSetCallback?: <((token: string, payload?: object|null) => void)> // Stores a newly retrieved JWT token
  *   apiTokenOptions?: <object>         // The rokka.user.getNewToken query parameter options, default: {}
  *   apiTokenRefreshTime?: <number>     // how many seconds before the token is expiring, it should be refreshed, default: 3600
  *   apiHost: '<url>',                  // default: https://api.rokka.io
@@ -323,7 +323,7 @@ export default (config: Config = {}): RokkaApi => {
                 headers['Authorization'] ===
                 'Bearer ' + state.apiTokenGetCallback()
               ) {
-                state.apiTokenSetCallback('')
+                state.apiTokenSetCallback('', null)
                 state.apiTokenPayload = null
               }
             }
