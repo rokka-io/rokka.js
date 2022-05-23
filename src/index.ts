@@ -203,11 +203,16 @@ export default (config: Config = {}): RokkaApi => {
       if (options.noAuthHeaders !== true) {
         if (!options.forceUseApiKey && state.apiTokenGetCallback) {
           let apiToken = state.apiTokenGetCallback()
+          // fill apiTokenPayload, if not set, this happens when you load a page, for example
+          if (!state.apiTokenPayload) {
+            state.apiTokenPayload = _getTokenPayload(apiToken)
+          }
           // get a new token, when it's somehow almost expired, but should still be valid
           const isTokenValid =
             apiToken &&
             state.apiTokenPayload?.rn === true &&
             _tokenValidFor(state.apiTokenPayload?.exp, apiToken) > 0
+
           // if it's not valid, it's also not expiring...
           const isTokenExpiring =
             isTokenValid &&
@@ -230,9 +235,7 @@ export default (config: Config = {}): RokkaApi => {
           }
 
           // set apiTokenExpiry, if not set, to avoid to having to decode it all the time
-          if (!state.apiTokenPayload) {
-            state.apiTokenPayload = _getTokenPayload(apiToken)
-          }
+
           headers['Authorization'] = `Bearer ${apiToken}`
         } else {
           if (!state.apiKey) {
