@@ -231,7 +231,7 @@ export default (config: Config = {}): RokkaApi => {
                 .token
             } catch (e: any) {
               // clear the api token so that we can enforce a new login usually
-              //  a 403 means that we coudn't get a new token (trying to get a longer expiry time for example)
+              //  a 403 means that we couldn't get a new token (trying to get a longer expiry time for example)
               if (e && e.statusCode === 403 && state.apiTokenSetCallback) {
                 state.apiTokenSetCallback('', null)
               }
