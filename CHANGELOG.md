@@ -1,3 +1,9 @@
+# 3.7.0 - unreleased
+
+- Added support for API Tokens.
+  See [the Authentication Guide](https://rokka.io/documentation/guides/authentication.html#using-rokka-with-a-jwt-token) for details
+- Added possibility to add comment to new membersips
+
 # 3.6.0 [01-01-2022]
 
 - Export more typescript interfaces 
