@@ -13,7 +13,7 @@ import rokka from 'rokka'
 
 ```bash
 $ npm install rokka --save
-# If using on the server side, babel-runtime is required to run it:
+# If using on the server side, babel-runtime is maybe needed to run it:
 $ npm install babel-runtime --save
 ```
 
