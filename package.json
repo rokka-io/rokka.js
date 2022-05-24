@@ -19,7 +19,6 @@
     "lint:fix": "eslint '{src,tests,docs}/**/*.{js,ts}'  --fix",
     "jest": "jest",
     "coverage": "BABEL_ENV=coverage npm run jest -- --coverage",
-    "coveralls": "BABEL_ENV=coverage npm run jest -- --coverage --coverageReporters=text-lcov | coveralls",
     "docs": "cd ./docs; node generate.js",
     "compile": "rm -rf ./dist && rollup -c",
     "prepare": "husky install",
