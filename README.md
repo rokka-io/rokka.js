@@ -828,8 +828,8 @@ Does an authenticated request for any path to the Rokka API
 [npm-url]: https://npmjs.com/package/rokka
 [npm-version-image]: https://img.shields.io/npm/v/rokka.svg?style=flat-square
 
-[build-status-url]: https://github.com/rokka-io/rokka.js/actions/workflows/ci.yml
-[build-status-image]: https://github.com/rokka-io/rokka.js/actions/workflows/ci.yml/badge.svg
+[build-status-url]: https://github.com/rokka-io/rokka.js/actions/workflows/main.yml
+[build-status-image]: https://github.com/rokka-io/rokka.js/actions/workflows/main.yml/badge.svg
 
 [coverage-url]: https://coveralls.io/github/rokka-io/rokka.js?branch=master
 [coverage-image]: https://img.shields.io/coveralls/rokka-io/rokka.js/master.svg?style=flat-square
