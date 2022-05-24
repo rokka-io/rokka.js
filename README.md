@@ -1,4 +1,4 @@
-# rokka.js [![NPM version][npm-version-image]][npm-url] [![Build Status][build-status-image]][build-status-url] [![Coverage][coverage-image]][coverage-url] [![Dependency Status][dependencies-image]][dependencies-url] [![bundlephobia zipped](https://badgen.net/bundlephobia/min/rokka)](https://bundlephobia.com/result?p=rokka) [![bundlephobia minified](https://badgen.net/bundlephobia/minzip/rokka)](https://bundlephobia.com/result?p=rokka) 
+# rokka.js [![NPM version][npm-version-image]][npm-url] [![Build Status][build-status-image]][build-status-url] [![Coverage][coverage-image]][coverage-url] 
 
 
 JavaScript client library for [rokka](https://rokka.io/).
@@ -828,8 +828,8 @@ Does an authenticated request for any path to the Rokka API
 [npm-url]: https://npmjs.com/package/rokka
 [npm-version-image]: https://img.shields.io/npm/v/rokka.svg?style=flat-square
 
-[build-status-url]: https://travis-ci.org/rokka-io/rokka.js
-[build-status-image]: https://img.shields.io/travis/rokka-io/rokka.js/master.svg?style=flat-square
+[build-status-url]: https://github.com/rokka-io/rokka.js/actions/workflows/ci.yml
+[build-status-image]: https://github.com/rokka-io/rokka.js/actions/workflows/ci.yml/badge.svg
 
 [coverage-url]: https://coveralls.io/github/rokka-io/rokka.js?branch=master
 [coverage-image]: https://img.shields.io/coveralls/rokka-io/rokka.js/master.svg?style=flat-square

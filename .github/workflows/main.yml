@@ -1,0 +1,51 @@
+name: Main
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [ 12, 14, 16, 18 ]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js $${{ matrix.node }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm'
+
+      - name: npm install and build
+        run: |
+           npm install
+           npm run test
+           npm run docs
+           npm run compile
+
+
+  coveralls:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: npm install
+        run: npm install
+
+      - name: Coverage
+        run: npm run coverage
+
+      - name: Coveralls Parallel
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
