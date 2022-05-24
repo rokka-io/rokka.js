@@ -7,6 +7,9 @@ describe('memberships', () => {
       WRITE: 'write',
       UPLOAD: 'upload',
       ADMIN: 'admin',
+      SOURCEIMAGES_DOWNLOAD_PROTECTED: 'sourceimages:download:protected',
+      SOURCEIMAGE_READ: 'sourceimages:read',
+      SOURCEIMAGE_WRITE: 'sourceimages:write',
     })
   })
 

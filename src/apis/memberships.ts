@@ -20,13 +20,13 @@ export interface Memberships {
     organization: string,
     userId: string,
     roles: Role | Role[],
-    comment: string | null | undefined,
+    comment?: string | null | undefined,
   ): Promise<RokkaResponse>
   delete(organization: string, userId: string): Promise<RokkaResponse>
   createWithNewUser(
     organization: string,
     roles: Role[],
-    comment: string | null | undefined,
+    comment?: string | null | undefined,
   ): Promise<RokkaResponse>
   list(organization: string): Promise<RokkaResponse>
   get(organization: string, userId: string): Promise<RokkaResponse>
