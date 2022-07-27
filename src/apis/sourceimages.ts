@@ -396,7 +396,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * Download image by hash, returns a Buffer
      *
      * ```js
-     * rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+     * rokka.sourceimages.downloadAsBuffer('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
      *   .then(function(result) {})
      *   .catch(function(err) {});
      * ```
