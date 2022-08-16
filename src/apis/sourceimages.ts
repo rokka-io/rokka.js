@@ -158,6 +158,11 @@ export interface APISourceimages {
     isProtected: boolean,
     options?: { deletePrevious?: string | boolean },
   ) => Promise<RokkaResponse>
+  setLocked: (
+    organization: string,
+    hash: string,
+    isLocked: boolean,
+  ) => Promise<RokkaResponse>
 
   setSubjectArea: (
     organization: string,
@@ -705,6 +710,33 @@ export default (state: State): { sourceimages: APISourceimages } => {
         'sourceimages/' + organization + '/' + hash + '/options/protected',
         isProtected,
         options,
+      )
+    },
+    /**
+     * (Un)locks an image.
+     *
+     * Locks an image, which then can't be deleted.
+     *
+     * ```js
+     * rokka.sourceimages.setLocked('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', true).then(function(result) {})
+     *   .catch(function(err) {});
+     * ```
+     *
+     * @param {string} organization  name
+     * @param {string} hash          image hash
+     * @param {boolean} isLocked          If image should be protected or not
+
+     * @returns {Promise}
+     */
+    setLocked: (
+      organization: string,
+      hash: string,
+      isLocked: boolean,
+    ): Promise<RokkaResponse> => {
+      return state.request(
+        'PUT',
+        'sourceimages/' + organization + '/' + hash + '/options/locked',
+        isLocked,
       )
     },
 

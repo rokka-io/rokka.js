@@ -379,7 +379,7 @@ rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 Download image by hash, returns a Buffer
 
 ```js
-rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+rokka.sourceimages.downloadAsBuffer('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
   .then(function(result) {})
   .catch(function(err) {});
 ```
@@ -480,6 +480,17 @@ rokka.sourceimages.setProtected('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a4
 {
   deletePrevious: false
 }).then(function(result) {})
+  .catch(function(err) {});
+```
+
+#### rokka.sourceimages.setLocked(organization, hash, isLocked) → Promise
+
+(Un)locks an image.
+
+Locks an image, which then can't be deleted.
+
+```js
+rokka.sourceimages.setLocked('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', true).then(function(result) {})
   .catch(function(err) {});
 ```
 

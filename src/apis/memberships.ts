@@ -38,6 +38,7 @@ export enum Role {
   UPLOAD = 'upload',
   SOURCEIMAGE_READ = 'sourceimages:read',
   SOURCEIMAGE_WRITE = 'sourceimages:write',
+  SOURCEIMAGE_UNLOCK = 'sourceimages:unlock',
   SOURCEIMAGES_DOWNLOAD_PROTECTED = 'sourceimages:download:protected',
 }
 
@@ -50,6 +51,7 @@ export default (state: State): { memberships: Memberships } => {
     ADMIN: Role
     SOURCEIMAGE_READ: Role
     SOURCEIMAGE_WRITE: Role
+    SOURCEIMAGE_UNLOCK: Role
     SOURCEIMAGES_DOWNLOAD_PROTECTED: Role
   } = {
     READ: Role.READ,
@@ -58,6 +60,7 @@ export default (state: State): { memberships: Memberships } => {
     ADMIN: Role.ADMIN,
     SOURCEIMAGE_READ: Role.SOURCEIMAGE_READ,
     SOURCEIMAGE_WRITE: Role.SOURCEIMAGE_WRITE,
+    SOURCEIMAGE_UNLOCK: Role.SOURCEIMAGE_UNLOCK,
     SOURCEIMAGES_DOWNLOAD_PROTECTED: Role.SOURCEIMAGES_DOWNLOAD_PROTECTED,
   }
   const memberships: Memberships = {
