@@ -1,6 +1,6 @@
 # 3.8.0 - [16-08-2022]
 - Added support for locked sourceimages.
-  See [the API Docs](https://api.rokka.io/doc/#/sourceimages/putSourceImageOptionsLocked) for details
+  See [the Source images Guide](https://rokka.io/documentation/references/source-images.html#lock-a-source-image-to-prevent-deletion) for details.
 
 # 3.7.0 - [30-05-2022]
 
