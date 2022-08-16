@@ -9,6 +9,7 @@ describe('memberships', () => {
       ADMIN: 'admin',
       SOURCEIMAGES_DOWNLOAD_PROTECTED: 'sourceimages:download:protected',
       SOURCEIMAGE_READ: 'sourceimages:read',
+      SOURCEIMAGE_UNLOCK: 'sourceimages:unlock',
       SOURCEIMAGE_WRITE: 'sourceimages:write',
     })
   })
