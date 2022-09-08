@@ -1,5 +1,5 @@
 import { stringifyOperations } from '../utils'
-import { RequestQueryParams, State } from '../index'
+import { State } from '../index'
 import sha2_256 from 'simple-js-sha2-256'
 import { RokkaResponse } from '../response'
 
