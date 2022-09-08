@@ -775,6 +775,13 @@ Get URL for rendering an image.
 rokka.render.getUrl('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'png', 'mystack')
 ```
 
+#### rokka.render.imagesByAlbum(organization, album, options)
+
+Get image hashes and some other info belonging to a album (from metadata: user:array:albums)
+```js
+rokka.render.imagesByAlbum('myorg', 'Albumname', { favorites })
+```
+
 #### rokka.render.signUrl(url, signKey, [{until:Date = null, roundDateUpTo:number = 300}]) → string
 
 Signs a Rokka URL with an option valid until date.
