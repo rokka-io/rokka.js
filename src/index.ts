@@ -41,6 +41,7 @@ interface RequestOptions {
   multipart?: boolean
   forceUseApiKey?: boolean
   noTokenRefresh?: boolean
+  host?: string
 }
 
 const defaults = {
@@ -179,9 +180,10 @@ export default (config: Config = {}): RokkaApi => {
         fallBackToText: false,
         forceUseApiKey: false,
         noTokenRefresh: false,
+        host: undefined,
       },
     ): Promise<RokkaResponseInterface> {
-      let uri = [state.apiHost, path].join('/')
+      let uri = [options.host || state.apiHost, path].join('/')
       if (
         queryParams &&
         !(

@@ -1,3 +1,7 @@
+# 3.9.0 - [08-09-2022]
+
+- Added support for getting a list of images in an album via `rokka.render.imagesByAlbum`
+
 # 3.8.0 - [16-08-2022]
 - Added support for locked sourceimages.
   See [the Source images Guide](https://rokka.io/documentation/references/source-images.html#lock-a-source-image-to-prevent-deletion) for details.

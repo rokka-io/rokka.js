@@ -1,6 +1,7 @@
 import { stringifyOperations } from '../utils'
 import { State } from '../index'
 import sha2_256 from 'simple-js-sha2-256'
+import { RokkaResponse } from '../response'
 
 type SignUrlWithOptionsType = (
   url: string,
@@ -38,6 +39,10 @@ export interface UrlComponents {
 
 type GetUrlComponentsType = (urlObject: URL) => UrlComponents | false
 
+interface ImagesByAlbumOptions {
+  favorites?: boolean
+}
+
 export interface Render {
   getUrl(
     organization: string,
@@ -46,7 +51,11 @@ export interface Render {
     mixed: string | object,
     options?: { filename?: string },
   ): string
-
+  imagesByAlbum: (
+    organization: string,
+    album: string,
+    options?: ImagesByAlbumOptions | undefined,
+  ) => Promise<RokkaResponse>
   signUrl: SignUrlType
   signUrlWithOptions: SignUrlWithOptionsType
   addStackVariables: AddStackVariablesType
@@ -176,6 +185,36 @@ export default (state: State): { render: Render } => {
         hash = `${hash}/${options.filename}`
       }
       return `${host}/${stack}/${hash}.${format}`
+    },
+
+    /**
+     * Get image hashes and some other info belonging to a album (from metadata: user:array:albums)
+     * ```js
+     * rokka.render.imagesByAlbum('myorg', 'Albumname', { favorites })
+     * ```
+     *
+     * @param {string}               organization  name
+     * @param {string }              album         albumname
+     * @param {{favorites:boolean}}  options       Optional options
+     */
+    imagesByAlbum: (organization, album, options): Promise<RokkaResponse> => {
+      const host = state.renderHost.replace('{organization}', organization)
+
+      let filename = 'all'
+      if (options?.favorites) {
+        filename = 'favorites'
+      }
+      return state.request(
+        'GET',
+        `_albums/${album}/${filename}.json`,
+        null,
+        undefined,
+        {
+          host,
+          noAuthHeaders: true,
+          noTokenRefresh: true,
+        },
+      )
     },
 
     /**
