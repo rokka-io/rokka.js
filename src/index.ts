@@ -224,9 +224,8 @@ export default (config: Config = {}): RokkaApi => {
               state.apiTokenRefreshTime,
             )
           if (
-            !options.noTokenRefresh &&
-            ((isTokenValid && isTokenExpiring) ||
-              (!isTokenValid && state.apiKey)) //or do we have an apiKey
+            (!options.noTokenRefresh && isTokenValid && isTokenExpiring) ||
+            (!isTokenValid && state.apiKey) //or do we have an apiKey
           ) {
             try {
               apiToken = (await user(state).user.getNewToken(state.apiKey)).body

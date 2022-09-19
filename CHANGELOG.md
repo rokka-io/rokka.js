@@ -1,3 +1,7 @@
+# 3.9.1 - [19-09-2022]
+
+- Fix getting new Token, when apiKey is set via `rokka.user.getNewToken`
+
 # 3.9.0 - [08-09-2022]
 
 - Added support for getting a list of images in an album via `rokka.render.imagesByAlbum`
