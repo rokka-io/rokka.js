@@ -344,6 +344,22 @@ Check out [the rokka documentation](https://rokka.io/documentation/references/se
 Sorting works with user metadata as well and can be passed as either an array or as a
 comma separated string.
 
+#### rokka.sourceimages.downloadList(organization, params) → Promise
+
+Get a list of source images as zip. Same parameters as the `list` method
+
+Example:
+
+```js
+const search = {
+  'user:int:id': '42',
+  'height': '64'
+}
+rokka.sourceimages.list('myorg', { search: search })
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
 #### rokka.sourceimages.get(organization, hash, queryParams) → Promise
 
 Get information of a source image by hash.

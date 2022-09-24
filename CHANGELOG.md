@@ -1,3 +1,7 @@
+# 3.10.0 - [24-09-2022]
+
+- Add support for downloading a list of images as Zip via `rokka.sourceimages.listDownload`
+
 # 3.9.1 - [19-09-2022]
 
 - Fix getting new Token, when apiKey is set via `rokka.user.getNewToken`

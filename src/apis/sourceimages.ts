@@ -108,6 +108,10 @@ export interface APISourceimages {
     organization: string,
     params?: SearchQueryParams | undefined,
   ) => Promise<SourceimagesListResponse>
+  downloadList: (
+    organization: string,
+    params?: SearchQueryParams | undefined,
+  ) => Promise<RokkaDownloadResponse>
   get: (
     organization: string,
     hash: string,
@@ -225,6 +229,42 @@ async function stream2buffer(stream: Stream): Promise<Buffer> {
     stream.on('error', err => reject(`error converting stream - ${err}`))
   })
 }
+
+function getQueryParamsForList({
+  limit = null,
+  offset = null,
+  sort = null,
+  search = null,
+  facets = null,
+  deleted = null,
+}: SearchQueryParams) {
+  let queryParams: SearchQueryParams = {}
+
+  if (limit !== null) {
+    queryParams.limit = limit
+  }
+  if (offset !== null) {
+    queryParams.offset = offset
+  }
+  if (facets !== null) {
+    queryParams.facets = facets
+  }
+  if (deleted !== null) {
+    queryParams.deleted = deleted
+  }
+
+  if (sort !== null) {
+    if (Array.isArray(sort)) {
+      sort = sort.join(',')
+    }
+    queryParams.sort = sort
+  }
+  if (search !== null) {
+    queryParams = Object.assign(queryParams, search)
+  }
+  return queryParams
+}
+
 /**
  * ### Source Images
  *
@@ -273,43 +313,47 @@ export default (state: State): { sourceimages: APISourceimages } => {
      */
     list: (
       organization,
-      {
-        limit = null,
-        offset = null,
-        sort = null,
-        search = null,
-        facets = null,
-        deleted = null,
-      }: SearchQueryParams = {},
-    ): Promise<RokkaResponse> => {
-      let queryParams: SearchQueryParams = {}
-
-      if (limit !== null) {
-        queryParams.limit = limit
-      }
-      if (offset !== null) {
-        queryParams.offset = offset
-      }
-      if (facets !== null) {
-        queryParams.facets = facets
-      }
-      if (deleted !== null) {
-        queryParams.deleted = deleted
-      }
-
-      if (sort !== null) {
-        if (Array.isArray(sort)) {
-          sort = sort.join(',')
-        }
-        queryParams.sort = sort
-      }
-      if (search !== null) {
-        queryParams = Object.assign(queryParams, search)
-      }
+      params: SearchQueryParams = {},
+    ): Promise<SourceimagesListResponse> => {
+      const queryParams = getQueryParamsForList(params)
 
       return state.request(
         'GET',
         `sourceimages/${organization}`,
+        null,
+        queryParams,
+      )
+    },
+    /**
+     * Get a list of source images as zip. Same parameters as the `list` method
+     *
+     * Example:
+     *
+     * ```js
+     * const search = {
+     *   'user:int:id': '42',
+     *   'height': '64'
+     * }
+     * rokka.sourceimages.list('myorg', { search: search })
+     *   .then(function(result) {})
+     *   .catch(function(err) {});
+     * ```
+     *
+     * @authenticated
+     * @param  {string} organization  name
+     * @param  {Object} params Query string params (limit, offset, sort and search)
+     * @return {Promise}
+     */
+
+    downloadList: (
+      organization,
+      params: SearchQueryParams = {},
+    ): Promise<RokkaDownloadResponse> => {
+      const queryParams = getQueryParamsForList(params)
+
+      return state.request(
+        'GET',
+        `sourceimages/${organization}/download`,
         null,
         queryParams,
       )
