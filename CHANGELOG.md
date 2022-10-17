@@ -1,3 +1,7 @@
+# 3.11.0 - [unreleased]
+
+- Remove 3rd parameter in`rokka.sourceimages.downloadAsBuffer`, it's not used.
+
 # 3.10.0 - [24-09-2022]
 
 - Add support for downloading a list of images as Zip via `rokka.sourceimages.listDownload`

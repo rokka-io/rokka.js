@@ -128,7 +128,6 @@ export interface APISourceimages {
   downloadAsBuffer: (
     organization: string,
     hash: string,
-    asBuffer: boolean,
   ) => Promise<RokkaDownloadAsBufferResponse>
   autolabel: (organization: string, hash: string) => Promise<RokkaResponse>
   create: (
