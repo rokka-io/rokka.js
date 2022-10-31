@@ -1,7 +1,8 @@
-import { stringifyOperations } from '../utils'
+import { stringifyOperations, stringifyStackOptions } from '../utils'
 import { State } from '../index'
 import sha2_256 from 'simple-js-sha2-256'
 import { RokkaResponse } from '../response'
+import { StackOptions } from './stacks'
 
 type SignUrlWithOptionsType = (
   url: string,
@@ -49,7 +50,7 @@ export interface Render {
     hash: string,
     format: string,
     mixed: string | object,
-    options?: { filename?: string },
+    options?: { filename?: string; stackoptions?: StackOptions },
   ): string
   imagesByAlbum: (
     organization: string,
@@ -171,7 +172,7 @@ export default (state: State): { render: Render } => {
      * @param  {string}                      hash        image hash
      * @param  {string}                      format      image format: `jpg`, `png` or `gif`
      * @param  {string|array}                [mixed]     optional stack name or an array of stack operation objects
-     * @param  {{filename:string|undefined}} options     Optional. filename: Adds the filename to the URL
+     * @param  {{filename:string|undefined, stackoptions: StackOptions|undefined }} options     Optional. filename: Adds the filename to the URL, stackoptions: Adds stackoptions to the URL
      * @return {string}
      */
     getUrl: (organization, hash, format, mixed, options) => {
@@ -179,7 +180,14 @@ export default (state: State): { render: Render } => {
       const mixedParam = Array.isArray(mixed)
         ? `dynamic/${stringifyOperations(mixed)}` // array of operations
         : mixed // stack name
-      const stack = mixedParam || 'dynamic/noop'
+      let stack = mixedParam || 'dynamic/noop'
+
+      if (options?.stackoptions) {
+        const stackoptions = stringifyStackOptions(options?.stackoptions)
+        if (stackoptions) {
+          stack = `${stack}/o-${stackoptions}`
+        }
+      }
 
       if (options?.filename) {
         hash = `${hash}/${options.filename}`

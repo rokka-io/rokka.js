@@ -1,4 +1,4 @@
-import { StackOperation } from './apis/stacks'
+import { StackOperation, StackOptions } from './apis/stacks'
 import jwtDecode from 'jwt-decode'
 import { ApiTokenGetCallback, ApiTokenPayload } from './apis/user'
 
@@ -30,6 +30,14 @@ export function stringifyOperations(
       return `${name}-${options}`
     })
     .join('--')
+}
+
+export function stringifyStackOptions(options: StackOptions): string {
+  const allOptions: string[] = []
+  Object.keys(options).forEach(key => {
+    allOptions.push(`${key}-${options[key]}`)
+  })
+  return allOptions.join('-')
 }
 
 export function isStream(stream: { pipe: Function } | null): boolean {
