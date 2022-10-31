@@ -1,6 +1,7 @@
-# 3.11.0 - [unreleased]
+# 3.11.0 - [31-10-2022]
 
 - Remove 3rd parameter in`rokka.sourceimages.downloadAsBuffer`, it's not used.
+- Add stackoptions option to getUrl 5th parameter
 
 # 3.10.0 - [24-09-2022]
 
