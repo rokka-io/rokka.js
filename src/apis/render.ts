@@ -39,9 +39,27 @@ export interface UrlComponents {
 }
 
 type GetUrlComponentsType = (urlObject: URL) => UrlComponents | false
-
+type WithRequiredProperty<Type, Key extends keyof Type> = Type & {
+  [Property in Key]-?: Type[Property]
+}
 interface ImagesByAlbumOptions {
   favorites?: boolean
+}
+
+interface GetUrlFromUrlOptions {
+  stackoptions?: StackOptions
+  filename?: string
+  format?: string
+  variables?: VariablesInterface
+  removeSafeUrlFromQuery?: boolean
+  clearVariables?: boolean
+}
+
+interface GetUrlOptions {
+  filename?: string
+  stackoptions?: StackOptions
+  variables?: VariablesInterface
+  removeSafeUrlFromQuery?: boolean
 }
 
 export interface Render {
@@ -50,16 +68,12 @@ export interface Render {
     hash: string,
     format: string,
     stack: string | object,
-    options?: { filename?: string; stackoptions?: StackOptions },
+    options?: GetUrlOptions,
   ): string
   getUrlFromUrl(
     rokkaUrl: string,
     stack: string | object,
-    options?: {
-      stackoptions?: StackOptions
-      filename?: string
-      format?: string
-    },
+    options?: GetUrlFromUrlOptions,
   ): string
   imagesByAlbum: (
     organization: string,
@@ -72,10 +86,13 @@ export interface Render {
   getUrlComponents: GetUrlComponentsType
 }
 
+interface StackComponents {
+  variables: VariablesInterface
+  stackString: string
+}
+
 // currently only gets stack variables
-const getStackComponents = (
-  stack: string,
-): { variables: VariablesInterface; stackString: string } => {
+const getStackComponents = (stack: string): StackComponents => {
   // split by slashes
   // TODO: if we parse operations and options, only the stuff before the first / is a dynamic operation
   // otherwise it's just new options for that operation
@@ -163,6 +180,21 @@ const stringifyBool = (value: string | boolean | number): string | number => {
   }
   return value
 }
+
+const getStackVariables = (
+  urlComponents: UrlComponents,
+  urlObject: URL,
+  stackComponents: StackComponents,
+  variables: VariablesInterface,
+) => {
+  const variablesFromPath = stackComponents.variables
+  const vQuery = urlObject.searchParams.get('v')
+  const vQueryParsed: VariablesInterface =
+    vQuery !== null ? JSON.parse(vQuery) : {}
+
+  return Object.assign(variablesFromPath, vQueryParsed, variables)
+}
+
 /**
  * ### Render
  *
@@ -181,7 +213,7 @@ export default (state: State): { render: Render } => {
      * @param  {string}                      hash        image hash
      * @param  {string}                      format      image format: `jpg`, `png` or `gif`
      * @param  {string|array}                [stack]     optional stack name or an array of stack operation objects
-     * @param  {{filename:string|undefined, stackoptions: StackOptions|undefined }} options     Optional. filename: Adds the filename to the URL, stackoptions: Adds stackoptions to the URL
+     * @param  {{filename:string|undefined, stackoptions: StackOptions|undefined, variables: VariablesInterface|undefined, clearVariables:boolean|undefined, removeSafeUrlFromQuery: boolean|undefined}} options     Optional. filename: Adds the filename to the URL, stackoptions: Adds stackoptions to the URL
      * @return {string}
      */
     getUrl: (organization, hash, format, stack, options) => {
@@ -201,7 +233,16 @@ export default (state: State): { render: Render } => {
       if (options?.filename) {
         hash = `${hash}/${options.filename}`
       }
-      return `${host}/${stackString}/${hash}.${format}`
+
+      const url = `${host}/${stackString}/${hash}.${format}`
+      if (options?.variables && Object.keys(options.variables).length > 0) {
+        return render.addStackVariables(
+          url,
+          options.variables,
+          options.removeSafeUrlFromQuery || false,
+        )
+      }
+      return url
     },
 
     /**
@@ -212,18 +253,14 @@ export default (state: State): { render: Render } => {
      * ```
      *
      * @param  {string}                      rokkaUrl    rokka render URL
-     * @param  {string|array}                [stack]     optional stack name or an array of stack operation objects
-     * @param  {{filename:string|undefined, stackoptions: StackOptions|undefined, format: string|undefined }} options     Optional. filename: Adds or changes the filename to the URL, stackoptions: Adds stackoptions to the URL, format: Changes the format
+     * @param  {string|array}                stack       stack name or an array of stack operation objects
+     * @param  {{filename:string|undefined, stackoptions: StackOptions|undefined, format: string|undefined, variables: VariablesInterface|undefined, clearVariables:boolean|undefined, removeSafeUrlFromQuery: boolean|undefined}} options     Optional. filename: Adds or changes the filename to the URL, stackoptions: Adds stackoptions to the URL, format: Changes the format
      * @return {string}
      */
     getUrlFromUrl: (
       rokkaUrl: string,
       stack: string | object,
-      options: {
-        stackoptions?: StackOptions
-        filename?: string
-        format?: string
-      } = {},
+      options: GetUrlFromUrlOptions = {},
     ): string => {
       const url = new URL(rokkaUrl)
 
@@ -231,16 +268,34 @@ export default (state: State): { render: Render } => {
       if (!components) {
         return rokkaUrl
       }
-      const resolvedOptions: {
-        stackoptions: StackOptions
-        filename?: string
-        format: string
-      } = {
+
+      const resolvedOptions: WithRequiredProperty<
+        GetUrlFromUrlOptions,
+        | 'stackoptions'
+        | 'format'
+        | 'removeSafeUrlFromQuery'
+        | 'clearVariables'
+        | 'variables'
+      > = {
         stackoptions: {},
         filename: components.filename,
         format: components.format,
+        removeSafeUrlFromQuery: false,
+        clearVariables: true,
+        variables: {},
         ...options,
       }
+      let variables = resolvedOptions.variables
+      if (!resolvedOptions.clearVariables) {
+        const stackComponents = getStackComponents(components.stack)
+        variables = getStackVariables(
+          components,
+          url,
+          stackComponents,
+          resolvedOptions.variables,
+        )
+      }
+
       const renderHostUrl = new URL(state.renderHost)
       const replaceHost = renderHostUrl.host.replace('{organization}', '')
       return render.getUrl(
@@ -251,6 +306,8 @@ export default (state: State): { render: Render } => {
         {
           filename: resolvedOptions.filename,
           stackoptions: resolvedOptions.stackoptions,
+          variables: variables,
+          removeSafeUrlFromQuery: resolvedOptions.removeSafeUrlFromQuery,
         },
       )
     },
@@ -347,7 +404,7 @@ export default (state: State): { render: Render } => {
      *
      * @param {string} url                    The url the stack variables are added to
      * @param {object} variables              The variables to add
-     * @param {bool}   [removeSafeUrlFromQuery=false] If true, removes some safe characters from the query
+     * @param {boolean}   [removeSafeUrlFromQuery=false] If true, removes some safe characters from the query
      * @return {string}
      */
     addStackVariables: (
@@ -365,18 +422,14 @@ export default (state: State): { render: Render } => {
 
       const stackComponents = getStackComponents(urlComponents.stack)
 
-      const variablesFromPath = stackComponents.variables
-      const vQuery = urlObject.searchParams.get('v')
-      const vQueryParsed: VariablesInterface =
-        vQuery !== null ? JSON.parse(vQuery) : {}
-
-      const returnVariables = Object.assign(
-        variablesFromPath,
-        vQueryParsed,
+      const returnVariables = getStackVariables(
+        urlComponents,
+        urlObject,
+        stackComponents,
         variables,
       )
 
-      // put variales into url string or v parameter, depending on characters in it
+      // put variables into url string or v parameter, depending on characters in it
       if (Object.keys(returnVariables).length > 0) {
         const jsonVariables: VariablesInterface = {}
         let urlVariables = ''
