@@ -1,3 +1,7 @@
+# 3.12.0 - [26-02-2023]
+
+- Added `rokka.render.getUrlFromUrl(rokkaUrl, stack, options)` to change a rokka render URL string to other stacks/options.
+
 # 3.11.0 - [31-10-2022]
 
 - Remove 3rd parameter in`rokka.sourceimages.downloadAsBuffer`, it's not used.

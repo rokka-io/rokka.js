@@ -783,12 +783,20 @@ rokka.stacks.delete('myorg', 'mystack')
 
 ### Render
 
-#### rokka.render.getUrl(organization, hash, format, [mixed], options) → string
+#### rokka.render.getUrl(organization, hash, format, [stack], options) → string
 
 Get URL for rendering an image.
 
 ```js
 rokka.render.getUrl('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'png', 'mystack')
+```
+
+#### rokka.render.getUrlFromUrl(rokkaUrl, [stack], options) → string
+
+Get URL for rendering an image from a rokka render URL.
+
+```js
+rokka.render.getUrl('https://myorg.rokka.io/dynamic/c421f4e8cefe0fd3aab22832f51e85bacda0a47a.png', 'mystack')
 ```
 
 #### rokka.render.imagesByAlbum(organization, album, options)
