@@ -49,8 +49,17 @@ export interface Render {
     organization: string,
     hash: string,
     format: string,
-    mixed: string | object,
+    stack: string | object,
     options?: { filename?: string; stackoptions?: StackOptions },
+  ): string
+  getUrlFromUrl(
+    rokkaUrl: string,
+    stack: string | object,
+    options?: {
+      stackoptions?: StackOptions
+      filename?: string
+      format?: string
+    },
   ): string
   imagesByAlbum: (
     organization: string,
@@ -171,28 +180,79 @@ export default (state: State): { render: Render } => {
      * @param  {string}                     organization name
      * @param  {string}                      hash        image hash
      * @param  {string}                      format      image format: `jpg`, `png` or `gif`
-     * @param  {string|array}                [mixed]     optional stack name or an array of stack operation objects
+     * @param  {string|array}                [stack]     optional stack name or an array of stack operation objects
      * @param  {{filename:string|undefined, stackoptions: StackOptions|undefined }} options     Optional. filename: Adds the filename to the URL, stackoptions: Adds stackoptions to the URL
      * @return {string}
      */
-    getUrl: (organization, hash, format, mixed, options) => {
+    getUrl: (organization, hash, format, stack, options) => {
       const host = state.renderHost.replace('{organization}', organization)
-      const mixedParam = Array.isArray(mixed)
-        ? `dynamic/${stringifyOperations(mixed)}` // array of operations
-        : mixed // stack name
-      let stack = mixedParam || 'dynamic/noop'
+      const mixedParam = Array.isArray(stack)
+        ? `dynamic/${stringifyOperations(stack)}` // array of operations
+        : stack // stack name
+      let stackString = mixedParam || 'dynamic/noop'
 
       if (options?.stackoptions) {
         const stackoptions = stringifyStackOptions(options?.stackoptions)
         if (stackoptions) {
-          stack = `${stack}/o-${stackoptions}`
+          stackString = `${stackString}/o-${stackoptions}`
         }
       }
 
       if (options?.filename) {
         hash = `${hash}/${options.filename}`
       }
-      return `${host}/${stack}/${hash}.${format}`
+      return `${host}/${stackString}/${hash}.${format}`
+    },
+
+    /**
+     * Get URL for rendering an image from a rokka render URL.
+     *
+     * ```js
+     * rokka.render.getUrl('https://myorg.rokka.io/dynamic/c421f4e8cefe0fd3aab22832f51e85bacda0a47a.png', 'mystack')
+     * ```
+     *
+     * @param  {string}                      rokkaUrl    rokka render URL
+     * @param  {string|array}                [stack]     optional stack name or an array of stack operation objects
+     * @param  {{filename:string|undefined, stackoptions: StackOptions|undefined, format: string|undefined }} options     Optional. filename: Adds or changes the filename to the URL, stackoptions: Adds stackoptions to the URL, format: Changes the format
+     * @return {string}
+     */
+    getUrlFromUrl: (
+      rokkaUrl: string,
+      stack: string | object,
+      options: {
+        stackoptions?: StackOptions
+        filename?: string
+        format?: string
+      } = {},
+    ): string => {
+      const url = new URL(rokkaUrl)
+
+      const components = render.getUrlComponents(url)
+      if (!components) {
+        return rokkaUrl
+      }
+      const resolvedOptions: {
+        stackoptions: StackOptions
+        filename?: string
+        format: string
+      } = {
+        stackoptions: {},
+        filename: components.filename,
+        format: components.format,
+        ...options,
+      }
+      const renderHostUrl = new URL(state.renderHost)
+      const replaceHost = renderHostUrl.host.replace('{organization}', '')
+      return render.getUrl(
+        url.hostname.replace(replaceHost, ''),
+        components.hash,
+        resolvedOptions.format,
+        stack,
+        {
+          filename: resolvedOptions.filename,
+          stackoptions: resolvedOptions.stackoptions,
+        },
+      )
     },
 
     /**
