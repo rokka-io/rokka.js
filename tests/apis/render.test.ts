@@ -43,8 +43,49 @@ describe('render', () => {
     expect(url3).toBe(
       'https://myorg.rokka.io/dynamic/resize-width-200/o-af-1/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/bar.jpg',
     )
-  })
+    const url4 = rokka().render.getUrlFromUrl(
+      'https://myorg.rokka.io/dynamic/resize-width-100/v-foo-bar/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/foo.jpg?v={"baz":"hello-world"}',
+      'newStack',
+      {
+        removeSafeUrlFromQuery: true,
+        clearVariables: false,
+        variables: { hi: 'ho' },
+      },
+    )
+    expect(url4).toBe(
+      'https://myorg.rokka.io/newStack/v-foo-bar-hi-ho/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/foo.jpg?v={"baz":"hello-world"}',
+    )
 
+    const url5 = rokka().render.getUrlFromUrl(
+      'https://myorg.rokka.io/dynamic/resize-width-100/v-foo-bar/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/foo.jpg?v={"baz":"hello-world"}',
+      'newStack',
+      {
+        removeSafeUrlFromQuery: true,
+        variables: { hi: 'ho' },
+      },
+    )
+    expect(url5).toBe(
+      'https://myorg.rokka.io/newStack/v-hi-ho/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/foo.jpg',
+    )
+  })
+  it('render.addStackVariables', async () => {
+    const url = rokka().render.addStackVariables(
+      'https://myorg.rokka.io/dynamic/resize-width-100/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/foo.jpg',
+      { foo: 'bar', baz: 'hello-world' },
+      true,
+    )
+    expect(url).toBe(
+      'https://myorg.rokka.io/dynamic/resize-width-100/v-foo-bar/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/foo.jpg?v={"baz":"hello-world"}',
+    )
+    const url2 = rokka().render.addStackVariables(
+      'https://myorg.rokka.io/dynamic/resize-width-100/v-foo-bar/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/foo.jpg?v={"baz":"hello-world"}',
+      { lal: 'lol' },
+      true,
+    )
+    expect(url2).toBe(
+      'https://myorg.rokka.io/dynamic/resize-width-100/v-foo-bar-lal-lol/c421f4e8cefe0fd3aab22832f51e85bacda0a47a/foo.jpg?v={"baz":"hello-world"}',
+    )
+  })
   it('render.getUrl using custom operations', async () => {
     const rka = rokka()
     const operations = [

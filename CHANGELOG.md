@@ -1,3 +1,7 @@
+# 3.13.0 - [27-02-2023]
+
+- Added variables support to `rokka.render.getUrlFromUrl` and `rokka.render.getUrl`
+
 # 3.12.0 - [26-02-2023]
 
 - Added `rokka.render.getUrlFromUrl(rokkaUrl, stack, options)` to change a rokka render URL string to other stacks/options.
