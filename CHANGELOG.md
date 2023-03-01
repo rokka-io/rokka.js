@@ -1,3 +1,7 @@
+# 3.13.1 - [01-03-2023]
+
+- Put variables into ?v when long or have a space in it
+
 # 3.13.0 - [27-02-2023]
 
 - Added variables support to `rokka.render.getUrlFromUrl` and `rokka.render.getUrl`

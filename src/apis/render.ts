@@ -438,7 +438,10 @@ export default (state: State): { render: Render } => {
           if (value || value === false) {
             const valueAsString = value.toString()
             // if there's a special var in the value, put it into the v query parameter
-            if (valueAsString.match(/[$/\\\-#%&?;]/)) {
+            if (
+              valueAsString.length > 20 ||
+              valueAsString.match(/[$/\\\-#%&?; ]/)
+            ) {
               jsonVariables[name] = stringifyBool(value)
             } else {
               urlVariables += '-' + name + '-' + stringifyBool(value)
