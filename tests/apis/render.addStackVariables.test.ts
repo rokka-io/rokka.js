@@ -16,7 +16,7 @@ describe('addStackVariables', () => {
     ${'With options and empty vars'}       | ${`v-a-b/o-af-1/${hash}`}  | ${{}}           | ${false}   | ${`o-af-1/v-a-b/${hash}`}
     ${'With existing query '}              | ${`${hash}?foo=bar`}       | ${{ a: 'd' }}   | ${false}   | ${`v-a-d/${hash}?foo=bar`}
     ${'With existing and special chars '}  | ${`${hash}?foo=bar`}       | ${{ a: '\\k' }} | ${false}   | ${`${hash}?foo=bar&v=%7B%22a%22%3A%22%5C%5Ck%22%7D`}
-    ${'From special to not'}               | ${`${hash}?v={"a":"%23"}`} | ${{ a: 'q a' }} | ${false}   | ${`v-a-q%20a/${hash}`}
+    ${'From special to not'}               | ${`${hash}?v={"a":"%23"}`} | ${{ a: 'q a' }} | ${false}   | ${`${hash}?v=%7B%22a%22%3A%22q+a%22%7D`}
   `(
     '$description: converts $url to $expectedResult with $variables',
     ({ url, variables, cleanerUrl, expectedResult }) => {
