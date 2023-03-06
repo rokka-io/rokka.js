@@ -297,7 +297,11 @@ export default (state: State): { render: Render } => {
       }
 
       const renderHostUrl = new URL(state.renderHost)
-      const replaceHost = renderHostUrl.host.replace('{organization}', '')
+
+      const replaceHost = decodeURIComponent(renderHostUrl.host).replace(
+        '{organization}',
+        '',
+      )
       return render.getUrl(
         url.hostname.replace(replaceHost, ''),
         components.hash,
