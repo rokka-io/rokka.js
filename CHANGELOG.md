@@ -1,3 +1,8 @@
+# 3.13.3 - [13-03-2023]
+
+- Fix url signing when it contains a filename
+
+
 # 3.13.2 - [06-03-2023]
 
 - Fix hostname replacement in `rokka.render.getUrlFromUrl`

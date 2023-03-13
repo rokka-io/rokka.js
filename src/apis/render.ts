@@ -392,6 +392,17 @@ export default (state: State): { render: Render } => {
       // remove sig
       urlObject.searchParams.delete('sig')
 
+      // remove filename if one exists, not needed for signature
+      const components = getUrlComponents(urlObject)
+      if (components && components.filename) {
+        const regex = new RegExp(
+          `/${components.filename}\.${components.format}$`,
+        )
+        urlObject.pathname = urlObject.pathname.replace(
+          regex,
+          `.${components.format}`,
+        )
+      }
       const urlPath = urlObject.pathname + urlObject.search
       const sigString = urlPath + ':' + signKey
       const hash = sha2_256(sigString)

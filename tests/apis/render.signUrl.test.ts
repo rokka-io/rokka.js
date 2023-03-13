@@ -10,6 +10,13 @@ describe('render', () => {
       'https://myorg.rokka.io/dynamic/c1b110.jpg?sig=62e7a9ccd3dea053',
     )
 
+    expect(
+      rka.render.signUrl(
+        'https://myorg.rokka.io/dynamic/c1b110/foo.jpg',
+        signKey,
+      ),
+    ).toBe('https://myorg.rokka.io/dynamic/c1b110.jpg?sig=62e7a9ccd3dea053')
+
     // time limited
     expect(
       rka.render.signUrl(signPath, signKey, {
