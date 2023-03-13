@@ -18,9 +18,9 @@
  *
  * @module operations
  */
-import { StackOperation } from './stacks'
 import { State } from '../index'
 import { RokkaResponse } from '../response'
+import { StackOperation } from 'rokka-render'
 
 export interface StackOperationOptions {
   [key: string]: string | number | boolean | undefined | null

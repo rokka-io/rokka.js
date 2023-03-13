@@ -787,6 +787,8 @@ rokka.stacks.delete('myorg', 'mystack')
 
 Get URL for rendering an image.
 
+If you just need this function in a browser, you can also use [rokka-render.js](https://github.com/rokka-io/rokka-render.js)
+
 ```js
 rokka.render.getUrl('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'png', 'mystack')
 ```
@@ -795,8 +797,10 @@ rokka.render.getUrl('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'png', 
 
 Get URL for rendering an image from a rokka render URL.
 
+If you just need this function in a browser, you can also use [rokka-render.js](https://github.com/rokka-io/rokka-render.js)
+
 ```js
-rokka.render.getUrl('https://myorg.rokka.io/dynamic/c421f4e8cefe0fd3aab22832f51e85bacda0a47a.png', 'mystack')
+rokka.render.getUrlFromUrl('https://myorg.rokka.io/dynamic/c421f4e8cefe0fd3aab22832f51e85bacda0a47a.png', 'mystack')
 ```
 
 #### rokka.render.imagesByAlbum(organization, album, options)
@@ -822,6 +826,8 @@ Signs a rokka URL with a sign key and optional signature options.
 Adds stack variables to a rokka URL in a safe way
 
 Uses the v query parameter, if a variable shouldn't be in the path
+
+If you just need this function in a browser, you can also use [rokka-render.js](https://github.com/rokka-io/rokka-render.js)
 
 #### rokka.render.getUrlComponents(urlObject) → UrlComponents|false
 
@@ -876,5 +882,4 @@ Does an authenticated request for any path to the Rokka API
 [coverage-url]: https://coveralls.io/github/rokka-io/rokka.js?branch=master
 [coverage-image]: https://img.shields.io/coveralls/rokka-io/rokka.js/master.svg?style=flat-square
 
-[dependencies-url]: https://david-dm.org/rokka-io/rokka.js
-[dependencies-image]: https://badgen.net/david/dep/rokka-io/rokka.js
+
