@@ -7,6 +7,7 @@
 import { RokkaResponse } from '../response'
 import { Expression } from './expressions'
 import { State } from '../index'
+import { StackOperation, StackOptions } from 'rokka-render'
 
 export interface Stacks {
   delete(organization: string, name: string): Promise<RokkaResponse>
@@ -24,20 +25,6 @@ export interface Stacks {
     limit?: number | null,
     offset?: string | null,
   ): Promise<RokkaResponse>
-}
-
-export interface StackOperation {
-  name: string
-  options?: {
-    [key: string]: string | number | boolean | undefined | null
-  }
-  expressions?: {
-    [key: string]: string | number | boolean | undefined | null
-  }
-}
-
-export interface StackOptions {
-  [key: string]: string | number | boolean
 }
 
 export interface StackConfig {

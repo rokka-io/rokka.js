@@ -1,8 +1,15 @@
-import { stringifyOperations, stringifyStackOptions } from '../utils'
 import { State } from '../index'
 import sha2_256 from 'simple-js-sha2-256'
 import { RokkaResponse } from '../response'
-import { StackOptions } from './stacks'
+import {
+  getUrlFromUrl,
+  getUrl,
+  AddStackVariablesType,
+  GetUrlOptions,
+  GetUrlFromUrlOptions,
+  GetUrlComponentsType,
+  addStackVariables,
+} from 'rokka-render'
 
 type SignUrlWithOptionsType = (
   url: string,
@@ -21,45 +28,8 @@ export type SignUrlType = (
   options?: SignUrlOptions,
 ) => string
 
-export interface VariablesInterface {
-  [key: string]: string | number | boolean
-}
-
-type AddStackVariablesType = (
-  url: string,
-  variables: VariablesInterface,
-  removeSafeUrlFromQuery?: boolean,
-) => string
-
-export interface UrlComponents {
-  stack: string
-  hash: string
-  filename?: string
-  format: string
-}
-
-type GetUrlComponentsType = (urlObject: URL) => UrlComponents | false
-type WithRequiredProperty<Type, Key extends keyof Type> = Type & {
-  [Property in Key]-?: Type[Property]
-}
 interface ImagesByAlbumOptions {
   favorites?: boolean
-}
-
-interface GetUrlFromUrlOptions {
-  stackoptions?: StackOptions
-  filename?: string
-  format?: string
-  variables?: VariablesInterface
-  removeSafeUrlFromQuery?: boolean
-  clearVariables?: boolean
-}
-
-interface GetUrlOptions {
-  filename?: string
-  stackoptions?: StackOptions
-  variables?: VariablesInterface
-  removeSafeUrlFromQuery?: boolean
 }
 
 export interface Render {
@@ -86,51 +56,7 @@ export interface Render {
   getUrlComponents: GetUrlComponentsType
 }
 
-interface StackComponents {
-  variables: VariablesInterface
-  stackString: string
-}
-
 // currently only gets stack variables
-const getStackComponents = (stack: string): StackComponents => {
-  // split by slashes
-  // TODO: if we parse operations and options, only the stuff before the first / is a dynamic operation
-  // otherwise it's just new options for that operation
-  // but we don't parse operations yet, here.
-
-  const slashSplits = stack.split('/')
-  const variables: VariablesInterface = {}
-
-  for (let i = 0; i < slashSplits.length; i++) {
-    const slashSplit = slashSplits[i]
-    // then by --, both are valid seperators here
-    const dashSplits = slashSplit.split('--')
-    for (let j = 0; j < dashSplits.length; j++) {
-      const dashSplit = dashSplits[j]
-      // and get the object for the variables (or other "parts", later)
-      const [operationName, ...options] = dashSplit.split('-')
-      if (operationName === 'v' || operationName === 'variables') {
-        let name = ''
-        // we have a match, set it to empty
-        dashSplits[j] = ''
-        for (let k = 0; k < options.length; k++) {
-          if (k % 2 === 0) {
-            name = options[k]
-          } else {
-            variables[name] = options[k]
-          }
-        }
-      }
-    }
-    // put them back together
-    slashSplits[i] = dashSplits.filter(dashSplit => dashSplit !== '').join('--')
-  }
-  const stackString = slashSplits
-    .filter(slashSplit => slashSplit !== '')
-    .join('/')
-
-  return { variables, stackString }
-}
 
 const getUrlComponents: GetUrlComponentsType = (urlObject: URL) => {
   const stackPattern = '(?<stack>.*([^-]|--)|-*)'
@@ -171,30 +97,6 @@ const getUrlComponents: GetUrlComponentsType = (urlObject: URL) => {
   return false
 }
 
-const stringifyBool = (value: string | boolean | number): string | number => {
-  if (value === false) {
-    return 'false'
-  }
-  if (value === true) {
-    return 'true'
-  }
-  return value
-}
-
-const getStackVariables = (
-  urlComponents: UrlComponents,
-  urlObject: URL,
-  stackComponents: StackComponents,
-  variables: VariablesInterface,
-) => {
-  const variablesFromPath = stackComponents.variables
-  const vQuery = urlObject.searchParams.get('v')
-  const vQueryParsed: VariablesInterface =
-    vQuery !== null ? JSON.parse(vQuery) : {}
-
-  return Object.assign(variablesFromPath, vQueryParsed, variables)
-}
-
 /**
  * ### Render
  *
@@ -204,6 +106,8 @@ export default (state: State): { render: Render } => {
   const render: Render = {
     /**
      * Get URL for rendering an image.
+     *
+     * If you just need this function in a browser, you can also use [rokka-render.js](https://github.com/rokka-io/rokka-render.js)
      *
      * ```js
      * rokka.render.getUrl('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'png', 'mystack')
@@ -217,39 +121,23 @@ export default (state: State): { render: Render } => {
      * @return {string}
      */
     getUrl: (organization, hash, format, stack, options) => {
-      const host = state.renderHost.replace('{organization}', organization)
-      const mixedParam = Array.isArray(stack)
-        ? `dynamic/${stringifyOperations(stack)}` // array of operations
-        : stack // stack name
-      let stackString = mixedParam || 'dynamic/noop'
-
-      if (options?.stackoptions) {
-        const stackoptions = stringifyStackOptions(options?.stackoptions)
-        if (stackoptions) {
-          stackString = `${stackString}/o-${stackoptions}`
-        }
-      }
-
-      if (options?.filename) {
-        hash = `${hash}/${options.filename}`
-      }
-
-      const url = `${host}/${stackString}/${hash}.${format}`
-      if (options?.variables && Object.keys(options.variables).length > 0) {
-        return render.addStackVariables(
-          url,
-          options.variables,
-          options.removeSafeUrlFromQuery || false,
-        )
-      }
-      return url
+      return getUrl(
+        organization,
+        hash,
+        format,
+        stack,
+        options,
+        state.renderHost,
+      )
     },
 
     /**
      * Get URL for rendering an image from a rokka render URL.
      *
+     * If you just need this function in a browser, you can also use [rokka-render.js](https://github.com/rokka-io/rokka-render.js)
+     *
      * ```js
-     * rokka.render.getUrl('https://myorg.rokka.io/dynamic/c421f4e8cefe0fd3aab22832f51e85bacda0a47a.png', 'mystack')
+     * rokka.render.getUrlFromUrl('https://myorg.rokka.io/dynamic/c421f4e8cefe0fd3aab22832f51e85bacda0a47a.png', 'mystack')
      * ```
      *
      * @param  {string}                      rokkaUrl    rokka render URL
@@ -262,58 +150,7 @@ export default (state: State): { render: Render } => {
       stack: string | object,
       options: GetUrlFromUrlOptions = {},
     ): string => {
-      const url = new URL(rokkaUrl)
-
-      const components = render.getUrlComponents(url)
-      if (!components) {
-        return rokkaUrl
-      }
-
-      const resolvedOptions: WithRequiredProperty<
-        GetUrlFromUrlOptions,
-        | 'stackoptions'
-        | 'format'
-        | 'removeSafeUrlFromQuery'
-        | 'clearVariables'
-        | 'variables'
-      > = {
-        stackoptions: {},
-        filename: components.filename,
-        format: components.format,
-        removeSafeUrlFromQuery: false,
-        clearVariables: true,
-        variables: {},
-        ...options,
-      }
-      let variables = resolvedOptions.variables
-      if (!resolvedOptions.clearVariables) {
-        const stackComponents = getStackComponents(components.stack)
-        variables = getStackVariables(
-          components,
-          url,
-          stackComponents,
-          resolvedOptions.variables,
-        )
-      }
-
-      const renderHostUrl = new URL(state.renderHost)
-
-      const replaceHost = decodeURIComponent(renderHostUrl.host).replace(
-        '{organization}',
-        '',
-      )
-      return render.getUrl(
-        url.hostname.replace(replaceHost, ''),
-        components.hash,
-        resolvedOptions.format,
-        stack,
-        {
-          filename: resolvedOptions.filename,
-          stackoptions: resolvedOptions.stackoptions,
-          variables: variables,
-          removeSafeUrlFromQuery: resolvedOptions.removeSafeUrlFromQuery,
-        },
-      )
+      return getUrlFromUrl(rokkaUrl, stack, options, state.renderHost)
     },
 
     /**
@@ -417,6 +254,8 @@ export default (state: State): { render: Render } => {
      *
      * Uses the v query parameter, if a variable shouldn't be in the path
      *
+     * If you just need this function in a browser, you can also use [rokka-render.js](https://github.com/rokka-io/rokka-render.js)
+     *
      * @param {string} url                    The url the stack variables are added to
      * @param {object} variables              The variables to add
      * @param {boolean}   [removeSafeUrlFromQuery=false] If true, removes some safe characters from the query
@@ -427,78 +266,7 @@ export default (state: State): { render: Render } => {
       variables,
       removeSafeUrlFromQuery = false,
     ): string => {
-      const urlObject = new URL(url)
-
-      const urlComponents = getUrlComponents(urlObject)
-
-      if (!urlComponents) {
-        return url
-      }
-
-      const stackComponents = getStackComponents(urlComponents.stack)
-
-      const returnVariables = getStackVariables(
-        urlComponents,
-        urlObject,
-        stackComponents,
-        variables,
-      )
-
-      // put variables into url string or v parameter, depending on characters in it
-      if (Object.keys(returnVariables).length > 0) {
-        const jsonVariables: VariablesInterface = {}
-        let urlVariables = ''
-        for (const name in returnVariables) {
-          const value = returnVariables[name]
-          if (value || value === false) {
-            const valueAsString = value.toString()
-            // if there's a special var in the value, put it into the v query parameter
-            if (
-              valueAsString.length > 20 ||
-              valueAsString.match(/[$/\\\-#%&?; ]/)
-            ) {
-              jsonVariables[name] = stringifyBool(value)
-            } else {
-              urlVariables += '-' + name + '-' + stringifyBool(value)
-            }
-          }
-        }
-        if (urlVariables !== '') {
-          stackComponents.stackString += '/v' + urlVariables
-        }
-        if (Object.keys(jsonVariables).length > 0) {
-          urlObject.searchParams.set('v', JSON.stringify(jsonVariables))
-        } else {
-          urlObject.searchParams.delete('v')
-        }
-      }
-
-      urlObject.pathname =
-        stackComponents.stackString +
-        '/' +
-        urlComponents.hash +
-        (urlComponents.filename ? '/' + urlComponents.filename : '') +
-        '.' +
-        urlComponents.format
-
-      // remove url safe characters on demand for "nicer" urls in demos and such
-      if (removeSafeUrlFromQuery) {
-        const query = urlObject.search
-        urlObject.search = ''
-
-        return (
-          urlObject.toString() +
-          query
-            .replace(/%22/g, '"')
-            .replace(/%20/g, ' ')
-            .replace(/%2C/g, ',')
-            .replace(/%7B/g, '{')
-            .replace(/%7D/g, '}')
-            .replace(/%3A/g, ':')
-        )
-      }
-
-      return urlObject.toString()
+      return addStackVariables(url, variables, removeSafeUrlFromQuery)
     },
     /**
      * Get rokka components from an URL object.
