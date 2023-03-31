@@ -1,3 +1,8 @@
+# 3.14.0 - [30-03-2023]
+
+- Use rokka-render.js
+- Add `variables` to `StackConfig` interface
+
 # 3.13.3 - [13-03-2023]
 
 - Fix url signing when it contains a filename
