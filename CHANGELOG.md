@@ -1,3 +1,7 @@
+# 3.14.1 - [30-03-2023]
+
+- Export StackOperation, StackOptions, Variables from rokka-render for BC reasons
+
 # 3.14.0 - [30-03-2023]
 
 - Use rokka-render.js

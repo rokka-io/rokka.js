@@ -8,6 +8,7 @@ import { RokkaResponse } from '../response'
 import { Expression } from './expressions'
 import { State } from '../index'
 import { StackOperation, StackOptions, Variables } from 'rokka-render'
+export { StackOperation, StackOptions, Variables } from 'rokka-render'
 
 export interface Stacks {
   delete(organization: string, name: string): Promise<RokkaResponse>
