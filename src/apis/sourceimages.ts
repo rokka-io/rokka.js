@@ -6,6 +6,7 @@ import {
 } from '../response'
 import { State } from '../index'
 import SourceImagesMeta from './sourceimages.meta'
+import SourceImagesAlias from './sourceimages.alias'
 import * as Stream from 'stream'
 
 export interface SearchQueryParams {
@@ -199,6 +200,7 @@ export interface APISourceimages {
     name: string,
   ) => Promise<RokkaListResponse>
   meta: APISourceimagesMeta
+  alias: APISourceimagesAlias
 }
 
 export interface APISourceimagesMeta {
@@ -217,6 +219,18 @@ export interface APISourceimagesMeta {
     hash: string,
     field?: string,
   ) => Promise<RokkaResponse>
+}
+
+export interface APISourceimagesAlias {
+  create: (
+    organization: string,
+    alias: string,
+    data: { hash: string },
+    params?: { overwrite?: boolean },
+  ) => Promise<RokkaResponse>
+  delete(organization: string, alias: string): Promise<RokkaResponse>
+  get(organization: string, alias: string): Promise<RokkaResponse>
+  invalidateCache(organization: string, alias: string): Promise<RokkaResponse>
 }
 
 async function stream2buffer(stream: Stream): Promise<Buffer> {
@@ -968,6 +982,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
       )
     },
     meta: SourceImagesMeta(state),
+    alias: SourceImagesAlias(state),
   }
 
   return {

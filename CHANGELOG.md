@@ -1,3 +1,7 @@
+# 3.15.0 - [22-08-2023]
+
+- Add source image alias support.   See [the Source Images Alias Guide](https://rokka.io/documentation/references/source-images-aliases.html) for details.
+
 # 3.14.1 - [30-03-2023]
 
 - Export StackOperation, StackOptions, Variables from rokka-render for BC reasons

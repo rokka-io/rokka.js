@@ -653,6 +653,45 @@ If the third parameter (field) is specified, it will just delete this field.
 
 <!-- End ../src/apis/sourceimages.meta.ts -->
 
+<!-- Start ../src/apis/sourceimages.alias.ts -->
+
+### Source Images alias
+
+### Source Images alias
+
+See [the usource image alias documentation](https://rokka.io/documentation/references/source-images-aliases.html)
+for more information.
+
+#### rokka.sourceimages.alias.create(organization, alias, data, [params={}]) → Promise
+
+Adds an alias to a source image.
+
+See [the source image alias documentation](https://rokka.io/documentation/references/source-images-aliases.html)
+for an explanation.
+
+```js
+rokka.sourceimages.alias.create('myorg', 'myalias', {
+  hash: 'somehash',
+}).then(function(result) {})
+  .catch(function(err) {});
+```
+
+#### rokka.sourceimages.alias.get()(organization, alias)
+
+Get an alias.
+
+#### rokka.sourceimages.alias.delete()(organization, alias)
+
+Delete an alias.
+
+#### rokka.sourceimages.alias.invalidateCache()(organization, alias)
+
+Invalidate the CDN cache for an alias.
+
+---
+
+<!-- End ../src/apis/sourceimages.alias.ts -->
+
 <!-- Start ../src/apis/operations.ts -->
 
 ### Operations
