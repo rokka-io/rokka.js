@@ -50,7 +50,7 @@ export interface UserApiKeyListResponse extends RokkaResponse {
 }
 
 export interface UserResponse extends RokkaResponse {
-  body: { id: string; email?: string; api_keys: UserApiKey[] }
+  body: { user_id: string; email?: string; api_keys: UserApiKey[] }
 }
 
 export interface RequestQueryParamsNewToken extends RequestQueryParams {
