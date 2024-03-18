@@ -28,6 +28,10 @@ export interface MetaDataUser {
   [key: string]: string | string[] | boolean | number
 }
 
+export interface MetaStatic {
+  [key: string]: { [key: string]: any }
+}
+
 export interface MetaDataDynamic {
   [key: string]: { [key: string]: any } | undefined
   version?: { text: string }
@@ -45,6 +49,7 @@ interface CreateMetadata {
   [key: string]: any
   meta_user?: MetaDataUser
   meta_dynamic?: MetaDataDynamic
+  meta_static?: MetaStatic
   options?: MetaDataOptions
 }
 
@@ -131,6 +136,12 @@ export interface APISourceimages {
     hash: string,
   ) => Promise<RokkaDownloadAsBufferResponse>
   autolabel: (organization: string, hash: string) => Promise<RokkaResponse>
+  autodescription: (
+    organization: string,
+    hash: string,
+    languages: string[],
+    force: boolean,
+  ) => Promise<RokkaResponse>
   create: (
     organization: string,
     fileName: string,
@@ -499,6 +510,37 @@ export default (state: State): { sourceimages: APISourceimages } => {
       return state.request(
         'POST',
         `sourceimages/${organization}/${hash}/autolabel`,
+      )
+    },
+
+    /**
+     * Autodescribes an image. Can be used for alt attributes in img tags.
+     *
+     * You need to be a paying customer to be able to use this.
+     *
+     * ```js
+     * rokka.sourceimages.autodescription('myorg', 'c421f4e8cefe
+     * 0fd3aab22832f51e85bacda0a47a', ['en', 'de'], false)
+     *  .then(function(result) {})
+     *  .catch(function(err) {});
+     *  ```
+     *
+     * @authenticated
+     * @param  {string}   organization name
+     * @param  {string}   hash         image hash
+     * @param  {string[]} languages    languages to autodescribe the image
+     * @param  {boolean}  force If it should be generated, even if already exists
+     */
+    autodescription: (
+      organization: string,
+      hash: string,
+      languages: string[],
+      force = false,
+    ): Promise<RokkaResponse> => {
+      return state.request(
+        'POST',
+        `sourceimages/${organization}/${hash}/autodescription`,
+        { languages, force },
       )
     },
 
