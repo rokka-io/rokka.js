@@ -28,6 +28,10 @@ export interface MetaDataUser {
   [key: string]: string | string[] | boolean | number
 }
 
+export interface MetaStatic {
+  [key: string]: { [key: string]: any }
+}
+
 export interface MetaDataDynamic {
   [key: string]: { [key: string]: any } | undefined
   version?: { text: string }
@@ -45,6 +49,7 @@ interface CreateMetadata {
   [key: string]: any
   meta_user?: MetaDataUser
   meta_dynamic?: MetaDataDynamic
+  meta_static?: MetaStatic
   options?: MetaDataOptions
 }
 
@@ -131,6 +136,12 @@ export interface APISourceimages {
     hash: string,
   ) => Promise<RokkaDownloadAsBufferResponse>
   autolabel: (organization: string, hash: string) => Promise<RokkaResponse>
+  autodescription: (
+    organization: string,
+    hash: string,
+    languages: string[],
+    force: boolean,
+  ) => Promise<RokkaResponse>
   create: (
     organization: string,
     fileName: string,
@@ -499,6 +510,19 @@ export default (state: State): { sourceimages: APISourceimages } => {
       return state.request(
         'POST',
         `sourceimages/${organization}/${hash}/autolabel`,
+      )
+    },
+
+    autodescription: (
+      organization: string,
+      hash: string,
+      languages: string[],
+      force = false,
+    ): Promise<RokkaResponse> => {
+      return state.request(
+        'POST',
+        `sourceimages/${organization}/${hash}/autodescription`,
+        { languages, force },
       )
     },
 
