@@ -412,6 +412,19 @@ rokka.sourceimages.autolabel('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a'
   .catch(function(err) {});
 ```
 
+#### rokka.sourceimages.autodescription(organization, hash, languages, force)
+
+Autodescribes an image. Can be used for alt attributes in img tags.
+
+You need to be a paying customer to be able to use this.
+
+```js
+rokka.sourceimages.autodescription('myorg', 'c421f4e8cefe
+0fd3aab22832f51e85bacda0a47a', ['en', 'de'], false)
+ .then(function(result) {})
+ .catch(function(err) {});
+ ```
+
 #### rokka.sourceimages.create(organization, fileName, binaryData, [metadata=null], [options={}]) → Promise
 
 Upload an image.
