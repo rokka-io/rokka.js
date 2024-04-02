@@ -1,3 +1,7 @@
+# 3.16.0 - [02-01-2024]
+
+- Add meta_static interface and autodescription method to sourceimages API
+
 # 3.15.0 - [22-08-2023]
 
 - Add source image alias support.   See [the Source Images Alias Guide](https://rokka.io/documentation/references/source-images-aliases.html) for details.
