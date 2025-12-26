@@ -68,6 +68,7 @@ export interface CompositionOperationsOptions extends StackOperationOptions {
 }
 
 export interface Operations {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   [key: string]: Function
   resize(
     width: number,
@@ -185,13 +186,14 @@ export default (state: State): { operations: Operations } => {
     /**
      * Get a list of available stack operations.
      *
+     * @example
      * ```js
      * rokka.operations.list()
      *   .then(function(result) {})
      *   .catch(function(err) {});
      * ```
      *
-     * @return {Promise}
+     * @returns Promise resolving to the list of operations
      */
     list: (): Promise<RokkaResponse> => {
       return state.request('GET', 'operations', null, null, {

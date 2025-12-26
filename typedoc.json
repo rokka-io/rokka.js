@@ -1,0 +1,19 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src/index.ts"],
+  "plugin": ["typedoc-plugin-markdown"],
+  "out": "./docs/generated",
+  "readme": "none",
+  "name": "rokka.js",
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "excludeExternals": true,
+  "hideGenerator": true,
+  "githubPages": false,
+  "disableSources": true,
+  "hideBreadcrumbs": true,
+  "hidePageHeader": true,
+  "useCodeBlocks": true,
+  "parametersFormat": "table",
+  "outputFileStrategy": "members"
+}

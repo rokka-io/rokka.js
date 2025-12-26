@@ -17,15 +17,16 @@ export default (state: State): { users: Users } => {
     /**
      * Register a new user for the rokka service.
      *
+     * @example
      * ```js
      * rokka.users.create('user@example.org')
      *   .then(function(result) {})
      *   .catch(function(err) {});
      * ```
      *
-     * @param {string} email address of a user
-     * @param {string} [organization=null] to create
-     * @return {Promise}
+     * @param email - Email address of a user
+     * @param organization - Organization to create
+     * @returns Promise resolving to the created user
      */
     create: (
       email: string,
@@ -39,13 +40,14 @@ export default (state: State): { users: Users } => {
     /**
      * Get user_id for current user
      *
+     * @example
      * ```js
      * rokka.users.getId()
      *   .then(function(result) {})
      *   .catch(function(err) {});
      * ```
      *
-     * @return {Promise}
+     * @returns Promise resolving to the user ID
      */
     getId: (): Promise<string> => {
       return state.request('GET', 'user').then(result => result.body.user_id)

@@ -29,15 +29,18 @@ export default (state: State): { organizations: Organizations } => {
     /**
      * Get a list of organizations.
      *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
      * ```js
      * rokka.organizations.get('myorg')
      *   .then(function(result) {})
      *   .catch(function(err) {});
      * ```
      *
-     * @authenticated
-     * @param  {string}  name organization
-     * @return {Promise}
+     * @param name - Organization name
+     * @returns Promise resolving to organization details
      */
     get: name => {
       return state.request('GET', `organizations/${name}`)
@@ -46,17 +49,20 @@ export default (state: State): { organizations: Organizations } => {
     /**
      * Create an organization.
      *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
      * ```js
      * rokka.organizations.create('myorg', 'billing@example.org', 'Organization Inc.')
      *   .then(function(result) {})
      *   .catch(function(err) {});
      * ```
      *
-     * @authenticated
-     * @param  {string}  name         organization
-     * @param  {string}  billingEmail email used for billing
-     * @param  {string}  displayName  pretty name
-     * @return {Promise}
+     * @param name - Organization name
+     * @param billingEmail - Email used for billing
+     * @param displayName - Pretty name for the organization
+     * @returns Promise resolving to the created organization
      */
     create: (name, billingEmail, displayName) => {
       return state.request('PUT', `organizations/${name}`, {

@@ -14,17 +14,23 @@ class ArgumentError {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+type RetryDelayFn = Function | number
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+type RetryOnFn = Function | number[]
+
 interface Options {
-  retryDelay?: Function | number
+  retryDelay?: RetryDelayFn
   retries?: number
-  retryOn?: Function | number[]
+  retryOn?: RetryOnFn
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   agent?: any
 }
 
 export default (url: string, options: Options): Promise<Response> => {
   let retries = 3
-  let retryDelay: Function | number = 1000
-  let retryOn: Function | number[] = [429, 502, 503, 504]
+  let retryDelay: RetryDelayFn = 1000
+  let retryOn: RetryOnFn = [429, 502, 503, 504]
   if (options && options.retries !== undefined) {
     if (isPositiveInteger(options.retries)) {
       retries = options.retries

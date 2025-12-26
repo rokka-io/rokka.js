@@ -82,15 +82,18 @@ export default (state: State): { user: User } => {
     /**
      * Get user_id for current user
      *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
      * ```js
      * rokka.users.getId()
      *   .then(function(result) {})
      *   .catch(function(err) {});
      * ```
-     * @since 3.3.0
-     * @authenticated
      *
-     * @return {Promise}
+     * @since 3.3.0
+     * @returns Promise resolving to the user ID
      */
     getId: (): Promise<string> => {
       return state.request('GET', 'user').then(result => result.body.user_id)
@@ -99,6 +102,10 @@ export default (state: State): { user: User } => {
     /**
      * Get user object for current user
      *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
      * ```js
      * rokka.user.get()
      *  .then(function(result) {})
@@ -106,9 +113,7 @@ export default (state: State): { user: User } => {
      * ```
      *
      * @since 3.3.0
-     * @authenticated
-     *
-     * @return {Promise}
+     * @returns Promise resolving to the user object
      */
     get: (): Promise<UserResponse> => {
       return state.request('GET', 'user')
@@ -116,18 +121,19 @@ export default (state: State): { user: User } => {
 
     /**
      * List Api Keys of the current user
-
      *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
      * ```js
      * rokka.user.listApiKeys()
      *  .then(function(result) {})
      *  .catch(function(err) {});
-     *  ```
+     * ```
      *
      * @since 3.3.0
-     * @authenticated
-     *
-     * @return {Promise}
+     * @returns Promise resolving to the list of API keys
      */
     listApiKeys: (): Promise<UserApiKeyListResponse> => {
       return state.request('GET', 'user/apikeys')
@@ -136,8 +142,10 @@ export default (state: State): { user: User } => {
     /**
      * Add Api Key to the current user
      *
-     * @param  {string}  comment optional comment
+     * @remarks
+     * Requires authentication.
      *
+     * @example
      * ```js
      * rokka.user.addApiKey('some comment')
      *  .then(function(result) {})
@@ -145,9 +153,8 @@ export default (state: State): { user: User } => {
      * ```
      *
      * @since 3.3.0
-     * @authenticated
-     *
-     * @return {Promise}
+     * @param comment - Optional comment for the API key
+     * @returns Promise resolving to the created API key
      */
     addApiKey: (comment: string | null = null): Promise<UserApiKeyResponse> => {
       return state.request('POST', 'user/apikeys', { comment })
@@ -155,19 +162,20 @@ export default (state: State): { user: User } => {
 
     /**
      * Delete Api Key from the current user
-
      *
-     * @param  {string}  id the id of the Api Key
+     * @remarks
+     * Requires authentication.
      *
+     * @example
      * ```js
      * rokka.user.deleteApiKey(id)
      *  .then(function(result) {})
      *  .catch(function(err) {});
      * ```
-     * @since 3.3.0
-     * @authenticated
      *
-     * @return {Promise}
+     * @since 3.3.0
+     * @param id - The ID of the API key to delete
+     * @returns Promise resolving when key is deleted
      */
     deleteApiKey: (id: string): Promise<RokkaResponse> => {
       return state.request('DELETE', `user/apikeys/${id}`)
@@ -176,6 +184,10 @@ export default (state: State): { user: User } => {
     /**
      * Get currently used Api Key
      *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
      * ```js
      * rokka.user.getCurrentApiKey()
      *  .then(function(result) {})
@@ -183,9 +195,7 @@ export default (state: State): { user: User } => {
      * ```
      *
      * @since 3.3.0
-     * @authenticated
-     *
-     * @return {Promise}
+     * @returns Promise resolving to the current API key
      */
     getCurrentApiKey: (): Promise<UserApiKeyResponse> => {
       return state.request('GET', 'user/apikeys/current')
@@ -196,20 +206,20 @@ export default (state: State): { user: User } => {
      *
      * You either provide an API Key or there's a valid JWT token registered to get a new JWT token.
      *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
      * ```js
-     * rokka.user.getNowToken(apiKey, {expires_in: 48 * 3600, renewable: true})
+     * rokka.user.getNewToken(apiKey, {expires_in: 48 * 3600, renewable: true})
      *  .then(function(result) {})
      *  .catch(function(err) {});
      * ```
      *
      * @since 3.7.0
-     * @authenticated
-     *
-     *
-     * @param {string}                      apiKey (optional) If you don't have a valid JWT token, we need an API key to retrieve a new one
-     * @param {RequestQueryParamsNewToken}  queryParams (optional) The query parameters used for generating a new JWT token.
-     *
-     * @return {Promise}
+     * @param apiKey - If you don't have a valid JWT token, we need an API key to retrieve a new one
+     * @param queryParams - The query parameters used for generating a new JWT token
+     * @returns Promise resolving to the new token
      */
     getNewToken(
       apiKey?: string,
@@ -242,8 +252,7 @@ export default (state: State): { user: User } => {
      * Gets the currently registered JWT Token from the `apiTokenGetCallback` config function or null
      *
      * @since 3.7.0
-     *
-     * @return {string|null}
+     * @returns The JWT token or null
      */
     getToken: (): ApiToken => {
       return state.apiTokenGetCallback ? state.apiTokenGetCallback() : null
@@ -253,8 +262,7 @@ export default (state: State): { user: User } => {
      * Sets a new JWT token with the `apiTokenSetCallback` function
      *
      * @since 3.7.0
-     *
-     * @param {string} token
+     * @param token - The JWT token to set
      */
     setToken: (token: ApiToken) => {
       if (state.apiTokenSetCallback) {
@@ -267,10 +275,8 @@ export default (state: State): { user: User } => {
      * Check if the registered JWT token is expiring within these amount of seconds (default: 3600)
      *
      * @since 3.7.0
-     *
-     * @param {number} withinNextSeconds Does it expire in these seconds (default: 3600)
-     *
-     * @return {boolean}
+     * @param withinNextSeconds - Does it expire in these seconds (default: 3600)
+     * @returns True if token is expiring within the specified time
      */
     isTokenExpiring(withinNextSeconds = 3600): boolean {
       return _isTokenExpiring(
@@ -281,11 +287,10 @@ export default (state: State): { user: User } => {
     },
 
     /**
-     * How long a token is still valid for (just checking for expiration time
+     * How long a token is still valid for (just checking for expiration time)
      *
      * @since 3.7.0
-     *
-     * @return {number} The amount of seconds it's still valid for, -1 if it doesn't exist
+     * @returns The amount of seconds it's still valid for, -1 if it doesn't exist
      */
     getTokenIsValidFor(): number {
       return _tokenValidFor(

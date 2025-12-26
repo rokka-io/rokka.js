@@ -1,3 +1,10 @@
+# [3.17.0] - unreleased
+
+- Replace outdated markdox documentation generator with TypeDoc + typedoc-plugin-markdown
+- Upgrade TypeScript from 4.6.4 to 5.7.0
+- Migrate JSDoc comments to TSDoc syntax across all API modules
+- Add full API reference documentation in docs/api/ folder
+
 # 3.16.0 - [02-01-2024]
 
 - Add meta_static interface and autodescription method to sourceimages API
@@ -18,7 +25,6 @@
 # 3.13.3 - [13-03-2023]
 
 - Fix url signing when it contains a filename
-
 
 # 3.13.2 - [06-03-2023]
 
@@ -54,6 +60,7 @@
 - Added support for getting a list of images in an album via `rokka.render.imagesByAlbum`
 
 # 3.8.0 - [16-08-2022]
+
 - Added support for locked sourceimages.
   See [the Source images Guide](https://rokka.io/documentation/references/source-images.html#lock-a-source-image-to-prevent-deletion) for details.
 
@@ -65,7 +72,7 @@
 
 # 3.6.0 [01-01-2022]
 
-- Export more typescript interfaces 
+- Export more typescript interfaces
 
 # 3.5.1 [28-12-2021]
 
@@ -83,8 +90,8 @@
 
 # 3.3.0 [07-12-2021]
 
-- Added User Api Keys methods. 
-  See https://rokka.io/documentation/references/users-and-memberships.html#rotate-your-api-key for details.
+- Added User Api Keys methods.
+  See <https://rokka.io/documentation/references/users-and-memberships.html#rotate-your-api-key> for details.
 
 # 3.2.0 [23-11-2021]
 
@@ -120,4 +127,3 @@
   The object returned as response in the Promises therefore also changed. We tried to make it as backwards compatible as possible with providing the relevant properties as before, but we can't guarantee 100% BC
 - Added deleted query support for `rokka.sourceimages.get` and `rokka.sourceimages.list`
 - Added `rokka.memberships.get(organization,userId)`  
- 
