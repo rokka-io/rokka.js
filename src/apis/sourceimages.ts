@@ -301,19 +301,28 @@ export default (state: State): { sourceimages: APISourceimages } => {
      *
      * By default, listing sourceimages sorts them by created date descending.
      *
+     * Searching for images can be achieved using the `search` parameter.
+     * Supported are predefined fields like `height`, `name` etc. but also user metadata.
+     * If you search for user metadata, the field name has to be prefixed with `user:TYPE`.
+     * All fields are combined with an AND. OR/NOT is not possible.
+     *
+     * The search also supports range and wildcard queries.
+     * Check out [the rokka documentation](https://rokka.io/documentation/references/searching-images.html) for more.
+     *
+     * Sorting works with user metadata as well and can be passed as either an array or as a
+     * comma separated string.
+     *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
      * ```js
      * rokka.sourceimages.list('myorg')
      *   .then(function(result) {})
      *   .catch(function(err) {});
      * ```
      *
-     * Searching for images can be achieved using the `search` parameter.
-     * Supported are predefined fields like `height`, `name` etc. but also user metadata.
-     * If you search for user metadata, the field name has to be prefixed with `user:TYPE`.
-     * All fields are combined with an AND. OR/NOT is not possible.
-     *
-     * Example:
-     *
+     * @example Searching for images
      * ```js
      * const search = {
      *   'user:int:id': '42',
@@ -324,16 +333,9 @@ export default (state: State): { sourceimages: APISourceimages } => {
      *   .catch(function(err) {});
      * ```
      *
-     * The search also supports range and wildcard queries.
-     * Check out [the rokka documentation](https://rokka.io/documentation/references/searching-images.html) for more.
-     *
-     * Sorting works with user metadata as well and can be passed as either an array or as a
-     * comma separated string.
-     *
-     * @authenticated
-     * @param  {string} organization  name
-     * @param  {Object} params Query string params (limit, offset, sort and search)
-     * @return {Promise}
+     * @param organization - Organization name
+     * @param params - Query string params (limit, offset, sort and search)
+     * @returns Promise resolving to the list of source images
      */
     list: (
       organization,

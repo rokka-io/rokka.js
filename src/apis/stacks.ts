@@ -40,17 +40,20 @@ export default (state: State): { stacks: Stacks } => {
     /**
      * Get a list of available stacks.
      *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
      * ```js
      * rokka.stacks.list('myorg')
      *   .then(function(result) {})
      *   .catch(function(err) {});
      * ```
      *
-     * @authenticated
-     * @param  {string}  organization  name
-     * @param  {number}  [limit=null]
-     * @param  {string}  [offset=null] cursor
-     * @return {Promise}
+     * @param organization - Organization name
+     * @param limit - Maximum number of stacks to return
+     * @param offset - Cursor for pagination
+     * @returns Promise resolving to the list of stacks
      */
     list: (
       organization: string,
@@ -72,16 +75,19 @@ export default (state: State): { stacks: Stacks } => {
     /**
      * Get details about a stack.
      *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
      * ```js
      * rokka.stacks.get('myorg', 'mystack')
      *   .then(function(result) {})
      *   .catch(function(result) {});
      * ```
      *
-     * @authenticated
-     * @param  {string}  organization name
-     * @param  {string}  name         stack name
-     * @return {Promise}
+     * @param organization - Organization name
+     * @param name - Stack name
+     * @returns Promise resolving to stack details
      */
 
     get: (organization: string, name: string): Promise<RokkaResponse> => {
@@ -94,8 +100,12 @@ export default (state: State): { stacks: Stacks } => {
      * The signature of this method changed in 0.27.
      *
      * Using a single stack operation object (without an enclosing array) as the 3rd parameter (stackConfig) is
-     *  since version 0.27.0 not supported anymore.
+     * since version 0.27.0 not supported anymore.
      *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
      * ```js
      * const operations = [
      *   rokka.operations.rotate(45),
@@ -124,12 +134,11 @@ export default (state: State): { stacks: Stacks } => {
      *  .catch(function(err) {})
      * ```
      *
-     * @authenticated
-     * @param  {string}       organization name
-     * @param  {string}       name         stack name
-     * @param  {Object}       stackConfig  object with the stack config of stack operations, options and expressions.
-     * @param  {{overwrite: bool}} [params={}]  params       query params, only {overwrite: true|false} is currently supported
-     * @return {Promise}
+     * @param organization - Organization name
+     * @param name - Stack name
+     * @param stackConfig - Object with the stack config of stack operations, options and expressions
+     * @param params - Query params, only overwrite is currently supported
+     * @returns Promise resolving to the created stack
      */
 
     create: (
@@ -167,16 +176,19 @@ export default (state: State): { stacks: Stacks } => {
     /**
      * Delete a stack.
      *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
      * ```js
      * rokka.stacks.delete('myorg', 'mystack')
      *   .then(function(result) {})
      *   .catch(function(err) {});
      * ```
      *
-     * @authenticated
-     * @param  {string}  organization name
-     * @param  {string}  name         stack name
-     * @return {Promise}
+     * @param organization - Organization name
+     * @param name - Stack name
+     * @returns Promise resolving when stack is deleted
      */
     delete: (organization: string, name: string): Promise<RokkaResponse> => {
       return state.request('DELETE', `stacks/${organization}/${name}`)

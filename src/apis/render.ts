@@ -109,16 +109,17 @@ export default (state: State): { render: Render } => {
      *
      * If you just need this function in a browser, you can also use [rokka-render.js](https://github.com/rokka-io/rokka-render.js)
      *
+     * @example
      * ```js
      * rokka.render.getUrl('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'png', 'mystack')
      * ```
      *
-     * @param  {string}                     organization name
-     * @param  {string}                      hash        image hash
-     * @param  {string}                      format      image format: `jpg`, `png` or `gif`
-     * @param  {string|array}                [stack]     optional stack name or an array of stack operation objects
-     * @param  {{filename:string|undefined, stackoptions: StackOptions|undefined, variables: VariablesInterface|undefined, clearVariables:boolean|undefined, removeSafeUrlFromQuery: boolean|undefined}} options     Optional. filename: Adds the filename to the URL, stackoptions: Adds stackoptions to the URL
-     * @return {string}
+     * @param organization - Organization name
+     * @param hash - Image hash
+     * @param format - Image format: `jpg`, `png` or `gif`
+     * @param stack - Optional stack name or an array of stack operation objects
+     * @param options - Optional. filename: Adds the filename to the URL, stackoptions: Adds stackoptions to the URL
+     * @returns The render URL
      */
     getUrl: (organization, hash, format, stack, options) => {
       return getUrl(
@@ -136,14 +137,15 @@ export default (state: State): { render: Render } => {
      *
      * If you just need this function in a browser, you can also use [rokka-render.js](https://github.com/rokka-io/rokka-render.js)
      *
+     * @example
      * ```js
      * rokka.render.getUrlFromUrl('https://myorg.rokka.io/dynamic/c421f4e8cefe0fd3aab22832f51e85bacda0a47a.png', 'mystack')
      * ```
      *
-     * @param  {string}                      rokkaUrl    rokka render URL
-     * @param  {string|array}                stack       stack name or an array of stack operation objects
-     * @param  {{filename:string|undefined, stackoptions: StackOptions|undefined, format: string|undefined, variables: VariablesInterface|undefined, clearVariables:boolean|undefined, removeSafeUrlFromQuery: boolean|undefined}} options     Optional. filename: Adds or changes the filename to the URL, stackoptions: Adds stackoptions to the URL, format: Changes the format
-     * @return {string}
+     * @param rokkaUrl - Rokka render URL
+     * @param stack - Stack name or an array of stack operation objects
+     * @param options - Optional. filename: Adds or changes the filename to the URL, stackoptions: Adds stackoptions to the URL, format: Changes the format
+     * @returns The render URL
      */
     getUrlFromUrl: (
       rokkaUrl: string,
@@ -155,13 +157,16 @@ export default (state: State): { render: Render } => {
 
     /**
      * Get image hashes and some other info belonging to a album (from metadata: user:array:albums)
+     *
+     * @example
      * ```js
      * rokka.render.imagesByAlbum('myorg', 'Albumname', { favorites })
      * ```
      *
-     * @param {string}               organization  name
-     * @param {string }              album         albumname
-     * @param {{favorites:boolean}}  options       Optional options
+     * @param organization - Organization name
+     * @param album - Album name
+     * @param options - Optional options
+     * @returns Promise resolving to album images
      */
     imagesByAlbum: (organization, album, options): Promise<RokkaResponse> => {
       const host = state.renderHost.replace('{organization}', organization)
@@ -189,12 +194,10 @@ export default (state: State): { render: Render } => {
      * It also rounds up the date to the next 5 minutes (300 seconds) to
      * improve CDN caching, can be changed
      *
-     * @param {string}  url The Url to be signed
-     * @param {string}  signKey The organinzation's sign key
-     * @param {SignUrlOptions} [{until:Date = null, roundDateUpTo:number = 300}] optional options.
-     *                  until: Valid until,
-     *                  roundDateUpTo: For improved caching, the date can be rounded up by so many seconds (default: 300)
-     * @return {string}
+     * @param url - The URL to be signed
+     * @param signKey - The organization's sign key
+     * @param options - Optional options. until: Valid until date, roundDateUpTo: For improved caching, the date can be rounded up by so many seconds (default: 300)
+     * @returns The signed URL
      */
     signUrl: (url, signKey, { until = null, roundDateUpTo = 300 } = {}) => {
       let options = null
@@ -215,6 +218,10 @@ export default (state: State): { render: Render } => {
     /**
      * Signs a rokka URL with a sign key and optional signature options.
      *
+     * @param url - The URL to be signed
+     * @param signKey - The organization's sign key
+     * @param options - Optional signature options
+     * @returns The signed URL
      */
     signUrlWithOptions: (url, signKey, options) => {
       const urlObject = new URL(url)
@@ -256,10 +263,10 @@ export default (state: State): { render: Render } => {
      *
      * If you just need this function in a browser, you can also use [rokka-render.js](https://github.com/rokka-io/rokka-render.js)
      *
-     * @param {string} url                    The url the stack variables are added to
-     * @param {object} variables              The variables to add
-     * @param {boolean}   [removeSafeUrlFromQuery=false] If true, removes some safe characters from the query
-     * @return {string}
+     * @param url - The URL the stack variables are added to
+     * @param variables - The variables to add
+     * @param removeSafeUrlFromQuery - If true, removes some safe characters from the query
+     * @returns The URL with variables added
      */
     addStackVariables: (
       url,
@@ -273,8 +280,8 @@ export default (state: State): { render: Render } => {
      *
      * Returns false, if it could not parse it as rokka URL.
      *
-     * @param {URL} urlObject
-     * @return  {UrlComponents|false}
+     * @param urlObject - The URL object to parse
+     * @returns URL components or false if not a rokka URL
      */
     getUrlComponents: getUrlComponents,
   }

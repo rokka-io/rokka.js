@@ -16,13 +16,14 @@ export default (state: State): { stackoptions: StackOptions } => {
     /**
      * Returns a json-schema like definition of options which can be set on a stack.
      *
+     * @example
      * ```js
      * rokka.stackoptions.get()
      *   .then(function(result) {})
      *   .catch(function(err) {});
      * ```
      *
-     * @return {Promise}
+     * @returns Promise resolving to stack options schema
      */
     get: (): Promise<RokkaResponse> => {
       return state.request('GET', 'stackoptions', null, null, {

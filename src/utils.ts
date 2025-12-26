@@ -1,6 +1,7 @@
 import jwtDecode from 'jwt-decode'
 import { ApiTokenGetCallback, ApiTokenPayload } from './apis/user'
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export function isStream(stream: { pipe: Function } | null): boolean {
   return (
     stream !== null &&

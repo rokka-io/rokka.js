@@ -69,18 +69,21 @@ export default (state: State): { memberships: Memberships } => {
     /**
      * Add a member to an organization.
      *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
      * ```js
      * rokka.memberships.create('myorg', '613547f8-e26d-48f6-8a6a-552c18b1a290', [rokka.memberships.ROLES.WRITE], "An optional comment")
      *   .then(function(result) {})
      *   .catch(function(err) {});
      * ```
      *
-     * @authenticated
-     * @param  {string}        organization name
-     * @param  {string}        userId       UUID of user to add to the organization
-     * @param  {string|array}  roles        user roles (`rokka.memberships.ROLES`)
-     * @param  {string}  comment            optional comment
-     * @return {Promise}
+     * @param organization - Organization name
+     * @param userId - UUID of user to add to the organization
+     * @param roles - User roles (`rokka.memberships.ROLES`)
+     * @param comment - Optional comment
+     * @returns Promise resolving to the membership
      */
     create: (
       organization: string,
@@ -110,16 +113,19 @@ export default (state: State): { memberships: Memberships } => {
     /**
      * Delete a member in an organization.
      *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
      * ```js
      * rokka.memberships.delete('myorg', '613547f8-e26d-48f6-8a6a-552c18b1a290')
      *   .then(function(result) {})
      *   .catch(function(err) {});
      * ```
      *
-     * @authenticated
-     * @param  {string}        organization name
-     * @param  {string}        userId       UUID of user to add to the organization
-     * @return {Promise}
+     * @param organization - Organization name
+     * @param userId - UUID of user to delete from the organization
+     * @returns Promise resolving when member is deleted
      */
     delete: (organization, userId): Promise<RokkaResponse> => {
       const path = `organizations/${organization}/memberships/${userId}`
@@ -130,17 +136,20 @@ export default (state: State): { memberships: Memberships } => {
     /**
      * Create a user and membership associated to this organization.
      *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
      * ```js
      * rokka.memberships.createWithNewUser('myorg', [rokka.memberships.ROLES.READ], "New user for something")
      *   .then(function(result) {})
      *   .catch(function(err) {});
      * ```
      *
-     * @authenticated
-     * @param  {string}  organization name
-     * @param  {array}   roles        user roles (`rokka.memberships.ROLES`)
-     * @param  {string}  comment      optional comment
-     * @return {Promise}
+     * @param organization - Organization name
+     * @param roles - User roles (`rokka.memberships.ROLES`)
+     * @param comment - Optional comment
+     * @returns Promise resolving to the new user and membership
      */
     createWithNewUser: (
       organization: string,
@@ -165,15 +174,18 @@ export default (state: State): { memberships: Memberships } => {
     /**
      * Lists members in an organization.
      *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
      * ```js
      * rokka.memberships.list('myorg')
      *   .then(function(result) {})
      *   .catch(function(err) {});
      * ```
      *
-     * @authenticated
-     * @param  {string}        organization name
-     * @return {Promise}
+     * @param organization - Organization name
+     * @returns Promise resolving to the list of members
      */
     list: (organization: string): Promise<RokkaResponse> => {
       const path = `organizations/${organization}/memberships`
@@ -184,16 +196,19 @@ export default (state: State): { memberships: Memberships } => {
     /**
      * Get info of a member in an organization.
      *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
      * ```js
      * rokka.memberships.get('myorg',userId)
      *   .then(function(result) {})
      *   .catch(function(err) {});
      * ```
      *
-     * @authenticated
-     * @param  {string}        organization name
-     * @param  {string}        userId
-     * @return {Promise}
+     * @param organization - Organization name
+     * @param userId - UUID of the user
+     * @returns Promise resolving to the member info
      */
     get: (organization: string, userId: string): Promise<RokkaResponse> => {
       const path = `organizations/${organization}/memberships/${userId}`

@@ -79,6 +79,7 @@ interface Request {
   timeout: number | undefined
   retries: number | undefined | any
   retryDelay: (attempt: number) => number
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   form: {}
   json: boolean
   body: any
@@ -113,6 +114,9 @@ export interface State {
 /**
  * Initializing the rokka client.
  *
+ * All properties are optional since certain calls don't require credentials.
+ *
+ * @example
  * ```js
  * const rokka = require('rokka')({
  *   apiKey: 'apikey',                  // required for certain operations
@@ -135,10 +139,7 @@ export interface State {
  * });
  * ```
  *
- * All properties are optional since certain calls don't require credentials.
- *
- * If you need to use a proxy, you can do the following
- *
+ * @example Using a proxy
  * ```js
  * import { HttpsProxyAgent } from 'https-proxy-agent'
  *
@@ -148,10 +149,8 @@ export interface State {
  * });
  * ```
  *
- * @param  {Object} [config={}] configuration properties
- * @return {Object}
- *
- * @module rokka
+ * @param config - Configuration properties
+ * @returns The rokka client API
  */
 export default (config: Config = {}): RokkaApi => {
   const state: State = {
