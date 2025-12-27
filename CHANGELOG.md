@@ -21,6 +21,8 @@
 - Upgrade TypeScript from 4.6.4 to 5.7.0
 - Migrate JSDoc comments to TSDoc syntax across all API modules
 - Add full API reference documentation in docs/api/ folder
+- Add comprehensive unit tests for previously untested API methods (billing, utils, aliases, etc.)
+- Add TypeScript example files in examples/ directory
 
 # 3.16.0 - [02-01-2024]
 
