@@ -119,7 +119,7 @@ async function generate() {
         summaryContent += moduleIntro + '\n\n'
       }
       for (const method of methods) {
-        summaryContent += method + '\n'
+        summaryContent += method
       }
     }
   }
