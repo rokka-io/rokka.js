@@ -17,6 +17,68 @@ export default (state: State): APISourceimagesMeta => {
      */
 
     /**
+     * Get all user metadata for a source image.
+     *
+     * See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
+     * for an explanation.
+     *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
+     * ```js
+     * rokka.sourceimages.meta.get('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+     *   .then(function(result) {})
+     *   .catch(function(err) {});
+     * ```
+     *
+     * @param organization - Organization name
+     * @param hash - Image hash
+     * @returns Promise resolving to user metadata
+     */
+    get: (organization: string, hash: string): Promise<RokkaResponse> => {
+      return state.request(
+        'GET',
+        `sourceimages/${organization}/${hash}/meta/user`,
+      )
+    },
+
+    /**
+     * Set a single user metadata field on a source image.
+     *
+     * See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
+     * for an explanation.
+     *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
+     * ```js
+     * rokka.sourceimages.meta.set('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'somefield', 'somevalue')
+     *   .then(function(result) {})
+     *   .catch(function(err) {});
+     * ```
+     *
+     * @param organization - Organization name
+     * @param hash - Image hash
+     * @param field - Metadata field name
+     * @param value - Metadata field value
+     * @returns Promise resolving when metadata is set
+     */
+    set: (
+      organization: string,
+      hash: string,
+      field: string,
+      value: any,
+    ): Promise<RokkaResponse> => {
+      return state.request(
+        'PUT',
+        `sourceimages/${organization}/${hash}/meta/user/${field}`,
+        value,
+      )
+    },
+
+    /**
      * Add user metadata to a source image.
      *
      * See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)

@@ -39,6 +39,7 @@ async function generate() {
       join(__dirname, '../src/apis/render.ts'),
       join(__dirname, '../src/apis/stats.ts'),
       join(__dirname, '../src/apis/request.ts'),
+      join(__dirname, '../src/apis/utils.ts'),
     ],
     tsconfig: join(__dirname, '../tsconfig.json'),
     plugin: ['typedoc-plugin-markdown'],
@@ -100,6 +101,7 @@ async function generate() {
     { file: 'render.ts', module: 'render' },
     { file: 'stats.ts', module: 'stats' },
     { file: 'request.ts', module: 'request' },
+    { file: 'utils.ts', module: 'utils' },
   ]
 
   for (const api of apiFiles) {

@@ -83,3 +83,25 @@ value): Promise<RokkaResponse>;
 #### Returns
 
 `Promise`\<`RokkaResponse`\>
+
+***
+
+### setOptions()
+
+```ts
+setOptions(organizationName, options): Promise<RokkaResponse>;
+```
+
+#### Parameters
+
+##### organizationName
+
+`string`
+
+##### options
+
+`Record`\<`string`, `boolean` \| `string`\>
+
+#### Returns
+
+`Promise`\<`RokkaResponse`\>

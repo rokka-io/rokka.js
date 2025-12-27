@@ -21,6 +21,11 @@ export interface Organizations {
     name: string,
     value: boolean | string,
   ): Promise<RokkaResponse>
+
+  setOptions(
+    organizationName: string,
+    options: Record<string, boolean | string>,
+  ): Promise<RokkaResponse>
 }
 
 export default (state: State): { organizations: Organizations } => {
@@ -76,6 +81,37 @@ export default (state: State): { organizations: Organizations } => {
         'PUT',
         `organizations/${organizationName}/options/${name}`,
         value,
+      )
+    },
+
+    /**
+     * Update multiple organization options at once.
+     *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
+     * ```js
+     * rokka.organizations.setOptions('myorg', {
+     *   protect_dynamic_stack: true,
+     *   remote_basepath: 'https://example.com'
+     * })
+     *   .then(function(result) {})
+     *   .catch(function(err) {});
+     * ```
+     *
+     * @param organizationName - Organization name
+     * @param options - Object with option names as keys and their values
+     * @returns Promise resolving when options are updated
+     */
+    setOptions: (
+      organizationName: string,
+      options: Record<string, boolean | string>,
+    ) => {
+      return state.request(
+        'PUT',
+        `organizations/${organizationName}/options`,
+        options,
       )
     },
   }

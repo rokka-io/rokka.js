@@ -128,6 +128,36 @@ copy: (organization, hash, destinationOrganization, overwrite?) => Promise<Rokka
 
 ***
 
+### copyAll()
+
+```ts
+copyAll: (organization, hashes, destinationOrganization, overwrite?) => Promise<RokkaResponse>;
+```
+
+#### Parameters
+
+##### organization
+
+`string`
+
+##### hashes
+
+`string`[]
+
+##### destinationOrganization
+
+`string`
+
+##### overwrite?
+
+`boolean`
+
+#### Returns
+
+`Promise`\<`RokkaResponse`\>
+
+***
+
 ### create()
 
 ```ts
@@ -379,6 +409,28 @@ getWithBinaryHash: (organization, binaryHash) => Promise<SourceimagesListRespons
 #### Returns
 
 `Promise`\<[`SourceimagesListResponse`](apis.sourceimages.Interface.SourceimagesListResponse.md)\>
+
+***
+
+### invalidateCache()
+
+```ts
+invalidateCache: (organization, hash) => Promise<RokkaResponse>;
+```
+
+#### Parameters
+
+##### organization
+
+`string`
+
+##### hash
+
+`string`
+
+#### Returns
+
+`Promise`\<`RokkaResponse`\>
 
 ***
 

@@ -1,5 +1,17 @@
 # [3.17.0] - unreleased
 
+## Added
+
+- Add `rokka.utils.signUrl()` for server-side URL signing (new utils module)
+- Add `rokka.organizations.setOptions()` to update multiple organization options at once
+- Add `rokka.sourceimages.copyAll()` to copy multiple images to another organization
+- Add `rokka.sourceimages.invalidateCache()` to clear CDN cache for a source image
+- Add `rokka.sourceimages.meta.get()` to retrieve all user metadata
+- Add `rokka.sourceimages.meta.set()` to update a single user metadata field
+- Add `rokka.stacks.invalidateCache()` to clear CDN cache for a stack
+
+## Changed
+
 - Replace outdated markdox documentation generator with TypeDoc + typedoc-plugin-markdown
 - Upgrade TypeScript from 4.6.4 to 5.7.0
 - Migrate JSDoc comments to TSDoc syntax across all API modules
