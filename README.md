@@ -20,18 +20,56 @@ $ npm install babel-runtime --save
 
 ## Usage
 
+### Using the Rokka class (recommended)
+
+```js
+import { Rokka } from 'rokka'
+
+const rokka = new Rokka({
+  apiKey: 'apikey',                  // required for certain operations
+  apiTokenGetCallback: () => string, // return JWT token instead of API Key
+  apiTokenSetCallback: (token, payload) => void, // Stores a newly retrieved JWT token
+  apiTokenOptions: {},               // The rokka.user.getNewToken query parameter options, default: {}
+  apiTokenRefreshTime: 3600,         // how many seconds before the token is expiring, it should be refreshed, default: 3600
+  apiHost: 'https://api.rokka.io',   // default: https://api.rokka.io
+  apiVersion: 1,                     // default: 1
+  renderHost: 'https://{organization}.rokka.io', // default: https://{organization}.rokka.io
+  debug: false,                      // default: false
+  transport: {
+    requestTimeout: 30000,     // milliseconds to wait for rokka server response (default: 30000)
+    retries: 10,               // number of retries when API response is 429 (default: 10)
+    minTimeout: 1000,          // minimum milliseconds between retries (default: 1000)
+    maxTimeout: 10000,         // maximum milliseconds between retries (default: 10000)
+    randomize: true,           // randomize time between retries (default: true)
+    agent: undefined           // an agent to be used with node-fetch, eg. if you need a proxy (default: undefined)
+  }
+})
+
+const result = await rokka.sourceimages.list('myorg')
+console.log(result)
+```
+
+### Using the factory function (backwards compatible)
+
 ```js
 const rokka = require('rokka')({
   apiKey: 'apikey'
-});
+})
 
-rokka.sourceimages.list('myorg')
-  .then(function(result) {
-    console.log(result);
-  })
-  .catch(function(err) {
-    console.error(err);
-  });
+const result = await rokka.sourceimages.list('myorg')
+console.log(result)
+```
+
+### Using a proxy
+
+```js
+import { HttpsProxyAgent } from 'https-proxy-agent'
+import { Rokka } from 'rokka'
+
+const rokka = new Rokka({
+  apiKey: 'apikey',
+  transport: { agent: new HttpsProxyAgent(proxy) }
+})
 ```
 
 ## Documentation
@@ -42,41 +80,15 @@ See [full API documentation](docs/api/) for detailed reference.
 
 ### Initialization
 
-Initializing the rokka client.
-
-All properties are optional since certain calls don't require credentials.
+Creates the internal state object for the Rokka client.
 
 ```js
-const rokka = require('rokka')({
-  apiKey: 'apikey',                  // required for certain operations
-  apiTokenGetCallback?: <() => string> // return JWT token instead of API Key
-  apiTokenSetCallback?: <((token: string, payload?: object|null) => void)> // Stores a newly retrieved JWT token
-  apiTokenOptions?: <object>         // The rokka.user.getNewToken query parameter options, default: {}
-  apiTokenRefreshTime?: <number>     // how many seconds before the token is expiring, it should be refreshed, default: 3600
-  apiHost: '<url>',                  // default: https://api.rokka.io
-  apiVersion: <number>,              // default: 1
-  renderHost: '<url>',               // default: https://{organization}.rokka.io
-  debug: true,                       // default: false
-  transport: {
-    requestTimeout: <number>,  // milliseconds to wait for rokka server response (default: 30000)
-    retries: <number>,         // number of retries when API response is 429 (default: 10)
-    minTimeout: <number>,      // minimum milliseconds between retries (default: 1000)
-    maxTimeout: <number>,      // maximum milliseconds between retries (default: 10000)
-    randomize: <boolean>       // randomize time between retries (default: true)
-    agent?: <any>               // an agent to be used with node-fetch, eg. if you need a proxy (default: undefined)
-  }
-});
+import { Rokka } from 'rokka'
+const rokka = new Rokka({ apiKey: 'apikey' })
 ```
 
-**Using a proxy**
-
 ```js
-import { HttpsProxyAgent } from 'https-proxy-agent'
-
-const rokka = require('rokka')({
- apiKey: 'apikey'
- transport: {agent: new HttpsProxyAgent(proxy)}
-});
+const rokka = require('rokka')({ apiKey: 'apikey' })
 ```
 
 ### Users

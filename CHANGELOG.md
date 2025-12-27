@@ -2,6 +2,7 @@
 
 ## Added
 
+- Add `Rokka` class for modern class-based initialization: `new Rokka({ apiKey })` (backwards compatible)
 - Add `rokka.utils.signUrl()` for server-side URL signing (new utils module)
 - Add `rokka.organizations.setOptions()` to update multiple organization options at once
 - Add `rokka.sourceimages.copyAll()` to copy multiple images to another organization
@@ -10,12 +11,18 @@
 - Add `rokka.sourceimages.meta.set()` to update a single user metadata field
 - Add `rokka.stacks.invalidateCache()` to clear CDN cache for a stack
 
+## Fixed
+
+- Fix transport options mutation bug that could affect multiple client instances
+
 ## Changed
 
 - Replace outdated markdox documentation generator with TypeDoc + typedoc-plugin-markdown
 - Upgrade TypeScript from 4.6.4 to 5.7.0
 - Migrate JSDoc comments to TSDoc syntax across all API modules
 - Add full API reference documentation in docs/api/ folder
+- Add comprehensive unit tests for previously untested API methods (billing, utils, aliases, etc.)
+- Add TypeScript example files in examples/ directory
 
 # 3.16.0 - [02-01-2024]
 
