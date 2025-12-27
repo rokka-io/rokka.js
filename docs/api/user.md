@@ -2,6 +2,329 @@
 
 ### User
 
+## Classes
+
+### UserApi
+
+#### Constructors
+
+##### Constructor
+
+```ts
+new UserApi(state): UserApi;
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `state` | [`State`](index.md#state) |
+
+###### Returns
+
+[`UserApi`](#userapi)
+
+#### Methods
+
+##### addApiKey()
+
+```ts
+addApiKey(comment): Promise<UserApiKeyResponse>;
+```
+
+Add Api Key to the current user
+
+###### Parameters
+
+| Parameter | Type | Default value | Description |
+| ------ | ------ | ------ | ------ |
+| `comment` | `string` \| `null` | `null` | Optional comment for the API key |
+
+###### Returns
+
+`Promise`\<[`UserApiKeyResponse`](#userapikeyresponse)\>
+
+Promise resolving to the created API key
+
+###### Remarks
+
+Requires authentication.
+
+###### Example
+
+```js
+const result = await rokka.user.addApiKey('some comment')
+```
+
+###### Since
+
+3.3.0
+
+##### deleteApiKey()
+
+```ts
+deleteApiKey(id): Promise<RokkaResponse>;
+```
+
+Delete Api Key from the current user
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `id` | `string` | The ID of the API key to delete |
+
+###### Returns
+
+`Promise`\<`RokkaResponse`\>
+
+Promise resolving when key is deleted
+
+###### Remarks
+
+Requires authentication.
+
+###### Example
+
+```js
+await rokka.user.deleteApiKey(id)
+```
+
+###### Since
+
+3.3.0
+
+##### get()
+
+```ts
+get(): Promise<UserResponse>;
+```
+
+Get user object for current user
+
+###### Returns
+
+`Promise`\<[`UserResponse`](#userresponse)\>
+
+Promise resolving to the user object
+
+###### Remarks
+
+Requires authentication.
+
+###### Example
+
+```js
+const result = await rokka.user.get()
+```
+
+###### Since
+
+3.3.0
+
+##### getCurrentApiKey()
+
+```ts
+getCurrentApiKey(): Promise<UserApiKeyResponse>;
+```
+
+Get currently used Api Key
+
+###### Returns
+
+`Promise`\<[`UserApiKeyResponse`](#userapikeyresponse)\>
+
+Promise resolving to the current API key
+
+###### Remarks
+
+Requires authentication.
+
+###### Example
+
+```js
+const result = await rokka.user.getCurrentApiKey()
+```
+
+###### Since
+
+3.3.0
+
+##### getId()
+
+```ts
+getId(): Promise<string>;
+```
+
+Get user_id for current user
+
+###### Returns
+
+`Promise`\<`string`\>
+
+Promise resolving to the user ID
+
+###### Remarks
+
+Requires authentication.
+
+###### Example
+
+```js
+const result = await rokka.users.getId()
+```
+
+###### Since
+
+3.3.0
+
+##### getNewToken()
+
+```ts
+getNewToken(apiKey?, queryParams?): Promise<UserKeyTokenResponse>;
+```
+
+Gets a new JWT token from the API.
+
+You either provide an API Key or there's a valid JWT token registered to get a new JWT token.
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `apiKey?` | `string` | If you don't have a valid JWT token, we need an API key to retrieve a new one |
+| `queryParams?` | [`RequestQueryParamsNewToken`](#requestqueryparamsnewtoken) \| `null` | The query parameters used for generating a new JWT token |
+
+###### Returns
+
+`Promise`\<[`UserKeyTokenResponse`](#userkeytokenresponse)\>
+
+Promise resolving to the new token
+
+###### Remarks
+
+Requires authentication.
+
+###### Example
+
+```js
+const result = await rokka.user.getNewToken(apiKey, {expires_in: 48 * 3600, renewable: true})
+```
+
+###### Since
+
+3.7.0
+
+##### getToken()
+
+```ts
+getToken(): ApiToken;
+```
+
+Gets the currently registered JWT Token from the `apiTokenGetCallback` config function or null
+
+###### Returns
+
+[`ApiToken`](#apitoken)
+
+The JWT token or null
+
+###### Since
+
+3.7.0
+
+##### getTokenIsValidFor()
+
+```ts
+getTokenIsValidFor(): number;
+```
+
+How long a token is still valid for (just checking for expiration time)
+
+###### Returns
+
+`number`
+
+The amount of seconds it's still valid for, -1 if it doesn't exist
+
+###### Since
+
+3.7.0
+
+##### isTokenExpiring()
+
+```ts
+isTokenExpiring(withinNextSeconds): boolean;
+```
+
+Check if the registered JWT token is expiring within these amount of seconds (default: 3600)
+
+###### Parameters
+
+| Parameter | Type | Default value | Description |
+| ------ | ------ | ------ | ------ |
+| `withinNextSeconds` | `number` | `3600` | Does it expire in these seconds (default: 3600) |
+
+###### Returns
+
+`boolean`
+
+True if token is expiring within the specified time
+
+###### Since
+
+3.7.0
+
+##### listApiKeys()
+
+```ts
+listApiKeys(): Promise<UserApiKeyListResponse>;
+```
+
+List Api Keys of the current user
+
+###### Returns
+
+`Promise`\<[`UserApiKeyListResponse`](#userapikeylistresponse)\>
+
+Promise resolving to the list of API keys
+
+###### Remarks
+
+Requires authentication.
+
+###### Example
+
+```js
+const result = await rokka.user.listApiKeys()
+```
+
+###### Since
+
+3.3.0
+
+##### setToken()
+
+```ts
+setToken(token): void;
+```
+
+Sets a new JWT token with the `apiTokenSetCallback` function
+
+###### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `token` | [`ApiToken`](#apitoken) | The JWT token to set |
+
+###### Returns
+
+`void`
+
+###### Since
+
+3.7.0
+
 ## Interfaces
 
 ### ApiTokenPayload
@@ -21,6 +344,7 @@
 | <a id="ip"></a> `ip?` | `string` |
 | <a id="ips"></a> `ips?` | `string`[] |
 | <a id="nr"></a> `nr?` | `boolean` |
+| <a id="rn"></a> `rn?` | `boolean` |
 
 ***
 
@@ -44,153 +368,6 @@
 | <a id="ips-1"></a> `ips?` | `string` |
 | <a id="no_ip_protection"></a> `no_ip_protection?` | `boolean` |
 | <a id="renewable"></a> `renewable?` | `boolean` |
-
-***
-
-### User
-
-#### Methods
-
-##### addApiKey()
-
-```ts
-addApiKey(comment): Promise<UserApiKeyResponse>;
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `comment` | `string` \| `null` |
-
-###### Returns
-
-`Promise`\<[`UserApiKeyResponse`](#userapikeyresponse)\>
-
-##### deleteApiKey()
-
-```ts
-deleteApiKey(id): Promise<RokkaResponse>;
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `id` | `string` |
-
-###### Returns
-
-`Promise`\<`RokkaResponse`\>
-
-##### get()
-
-```ts
-get(): Promise<UserResponse>;
-```
-
-###### Returns
-
-`Promise`\<[`UserResponse`](#userresponse)\>
-
-##### getCurrentApiKey()
-
-```ts
-getCurrentApiKey(): Promise<UserApiKeyResponse>;
-```
-
-###### Returns
-
-`Promise`\<[`UserApiKeyResponse`](#userapikeyresponse)\>
-
-##### getId()
-
-```ts
-getId(): Promise<string>;
-```
-
-###### Returns
-
-`Promise`\<`string`\>
-
-##### getNewToken()
-
-```ts
-getNewToken(apiKey?, queryParams?): Promise<UserKeyTokenResponse>;
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `apiKey?` | `string` |
-| `queryParams?` | [`RequestQueryParamsNewToken`](#requestqueryparamsnewtoken) \| `null` |
-
-###### Returns
-
-`Promise`\<[`UserKeyTokenResponse`](#userkeytokenresponse)\>
-
-##### getToken()
-
-```ts
-getToken(): ApiToken;
-```
-
-###### Returns
-
-[`ApiToken`](#apitoken)
-
-##### getTokenIsValidFor()
-
-```ts
-getTokenIsValidFor(): number;
-```
-
-###### Returns
-
-`number`
-
-##### isTokenExpiring()
-
-```ts
-isTokenExpiring(atLeastNotForSeconds?): boolean;
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `atLeastNotForSeconds?` | `number` |
-
-###### Returns
-
-`boolean`
-
-##### listApiKeys()
-
-```ts
-listApiKeys(): Promise<UserApiKeyListResponse>;
-```
-
-###### Returns
-
-`Promise`\<[`UserApiKeyListResponse`](#userapikeylistresponse)\>
-
-##### setToken()
-
-```ts
-setToken(token): void;
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `token` | [`ApiToken`](#apitoken) |
-
-###### Returns
-
-`void`
 
 ***
 
@@ -330,6 +507,14 @@ type ApiTokenGetCallback = () => ApiToken | null | undefined;
 type ApiTokenSetCallback = (token, payload?) => void | null;
 ```
 
+***
+
+### User
+
+```ts
+type User = UserApi;
+```
+
 ## Variables
 
 ### default()
@@ -350,4 +535,4 @@ default: (state) => object;
 
 | Name | Type |
 | ------ | ------ |
-| `user` | [`User`](#user) |
+| `user` | [`UserApi`](#userapi) |

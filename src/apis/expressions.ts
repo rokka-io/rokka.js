@@ -4,25 +4,23 @@
  * @module expressions
  */
 
-export interface Expressions {
-  default(expression: string, options: Options): Expression
-}
-
 export interface Expression {
   expression: string
   overrides: { options: Options }
 }
+
 interface Options {
   [key: string]: string | number
 }
 
-export default (): { expressions: Expressions } => {
-  const expressions = {
-    default: (expression: string, options: Options): Expression => {
-      return { expression, overrides: { options } }
-    },
-  }
-  return {
-    expressions,
+export class ExpressionsApi {
+  default(expression: string, options: Options): Expression {
+    return { expression, overrides: { options } }
   }
 }
+
+export type Expressions = ExpressionsApi
+
+export default (): { expressions: Expressions } => ({
+  expressions: new ExpressionsApi(),
+})

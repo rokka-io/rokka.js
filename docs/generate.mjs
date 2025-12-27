@@ -224,7 +224,7 @@ function extractModuleIntro(content) {
 }
 
 /**
- * Extract return types from interface definitions
+ * Extract return types from interface definitions and class methods
  */
 function extractReturnTypes(content) {
   const returnTypes = {}
@@ -246,6 +246,47 @@ function extractReturnTypes(content) {
       if (returnType && !returnType.includes('{')) {
         returnTypes[methodName] = returnType
       }
+    }
+  }
+
+  // Match class method definitions: methodName(params): ReturnType or async methodName(params): ReturnType
+  const classMethodPattern = /(?:async\s+)?(\w+)\s*\([^)]*\)\s*:\s*([^{]+?)\s*\{/g
+  let classMethodMatch
+
+  while ((classMethodMatch = classMethodPattern.exec(content)) !== null) {
+    const methodName = classMethodMatch[1]
+    const returnType = classMethodMatch[2].trim()
+    // Skip constructors and already-captured methods
+    if (methodName !== 'constructor' && returnType && !returnType.includes('{')) {
+      returnTypes[methodName] = returnType
+    }
+  }
+
+  // Match class property arrow functions: propertyName: TypeName = (...) => or propertyName: (params) => ReturnType = (
+  // First, extract type aliases that define function signatures
+  const typeAliases = {}
+  const typeAliasPattern = /(?:export\s+)?type\s+(\w+)\s*=\s*\([^)]*\)\s*=>\s*([^;\n]+)/g
+  let typeMatch
+  while ((typeMatch = typeAliasPattern.exec(content)) !== null) {
+    typeAliases[typeMatch[1]] = typeMatch[2].trim()
+  }
+
+  // Also extract callable interface signatures: interface Name { (params): ReturnType }
+  const callableInterfacePattern = /(?:export\s+)?interface\s+(\w+)\s*\{\s*\([^)]*\)\s*:\s*([^}]+)\}/g
+  let callableMatch
+  while ((callableMatch = callableInterfacePattern.exec(content)) !== null) {
+    typeAliases[callableMatch[1]] = callableMatch[2].trim()
+  }
+
+  // Now match class property arrow functions with type annotations
+  const arrowPropPattern = /(\w+)\s*:\s*(\w+)\s*=/g
+  let arrowMatch
+  while ((arrowMatch = arrowPropPattern.exec(content)) !== null) {
+    const propName = arrowMatch[1]
+    const typeName = arrowMatch[2]
+    // Look up the return type from type aliases
+    if (typeAliases[typeName] && !returnTypes[propName]) {
+      returnTypes[propName] = typeAliases[typeName]
     }
   }
 
@@ -276,8 +317,10 @@ function extractMethodsFromSource(content, moduleName, returnTypes = {}) {
     // Look for method definition after the JSDoc
     // Also match arrow functions with single param (no parens): `get: name => {`
     // And const methodName = (params) => { patterns
+    // And class property arrow functions: `signUrl: SignUrlType = (params) =>`
+    // And async class methods: `async downloadAsBuffer(`
     const methodMatch = afterJsdoc.match(
-      /^\s*(?:readonly\s+|const\s+)?(\w+)\s*(?::\s*\([^)]*\)\s*=>|:\s*\w+\s*=>|\s*[=:]\s*(?:async\s*)?\(([^)]*)\)|\s*\(([^)]*)\))/
+      /^\s*(?:readonly\s+|const\s+|async\s+)?(\w+)\s*(?::\s*\([^)]*\)\s*=>|:\s*\w+\s*=>|:\s*\w+\s*=\s*\(([^)]*)\)|\s*[=:]\s*(?:async\s*)?\(([^)]*)\)|\s*\(([^)]*)\))/
     )
 
     // Check if this is a section header (### title with no method after)
@@ -378,21 +421,24 @@ function extractMethodsFromSource(content, moduleName, returnTypes = {}) {
     }
 
     // Also check the TypeScript signature for optional params (param?: or param =)
-    // Look at the method definition after the JSDoc (including single-param arrow functions and const)
-    const sigMatch = afterJsdoc.match(/^\s*(?:readonly\s+|const\s+)?(\w+)\s*(?::\s*\(([^)]*)\)|:\s*(\w+)\s*=>|[=:]\s*(?:async\s*)?\(([^)]*)\)|\(([^)]*)\))/)
+    // Look at the method definition after the JSDoc (including single-param arrow functions, const, and typed arrow properties)
+    const sigMatch = afterJsdoc.match(/^\s*(?:readonly\s+|const\s+)?(\w+)\s*(?::\s*\(([^)]*)\)|:\s*(\w+)\s*=>|:\s*\w+\s*=\s*\(([^)]*)\)|[=:]\s*(?:async\s*)?\(([^)]*)\)|\(([^)]*)\))/)
     if (sigMatch) {
-      const sigParams = sigMatch[2] || sigMatch[3] || sigMatch[4] || sigMatch[5] || ''
+      const sigParams = sigMatch[2] || sigMatch[3] || sigMatch[4] || sigMatch[5] || sigMatch[6] || ''
       // Parse signature params to find optional ones
       const sigParamList = sigParams.split(',').map(p => p.trim())
       for (const sp of sigParamList) {
         // Check for param?: type or param: type = default or param = default
-        const optMatch = sp.match(/^(\w+)\s*\?|^(\w+)\s*(?::\s*[^=]+)?\s*=/)
+        // Also capture the default value if present
+        const optMatch = sp.match(/^(\w+)\s*\?|^(\w+)\s*(?::\s*[^=]+)?\s*=\s*(.+)$/)
         if (optMatch) {
           const optName = optMatch[1] || optMatch[2]
+          const defaultValue = optMatch[3]?.trim()
           // Find this param in our list and mark as optional if not already
-          const idx = params.findIndex(p => p === optName || p === `[${optName}]`)
+          const idx = params.findIndex(p => p === optName || p === `[${optName}]` || p.startsWith(`[${optName}=`))
           if (idx !== -1 && !params[idx].startsWith('[')) {
-            params[idx] = `[${optName}]`
+            // Include default value if available
+            params[idx] = defaultValue ? `[${optName}=${defaultValue}]` : `[${optName}]`
           }
         }
       }

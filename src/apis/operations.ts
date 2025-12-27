@@ -67,139 +67,120 @@ export interface CompositionOperationsOptions extends StackOperationOptions {
   secondary_image?: string
 }
 
-export interface Operations {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  [key: string]: Function
+export class OperationsApi {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any
+
+  constructor(private state: State) {}
+
   resize(
     width: number,
     height: number,
-    options?: ResizeOperationsOptions,
-  ): StackOperation
-  autorotate(options?: StackOperationOptions): StackOperation
-  rotate(angle: number, options?: StackOperationOptions): StackOperation
-  dropshadow(options?: StackOperationOptions): StackOperation
-  trim(options?: StackOperationOptions): StackOperation
-  noop(): StackOperation
+    options: ResizeOperationsOptions = {},
+  ): StackOperation {
+    options.width = width
+    options.height = height
+
+    return {
+      name: 'resize',
+      options,
+    }
+  }
+
+  autorotate(options: StackOperationOptions | undefined = {}): StackOperation {
+    return {
+      name: 'autorotate',
+      options,
+    }
+  }
+
+  rotate(angle: number, options: StackOperationOptions = {}): StackOperation {
+    options.angle = angle
+
+    return {
+      name: 'rotate',
+      options,
+    }
+  }
+
+  dropshadow(options: StackOperationOptions = {}): StackOperation {
+    return {
+      name: 'dropshadow',
+      options,
+    }
+  }
+
+  trim(options: StackOperationOptions = {}): StackOperation {
+    return {
+      name: 'trim',
+      options,
+    }
+  }
+
   crop(
     width: number,
     height: number,
-    options?: CropOperationsOptions,
-  ): StackOperation
+    options: CropOperationsOptions = {},
+  ): StackOperation {
+    options.width = width
+    options.height = height
+
+    return {
+      name: 'crop',
+      options,
+    }
+  }
+
+  noop(): StackOperation {
+    return {
+      name: 'noop',
+    }
+  }
+
   composition(
     width: number,
     height: number,
     mode: string,
-    options?: CompositionOperationsOptions,
-  ): StackOperation
-  blur(sigma: number, radius?: number): StackOperation
-  list(): Promise<RokkaResponse>
-}
+    options: StackOperationOptions = {},
+  ): StackOperation {
+    options.width = width
+    options.height = height
+    options.mode = mode
 
-export default (state: State): { operations: Operations } => {
-  const operations: Operations = {
-    resize: (
-      width: number,
-      height: number,
-      options: ResizeOperationsOptions = {},
-    ): StackOperation => {
-      options.width = width
-      options.height = height
-
-      return {
-        name: 'resize',
-        options,
-      }
-    },
-    autorotate: (
-      options: StackOperationOptions | undefined = {},
-    ): StackOperation => {
-      return {
-        name: 'autorotate',
-        options,
-      }
-    },
-    rotate: (
-      angle: number,
-      options: StackOperationOptions = {},
-    ): StackOperation => {
-      options.angle = angle
-
-      return {
-        name: 'rotate',
-        options,
-      }
-    },
-    dropshadow: (options: StackOperationOptions = {}): StackOperation => {
-      return {
-        name: 'dropshadow',
-        options,
-      }
-    },
-    trim: (options: StackOperationOptions = {}): StackOperation => {
-      return {
-        name: 'trim',
-        options,
-      }
-    },
-    crop: (
-      width: number,
-      height: number,
-      options: CropOperationsOptions = {},
-    ): StackOperation => {
-      options.width = width
-      options.height = height
-
-      return {
-        name: 'crop',
-        options,
-      }
-    },
-    noop: (): StackOperation => {
-      return {
-        name: 'noop',
-      }
-    },
-    composition: (
-      width: number,
-      height: number,
-      mode: string,
-      options: StackOperationOptions = {},
-    ): StackOperation => {
-      options.width = width
-      options.height = height
-      options.mode = mode
-
-      return {
-        name: 'composition',
-        options,
-      }
-    },
-    blur: (sigma: number, radius: number): StackOperation => {
-      const options = { sigma, radius }
-
-      return {
-        name: 'blur',
-        options,
-      }
-    },
-
-    /**
-     * Get a list of available stack operations.
-     *
-     * @example
-     * ```js
-     * const result = await rokka.operations.list()
-     * ```
-     *
-     * @returns Promise resolving to the list of operations
-     */
-    list: (): Promise<RokkaResponse> => {
-      return state.request('GET', 'operations', null, null, {
-        noAuthHeaders: true,
-      })
-    },
+    return {
+      name: 'composition',
+      options,
+    }
   }
-  return {
-    operations,
+
+  blur(sigma: number, radius?: number): StackOperation {
+    const options = { sigma, radius }
+
+    return {
+      name: 'blur',
+      options,
+    }
+  }
+
+  /**
+   * Get a list of available stack operations.
+   *
+   * @example
+   * ```js
+   * const result = await rokka.operations.list()
+   * ```
+   *
+   * @returns Promise resolving to the list of operations
+   */
+  list(): Promise<RokkaResponse> {
+    return this.state.request('GET', 'operations', null, null, {
+      noAuthHeaders: true,
+    })
   }
 }
+
+export type Operations = OperationsApi
+
+export default (state: State): { operations: Operations } => ({
+  operations: new OperationsApi(state),
+})

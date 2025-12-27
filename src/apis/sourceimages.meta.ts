@@ -1,5 +1,4 @@
 import { State } from '../index'
-import { APISourceimagesMeta } from './sourceimages'
 import { RokkaResponse } from '../response'
 
 /**
@@ -7,164 +6,169 @@ import { RokkaResponse } from '../response'
  *
  * @module sourceimages.meta
  */
-export default (state: State): APISourceimagesMeta => {
-  return {
-    /**
-     * ### User metadata
-     *
-     * See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
-     * for more information.
-     */
+export class SourceimagesMetaApi {
+  constructor(private state: State) {}
 
-    /**
-     * Get all user metadata for a source image.
-     *
-     * See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
-     * for an explanation.
-     *
-     * @remarks
-     * Requires authentication.
-     *
-     * @example
-     * ```js
-     * const result = await rokka.sourceimages.meta.get('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-     * ```
-     *
-     * @param organization - Organization name
-     * @param hash - Image hash
-     * @returns Promise resolving to user metadata
-     */
-    get: (organization: string, hash: string): Promise<RokkaResponse> => {
-      return state.request(
-        'GET',
-        `sourceimages/${organization}/${hash}/meta/user`,
-      )
-    },
+  /**
+   * ### User metadata
+   *
+   * See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
+   * for more information.
+   */
 
-    /**
-     * Set a single user metadata field on a source image.
-     *
-     * See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
-     * for an explanation.
-     *
-     * @remarks
-     * Requires authentication.
-     *
-     * @example
-     * ```js
-     * await rokka.sourceimages.meta.set('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'somefield', 'somevalue')
-     * ```
-     *
-     * @param organization - Organization name
-     * @param hash - Image hash
-     * @param field - Metadata field name
-     * @param value - Metadata field value
-     * @returns Promise resolving when metadata is set
-     */
-    set: (
-      organization: string,
-      hash: string,
-      field: string,
-      value: any,
-    ): Promise<RokkaResponse> => {
-      return state.request(
-        'PUT',
-        `sourceimages/${organization}/${hash}/meta/user/${field}`,
-        value,
-      )
-    },
+  /**
+   * Get all user metadata for a source image.
+   *
+   * See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
+   * for an explanation.
+   *
+   * @remarks
+   * Requires authentication.
+   *
+   * @example
+   * ```js
+   * const result = await rokka.sourceimages.meta.get('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+   * ```
+   *
+   * @param organization - Organization name
+   * @param hash - Image hash
+   * @returns Promise resolving to user metadata
+   */
+  get(organization: string, hash: string): Promise<RokkaResponse> {
+    return this.state.request(
+      'GET',
+      `sourceimages/${organization}/${hash}/meta/user`,
+    )
+  }
 
-    /**
-     * Add user metadata to a source image.
-     *
-     * See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
-     * for an explanation.
-     *
-     * ```js
-     * const result = await rokka.sourceimages.meta.add('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
-     *   somefield: 'somevalue',
-     *   'int:some_number': 0,
-     *   'delete_this': null
-     * })
-     * ```
-     *
-     * @authenticated
-     * @param {string} organization name
-     * @param {string} hash         image hash
-     * @param {object} data         metadata to add to the image
-     * @return {Promise}
-     */
-    add: (
-      organization: string,
-      hash: string,
-      data: { [key: string]: any },
-    ): Promise<RokkaResponse> => {
-      return state.request(
-        'PATCH',
-        `sourceimages/${organization}/${hash}/meta/user`,
-        data,
-      )
-    },
+  /**
+   * Set a single user metadata field on a source image.
+   *
+   * See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
+   * for an explanation.
+   *
+   * @remarks
+   * Requires authentication.
+   *
+   * @example
+   * ```js
+   * await rokka.sourceimages.meta.set('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'somefield', 'somevalue')
+   * ```
+   *
+   * @param organization - Organization name
+   * @param hash - Image hash
+   * @param field - Metadata field name
+   * @param value - Metadata field value
+   * @returns Promise resolving when metadata is set
+   */
+  set(
+    organization: string,
+    hash: string,
+    field: string,
+    value: any,
+  ): Promise<RokkaResponse> {
+    return this.state.request(
+      'PUT',
+      `sourceimages/${organization}/${hash}/meta/user/${field}`,
+      value,
+    )
+  }
 
-    /**
-     * Replace user metadata of a source image with the passed data.
-     *
-     * See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
-     * for an explanation.
-     *
-     * ```js
-     * const result = await rokka.sourceimages.meta.replace('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
-     *   somefield: 'somevalue',
-     *   'int:some_number': 0
-     * })
-     * ```
-     *
-     * @authenticated
-     * @param {string} organization name
-     * @param {string} hash         image hash
-     * @param {object} data         new metadata
-     * @return {Promise}
-     */
-    replace: (
-      organization: string,
-      hash: string,
-      data: { [key: string]: any },
-    ): Promise<RokkaResponse> => {
-      return state.request(
-        'PUT',
-        `sourceimages/${organization}/${hash}/meta/user`,
-        data,
-      )
-    },
+  /**
+   * Add user metadata to a source image.
+   *
+   * See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
+   * for an explanation.
+   *
+   * ```js
+   * const result = await rokka.sourceimages.meta.add('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
+   *   somefield: 'somevalue',
+   *   'int:some_number': 0,
+   *   'delete_this': null
+   * })
+   * ```
+   *
+   * @authenticated
+   * @param {string} organization name
+   * @param {string} hash         image hash
+   * @param {object} data         metadata to add to the image
+   * @return {Promise}
+   */
+  add(
+    organization: string,
+    hash: string,
+    data: { [key: string]: any },
+  ): Promise<RokkaResponse> {
+    return this.state.request(
+      'PATCH',
+      `sourceimages/${organization}/${hash}/meta/user`,
+      data,
+    )
+  }
 
-    /**
-     * Replace user metadata of a source image with the passed data.
-     *
-     * See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
-     * for an explanation.
-     *
-     * ```js
-     * await rokka.sourceimages.meta.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-     * ```
-     *
-     * If the third parameter (field) is specified, it will just delete this field.
-     *
-     * @authenticated
-     * @param {string} organization name
-     * @param {string} hash         image hash
-     * @param {string} [field=null] optional field to delete
-     * @return {Promise}
-     */
-    delete: (
-      organization: string,
-      hash: string,
-      field: string | null = null,
-    ): Promise<RokkaResponse> => {
-      const fieldpath = field ? `/${field}` : ''
-      return state.request(
-        'DELETE',
-        `sourceimages/${organization}/${hash}/meta/user${fieldpath}`,
-      )
-    },
+  /**
+   * Replace user metadata of a source image with the passed data.
+   *
+   * See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
+   * for an explanation.
+   *
+   * ```js
+   * const result = await rokka.sourceimages.meta.replace('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
+   *   somefield: 'somevalue',
+   *   'int:some_number': 0
+   * })
+   * ```
+   *
+   * @authenticated
+   * @param {string} organization name
+   * @param {string} hash         image hash
+   * @param {object} data         new metadata
+   * @return {Promise}
+   */
+  replace(
+    organization: string,
+    hash: string,
+    data: { [key: string]: any },
+  ): Promise<RokkaResponse> {
+    return this.state.request(
+      'PUT',
+      `sourceimages/${organization}/${hash}/meta/user`,
+      data,
+    )
+  }
+
+  /**
+   * Replace user metadata of a source image with the passed data.
+   *
+   * See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
+   * for an explanation.
+   *
+   * ```js
+   * await rokka.sourceimages.meta.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+   * ```
+   *
+   * If the third parameter (field) is specified, it will just delete this field.
+   *
+   * @authenticated
+   * @param {string} organization name
+   * @param {string} hash         image hash
+   * @param {string} [field=null] optional field to delete
+   * @return {Promise}
+   */
+  delete(
+    organization: string,
+    hash: string,
+    field: string | null = null,
+  ): Promise<RokkaResponse> {
+    const fieldpath = field ? `/${field}` : ''
+    return this.state.request(
+      'DELETE',
+      `sourceimages/${organization}/${hash}/meta/user${fieldpath}`,
+    )
   }
 }
+
+export type APISourceimagesMeta = SourceimagesMetaApi
+
+export default (state: State): APISourceimagesMeta =>
+  new SourceimagesMetaApi(state)

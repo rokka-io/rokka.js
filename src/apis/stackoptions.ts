@@ -7,29 +7,28 @@
 import { RokkaResponse } from '../response'
 import { State } from '../index'
 
-export interface StackOptions {
-  get(): Promise<RokkaResponse>
+export class StackOptionsApi {
+  constructor(private state: State) {}
+
+  /**
+   * Returns a json-schema like definition of options which can be set on a stack.
+   *
+   * @example
+   * ```js
+   * const result = await rokka.stackoptions.get()
+   * ```
+   *
+   * @returns Promise resolving to stack options schema
+   */
+  get(): Promise<RokkaResponse> {
+    return this.state.request('GET', 'stackoptions', null, null, {
+      noAuthHeaders: true,
+    })
+  }
 }
 
-export default (state: State): { stackoptions: StackOptions } => {
-  const stackoptions: StackOptions = {
-    /**
-     * Returns a json-schema like definition of options which can be set on a stack.
-     *
-     * @example
-     * ```js
-     * const result = await rokka.stackoptions.get()
-     * ```
-     *
-     * @returns Promise resolving to stack options schema
-     */
-    get: (): Promise<RokkaResponse> => {
-      return state.request('GET', 'stackoptions', null, null, {
-        noAuthHeaders: true,
-      })
-    },
-  }
-  return {
-    stackoptions,
-  }
-}
+export type StackOptions = StackOptionsApi
+
+export default (state: State): { stackoptions: StackOptions } => ({
+  stackoptions: new StackOptionsApi(state),
+})
