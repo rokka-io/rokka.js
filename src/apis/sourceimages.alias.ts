@@ -23,10 +23,9 @@ export default (state: State): APISourceimagesAlias => {
      * for an explanation.
      *
      * ```js
-     * rokka.sourceimages.alias.create('myorg', 'myalias', {
+     * const result = await rokka.sourceimages.alias.create('myorg', 'myalias', {
      *   hash: 'somehash',
-     * }).then(function(result) {})
-     *   .catch(function(err) {});
+     * })
      * ```
      *
      * @authenticated

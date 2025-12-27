@@ -334,9 +334,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
      *
      * @example
      * ```js
-     * rokka.sourceimages.list('myorg')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.sourceimages.list('myorg')
      * ```
      *
      * @example Searching for images
@@ -345,9 +343,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
      *   'user:int:id': '42',
      *   'height': '64'
      * }
-     * rokka.sourceimages.list('myorg', { search: search })
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.sourceimages.list('myorg', { search: search })
      * ```
      *
      * @param organization - Organization name
@@ -377,9 +373,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
      *   'user:int:id': '42',
      *   'height': '64'
      * }
-     * rokka.sourceimages.list('myorg', { search: search })
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.sourceimages.downloadList('myorg', { search: search })
      * ```
      *
      * @authenticated
@@ -405,9 +399,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * Get information of a source image by hash.
      *
      * ```js
-     * rokka.sourceimages.get('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.sourceimages.get('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
      * ```
      *
      * @authenticated
@@ -433,9 +425,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * Get information of a source image by its binary hash.
      *
      * ```js
-     * rokka.sourceimages.getWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e158a3ee822a')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.sourceimages.getWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e158a3ee822a')
      * ```
      *
      * @authenticated
@@ -461,9 +451,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * Download image by hash, returns a Stream
      *
      * ```js
-     * rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
      * ```
      *
      * @authenticated
@@ -488,9 +476,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * Download image by hash, returns a Buffer
      *
      * ```js
-     * rokka.sourceimages.downloadAsBuffer('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.sourceimages.downloadAsBuffer('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
      * ```
      *
      * @authenticated
@@ -515,9 +501,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * You need to be a paying customer to be able to use this.
      *
      * ```js
-     * rokka.sourceimages.autolabel('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.sourceimages.autolabel('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
      * ```
      *
      * @authenticated
@@ -538,11 +522,8 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * You need to be a paying customer to be able to use this.
      *
      * ```js
-     * rokka.sourceimages.autodescription('myorg', 'c421f4e8cefe
-     * 0fd3aab22832f51e85bacda0a47a', ['en', 'de'], false)
-     *  .then(function(result) {})
-     *  .catch(function(err) {});
-     *  ```
+     * const result = await rokka.sourceimages.autodescription('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', ['en', 'de'], false)
+     * ```
      *
      * @authenticated
      * @param  {string}   organization name
@@ -567,10 +548,8 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * Upload an image.
      *
      * ```js
-     * const file = require('fs').createReadStream('picture.png');
-     * rokka.sourceimages.create('myorg', 'picture.png', file)
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const file = require('fs').createReadStream('picture.png')
+     * const result = await rokka.sourceimages.create('myorg', 'picture.png', file)
      * ```
      *
      * With directly adding metadata:
@@ -641,9 +620,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * Upload an image by url.
      *
      * ```js
-     * rokka.sourceimages.createByUrl('myorg', 'https://rokka.rokka.io/dynamic/f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912.png')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.sourceimages.createByUrl('myorg', 'https://rokka.rokka.io/dynamic/f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912.png')
      * ```
      *
      * With directly adding metadata:
@@ -694,9 +671,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * Delete image by hash.
      *
      * ```js
-     * rokka.sourceimages.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * await rokka.sourceimages.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
      * ```
      *
      * @authenticated
@@ -712,9 +687,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * Delete source images by its binary hash.
      *
      * ```js
-     * rokka.sourceimages.deleteWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e158a3ee822a')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * await rokka.sourceimages.deleteWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e158a3ee822a')
      * ```
      *
      * @authenticated
@@ -740,9 +713,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * Restore image by hash.
      *
      * ```js
-     * rokka.sourceimages.restore('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.sourceimages.restore('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
      * ```
      *
      * @authenticated
@@ -761,9 +732,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * Copy image by hash to another org.
      *
      * ```js
-     * rokka.sourceimages.copy('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'anotherorg', true)
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.sourceimages.copy('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'anotherorg', true)
      * ```
      *
      * @authenticated
@@ -802,12 +771,10 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * for more information.
      *
      * ```js
-     * rokka.sourceimages.copyAll('myorg', [
+     * const result = await rokka.sourceimages.copyAll('myorg', [
      *   'c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
      *   'f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912'
      * ], 'anotherorg', true)
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
      * ```
      *
      * @authenticated
@@ -846,9 +813,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * for more information.
      *
      * ```js
-     * rokka.sourceimages.invalidateCache('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * await rokka.sourceimages.invalidateCache('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
      * ```
      *
      * @authenticated
@@ -872,11 +837,9 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * Important! Returns a different hash, if the protected status changes
      *
      * ```js
-     * rokka.sourceimages.setProtected('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', true,
-     * {
+     * const result = await rokka.sourceimages.setProtected('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', true, {
      *   deletePrevious: false
-     * }).then(function(result) {})
-     *   .catch(function(err) {});
+     * })
      * ```
      *
      * @param {string} organization  name
@@ -907,8 +870,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * Locks an image, which then can't be deleted.
      *
      * ```js
-     * rokka.sourceimages.setLocked('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', true).then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.sourceimages.setLocked('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', true)
      * ```
      *
      * @param {string} organization  name
@@ -944,16 +906,14 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * `auto` anchor to center the cropping box around the subject area.
      *
      * ```js
-     * rokka.sourceimages.setSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
+     * const result = await rokka.sourceimages.setSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
      *   x: 100,
      *   y: 100,
      *   width: 50,
      *   height: 50
-     * },
-     * {
+     * }, {
      *   deletePrevious: false
-     * }).then(function(result) {})
-     *   .catch(function(err) {});
+     * })
      * ```
      *
      * @param {string} organization  name
@@ -986,9 +946,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * Removes the subject area from a source image.
      *
      * ```js
-     * rokka.sourceimages.removeSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * await rokka.sourceimages.removeSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
      * ```
      *
      * @param {string} organization
@@ -1017,16 +975,14 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * details.
      *
      * ```js
-     * rokka.sourceimages.addDynamicMetaData('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'crop_area', {
+     * const result = await rokka.sourceimages.addDynamicMetaData('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'crop_area', {
      *   x: 100,
      *   y: 100,
      *   width: 50,
      *   height: 50
-     * },
-     * {
+     * }, {
      *   deletePrevious: false
-     * }).then(function(result) {})
-     *   .catch(function(err) {});
+     * })
      * ```
      *
      * @param {string} organization  name
@@ -1060,11 +1016,9 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * details.
      *
      * ```js
-     * rokka.sourceimages.addDynamicMetaData('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'crop_area',
-     * {
+     * await rokka.sourceimages.deleteDynamicMetaData('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'crop_area', {
      *   deletePrevious: false
-     * }).then(function(result) {})
-     *   .catch(function(err) {});
+     * })
      * ```
      *
      * @param {string} organization  name
@@ -1092,8 +1046,7 @@ export default (state: State): { sourceimages: APISourceimages } => {
      * Change the name of a  source image.
      *
      * ```js
-     * rokka.sourceimages.putName('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', name).then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.sourceimages.putName('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', name)
      * ```
      *
      * @authenticated

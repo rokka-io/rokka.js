@@ -19,9 +19,7 @@ export default (state: State): { users: Users } => {
      *
      * @example
      * ```js
-     * rokka.users.create('user@example.org')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.users.create('user@example.org')
      * ```
      *
      * @param email - Email address of a user
@@ -42,9 +40,7 @@ export default (state: State): { users: Users } => {
      *
      * @example
      * ```js
-     * rokka.users.getId()
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.users.getId()
      * ```
      *
      * @returns Promise resolving to the user ID

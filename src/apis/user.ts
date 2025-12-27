@@ -87,9 +87,7 @@ export default (state: State): { user: User } => {
      *
      * @example
      * ```js
-     * rokka.users.getId()
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.users.getId()
      * ```
      *
      * @since 3.3.0
@@ -107,9 +105,7 @@ export default (state: State): { user: User } => {
      *
      * @example
      * ```js
-     * rokka.user.get()
-     *  .then(function(result) {})
-     *  .catch(function(err) {});
+     * const result = await rokka.user.get()
      * ```
      *
      * @since 3.3.0
@@ -127,9 +123,7 @@ export default (state: State): { user: User } => {
      *
      * @example
      * ```js
-     * rokka.user.listApiKeys()
-     *  .then(function(result) {})
-     *  .catch(function(err) {});
+     * const result = await rokka.user.listApiKeys()
      * ```
      *
      * @since 3.3.0
@@ -147,9 +141,7 @@ export default (state: State): { user: User } => {
      *
      * @example
      * ```js
-     * rokka.user.addApiKey('some comment')
-     *  .then(function(result) {})
-     *  .catch(function(err) {});
+     * const result = await rokka.user.addApiKey('some comment')
      * ```
      *
      * @since 3.3.0
@@ -168,9 +160,7 @@ export default (state: State): { user: User } => {
      *
      * @example
      * ```js
-     * rokka.user.deleteApiKey(id)
-     *  .then(function(result) {})
-     *  .catch(function(err) {});
+     * await rokka.user.deleteApiKey(id)
      * ```
      *
      * @since 3.3.0
@@ -189,9 +179,7 @@ export default (state: State): { user: User } => {
      *
      * @example
      * ```js
-     * rokka.user.getCurrentApiKey()
-     *  .then(function(result) {})
-     *  .catch(function(err) {});
+     * const result = await rokka.user.getCurrentApiKey()
      * ```
      *
      * @since 3.3.0
@@ -211,9 +199,7 @@ export default (state: State): { user: User } => {
      *
      * @example
      * ```js
-     * rokka.user.getNewToken(apiKey, {expires_in: 48 * 3600, renewable: true})
-     *  .then(function(result) {})
-     *  .catch(function(err) {});
+     * const result = await rokka.user.getNewToken(apiKey, {expires_in: 48 * 3600, renewable: true})
      * ```
      *
      * @since 3.7.0

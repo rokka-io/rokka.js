@@ -74,9 +74,7 @@ export default (state: State): { memberships: Memberships } => {
      *
      * @example
      * ```js
-     * rokka.memberships.create('myorg', '613547f8-e26d-48f6-8a6a-552c18b1a290', [rokka.memberships.ROLES.WRITE], "An optional comment")
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.memberships.create('myorg', '613547f8-e26d-48f6-8a6a-552c18b1a290', [rokka.memberships.ROLES.WRITE], "An optional comment")
      * ```
      *
      * @param organization - Organization name
@@ -118,9 +116,7 @@ export default (state: State): { memberships: Memberships } => {
      *
      * @example
      * ```js
-     * rokka.memberships.delete('myorg', '613547f8-e26d-48f6-8a6a-552c18b1a290')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * await rokka.memberships.delete('myorg', '613547f8-e26d-48f6-8a6a-552c18b1a290')
      * ```
      *
      * @param organization - Organization name
@@ -141,9 +137,7 @@ export default (state: State): { memberships: Memberships } => {
      *
      * @example
      * ```js
-     * rokka.memberships.createWithNewUser('myorg', [rokka.memberships.ROLES.READ], "New user for something")
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.memberships.createWithNewUser('myorg', [rokka.memberships.ROLES.READ], "New user for something")
      * ```
      *
      * @param organization - Organization name
@@ -179,9 +173,7 @@ export default (state: State): { memberships: Memberships } => {
      *
      * @example
      * ```js
-     * rokka.memberships.list('myorg')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.memberships.list('myorg')
      * ```
      *
      * @param organization - Organization name
@@ -201,9 +193,7 @@ export default (state: State): { memberships: Memberships } => {
      *
      * @example
      * ```js
-     * rokka.memberships.get('myorg',userId)
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.memberships.get('myorg', userId)
      * ```
      *
      * @param organization - Organization name

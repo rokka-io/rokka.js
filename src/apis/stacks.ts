@@ -47,9 +47,7 @@ export default (state: State): { stacks: Stacks } => {
      *
      * @example
      * ```js
-     * rokka.stacks.list('myorg')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.stacks.list('myorg')
      * ```
      *
      * @param organization - Organization name
@@ -82,9 +80,7 @@ export default (state: State): { stacks: Stacks } => {
      *
      * @example
      * ```js
-     * rokka.stacks.get('myorg', 'mystack')
-     *   .then(function(result) {})
-     *   .catch(function(result) {});
+     * const result = await rokka.stacks.get('myorg', 'mystack')
      * ```
      *
      * @param organization - Organization name
@@ -126,14 +122,13 @@ export default (state: State): { stacks: Stacks } => {
      * ]
      *
      * // query params are optional
-     * var queryParams = { overwrite: true }
-     * rokka.stacks.create(
+     * const queryParams = { overwrite: true }
+     * const result = await rokka.stacks.create(
      *   'test',
      *   'mystack',
      *   { operations, options, expressions },
      *   queryParams
-     * ).then(function(result) {})
-     *  .catch(function(err) {})
+     * )
      * ```
      *
      * @param organization - Organization name
@@ -183,9 +178,7 @@ export default (state: State): { stacks: Stacks } => {
      *
      * @example
      * ```js
-     * rokka.stacks.delete('myorg', 'mystack')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * await rokka.stacks.delete('myorg', 'mystack')
      * ```
      *
      * @param organization - Organization name
@@ -207,9 +200,7 @@ export default (state: State): { stacks: Stacks } => {
      *
      * @example
      * ```js
-     * rokka.stacks.invalidateCache('myorg', 'mystack')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * await rokka.stacks.invalidateCache('myorg', 'mystack')
      * ```
      *
      * @param organization - Organization name

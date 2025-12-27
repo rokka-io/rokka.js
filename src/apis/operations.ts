@@ -188,9 +188,7 @@ export default (state: State): { operations: Operations } => {
      *
      * @example
      * ```js
-     * rokka.operations.list()
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.operations.list()
      * ```
      *
      * @returns Promise resolving to the list of operations

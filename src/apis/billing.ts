@@ -19,9 +19,7 @@ export default (state: State): { billing: Billing } => {
      *
      * @example
      * ```js
-     * rokka.billing.get('myorg', '2017-01-01', '2017-01-31')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.billing.get('myorg', '2017-01-01', '2017-01-31')
      * ```
      *
      * @param organization - Organization name

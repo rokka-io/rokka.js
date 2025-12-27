@@ -27,9 +27,7 @@ export default (state: State): APISourceimagesMeta => {
      *
      * @example
      * ```js
-     * rokka.sourceimages.meta.get('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.sourceimages.meta.get('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
      * ```
      *
      * @param organization - Organization name
@@ -54,9 +52,7 @@ export default (state: State): APISourceimagesMeta => {
      *
      * @example
      * ```js
-     * rokka.sourceimages.meta.set('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'somefield', 'somevalue')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * await rokka.sourceimages.meta.set('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'somefield', 'somevalue')
      * ```
      *
      * @param organization - Organization name
@@ -85,12 +81,11 @@ export default (state: State): APISourceimagesMeta => {
      * for an explanation.
      *
      * ```js
-     * rokka.sourceimages.meta.add('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
+     * const result = await rokka.sourceimages.meta.add('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
      *   somefield: 'somevalue',
      *   'int:some_number': 0,
      *   'delete_this': null
-     * }).then(function(result) {})
-     *   .catch(function(err) {});
+     * })
      * ```
      *
      * @authenticated
@@ -118,11 +113,10 @@ export default (state: State): APISourceimagesMeta => {
      * for an explanation.
      *
      * ```js
-     * rokka.sourceimages.meta.replace('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
+     * const result = await rokka.sourceimages.meta.replace('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
      *   somefield: 'somevalue',
      *   'int:some_number': 0
-     * }).then(function(result) {})
-     *   .catch(function(err) {});
+     * })
      * ```
      *
      * @authenticated
@@ -150,9 +144,7 @@ export default (state: State): APISourceimagesMeta => {
      * for an explanation.
      *
      * ```js
-     * rokka.sourceimages.meta.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * await rokka.sourceimages.meta.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
      * ```
      *
      * If the third parameter (field) is specified, it will just delete this field.

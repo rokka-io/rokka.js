@@ -39,9 +39,7 @@ export default (state: State): { organizations: Organizations } => {
      *
      * @example
      * ```js
-     * rokka.organizations.get('myorg')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.organizations.get('myorg')
      * ```
      *
      * @param name - Organization name
@@ -59,9 +57,7 @@ export default (state: State): { organizations: Organizations } => {
      *
      * @example
      * ```js
-     * rokka.organizations.create('myorg', 'billing@example.org', 'Organization Inc.')
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.organizations.create('myorg', 'billing@example.org', 'Organization Inc.')
      * ```
      *
      * @param name - Organization name
@@ -92,12 +88,10 @@ export default (state: State): { organizations: Organizations } => {
      *
      * @example
      * ```js
-     * rokka.organizations.setOptions('myorg', {
+     * const result = await rokka.organizations.setOptions('myorg', {
      *   protect_dynamic_stack: true,
      *   remote_basepath: 'https://example.com'
      * })
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
      * ```
      *
      * @param organizationName - Organization name

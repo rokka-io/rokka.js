@@ -35,11 +35,8 @@ export default (state: State): { utils: Utils } => {
      *
      * @example
      * ```js
-     * rokka.utils.signUrl('myorg', 'https://myorg.rokka.io/dynamic/abc123.jpg')
-     *   .then(function(result) {
-     *     console.log(result.body.signed_url);
-     *   })
-     *   .catch(function(err) {});
+     * const result = await rokka.utils.signUrl('myorg', 'https://myorg.rokka.io/dynamic/abc123.jpg')
+     * console.log(result.body.signed_url)
      * ```
      *
      * @param organization - Organization name

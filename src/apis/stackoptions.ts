@@ -18,9 +18,7 @@ export default (state: State): { stackoptions: StackOptions } => {
      *
      * @example
      * ```js
-     * rokka.stackoptions.get()
-     *   .then(function(result) {})
-     *   .catch(function(err) {});
+     * const result = await rokka.stackoptions.get()
      * ```
      *
      * @returns Promise resolving to stack options schema

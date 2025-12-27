@@ -86,9 +86,7 @@ const rokka = require('rokka')({
 Register a new user for the rokka service.
 
 ```js
-rokka.users.create('user@example.org')
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.users.create('user@example.org')
 ```
 
 
@@ -97,9 +95,7 @@ rokka.users.create('user@example.org')
 Get user_id for current user
 
 ```js
-rokka.users.getId()
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.users.getId()
 ```
 
 
@@ -110,9 +106,7 @@ rokka.users.getId()
 Get user_id for current user
 
 ```js
-rokka.users.getId()
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.users.getId()
 ```
 
 
@@ -121,9 +115,7 @@ rokka.users.getId()
 Get user object for current user
 
 ```js
-rokka.user.get()
- .then(function(result) {})
- .catch(function(err) {});
+const result = await rokka.user.get()
 ```
 
 
@@ -132,9 +124,7 @@ rokka.user.get()
 List Api Keys of the current user
 
 ```js
-rokka.user.listApiKeys()
- .then(function(result) {})
- .catch(function(err) {});
+const result = await rokka.user.listApiKeys()
 ```
 
 
@@ -143,9 +133,7 @@ rokka.user.listApiKeys()
 Add Api Key to the current user
 
 ```js
-rokka.user.addApiKey('some comment')
- .then(function(result) {})
- .catch(function(err) {});
+const result = await rokka.user.addApiKey('some comment')
 ```
 
 
@@ -154,9 +142,7 @@ rokka.user.addApiKey('some comment')
 Delete Api Key from the current user
 
 ```js
-rokka.user.deleteApiKey(id)
- .then(function(result) {})
- .catch(function(err) {});
+await rokka.user.deleteApiKey(id)
 ```
 
 
@@ -165,9 +151,7 @@ rokka.user.deleteApiKey(id)
 Get currently used Api Key
 
 ```js
-rokka.user.getCurrentApiKey()
- .then(function(result) {})
- .catch(function(err) {});
+const result = await rokka.user.getCurrentApiKey()
 ```
 
 
@@ -178,9 +162,7 @@ Gets a new JWT token from the API.
 You either provide an API Key or there's a valid JWT token registered to get a new JWT token.
 
 ```js
-rokka.user.getNewToken(apiKey, {expires_in: 48 * 3600, renewable: true})
- .then(function(result) {})
- .catch(function(err) {});
+const result = await rokka.user.getNewToken(apiKey, {expires_in: 48 * 3600, renewable: true})
 ```
 
 
@@ -213,9 +195,7 @@ Retrieve statistics about the billing of an organization
 If `from` and `to` are not specified, the API will return data for the last 30 days.
 
 ```js
-rokka.billing.get('myorg', '2017-01-01', '2017-01-31')
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.billing.get('myorg', '2017-01-01', '2017-01-31')
 ```
 
 
@@ -226,9 +206,7 @@ rokka.billing.get('myorg', '2017-01-01', '2017-01-31')
 Get a list of organizations.
 
 ```js
-rokka.organizations.get('myorg')
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.organizations.get('myorg')
 ```
 
 
@@ -237,9 +215,7 @@ rokka.organizations.get('myorg')
 Create an organization.
 
 ```js
-rokka.organizations.create('myorg', 'billing@example.org', 'Organization Inc.')
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.organizations.create('myorg', 'billing@example.org', 'Organization Inc.')
 ```
 
 
@@ -248,12 +224,10 @@ rokka.organizations.create('myorg', 'billing@example.org', 'Organization Inc.')
 Update multiple organization options at once.
 
 ```js
-rokka.organizations.setOptions('myorg', {
+const result = await rokka.organizations.setOptions('myorg', {
   protect_dynamic_stack: true,
   remote_basepath: 'https://example.com'
 })
-  .then(function(result) {})
-  .catch(function(err) {});
 ```
 
 
@@ -271,9 +245,7 @@ rokka.organizations.setOptions('myorg', {
 Add a member to an organization.
 
 ```js
-rokka.memberships.create('myorg', '613547f8-e26d-48f6-8a6a-552c18b1a290', [rokka.memberships.ROLES.WRITE], "An optional comment")
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.memberships.create('myorg', '613547f8-e26d-48f6-8a6a-552c18b1a290', [rokka.memberships.ROLES.WRITE], "An optional comment")
 ```
 
 
@@ -282,9 +254,7 @@ rokka.memberships.create('myorg', '613547f8-e26d-48f6-8a6a-552c18b1a290', [rokka
 Delete a member in an organization.
 
 ```js
-rokka.memberships.delete('myorg', '613547f8-e26d-48f6-8a6a-552c18b1a290')
-  .then(function(result) {})
-  .catch(function(err) {});
+await rokka.memberships.delete('myorg', '613547f8-e26d-48f6-8a6a-552c18b1a290')
 ```
 
 
@@ -293,9 +263,7 @@ rokka.memberships.delete('myorg', '613547f8-e26d-48f6-8a6a-552c18b1a290')
 Create a user and membership associated to this organization.
 
 ```js
-rokka.memberships.createWithNewUser('myorg', [rokka.memberships.ROLES.READ], "New user for something")
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.memberships.createWithNewUser('myorg', [rokka.memberships.ROLES.READ], "New user for something")
 ```
 
 
@@ -304,9 +272,7 @@ rokka.memberships.createWithNewUser('myorg', [rokka.memberships.ROLES.READ], "Ne
 Lists members in an organization.
 
 ```js
-rokka.memberships.list('myorg')
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.memberships.list('myorg')
 ```
 
 
@@ -315,9 +281,7 @@ rokka.memberships.list('myorg')
 Get info of a member in an organization.
 
 ```js
-rokka.memberships.get('myorg',userId)
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.memberships.get('myorg', userId)
 ```
 
 
@@ -336,9 +300,7 @@ The search also supports range and wildcard queries. Check out [the rokka docume
 Sorting works with user metadata as well and can be passed as either an array or as a comma separated string.
 
 ```js
-rokka.sourceimages.list('myorg')
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.sourceimages.list('myorg')
 ```
 
 **Searching for images**
@@ -348,9 +310,7 @@ const search = {
   'user:int:id': '42',
   'height': '64'
 }
-rokka.sourceimages.list('myorg', { search: search })
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.sourceimages.list('myorg', { search: search })
 ```
 
 
@@ -365,9 +325,7 @@ const search = {
   'user:int:id': '42',
   'height': '64'
 }
-rokka.sourceimages.list('myorg', { search: search })
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.sourceimages.downloadList('myorg', { search: search })
 ```
 
 
@@ -376,9 +334,7 @@ rokka.sourceimages.list('myorg', { search: search })
 Get information of a source image by hash.
 
 ```js
-rokka.sourceimages.get('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.sourceimages.get('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 ```
 
 
@@ -387,9 +343,7 @@ rokka.sourceimages.get('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 Get information of a source image by its binary hash.
 
 ```js
-rokka.sourceimages.getWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e158a3ee822a')
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.sourceimages.getWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e158a3ee822a')
 ```
 
 
@@ -398,9 +352,7 @@ rokka.sourceimages.getWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e158a
 Download image by hash, returns a Stream
 
 ```js
-rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 ```
 
 
@@ -409,9 +361,7 @@ rokka.sourceimages.download('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 Download image by hash, returns a Buffer
 
 ```js
-rokka.sourceimages.downloadAsBuffer('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.sourceimages.downloadAsBuffer('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 ```
 
 
@@ -422,9 +372,7 @@ Autolabels an image.
 You need to be a paying customer to be able to use this.
 
 ```js
-rokka.sourceimages.autolabel('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.sourceimages.autolabel('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 ```
 
 
@@ -435,10 +383,7 @@ Autodescribes an image. Can be used for alt attributes in img tags.
 You need to be a paying customer to be able to use this.
 
 ```js
-rokka.sourceimages.autodescription('myorg', 'c421f4e8cefe
-0fd3aab22832f51e85bacda0a47a', ['en', 'de'], false)
- .then(function(result) {})
- .catch(function(err) {});
+const result = await rokka.sourceimages.autodescription('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', ['en', 'de'], false)
 ```
 
 
@@ -447,10 +392,8 @@ rokka.sourceimages.autodescription('myorg', 'c421f4e8cefe
 Upload an image.
 
 ```js
-const file = require('fs').createReadStream('picture.png');
-rokka.sourceimages.create('myorg', 'picture.png', file)
-  .then(function(result) {})
-  .catch(function(err) {});
+const file = require('fs').createReadStream('picture.png')
+const result = await rokka.sourceimages.create('myorg', 'picture.png', file)
 ```
 
 With directly adding metadata:
@@ -465,9 +408,7 @@ rokka.sourceimages.create('myorg', 'picture.png', file, {'meta_user': {'foo': 'b
 Upload an image by url.
 
 ```js
-rokka.sourceimages.createByUrl('myorg', 'https://rokka.rokka.io/dynamic/f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912.png')
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.sourceimages.createByUrl('myorg', 'https://rokka.rokka.io/dynamic/f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912.png')
 ```
 
 With directly adding metadata:
@@ -482,9 +423,7 @@ rokka.sourceimages.createByUrl('myorg',  'https://rokka.rokka.io/dynamic/f4d3f33
 Delete image by hash.
 
 ```js
-rokka.sourceimages.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-  .then(function(result) {})
-  .catch(function(err) {});
+await rokka.sourceimages.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 ```
 
 
@@ -493,9 +432,7 @@ rokka.sourceimages.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 Delete source images by its binary hash.
 
 ```js
-rokka.sourceimages.deleteWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e158a3ee822a')
-  .then(function(result) {})
-  .catch(function(err) {});
+await rokka.sourceimages.deleteWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e158a3ee822a')
 ```
 
 
@@ -504,9 +441,7 @@ rokka.sourceimages.deleteWithBinaryHash('myorg', 'b23e17047329b417d3902dc1a5a7e1
 Restore image by hash.
 
 ```js
-rokka.sourceimages.restore('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.sourceimages.restore('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 ```
 
 
@@ -515,9 +450,7 @@ rokka.sourceimages.restore('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 Copy image by hash to another org.
 
 ```js
-rokka.sourceimages.copy('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'anotherorg', true)
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.sourceimages.copy('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'anotherorg', true)
 ```
 
 
@@ -528,12 +461,10 @@ Copy multiple images to another organization.
 See [the source images documentation](https://rokka.io/documentation/references/source-images.html#copy-a-source-image-to-another-organization) for more information.
 
 ```js
-rokka.sourceimages.copyAll('myorg', [
+const result = await rokka.sourceimages.copyAll('myorg', [
   'c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
   'f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912'
 ], 'anotherorg', true)
-  .then(function(result) {})
-  .catch(function(err) {});
 ```
 
 
@@ -544,9 +475,7 @@ Invalidate the CDN cache for a source image.
 See [the caching documentation](https://rokka.io/documentation/references/caching.html) for more information.
 
 ```js
-rokka.sourceimages.invalidateCache('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-  .then(function(result) {})
-  .catch(function(err) {});
+await rokka.sourceimages.invalidateCache('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 ```
 
 
@@ -557,11 +486,9 @@ rokka.sourceimages.invalidateCache('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda
 Important! Returns a different hash, if the protected status changes
 
 ```js
-rokka.sourceimages.setProtected('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', true,
-{
+const result = await rokka.sourceimages.setProtected('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', true, {
   deletePrevious: false
-}).then(function(result) {})
-  .catch(function(err) {});
+})
 ```
 
 
@@ -572,8 +499,7 @@ rokka.sourceimages.setProtected('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a4
 Locks an image, which then can't be deleted.
 
 ```js
-rokka.sourceimages.setLocked('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', true).then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.sourceimages.setLocked('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', true)
 ```
 
 
@@ -590,16 +516,14 @@ Set the subject area of a source image.
 The [subject area of an image](https://rokka.io/documentation/references/dynamic-metadata.html#subject-area) is used when applying the [crop operation](https://rokka.io/documentation/references/operations.html#crop) with the `auto` anchor to center the cropping box around the subject area.
 
 ```js
-rokka.sourceimages.setSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
+const result = await rokka.sourceimages.setSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
   x: 100,
   y: 100,
   width: 50,
   height: 50
-},
-{
+}, {
   deletePrevious: false
-}).then(function(result) {})
-  .catch(function(err) {});
+})
 ```
 
 
@@ -608,9 +532,7 @@ rokka.sourceimages.setSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0
 Removes the subject area from a source image.
 
 ```js
-rokka.sourceimages.removeSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-  .then(function(result) {})
-  .catch(function(err) {});
+await rokka.sourceimages.removeSubjectArea('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 ```
 
 
@@ -621,16 +543,14 @@ Add/set dynamic metadata to an image
 See [the dynamic metadata chapter](https://rokka.io/documentation/references/dynamic-metadata.html) for details.
 
 ```js
-rokka.sourceimages.addDynamicMetaData('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'crop_area', {
+const result = await rokka.sourceimages.addDynamicMetaData('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'crop_area', {
   x: 100,
   y: 100,
   width: 50,
   height: 50
-},
-{
+}, {
   deletePrevious: false
-}).then(function(result) {})
-  .catch(function(err) {});
+})
 ```
 
 
@@ -641,11 +561,9 @@ Delete dynamic metadata of an image
 See [the dynamic metadata chapter](https://rokka.io/documentation/references/dynamic-metadata.html) for details.
 
 ```js
-rokka.sourceimages.addDynamicMetaData('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'crop_area',
-{
+await rokka.sourceimages.deleteDynamicMetaData('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'crop_area', {
   deletePrevious: false
-}).then(function(result) {})
-  .catch(function(err) {});
+})
 ```
 
 
@@ -654,8 +572,7 @@ rokka.sourceimages.addDynamicMetaData('myorg', 'c421f4e8cefe0fd3aab22832f51e85ba
 Change the name of a source image.
 
 ```js
-rokka.sourceimages.putName('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', name).then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.sourceimages.putName('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', name)
 ```
 
 
@@ -674,9 +591,7 @@ Get all user metadata for a source image.
 See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html) for an explanation.
 
 ```js
-rokka.sourceimages.meta.get('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.sourceimages.meta.get('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 ```
 
 
@@ -687,9 +602,7 @@ Set a single user metadata field on a source image.
 See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html) for an explanation.
 
 ```js
-rokka.sourceimages.meta.set('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'somefield', 'somevalue')
-  .then(function(result) {})
-  .catch(function(err) {});
+await rokka.sourceimages.meta.set('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'somefield', 'somevalue')
 ```
 
 
@@ -700,12 +613,11 @@ Add user metadata to a source image.
 See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html) for an explanation.
 
 ```js
-rokka.sourceimages.meta.add('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
+const result = await rokka.sourceimages.meta.add('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
   somefield: 'somevalue',
   'int:some_number': 0,
   'delete_this': null
-}).then(function(result) {})
-  .catch(function(err) {});
+})
 ```
 
 
@@ -716,11 +628,10 @@ Replace user metadata of a source image with the passed data.
 See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html) for an explanation.
 
 ```js
-rokka.sourceimages.meta.replace('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
+const result = await rokka.sourceimages.meta.replace('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', {
   somefield: 'somevalue',
   'int:some_number': 0
-}).then(function(result) {})
-  .catch(function(err) {});
+})
 ```
 
 
@@ -731,9 +642,7 @@ Replace user metadata of a source image with the passed data.
 See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html) for an explanation.
 
 ```js
-rokka.sourceimages.meta.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
-  .then(function(result) {})
-  .catch(function(err) {});
+await rokka.sourceimages.meta.delete('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 ```
 
 If the third parameter (field) is specified, it will just delete this field.
@@ -754,10 +663,9 @@ Adds an alias to a source image.
 See [the source image alias documentation](https://rokka.io/documentation/references/source-images-aliases.html) for an explanation.
 
 ```js
-rokka.sourceimages.alias.create('myorg', 'myalias', {
+const result = await rokka.sourceimages.alias.create('myorg', 'myalias', {
   hash: 'somehash',
-}).then(function(result) {})
-  .catch(function(err) {});
+})
 ```
 
 
@@ -798,9 +706,7 @@ Please refer to the
 Get a list of available stack operations.
 
 ```js
-rokka.operations.list()
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.operations.list()
 ```
 
 
@@ -811,9 +717,7 @@ rokka.operations.list()
 Returns a json-schema like definition of options which can be set on a stack.
 
 ```js
-rokka.stackoptions.get()
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.stackoptions.get()
 ```
 
 
@@ -824,9 +728,7 @@ rokka.stackoptions.get()
 Get a list of available stacks.
 
 ```js
-rokka.stacks.list('myorg')
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.stacks.list('myorg')
 ```
 
 
@@ -835,9 +737,7 @@ rokka.stacks.list('myorg')
 Get details about a stack.
 
 ```js
-rokka.stacks.get('myorg', 'mystack')
-  .then(function(result) {})
-  .catch(function(result) {});
+const result = await rokka.stacks.get('myorg', 'mystack')
 ```
 
 
@@ -867,14 +767,13 @@ const expressions = [
 ]
 
 // query params are optional
-var queryParams = { overwrite: true }
-rokka.stacks.create(
+const queryParams = { overwrite: true }
+const result = await rokka.stacks.create(
   'test',
   'mystack',
   { operations, options, expressions },
   queryParams
-).then(function(result) {})
- .catch(function(err) {})
+)
 ```
 
 
@@ -883,9 +782,7 @@ rokka.stacks.create(
 Delete a stack.
 
 ```js
-rokka.stacks.delete('myorg', 'mystack')
-  .then(function(result) {})
-  .catch(function(err) {});
+await rokka.stacks.delete('myorg', 'mystack')
 ```
 
 
@@ -896,9 +793,7 @@ Invalidate the CDN cache for a stack.
 See [the caching documentation](https://rokka.io/documentation/references/caching.html) for more information.
 
 ```js
-rokka.stacks.invalidateCache('myorg', 'mystack')
-  .then(function(result) {})
-  .catch(function(err) {});
+await rokka.stacks.invalidateCache('myorg', 'mystack')
 ```
 
 
@@ -965,9 +860,7 @@ Retrieve statistics about an organization.
 If `from` and `to` are not specified, the API will return data for the last 30 days.
 
 ```js
-rokka.stats.get('myorg', '2017-01-01', '2017-01-31')
-  .then(function(result) {})
-  .catch(function(err) {});
+const result = await rokka.stats.get('myorg', '2017-01-01', '2017-01-31')
 ```
 
 
@@ -989,11 +882,8 @@ This is useful when you don't have access to the signing key on the client side 
 See [the signing URLs documentation](https://rokka.io/documentation/references/signing-urls.html) for more information.
 
 ```js
-rokka.utils.signUrl('myorg', 'https://myorg.rokka.io/dynamic/abc123.jpg')
-  .then(function(result) {
-    console.log(result.body.signed_url);
-  })
-  .catch(function(err) {});
+const result = await rokka.utils.signUrl('myorg', 'https://myorg.rokka.io/dynamic/abc123.jpg')
+console.log(result.body.signed_url)
 ```
 
 
