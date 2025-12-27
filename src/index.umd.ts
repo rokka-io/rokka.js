@@ -1,4 +1,8 @@
-// UMD-specific entry point that only exports the default factory function
-// This ensures `rokka()` works directly without needing `rokka.default()`
-import rokka from './index'
-export default rokka
+// UMD-specific entry point that exports the factory function as default
+// with the Rokka class attached as a property for users who prefer class instantiation
+import rokka, { Rokka } from './index'
+
+const exports = rokka as typeof rokka & { Rokka: typeof Rokka }
+exports.Rokka = Rokka
+
+export default exports

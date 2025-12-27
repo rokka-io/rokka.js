@@ -60,6 +60,19 @@ const result = await rokka.sourceimages.list('myorg')
 console.log(result)
 ```
 
+### Using in a browser via script tag (UMD)
+
+```html
+<script src="https://unpkg.com/rokka"></script>
+<script>
+  // Factory style
+  const client = rokka({ apiKey: 'apikey' })
+
+  // Class style
+  const client2 = new rokka.Rokka({ apiKey: 'apikey' })
+</script>
+```
+
 ### Using a proxy
 
 ```js
