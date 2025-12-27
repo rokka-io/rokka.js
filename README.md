@@ -901,6 +901,43 @@ console.log(result.body.signed_url)
 
 <!-- ENDDOCS -->
 
+## Deploying to npm
+
+To publish a new version of rokka.js to npm:
+
+1. **Update the version** in `package.json`
+
+2. **Run tests** to ensure everything works:
+
+   ```bash
+   npm test
+   ```
+
+3. **Build the distribution files**:
+
+   ```bash
+   npm run compile
+   ```
+
+4. **Update the changelog** (if applicable)
+
+5. **Commit and tag the release**:
+
+   ```bash
+   git add .
+   git commit -m "chore: release vX.Y.Z"
+   git tag vX.Y.Z
+   git push origin master --tags
+   ```
+
+6. **Publish to npm**:
+
+   ```bash
+   npm publish
+   ```
+
+**Note:** You need to be logged in to npm (`npm login`) and have publish rights to the `rokka` package.
+
 [npm-url]: https://npmjs.com/package/rokka
 [npm-version-image]: https://img.shields.io/npm/v/rokka.svg?style=flat-square
 
