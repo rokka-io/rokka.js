@@ -94,7 +94,7 @@ const rokka = require('rokka')({ apiKey: 'apikey' })
 
 ### Users
 
-#### `rokka.users.create(email, [organization])` → `Promise<RokkaResponse>`
+#### `rokka.users.create(email, [organization=null])` → `Promise<RokkaResponse>`
 
 Register a new user for the rokka service.
 
@@ -136,7 +136,7 @@ List Api Keys of the current user
 const result = await rokka.user.listApiKeys()
 ```
 
-#### `rokka.user.addApiKey([comment])` → `Promise<UserApiKeyResponse>`
+#### `rokka.user.addApiKey([comment=null])` → `Promise<UserApiKeyResponse>`
 
 Add Api Key to the current user
 
@@ -160,7 +160,7 @@ Get currently used Api Key
 const result = await rokka.user.getCurrentApiKey()
 ```
 
-#### `rokka.user.getNewToken([apiKey], [queryParams])` → `Promise<UserKeyTokenResponse>`
+#### `rokka.user.getNewToken([apiKey], [queryParams={}])` → `Promise<UserKeyTokenResponse>`
 
 Gets a new JWT token from the API.
 
@@ -170,15 +170,15 @@ You either provide an API Key or there's a valid JWT token registered to get a n
 const result = await rokka.user.getNewToken(apiKey, {expires_in: 48 * 3600, renewable: true})
 ```
 
-#### `rokka.user.getToken()` → `ApiToken | null`
+#### `rokka.user.getToken()` → `ApiToken`
 
 Gets the currently registered JWT Token from the `apiTokenGetCallback` config function or null
 
-#### `rokka.user.setToken(token)` → `void`
+#### `rokka.user.setToken(token)` → `Promise`
 
 Sets a new JWT token with the `apiTokenSetCallback` function
 
-#### `rokka.user.isTokenExpiring([withinNextSeconds])` → `boolean`
+#### `rokka.user.isTokenExpiring([withinNextSeconds=3600])` → `boolean`
 
 Check if the registered JWT token is expiring within these amount of seconds (default: 3600)
 
@@ -215,6 +215,10 @@ Create an organization.
 ```js
 const result = await rokka.organizations.create('myorg', 'billing@example.org', 'Organization Inc.')
 ```
+
+#### `rokka.organizations.setOption(organizationName, name, value)` → `Promise<RokkaResponse>`
+
+Set a single organization option.
 
 #### `rokka.organizations.setOptions(organizationName, options)` → `Promise<RokkaResponse>`
 
@@ -278,7 +282,7 @@ const result = await rokka.memberships.get('myorg', userId)
 
 ### Sourceimages
 
-#### `rokka.sourceimages.list(organization, [params])` → `Promise<SourceimagesListResponse>`
+#### `rokka.sourceimages.list(organization, [params={}])` → `Promise<SourceimagesListResponse>`
 
 Get a list of source images.
 
@@ -304,11 +308,9 @@ const search = {
 const result = await rokka.sourceimages.list('myorg', { search: search })
 ```
 
-#### `rokka.sourceimages.downloadList(organization, [params])` → `Promise<RokkaDownloadResponse>`
+#### `rokka.sourceimages.downloadList(organization, [params={}])` → `Promise<RokkaDownloadResponse>`
 
 Get a list of source images as zip. Same parameters as the `list` method
-
-Example:
 
 ```js
 const search = {
@@ -318,7 +320,7 @@ const search = {
 const result = await rokka.sourceimages.downloadList('myorg', { search: search })
 ```
 
-#### `rokka.sourceimages.get(organization, hash, [queryParams])` → `Promise<RokkaResponse>`
+#### `rokka.sourceimages.get(organization, hash, [queryParams={}])` → `Promise<RokkaResponse>`
 
 Get information of a source image by hash.
 
@@ -326,7 +328,7 @@ Get information of a source image by hash.
 const result = await rokka.sourceimages.get('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 ```
 
-#### `rokka.sourceimages.getWithBinaryHash(organization, binaryHash)` → `Promise<SourceimagesListResponse>`
+#### `rokka.sourceimages.getWithBinaryHash(organization, binaryHash)` → `Promise<RokkaResponse>`
 
 Get information of a source image by its binary hash.
 
@@ -360,7 +362,7 @@ You need to be a paying customer to be able to use this.
 const result = await rokka.sourceimages.autolabel('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 ```
 
-#### `rokka.sourceimages.autodescription(organization, hash, languages, [force])` → `Promise<RokkaResponse>`
+#### `rokka.sourceimages.autodescription(organization, hash, languages, [force=false])` → `Promise<RokkaResponse>`
 
 Autodescribes an image. Can be used for alt attributes in img tags.
 
@@ -385,7 +387,7 @@ With directly adding metadata:
 rokka.sourceimages.create('myorg', 'picture.png', file, {'meta_user': {'foo': 'bar'}})
 ```
 
-#### `rokka.sourceimages.createByUrl(organization, url, [metadata=null], [options={}])` → `Promise<SourceimagesListResponse>`
+#### `rokka.sourceimages.createByUrl(organization, url, [metadata=null], [options={}])` → `Promise<RokkaResponse>`
 
 Upload an image by url.
 
@@ -396,7 +398,7 @@ const result = await rokka.sourceimages.createByUrl('myorg', 'https://rokka.rokk
 With directly adding metadata:
 
 ```js
-rokka.sourceimages.createByUrl('myorg',  'https://rokka.rokka.io/dynamic/f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912.png', {'meta_user': {'foo': 'bar'}})
+rokka.sourceimages.createByUrl('myorg', 'https://rokka.rokka.io/dynamic/f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912.png', {'meta_user': {'foo': 'bar'}})
 ```
 
 #### `rokka.sourceimages.delete(organization, hash)` → `Promise<RokkaResponse>`
@@ -420,28 +422,23 @@ await rokka.sourceimages.deleteWithBinaryHash('myorg', 'b23e17047329b417d3902dc1
 Restore image by hash.
 
 ```js
-const result = await rokka.sourceimages.restore('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+await rokka.sourceimages.restore('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 ```
 
 #### `rokka.sourceimages.copy(organization, hash, destinationOrganization, [overwrite=true])` → `Promise<RokkaResponse>`
 
-Copy image by hash to another org.
+Copy image by hash to another organization.
 
 ```js
-const result = await rokka.sourceimages.copy('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'anotherorg', true)
+await rokka.sourceimages.copy('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'anotherorg', true)
 ```
 
 #### `rokka.sourceimages.copyAll(organization, hashes, destinationOrganization, [overwrite=true])` → `Promise<RokkaResponse>`
 
 Copy multiple images to another organization.
 
-See [the source images documentation](https://rokka.io/documentation/references/source-images.html#copy-a-source-image-to-another-organization) for more information.
-
 ```js
-const result = await rokka.sourceimages.copyAll('myorg', [
-  'c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
-  'f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912'
-], 'anotherorg', true)
+await rokka.sourceimages.copyAll('myorg', ['hash1', 'hash2'], 'anotherorg', true)
 ```
 
 #### `rokka.sourceimages.invalidateCache(organization, hash)` → `Promise<RokkaResponse>`
@@ -456,7 +453,7 @@ await rokka.sourceimages.invalidateCache('myorg', 'c421f4e8cefe0fd3aab22832f51e8
 
 #### `rokka.sourceimages.setProtected(organization, hash, isProtected, [options={}])` → `Promise<RokkaResponse>`
 
-(Un)sets the protected status of an image.
+Set the protected status of a source image.
 
 Important! Returns a different hash, if the protected status changes
 
@@ -468,9 +465,7 @@ const result = await rokka.sourceimages.setProtected('myorg', 'c421f4e8cefe0fd3a
 
 #### `rokka.sourceimages.setLocked(organization, hash, isLocked)` → `Promise<RokkaResponse>`
 
-(Un)locks an image.
-
-Locks an image, which then can't be deleted.
+Set the locked status of a source image. Locked images cannot be deleted.
 
 ```js
 const result = await rokka.sourceimages.setLocked('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', true)
@@ -550,7 +545,7 @@ const result = await rokka.sourceimages.putName('myorg', 'c421f4e8cefe0fd3aab228
 See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
 for more information.
 
-#### `rokka.sourceimages.meta.get(organization, hash)` → `Promise`
+#### `rokka.sourceimages.meta.get(organization, hash)` → `Promise<RokkaResponse>`
 
 Get all user metadata for a source image.
 
@@ -560,7 +555,7 @@ See [the user metadata documentation](https://rokka.io/documentation/references/
 const result = await rokka.sourceimages.meta.get('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
 ```
 
-#### `rokka.sourceimages.meta.set(organization, hash, field, value)` → `Promise`
+#### `rokka.sourceimages.meta.set(organization, hash, field, value)` → `Promise<RokkaResponse>`
 
 Set a single user metadata field on a source image.
 
@@ -570,7 +565,7 @@ See [the user metadata documentation](https://rokka.io/documentation/references/
 await rokka.sourceimages.meta.set('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'somefield', 'somevalue')
 ```
 
-#### `rokka.sourceimages.meta.add(organization, hash, data)` → `Promise`
+#### `rokka.sourceimages.meta.add(organization, hash, data)` → `Promise<RokkaResponse>`
 
 Add user metadata to a source image.
 
@@ -584,7 +579,7 @@ const result = await rokka.sourceimages.meta.add('myorg', 'c421f4e8cefe0fd3aab22
 })
 ```
 
-#### `rokka.sourceimages.meta.replace(organization, hash, data)` → `Promise`
+#### `rokka.sourceimages.meta.replace(organization, hash, data)` → `Promise<RokkaResponse>`
 
 Replace user metadata of a source image with the passed data.
 
@@ -597,7 +592,7 @@ const result = await rokka.sourceimages.meta.replace('myorg', 'c421f4e8cefe0fd3a
 })
 ```
 
-#### `rokka.sourceimages.meta.delete(organization, hash, [field=null])` → `Promise`
+#### `rokka.sourceimages.meta.delete(organization, hash, [field=null])` → `Promise<RokkaResponse>`
 
 Replace user metadata of a source image with the passed data.
 
@@ -616,7 +611,7 @@ If the third parameter (field) is specified, it will just delete this field.
 See [the usource image alias documentation](https://rokka.io/documentation/references/source-images-aliases.html)
 for more information.
 
-#### `rokka.sourceimages.alias.create(organization, alias, data, [params={}])` → `Promise`
+#### `rokka.sourceimages.alias.create(organization, alias, data, [params={}])` → `Promise<RokkaResponse>`
 
 Adds an alias to a source image.
 
@@ -628,15 +623,15 @@ const result = await rokka.sourceimages.alias.create('myorg', 'myalias', {
 })
 ```
 
-#### `rokka.sourceimages.alias.get(organization, alias)` → `Promise`
+#### `rokka.sourceimages.alias.get(organization, alias)` → `Promise<RokkaResponse>`
 
 Get an alias.
 
-#### `rokka.sourceimages.alias.delete(organization, alias)` → `Promise`
+#### `rokka.sourceimages.alias.delete(organization, alias)` → `Promise<RokkaResponse>`
 
 Delete an alias.
 
-#### `rokka.sourceimages.alias.invalidateCache(organization, alias)` → `Promise`
+#### `rokka.sourceimages.alias.invalidateCache(organization, alias)` → `Promise<RokkaResponse>`
 
 Invalidate the CDN cache for an alias.
 
@@ -677,7 +672,7 @@ const result = await rokka.stackoptions.get()
 
 ### Stacks
 
-#### `rokka.stacks.list(organization, [limit], [offset])` → `Promise<RokkaResponse>`
+#### `rokka.stacks.list(organization, [limit=null], [offset=null])` → `Promise<RokkaResponse>`
 
 Get a list of available stacks.
 
@@ -693,7 +688,7 @@ Get details about a stack.
 const result = await rokka.stacks.get('myorg', 'mystack')
 ```
 
-#### `rokka.stacks.create(organization, name, stackConfig, [params])` → `Promise<RokkaResponse>`
+#### `rokka.stacks.create(organization, name, stackConfig, [params={}])` → `Promise<RokkaResponse>`
 
 Create a new stack.
 
@@ -748,7 +743,7 @@ await rokka.stacks.invalidateCache('myorg', 'mystack')
 
 ### Render
 
-#### `rokka.render.getUrl(organization, hash, format, stack, options)` → `string`
+#### `rokka.render.getUrl(organization, hash, format, stack, [options])` → `string`
 
 Get URL for rendering an image.
 
@@ -758,7 +753,7 @@ If you just need this function in a browser, you can also use [rokka-render.js](
 rokka.render.getUrl('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'png', 'mystack')
 ```
 
-#### `rokka.render.getUrlFromUrl(rokkaUrl, stack, [options])` → `string`
+#### `rokka.render.getUrlFromUrl(rokkaUrl, stack, [options={}])` → `string`
 
 Get URL for rendering an image from a rokka render URL.
 
@@ -768,7 +763,7 @@ If you just need this function in a browser, you can also use [rokka-render.js](
 rokka.render.getUrlFromUrl('https://myorg.rokka.io/dynamic/c421f4e8cefe0fd3aab22832f51e85bacda0a47a.png', 'mystack')
 ```
 
-#### `rokka.render.imagesByAlbum(organization, album, options)` → `Promise<RokkaResponse>`
+#### `rokka.render.imagesByAlbum(organization, album, [options])` → `Promise<RokkaResponse>`
 
 Get image hashes and some other info belonging to a album (from metadata: user:array:albums)
 
@@ -776,17 +771,17 @@ Get image hashes and some other info belonging to a album (from metadata: user:a
 rokka.render.imagesByAlbum('myorg', 'Albumname', { favorites })
 ```
 
-#### `rokka.render.signUrl(url, signKey, options)` → `Promise`
+#### `rokka.render.signUrl(url, signKey, options)` → `string`
 
 Signs a Rokka URL with an option valid until date.
 
 It also rounds up the date to the next 5 minutes (300 seconds) to improve CDN caching, can be changed
 
-#### `rokka.render.signUrlWithOptions(url, signKey, options)` → `Promise`
+#### `rokka.render.signUrlWithOptions(url, signKey, options)` → `string`
 
 Signs a rokka URL with a sign key and optional signature options.
 
-#### `rokka.render.addStackVariables(url, variables, [removeSafeUrlFromQuery])` → `Promise`
+#### `rokka.render.addStackVariables(url, variables, [removeSafeUrlFromQuery=false])` → `Promise`
 
 Adds stack variables to a rokka URL in a safe way
 
@@ -796,7 +791,7 @@ If you just need this function in a browser, you can also use [rokka-render.js](
 
 ### Stats
 
-#### `rokka.stats.get(organization, [from], [to])` → `Promise<RokkaResponse>`
+#### `rokka.stats.get(organization, [from=null], [to=null])` → `Promise<RokkaResponse>`
 
 Retrieve statistics about an organization.
 
@@ -808,13 +803,13 @@ const result = await rokka.stats.get('myorg', '2017-01-01', '2017-01-31')
 
 ### Request
 
-#### `rokka.request.request(path, [method], [body])` → `Promise`
+#### `rokka.request.request(path, [method='GET'], [body=null])` → `Promise<RokkaResponse>`
 
 Does an authenticated request for any path to the Rokka API
 
 ### Utils
 
-#### `rokka.utils.signUrl(organization, url, [options])` → `Promise<RokkaResponse>`
+#### `rokka.utils.signUrl(organization, url, [options={}])` → `Promise<RokkaResponse>`
 
 Sign a URL using the server-side signing endpoint.
 

@@ -39,20 +39,20 @@ new Rokka(config): Rokka;
 
 | Property | Modifier | Type |
 | ------ | ------ | ------ |
-| <a id="billing"></a> `billing` | `readonly` | [`Billing`](billing.md#billing) |
-| <a id="expressions"></a> `expressions` | `readonly` | `Expressions` |
-| <a id="memberships"></a> `memberships` | `readonly` | [`Memberships`](apis/memberships.md#memberships) |
-| <a id="operations"></a> `operations` | `readonly` | [`Operations`](operations.md#operations) |
-| <a id="organizations"></a> `organizations` | `readonly` | [`Organizations`](organizations.md#organizations) |
-| <a id="render"></a> `render` | `readonly` | [`Render`](apis/render.md#render) |
+| <a id="billing"></a> `billing` | `readonly` | [`BillingApi`](billing.md#billingapi) |
+| <a id="expressions"></a> `expressions` | `readonly` | `ExpressionsApi` |
+| <a id="memberships"></a> `memberships` | `readonly` | [`MembershipsApi`](apis/memberships.md#membershipsapi) |
+| <a id="operations"></a> `operations` | `readonly` | [`OperationsApi`](operations.md#operationsapi) |
+| <a id="organizations"></a> `organizations` | `readonly` | [`OrganizationsApi`](organizations.md#organizationsapi) |
+| <a id="render"></a> `render` | `readonly` | [`RenderApi`](apis/render.md#renderapi) |
 | <a id="request"></a> `request` | `readonly` | [`Request`](request.md#request) |
-| <a id="sourceimages"></a> `sourceimages` | `readonly` | [`APISourceimages`](apis/sourceimages.md#apisourceimages) |
-| <a id="stackoptions"></a> `stackoptions` | `readonly` | [`StackOptions`](stackoptions.md#stackoptions) |
-| <a id="stacks"></a> `stacks` | `readonly` | [`Stacks`](stacks.md#stacks) |
-| <a id="stats"></a> `stats` | `readonly` | [`Stats`](stats.md#stats) |
-| <a id="user"></a> `user` | `readonly` | [`User`](user.md#user) |
-| <a id="users"></a> `users` | `readonly` | [`Users`](users.md#users) |
-| <a id="utils"></a> `utils` | `readonly` | [`Utils`](utils.md#utils) |
+| <a id="sourceimages"></a> `sourceimages` | `readonly` | [`SourceimagesApi`](apis/sourceimages.md#sourceimagesapi) |
+| <a id="stackoptions"></a> `stackoptions` | `readonly` | [`StackOptionsApi`](stackoptions.md#stackoptionsapi) |
+| <a id="stacks"></a> `stacks` | `readonly` | [`StacksApi`](stacks.md#stacksapi) |
+| <a id="stats"></a> `stats` | `readonly` | [`StatsApi`](stats.md#statsapi) |
+| <a id="user"></a> `user` | `readonly` | [`UserApi`](user.md#userapi) |
+| <a id="users"></a> `users` | `readonly` | [`UsersApi`](users.md#usersapi) |
+| <a id="utils"></a> `utils` | `readonly` | [`UtilsApi`](utils.md#utilsapi) |
 
 ## Interfaces
 

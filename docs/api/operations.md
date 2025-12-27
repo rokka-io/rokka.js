@@ -40,6 +40,213 @@ Please refer to the
 | <a id="box"></a> `Box` | `"box"` |
 | <a id="fill"></a> `Fill` | `"fill"` |
 
+## Classes
+
+### OperationsApi
+
+#### Indexable
+
+```ts
+[key: string]: any
+```
+
+#### Constructors
+
+##### Constructor
+
+```ts
+new OperationsApi(state): OperationsApi;
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `state` | [`State`](index.md#state) |
+
+###### Returns
+
+[`OperationsApi`](#operationsapi)
+
+#### Methods
+
+##### autorotate()
+
+```ts
+autorotate(options): StackOperation;
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `options` | [`StackOperationOptions`](#stackoperationoptions) \| `undefined` |
+
+###### Returns
+
+`StackOperation`
+
+##### blur()
+
+```ts
+blur(sigma, radius?): StackOperation;
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `sigma` | `number` |
+| `radius?` | `number` |
+
+###### Returns
+
+`StackOperation`
+
+##### composition()
+
+```ts
+composition(
+   width, 
+   height, 
+   mode, 
+   options): StackOperation;
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `width` | `number` |
+| `height` | `number` |
+| `mode` | `string` |
+| `options` | [`StackOperationOptions`](#stackoperationoptions) |
+
+###### Returns
+
+`StackOperation`
+
+##### crop()
+
+```ts
+crop(
+   width, 
+   height, 
+   options): StackOperation;
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `width` | `number` |
+| `height` | `number` |
+| `options` | [`CropOperationsOptions`](#cropoperationsoptions) |
+
+###### Returns
+
+`StackOperation`
+
+##### dropshadow()
+
+```ts
+dropshadow(options): StackOperation;
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `options` | [`StackOperationOptions`](#stackoperationoptions) |
+
+###### Returns
+
+`StackOperation`
+
+##### list()
+
+```ts
+list(): Promise<RokkaResponse>;
+```
+
+Get a list of available stack operations.
+
+###### Returns
+
+`Promise`\<`RokkaResponse`\>
+
+Promise resolving to the list of operations
+
+###### Example
+
+```js
+const result = await rokka.operations.list()
+```
+
+##### noop()
+
+```ts
+noop(): StackOperation;
+```
+
+###### Returns
+
+`StackOperation`
+
+##### resize()
+
+```ts
+resize(
+   width, 
+   height, 
+   options): StackOperation;
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `width` | `number` |
+| `height` | `number` |
+| `options` | [`ResizeOperationsOptions`](#resizeoperationsoptions) |
+
+###### Returns
+
+`StackOperation`
+
+##### rotate()
+
+```ts
+rotate(angle, options): StackOperation;
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `angle` | `number` |
+| `options` | [`StackOperationOptions`](#stackoperationoptions) |
+
+###### Returns
+
+`StackOperation`
+
+##### trim()
+
+```ts
+trim(options): StackOperation;
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `options` | [`StackOperationOptions`](#stackoperationoptions) |
+
+###### Returns
+
+`StackOperation`
+
 ## Interfaces
 
 ### CompositionOperationsOptions
@@ -98,185 +305,6 @@ Please refer to the
 
 ***
 
-### Operations
-
-#### Indexable
-
-```ts
-[key: string]: Function
-```
-
-#### Methods
-
-##### autorotate()
-
-```ts
-autorotate(options?): StackOperation;
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `options?` | [`StackOperationOptions`](#stackoperationoptions) |
-
-###### Returns
-
-`StackOperation`
-
-##### blur()
-
-```ts
-blur(sigma, radius?): StackOperation;
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `sigma` | `number` |
-| `radius?` | `number` |
-
-###### Returns
-
-`StackOperation`
-
-##### composition()
-
-```ts
-composition(
-   width, 
-   height, 
-   mode, 
-   options?): StackOperation;
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `width` | `number` |
-| `height` | `number` |
-| `mode` | `string` |
-| `options?` | [`CompositionOperationsOptions`](#compositionoperationsoptions) |
-
-###### Returns
-
-`StackOperation`
-
-##### crop()
-
-```ts
-crop(
-   width, 
-   height, 
-   options?): StackOperation;
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `width` | `number` |
-| `height` | `number` |
-| `options?` | [`CropOperationsOptions`](#cropoperationsoptions) |
-
-###### Returns
-
-`StackOperation`
-
-##### dropshadow()
-
-```ts
-dropshadow(options?): StackOperation;
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `options?` | [`StackOperationOptions`](#stackoperationoptions) |
-
-###### Returns
-
-`StackOperation`
-
-##### list()
-
-```ts
-list(): Promise<RokkaResponse>;
-```
-
-###### Returns
-
-`Promise`\<`RokkaResponse`\>
-
-##### noop()
-
-```ts
-noop(): StackOperation;
-```
-
-###### Returns
-
-`StackOperation`
-
-##### resize()
-
-```ts
-resize(
-   width, 
-   height, 
-   options?): StackOperation;
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `width` | `number` |
-| `height` | `number` |
-| `options?` | [`ResizeOperationsOptions`](#resizeoperationsoptions) |
-
-###### Returns
-
-`StackOperation`
-
-##### rotate()
-
-```ts
-rotate(angle, options?): StackOperation;
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `angle` | `number` |
-| `options?` | [`StackOperationOptions`](#stackoperationoptions) |
-
-###### Returns
-
-`StackOperation`
-
-##### trim()
-
-```ts
-trim(options?): StackOperation;
-```
-
-###### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `options?` | [`StackOperationOptions`](#stackoperationoptions) |
-
-###### Returns
-
-`StackOperation`
-
-***
-
 ### ResizeOperationsOptions
 
 #### Extends
@@ -322,6 +350,14 @@ trim(options?): StackOperation;
 | ------ | ------ |
 | <a id="enabled-3"></a> `enabled?` | `boolean` |
 
+## Type Aliases
+
+### Operations
+
+```ts
+type Operations = OperationsApi;
+```
+
 ## Variables
 
 ### default()
@@ -342,4 +378,4 @@ default: (state) => object;
 
 | Name | Type |
 | ------ | ------ |
-| `operations` | [`Operations`](#operations) |
+| `operations` | [`OperationsApi`](#operationsapi) |

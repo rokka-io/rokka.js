@@ -21,6 +21,7 @@
     "coverage": "BABEL_ENV=coverage npm run jest -- --coverage",
     "docs": "node ./docs/generate.mjs",
     "compile": "rm -rf ./dist && rollup -c",
+    "build": "npm run compile",
     "prepare": "husky install",
     "watch": "rollup -c -w",
     "typecheck:examples": "tsc --noEmit --esModuleInterop --allowSyntheticDefaultImports --strict examples/*.ts"

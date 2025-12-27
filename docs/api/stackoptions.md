@@ -2,9 +2,27 @@
 
 ### Stack options
 
-## Interfaces
+## Classes
 
-### StackOptions
+### StackOptionsApi
+
+#### Constructors
+
+##### Constructor
+
+```ts
+new StackOptionsApi(state): StackOptionsApi;
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `state` | [`State`](index.md#state) |
+
+###### Returns
+
+[`StackOptionsApi`](#stackoptionsapi)
 
 #### Methods
 
@@ -14,9 +32,27 @@
 get(): Promise<RokkaResponse>;
 ```
 
+Returns a json-schema like definition of options which can be set on a stack.
+
 ###### Returns
 
 `Promise`\<`RokkaResponse`\>
+
+Promise resolving to stack options schema
+
+###### Example
+
+```js
+const result = await rokka.stackoptions.get()
+```
+
+## Type Aliases
+
+### StackOptions
+
+```ts
+type StackOptions = StackOptionsApi;
+```
 
 ## Variables
 
@@ -38,4 +74,4 @@ default: (state) => object;
 
 | Name | Type |
 | ------ | ------ |
-| `stackoptions` | [`StackOptions`](#stackoptions) |
+| `stackoptions` | [`StackOptionsApi`](#stackoptionsapi) |

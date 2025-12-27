@@ -33,15 +33,19 @@ body?): Promise<RokkaResponse>;
 default: (state) => object;
 ```
 
+Creates a request function for direct API access.
+
 #### Parameters
 
-| Parameter | Type |
-| ------ | ------ |
-| `state` | [`State`](index.md#state) |
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `state` | [`State`](index.md#state) | The Rokka state object |
 
 #### Returns
 
 `object`
+
+A request function
 
 | Name | Type |
 | ------ | ------ |

@@ -10,6 +10,13 @@ import { State } from '../index'
 export interface Request {
   (path: string, method?: string, body?: any | null): Promise<RokkaResponse>
 }
+
+/**
+ * Creates a request function for direct API access.
+ *
+ * @param state - The Rokka state object
+ * @returns A request function
+ */
 export default (state: State): { request: Request } => {
   /**
    * Does an authenticated request for any path to the Rokka API
@@ -17,7 +24,11 @@ export default (state: State): { request: Request } => {
    * @param method  {string}    HTTP method, Default GET
    * @param body    {any|null}  The body payload. Default: null
    */
-  const request = (path: string, method = 'GET', body: any | null = null) => {
+  const request: Request = (
+    path: string,
+    method = 'GET',
+    body: any | null = null,
+  ) => {
     return state.request(method, path, body)
   }
   return {

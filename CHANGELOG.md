@@ -1,3 +1,24 @@
+# [4.0.0] - 2025-12-27
+
+## Changed
+
+- **Internal refactor**: Convert all API modules from interface/factory pattern to class-based architecture
+  - Reduces code duplication by ~150-200 lines across 17 modules
+  - Each API module now uses a clean class structure instead of separate interface + factory function
+  - All TypeScript types remain exported for consumers
+- Improve documentation generator to handle class-based patterns correctly
+
+## Backwards Compatibility
+
+This is a major version bump for transparency, but **the public API is backwards compatible**:
+
+- Factory-style initialization continues to work: `const client = rokka({ apiKey: 'key' })`
+- Class-style initialization continues to work: `new Rokka({ apiKey: 'key' })`
+- All existing method calls work identically: `rokka.stacks.list()`, `rokka.sourceimages.get()`, etc.
+- All TypeScript types are still exported
+
+The changes are purely internal - no migration needed for existing code.
+
 # [3.17.0] - 2025-12-27
 
 ## Added
