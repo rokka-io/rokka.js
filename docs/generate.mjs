@@ -52,12 +52,16 @@ async function generate() {
     hideGenerator: true,
     githubPages: false,
     // Markdown plugin options
+    router: 'module', // Single file per module instead of per-member
     hideBreadcrumbs: true,
     hidePageHeader: true,
     hidePageTitle: false,
     useCodeBlocks: true,
-    parametersFormat: 'list',
-    flattenOutputFiles: true,
+    parametersFormat: 'table',
+    interfacePropertiesFormat: 'table',
+    classPropertiesFormat: 'table',
+    enumMembersFormat: 'table',
+    typeDeclarationFormat: 'table',
   })
 
   // Convert TypeScript to project model

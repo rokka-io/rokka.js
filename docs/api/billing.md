@@ -4,8 +4,49 @@
 
 ## Interfaces
 
-- [Billing](billing.Interface.Billing.md)
+### Billing
+
+#### Methods
+
+##### get()
+
+```ts
+get(
+   organization, 
+   from?, 
+to?): Promise<RokkaResponse>;
+```
+
+###### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `organization` | `string` |
+| `from?` | `string` |
+| `to?` | `string` |
+
+###### Returns
+
+`Promise`\<`RokkaResponse`\>
 
 ## Variables
 
-- [default](billing.Variable.default.md)
+### default()
+
+```ts
+default: (state) => object;
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `state` | [`State`](index.md#state) |
+
+#### Returns
+
+`object`
+
+| Name | Type |
+| ------ | ------ |
+| `billing` | [`Billing`](#billing) |

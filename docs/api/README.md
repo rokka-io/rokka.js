@@ -2,11 +2,11 @@
 
 ## Modules
 
-- [apis/memberships](apis.memberships.md)
-- [apis/render](apis.render.md)
-- [apis/sourceimages](apis.sourceimages.md)
-- [apis/sourceimages.alias](apis.sourceimages.alias.md)
-- [apis/sourceimages.meta](apis.sourceimages.meta.md)
+- [apis/memberships](apis/memberships.md)
+- [apis/render](apis/render.md)
+- [apis/sourceimages](apis/sourceimages.md)
+- [apis/sourceimages.alias](apis/sourceimages.alias.md)
+- [apis/sourceimages.meta](apis/sourceimages.meta.md)
 - [billing](billing.md)
 - [index](index.md)
 - [operations](operations.md)

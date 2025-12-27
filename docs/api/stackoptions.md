@@ -4,8 +4,38 @@
 
 ## Interfaces
 
-- [StackOptions](stackoptions.Interface.StackOptions.md)
+### StackOptions
+
+#### Methods
+
+##### get()
+
+```ts
+get(): Promise<RokkaResponse>;
+```
+
+###### Returns
+
+`Promise`\<`RokkaResponse`\>
 
 ## Variables
 
-- [default](stackoptions.Variable.default.md)
+### default()
+
+```ts
+default: (state) => object;
+```
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `state` | [`State`](index.md#state) |
+
+#### Returns
+
+`object`
+
+| Name | Type |
+| ------ | ------ |
+| `stackoptions` | [`StackOptions`](#stackoptions) |
