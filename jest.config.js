@@ -3,11 +3,6 @@ module.exports = {
   testEnvironment: 'node',
   roots: ['<rootDir>/tests'],
   transform: {
-    '^.+\\.(ts)$': 'ts-jest'
-  },
-  globals: {
-    'ts-jest': {
-      diagnostics: true
-    }
+    '^.+\\.ts$': ['ts-jest', { diagnostics: true }]
   }
 }
