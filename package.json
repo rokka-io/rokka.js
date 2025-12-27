@@ -7,8 +7,7 @@
   "unpkg": "dist/index.umd.min.js",
   "jsdelivr": "dist/index.umd.min.js",
   "files": [
-    "/dist/*",
-    "/src/*"
+    "/dist/*"
   ],
   "engines": {
     "node": ">=10"
