@@ -2,6 +2,7 @@
 
 ## Added
 
+- Add `Rokka` class for modern class-based initialization: `new Rokka({ apiKey })` (backwards compatible)
 - Add `rokka.utils.signUrl()` for server-side URL signing (new utils module)
 - Add `rokka.organizations.setOptions()` to update multiple organization options at once
 - Add `rokka.sourceimages.copyAll()` to copy multiple images to another organization
@@ -9,6 +10,10 @@
 - Add `rokka.sourceimages.meta.get()` to retrieve all user metadata
 - Add `rokka.sourceimages.meta.set()` to update a single user metadata field
 - Add `rokka.stacks.invalidateCache()` to clear CDN cache for a stack
+
+## Fixed
+
+- Fix transport options mutation bug that could affect multiple client instances
 
 ## Changed
 
