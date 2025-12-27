@@ -24,6 +24,14 @@
 - Add comprehensive unit tests for previously untested API methods (billing, utils, aliases, etc.)
 - Add TypeScript example files in examples/ directory
 
+## Security
+
+- Fix 14 npm audit vulnerabilities by updating dependencies
+- Replace deprecated `rollup-plugin-terser` with `@rollup/plugin-terser`
+- Remove deprecated `coveralls` npm package, use GitHub Action instead
+- Update GitHub Actions to v4 (checkout, setup-node)
+- Update `coverallsapp/github-action` to v2
+
 # 3.16.0 - [02-01-2024]
 
 - Add meta_static interface and autodescription method to sourceimages API
