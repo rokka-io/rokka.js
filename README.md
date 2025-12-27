@@ -243,6 +243,20 @@ rokka.organizations.create('myorg', 'billing@example.org', 'Organization Inc.')
 ```
 
 
+#### rokka.organizations.setOptions(organizationName, options) → Promise<RokkaResponse>
+
+Update multiple organization options at once.
+
+```js
+rokka.organizations.setOptions('myorg', {
+  protect_dynamic_stack: true,
+  remote_basepath: 'https://example.com'
+})
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
+
 ### Memberships
 
 #### Roles
@@ -507,6 +521,35 @@ rokka.sourceimages.copy('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'an
 ```
 
 
+#### rokka.sourceimages.copyAll(organization, hashes, destinationOrganization, [overwrite=true]) → Promise<RokkaResponse>
+
+Copy multiple images to another organization.
+
+See [the source images documentation](https://rokka.io/documentation/references/source-images.html#copy-a-source-image-to-another-organization) for more information.
+
+```js
+rokka.sourceimages.copyAll('myorg', [
+  'c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
+  'f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912'
+], 'anotherorg', true)
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
+
+#### rokka.sourceimages.invalidateCache(organization, hash) → Promise<RokkaResponse>
+
+Invalidate the CDN cache for a source image.
+
+See [the caching documentation](https://rokka.io/documentation/references/caching.html) for more information.
+
+```js
+rokka.sourceimages.invalidateCache('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
+
 #### rokka.sourceimages.setProtected(organization, hash, isProtected, [options={}]) → Promise<RokkaResponse>
 
 (Un)sets the protected status of an image.
@@ -622,6 +665,32 @@ rokka.sourceimages.putName('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 
 
 See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html)
 for more information.
+
+
+#### rokka.sourceimages.meta.get(organization, hash) → Promise
+
+Get all user metadata for a source image.
+
+See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html) for an explanation.
+
+```js
+rokka.sourceimages.meta.get('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
+
+#### rokka.sourceimages.meta.set(organization, hash, field, value) → Promise
+
+Set a single user metadata field on a source image.
+
+See [the user metadata documentation](https://rokka.io/documentation/references/user-metadata.html) for an explanation.
+
+```js
+rokka.sourceimages.meta.set('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', 'somefield', 'somevalue')
+  .then(function(result) {})
+  .catch(function(err) {});
+```
 
 
 #### rokka.sourceimages.meta.add(organization, hash, data) → Promise
@@ -820,6 +889,19 @@ rokka.stacks.delete('myorg', 'mystack')
 ```
 
 
+#### rokka.stacks.invalidateCache(organization, name) → Promise<RokkaResponse>
+
+Invalidate the CDN cache for a stack.
+
+See [the caching documentation](https://rokka.io/documentation/references/caching.html) for more information.
+
+```js
+rokka.stacks.invalidateCache('myorg', 'mystack')
+  .then(function(result) {})
+  .catch(function(err) {});
+```
+
+
 ### Render
 
 #### rokka.render.getUrl(organization, hash, format, stack, options) → string
@@ -894,6 +976,25 @@ rokka.stats.get('myorg', '2017-01-01', '2017-01-31')
 #### rokka.request.request(path, [method], [body]) → Promise
 
 Does an authenticated request for any path to the Rokka API
+
+
+### Utils
+
+#### rokka.utils.signUrl(organization, url, [options]) → Promise<RokkaResponse>
+
+Sign a URL using the server-side signing endpoint.
+
+This is useful when you don't have access to the signing key on the client side but want to generate signed URLs.
+
+See [the signing URLs documentation](https://rokka.io/documentation/references/signing-urls.html) for more information.
+
+```js
+rokka.utils.signUrl('myorg', 'https://myorg.rokka.io/dynamic/abc123.jpg')
+  .then(function(result) {
+    console.log(result.body.signed_url);
+  })
+  .catch(function(err) {});
+```
 
 
 <!-- ENDDOCS -->

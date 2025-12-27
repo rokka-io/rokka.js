@@ -52,6 +52,28 @@ delete: (organization, hash, field?) => Promise<RokkaResponse>;
 
 ***
 
+### get()
+
+```ts
+get: (organization, hash) => Promise<RokkaResponse>;
+```
+
+#### Parameters
+
+##### organization
+
+`string`
+
+##### hash
+
+`string`
+
+#### Returns
+
+`Promise`\<`RokkaResponse`\>
+
+***
+
 ### replace()
 
 ```ts
@@ -69,6 +91,36 @@ replace: (organization, hash, data) => Promise<RokkaResponse>;
 `string`
 
 ##### data
+
+#### Returns
+
+`Promise`\<`RokkaResponse`\>
+
+***
+
+### set()
+
+```ts
+set: (organization, hash, field, value) => Promise<RokkaResponse>;
+```
+
+#### Parameters
+
+##### organization
+
+`string`
+
+##### hash
+
+`string`
+
+##### field
+
+`string`
+
+##### value
+
+`any`
 
 #### Returns
 

@@ -10,6 +10,7 @@ import stats, { Stats } from './stats'
 import billing, { Billing } from './billing'
 import users, { Users } from './users'
 import user, { User } from './user'
+import utils, { Utils } from './utils'
 import { State } from '../index'
 import request, { Request } from './request'
 
@@ -26,6 +27,7 @@ export interface RokkaApi {
   stats: Stats
   users: Users
   user: User
+  utils: Utils
   request: Request
 }
 
@@ -44,6 +46,7 @@ export default (state: State): RokkaApi => {
     users(state),
     billing(state),
     user(state),
+    utils(state),
     request(state),
   )
 }

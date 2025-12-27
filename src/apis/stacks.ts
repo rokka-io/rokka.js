@@ -26,6 +26,8 @@ export interface Stacks {
     limit?: number | null,
     offset?: string | null,
   ): Promise<RokkaResponse>
+
+  invalidateCache(organization: string, name: string): Promise<RokkaResponse>
 }
 
 export interface StackConfig {
@@ -192,6 +194,33 @@ export default (state: State): { stacks: Stacks } => {
      */
     delete: (organization: string, name: string): Promise<RokkaResponse> => {
       return state.request('DELETE', `stacks/${organization}/${name}`)
+    },
+
+    /**
+     * Invalidate the CDN cache for a stack.
+     *
+     * See [the caching documentation](https://rokka.io/documentation/references/caching.html)
+     * for more information.
+     *
+     * @remarks
+     * Requires authentication.
+     *
+     * @example
+     * ```js
+     * rokka.stacks.invalidateCache('myorg', 'mystack')
+     *   .then(function(result) {})
+     *   .catch(function(err) {});
+     * ```
+     *
+     * @param organization - Organization name
+     * @param name - Stack name
+     * @returns Promise resolving when cache is invalidated
+     */
+    invalidateCache: (
+      organization: string,
+      name: string,
+    ): Promise<RokkaResponse> => {
+      return state.request('DELETE', `stacks/${organization}/${name}/cache`)
     },
   }
 

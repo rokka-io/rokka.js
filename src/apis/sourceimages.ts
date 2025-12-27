@@ -167,6 +167,16 @@ export interface APISourceimages {
     destinationOrganization: string,
     overwrite?: boolean,
   ) => Promise<RokkaResponse>
+  copyAll: (
+    organization: string,
+    hashes: string[],
+    destinationOrganization: string,
+    overwrite?: boolean,
+  ) => Promise<RokkaResponse>
+  invalidateCache: (
+    organization: string,
+    hash: string,
+  ) => Promise<RokkaResponse>
   setProtected: (
     organization: string,
     hash: string,
@@ -215,6 +225,7 @@ export interface APISourceimages {
 }
 
 export interface APISourceimagesMeta {
+  get: (organization: string, hash: string) => Promise<RokkaResponse>
   add: (
     organization: string,
     hash: string,
@@ -224,6 +235,12 @@ export interface APISourceimagesMeta {
     organization: string,
     hash: string,
     data: { [p: string]: any },
+  ) => Promise<RokkaResponse>
+  set: (
+    organization: string,
+    hash: string,
+    field: string,
+    value: any,
   ) => Promise<RokkaResponse>
   delete: (
     organization: string,
@@ -775,6 +792,77 @@ export default (state: State): { sourceimages: APISourceimages } => {
         null,
         null,
         { headers },
+      )
+    },
+
+    /**
+     * Copy multiple images to another organization.
+     *
+     * See [the source images documentation](https://rokka.io/documentation/references/source-images.html#copy-a-source-image-to-another-organization)
+     * for more information.
+     *
+     * ```js
+     * rokka.sourceimages.copyAll('myorg', [
+     *   'c421f4e8cefe0fd3aab22832f51e85bacda0a47a',
+     *   'f4d3f334ba90d2b4b00e82953fe0bf93e7ad9912'
+     * ], 'anotherorg', true)
+     *   .then(function(result) {})
+     *   .catch(function(err) {});
+     * ```
+     *
+     * @authenticated
+     * @param  {string}   organization            the org the images are copied from
+     * @param  {string[]} hashes                  array of image hashes
+     * @param  {string}   destinationOrganization the org the images are copied to
+     * @param  {boolean}  [overwrite=true]        if existing images should be overwritten
+     *
+     * @return {Promise}
+     */
+    copyAll: (
+      organization: string,
+      hashes: string[],
+      destinationOrganization: string,
+      overwrite = true,
+    ): Promise<RokkaResponse> => {
+      const headers: { Destination: string; Overwrite?: string } = {
+        Destination: destinationOrganization,
+      }
+      if (!overwrite) {
+        headers.Overwrite = 'F'
+      }
+      return state.request(
+        'POST',
+        `sourceimages/${organization}/copy`,
+        hashes,
+        null,
+        { headers },
+      )
+    },
+
+    /**
+     * Invalidate the CDN cache for a source image.
+     *
+     * See [the caching documentation](https://rokka.io/documentation/references/caching.html)
+     * for more information.
+     *
+     * ```js
+     * rokka.sourceimages.invalidateCache('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+     *   .then(function(result) {})
+     *   .catch(function(err) {});
+     * ```
+     *
+     * @authenticated
+     * @param  {string}  organization name
+     * @param  {string}  hash         image hash
+     * @return {Promise}
+     */
+    invalidateCache: (
+      organization: string,
+      hash: string,
+    ): Promise<RokkaResponse> => {
+      return state.request(
+        'DELETE',
+        `sourceimages/${organization}/${hash}/cache`,
       )
     },
 

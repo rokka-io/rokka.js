@@ -87,6 +87,28 @@ get(organization, name): Promise<RokkaResponse>;
 
 ***
 
+### invalidateCache()
+
+```ts
+invalidateCache(organization, name): Promise<RokkaResponse>;
+```
+
+#### Parameters
+
+##### organization
+
+`string`
+
+##### name
+
+`string`
+
+#### Returns
+
+`Promise`\<`RokkaResponse`\>
+
+***
+
 ### list()
 
 ```ts
