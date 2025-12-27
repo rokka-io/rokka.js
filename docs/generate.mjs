@@ -428,7 +428,7 @@ function extractMethodsFromSource(content, moduleName, returnTypes = {}) {
     // Format method entry with return type if available
     const paramStr = params.join(', ')
     const returnType = returnTypes[methodName] || 'Promise'
-    let entry = `#### rokka.${moduleName}.${methodName}(${paramStr}) → ${returnType}\n\n`
+    let entry = `#### \`rokka.${moduleName}.${methodName}(${paramStr})\` → \`${returnType}\`\n\n`
 
     // Output content parts in order (interleaved text and code)
     for (const part of contentParts) {
