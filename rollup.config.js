@@ -4,12 +4,13 @@ import commonjs from '@rollup/plugin-commonjs'
 import typescript from 'rollup-plugin-typescript2'
 export default [
   {
-    input: 'src/index.ts',
+    input: 'src/index.umd.ts',
     output: {
       file: 'dist/index.umd.min.js',
       format: 'umd',
       name: 'rokka',
       sourcemap: true,
+      exports: 'default',
       globals: {
         'form-data': 'FormData',
         'cross-fetch': 'fetch',
@@ -35,11 +36,12 @@ export default [
       {
         file: 'dist/index.esm.js',
         format: 'esm',
+        exports: 'named',
       },
       {
         file: 'dist/index.js',
         format: 'cjs',
-        exports: 'auto',
+        exports: 'named',
       },
     ],
 
