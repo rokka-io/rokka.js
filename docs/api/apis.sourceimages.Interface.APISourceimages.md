@@ -467,7 +467,7 @@ meta: APISourceimagesMeta;
 ### putName()
 
 ```ts
-putName: (organization, hash, name) => Promise<RokkaListResponse>;
+putName: (organization, hash, name) => Promise<RokkaResponse>;
 ```
 
 #### Parameters
@@ -486,7 +486,7 @@ putName: (organization, hash, name) => Promise<RokkaListResponse>;
 
 #### Returns
 
-`Promise`\<`RokkaListResponse`\>
+`Promise`\<`RokkaResponse`\>
 
 ***
 

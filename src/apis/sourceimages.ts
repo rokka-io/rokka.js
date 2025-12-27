@@ -219,7 +219,7 @@ export interface APISourceimages {
     organization: string,
     hash: string,
     name: string,
-  ) => Promise<RokkaListResponse>
+  ) => Promise<RokkaResponse>
   meta: APISourceimagesMeta
   alias: APISourceimagesAlias
 }

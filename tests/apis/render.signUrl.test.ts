@@ -87,4 +87,59 @@ describe('render', () => {
       'https://myorg.rokka.io/dynamic/c1b110.jpg?foo=bar&lala=hello&soso=&sigopts=%7B%22until%22%3A%222050-02-08T07%3A05%3A00.000Z%22%7D&sig=6f3e929c4a310e27',
     )
   })
+
+  it('render.signUrl with custom roundDateUpTo', () => {
+    const rka = rokka()
+
+    // with roundDateUpTo = 60 (1 minute), the date gets rounded up to next minute
+    const result1 = rka.render.signUrl(signPath, signKey, {
+      until: new Date('2050-02-08T08:03:30+01:00'),
+      roundDateUpTo: 60,
+    })
+    // Verify the sigopts contains the rounded time (to next minute)
+    expect(result1).toContain('sigopts=')
+    expect(result1).toContain('sig=')
+    expect(result1).toContain('2050-02-08T07%3A04%3A00.000Z')
+
+    // with roundDateUpTo = 1 (no rounding), the exact time is preserved
+    const result2 = rka.render.signUrl(signPath, signKey, {
+      until: new Date('2050-02-08T08:03:30+01:00'),
+      roundDateUpTo: 1,
+    })
+    expect(result2).toContain('2050-02-08T07%3A03%3A30.000Z')
+
+    // with roundDateUpTo = 3600 (1 hour), the date gets rounded to the next hour
+    const result3 = rka.render.signUrl(signPath, signKey, {
+      until: new Date('2050-02-08T08:03:30+01:00'),
+      roundDateUpTo: 3600,
+    })
+    expect(result3).toContain('2050-02-08T08%3A00%3A00.000Z')
+
+    // Signatures should differ when roundDateUpTo differs (because the until time differs)
+    expect(result1).not.toBe(result2)
+    expect(result2).not.toBe(result3)
+  })
+
+  it('render.signUrlWithOptions directly', () => {
+    const rka = rokka()
+
+    // without options
+    expect(rka.render.signUrlWithOptions(signPath, signKey)).toBe(
+      'https://myorg.rokka.io/dynamic/c1b110.jpg?sig=62e7a9ccd3dea053',
+    )
+
+    // with null options
+    expect(rka.render.signUrlWithOptions(signPath, signKey, null)).toBe(
+      'https://myorg.rokka.io/dynamic/c1b110.jpg?sig=62e7a9ccd3dea053',
+    )
+
+    // with until option
+    expect(
+      rka.render.signUrlWithOptions(signPath, signKey, {
+        until: '2050-02-08T07:05:00.000Z',
+      }),
+    ).toBe(
+      'https://myorg.rokka.io/dynamic/c1b110.jpg?sigopts=%7B%22until%22%3A%222050-02-08T07%3A05%3A00.000Z%22%7D&sig=0f6370995020ce81',
+    )
+  })
 })

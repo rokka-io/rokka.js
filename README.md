@@ -567,7 +567,7 @@ await rokka.sourceimages.deleteDynamicMetaData('myorg', 'c421f4e8cefe0fd3aab2283
 ```
 
 
-#### `rokka.sourceimages.putName(organization, hash, name)` → `Promise<RokkaListResponse>`
+#### `rokka.sourceimages.putName(organization, hash, name)` → `Promise<RokkaResponse>`
 
 Change the name of a source image.
 
