@@ -74,8 +74,8 @@ Delete an alias.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `organization` | `string` |  |
-| `alias` | `string` |  |
+| `organization` | `string` | - |
+| `alias` | `string` | - |
 
 ###### Returns
 
@@ -93,8 +93,8 @@ Get an alias.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `organization` | `string` |  |
-| `alias` | `string` |  |
+| `organization` | `string` | - |
+| `alias` | `string` | - |
 
 ###### Returns
 
@@ -112,8 +112,8 @@ Invalidate the CDN cache for an alias.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `organization` | `string` |  |
-| `alias` | `string` |  |
+| `organization` | `string` | - |
+| `alias` | `string` | - |
 
 ###### Returns
 

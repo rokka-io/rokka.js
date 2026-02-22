@@ -1,3 +1,13 @@
+# [4.0.1] - unreleased
+
+## Security
+
+- Upgrade jwt-decode from v3 to v4 (no public API changes)
+
+## Changed
+
+- Exclude src directory from npm package (smaller install size)
+
 # [4.0.0] - 2025-12-27
 
 ## Changed

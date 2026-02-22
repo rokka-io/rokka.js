@@ -31,8 +31,8 @@ new StatsApi(state): StatsApi;
 ```ts
 get(
    organization, 
-   from, 
-to): Promise<RokkaResponse>;
+   from?, 
+to?): Promise<RokkaResponse>;
 ```
 
 Retrieve statistics about an organization.

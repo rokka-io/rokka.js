@@ -28,7 +28,7 @@ new OrganizationsApi(state): OrganizationsApi;
 
 | Property | Modifier | Type | Default value |
 | ------ | ------ | ------ | ------ |
-| <a id="option_protect_dynamic_stack"></a> `OPTION_PROTECT_DYNAMIC_STACK` | `readonly` | `"protect_dynamic_stack"` | `'protect_dynamic_stack'` |
+| <a id="property-option_protect_dynamic_stack"></a> `OPTION_PROTECT_DYNAMIC_STACK` | `readonly` | `"protect_dynamic_stack"` | `'protect_dynamic_stack'` |
 
 #### Methods
 

@@ -25,8 +25,8 @@ Please refer to the
 
 | Enumeration Member | Value |
 | ------ | ------ |
-| <a id="background"></a> `Background` | `"background"` |
-| <a id="foreground"></a> `Foreground` | `"foreground"` |
+| <a id="enumeration-member-background"></a> `Background` | `"background"` |
+| <a id="enumeration-member-foreground"></a> `Foreground` | `"foreground"` |
 
 ***
 
@@ -36,9 +36,9 @@ Please refer to the
 
 | Enumeration Member | Value |
 | ------ | ------ |
-| <a id="absolute"></a> `Absolute` | `"absolute"` |
-| <a id="box"></a> `Box` | `"box"` |
-| <a id="fill"></a> `Fill` | `"fill"` |
+| <a id="enumeration-member-absolute"></a> `Absolute` | `"absolute"` |
+| <a id="enumeration-member-box"></a> `Box` | `"box"` |
+| <a id="enumeration-member-fill"></a> `Fill` | `"fill"` |
 
 ## Classes
 
@@ -73,7 +73,7 @@ new OperationsApi(state): OperationsApi;
 ##### autorotate()
 
 ```ts
-autorotate(options): StackOperation;
+autorotate(options?): StackOperation;
 ```
 
 ###### Parameters
@@ -110,7 +110,7 @@ composition(
    width, 
    height, 
    mode, 
-   options): StackOperation;
+   options?): StackOperation;
 ```
 
 ###### Parameters
@@ -132,7 +132,7 @@ composition(
 crop(
    width, 
    height, 
-   options): StackOperation;
+   options?): StackOperation;
 ```
 
 ###### Parameters
@@ -150,7 +150,7 @@ crop(
 ##### dropshadow()
 
 ```ts
-dropshadow(options): StackOperation;
+dropshadow(options?): StackOperation;
 ```
 
 ###### Parameters
@@ -199,7 +199,7 @@ noop(): StackOperation;
 resize(
    width, 
    height, 
-   options): StackOperation;
+   options?): StackOperation;
 ```
 
 ###### Parameters
@@ -217,7 +217,7 @@ resize(
 ##### rotate()
 
 ```ts
-rotate(angle, options): StackOperation;
+rotate(angle, options?): StackOperation;
 ```
 
 ###### Parameters
@@ -234,7 +234,7 @@ rotate(angle, options): StackOperation;
 ##### trim()
 
 ```ts
-trim(options): StackOperation;
+trim(options?): StackOperation;
 ```
 
 ###### Parameters
@@ -265,16 +265,16 @@ trim(options): StackOperation;
 
 | Property | Type | Inherited from |
 | ------ | ------ | ------ |
-| <a id="anchor"></a> `anchor?` | `string` | - |
-| <a id="enabled"></a> `enabled?` | `boolean` | [`StackOperationOptions`](#stackoperationoptions).[`enabled`](#enabled-3) |
-| <a id="height"></a> `height?` | `number` | - |
-| <a id="mode"></a> `mode?` | [`CompositionMode`](#compositionmode) | - |
-| <a id="resize_mode"></a> `resize_mode?` | [`ResizeMode`](#resizemode) | - |
-| <a id="resize_to_primary"></a> `resize_to_primary?` | `boolean` | - |
-| <a id="secondary_color"></a> `secondary_color?` | `string` | - |
-| <a id="secondary_image"></a> `secondary_image?` | `string` | - |
-| <a id="secondary_opacity"></a> `secondary_opacity?` | `number` | - |
-| <a id="width"></a> `width?` | `number` | - |
+| <a id="property-anchor"></a> `anchor?` | `string` | - |
+| <a id="property-enabled"></a> `enabled?` | `boolean` | [`StackOperationOptions`](#stackoperationoptions).[`enabled`](#property-enabled-3) |
+| <a id="property-height"></a> `height?` | `number` | - |
+| <a id="property-mode"></a> `mode?` | [`CompositionMode`](#compositionmode) | - |
+| <a id="property-resize_mode"></a> `resize_mode?` | [`ResizeMode`](#resizemode) | - |
+| <a id="property-resize_to_primary"></a> `resize_to_primary?` | `boolean` | - |
+| <a id="property-secondary_color"></a> `secondary_color?` | `string` | - |
+| <a id="property-secondary_image"></a> `secondary_image?` | `string` | - |
+| <a id="property-secondary_opacity"></a> `secondary_opacity?` | `number` | - |
+| <a id="property-width"></a> `width?` | `number` | - |
 
 ***
 
@@ -294,14 +294,14 @@ trim(options): StackOperation;
 
 | Property | Type | Inherited from |
 | ------ | ------ | ------ |
-| <a id="anchor-1"></a> `anchor?` | `string` | - |
-| <a id="area"></a> `area?` | `string` | - |
-| <a id="enabled-1"></a> `enabled?` | `boolean` | [`StackOperationOptions`](#stackoperationoptions).[`enabled`](#enabled-3) |
-| <a id="fallback"></a> `fallback?` | `string` | - |
-| <a id="height-1"></a> `height?` | `number` | - |
-| <a id="mode-1"></a> `mode?` | `string` | - |
-| <a id="scale"></a> `scale?` | `number` | - |
-| <a id="width-1"></a> `width?` | `number` | - |
+| <a id="property-anchor-1"></a> `anchor?` | `string` | - |
+| <a id="property-area"></a> `area?` | `string` | - |
+| <a id="property-enabled-1"></a> `enabled?` | `boolean` | [`StackOperationOptions`](#stackoperationoptions).[`enabled`](#property-enabled-3) |
+| <a id="property-fallback"></a> `fallback?` | `string` | - |
+| <a id="property-height-1"></a> `height?` | `number` | - |
+| <a id="property-mode-1"></a> `mode?` | `string` | - |
+| <a id="property-scale"></a> `scale?` | `number` | - |
+| <a id="property-width-1"></a> `width?` | `number` | - |
 
 ***
 
@@ -321,12 +321,12 @@ trim(options): StackOperation;
 
 | Property | Type | Inherited from |
 | ------ | ------ | ------ |
-| <a id="enabled-2"></a> `enabled?` | `boolean` | [`StackOperationOptions`](#stackoperationoptions).[`enabled`](#enabled-3) |
-| <a id="height-2"></a> `height?` | `number` | - |
-| <a id="mode-2"></a> `mode?` | [`ResizeMode`](#resizemode) | - |
-| <a id="upscale"></a> `upscale?` | `boolean` | - |
-| <a id="upscale_dpr"></a> `upscale_dpr?` | `boolean` | - |
-| <a id="width-2"></a> `width?` | `number` | - |
+| <a id="property-enabled-2"></a> `enabled?` | `boolean` | [`StackOperationOptions`](#stackoperationoptions).[`enabled`](#property-enabled-3) |
+| <a id="property-height-2"></a> `height?` | `number` | - |
+| <a id="property-mode-2"></a> `mode?` | [`ResizeMode`](#resizemode) | - |
+| <a id="property-upscale"></a> `upscale?` | `boolean` | - |
+| <a id="property-upscale_dpr"></a> `upscale_dpr?` | `boolean` | - |
+| <a id="property-width-2"></a> `width?` | `number` | - |
 
 ***
 
@@ -348,7 +348,7 @@ trim(options): StackOperation;
 
 | Property | Type |
 | ------ | ------ |
-| <a id="enabled-3"></a> `enabled?` | `boolean` |
+| <a id="property-enabled-3"></a> `enabled?` | `boolean` |
 
 ## Type Aliases
 

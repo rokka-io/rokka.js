@@ -26,8 +26,8 @@ new SourceimagesApi(state): SourceimagesApi;
 
 | Property | Modifier | Type |
 | ------ | ------ | ------ |
-| <a id="alias"></a> `alias` | `readonly` | [`SourceimagesAliasApi`](sourceimages.alias.md#sourceimagesaliasapi) |
-| <a id="meta"></a> `meta` | `readonly` | [`SourceimagesMetaApi`](sourceimages.meta.md#sourceimagesmetaapi) |
+| <a id="property-alias"></a> `alias` | `readonly` | [`SourceimagesAliasApi`](sourceimages.alias.md#sourceimagesaliasapi) |
+| <a id="property-meta"></a> `meta` | `readonly` | [`SourceimagesMetaApi`](sourceimages.meta.md#sourceimagesmetaapi) |
 
 #### Methods
 
@@ -39,7 +39,7 @@ addDynamicMetaData(
    hash, 
    name, 
    data, 
-options): Promise<RokkaResponse>;
+options?): Promise<RokkaResponse>;
 ```
 
 Add/set dynamic metadata to an image
@@ -82,7 +82,7 @@ autodescription(
    organization, 
    hash, 
    languages, 
-force): Promise<RokkaResponse>;
+force?): Promise<RokkaResponse>;
 ```
 
 Autodescribes an image. Can be used for alt attributes in img tags.
@@ -142,7 +142,7 @@ copy(
    organization, 
    hash, 
    destinationOrganization, 
-overwrite): Promise<RokkaResponse>;
+overwrite?): Promise<RokkaResponse>;
 ```
 
 Copy image by hash to another organization.
@@ -173,7 +173,7 @@ copyAll(
    organization, 
    hashes, 
    destinationOrganization, 
-overwrite): Promise<RokkaResponse>;
+overwrite?): Promise<RokkaResponse>;
 ```
 
 Copy multiple images to another organization.
@@ -204,8 +204,8 @@ create(
    organization, 
    fileName, 
    binaryData, 
-   metadata, 
-options): Promise<RokkaResponse>;
+   metadata?, 
+options?): Promise<RokkaResponse>;
 ```
 
 Upload an image.
@@ -243,8 +243,8 @@ Promise resolving to the created source image
 createByUrl(
    organization, 
    url, 
-   metadata, 
-options): Promise<RokkaResponse>;
+   metadata?, 
+options?): Promise<RokkaResponse>;
 ```
 
 Upload an image by url.
@@ -306,7 +306,7 @@ deleteDynamicMetaData(
    organization, 
    hash, 
    name, 
-options): Promise<RokkaResponse>;
+options?): Promise<RokkaResponse>;
 ```
 
 Delete dynamic metadata of an image
@@ -414,7 +414,7 @@ Promise resolving to a buffer
 ##### downloadList()
 
 ```ts
-downloadList(organization, params): Promise<RokkaDownloadResponse>;
+downloadList(organization, params?): Promise<RokkaDownloadResponse>;
 ```
 
 Get a list of source images as zip. Same parameters as the `list` method
@@ -448,7 +448,7 @@ const result = await rokka.sourceimages.downloadList('myorg', { search: search }
 get(
    organization, 
    hash, 
-queryParams): Promise<RokkaResponse>;
+queryParams?): Promise<RokkaResponse>;
 ```
 
 Get information of a source image by hash.
@@ -526,7 +526,7 @@ Promise resolving when the cache is invalidated
 ##### list()
 
 ```ts
-list(organization, params): Promise<SourceimagesListResponse>;
+list(organization, params?): Promise<SourceimagesListResponse>;
 ```
 
 Get a list of source images.
@@ -610,7 +610,7 @@ Promise resolving to the updated source image
 removeSubjectArea(
    organization, 
    hash, 
-options): Promise<RokkaResponse>;
+options?): Promise<RokkaResponse>;
 ```
 
 Removes the subject area from a source image.
@@ -695,7 +695,7 @@ setProtected(
    organization, 
    hash, 
    isProtected, 
-options): Promise<RokkaResponse>;
+options?): Promise<RokkaResponse>;
 ```
 
 Set the protected status of a source image.
@@ -730,7 +730,7 @@ setSubjectArea(
    organization, 
    hash, 
    coords, 
-options): Promise<RokkaResponse>;
+options?): Promise<RokkaResponse>;
 ```
 
 Set the subject area of a source image.
@@ -788,17 +788,17 @@ Promise resolving to the updated source image
 
 | Property | Type |
 | ------ | ------ |
-| <a id="crop_area"></a> `crop_area?` | `object` |
+| <a id="property-crop_area"></a> `crop_area?` | `object` |
 | `crop_area.height` | `number` |
 | `crop_area.width` | `number` |
 | `crop_area.x` | `number` |
 | `crop_area.y` | `number` |
-| <a id="subject_area"></a> `subject_area?` | `object` |
+| <a id="property-subject_area"></a> `subject_area?` | `object` |
 | `subject_area.height?` | `number` |
 | `subject_area.width?` | `number` |
 | `subject_area.x` | `number` |
 | `subject_area.y` | `number` |
-| <a id="version"></a> `version?` | `object` |
+| <a id="property-version"></a> `version?` | `object` |
 | `version.text` | `string` |
 
 ***
@@ -815,8 +815,8 @@ Promise resolving to the updated source image
 
 | Property | Type |
 | ------ | ------ |
-| <a id="protected"></a> `protected?` | `boolean` |
-| <a id="visual_binaryhash"></a> `visual_binaryhash?` | `boolean` |
+| <a id="property-protected"></a> `protected?` | `boolean` |
+| <a id="property-visual_binaryhash"></a> `visual_binaryhash?` | `boolean` |
 
 ***
 
@@ -852,12 +852,12 @@ Promise resolving to the updated source image
 
 | Property | Type |
 | ------ | ------ |
-| <a id="deleted"></a> `deleted?` | `boolean` \| `null` |
-| <a id="facets"></a> `facets?` | `string` \| `null` |
-| <a id="limit"></a> `limit?` | `number` \| `null` |
-| <a id="offset"></a> `offset?` | `string` \| `number` \| `null` |
-| <a id="search"></a> `search?` | \| \{ \[`key`: `string`\]: `string`; \} \| `null` |
-| <a id="sort"></a> `sort?` | `string` \| `string`[] \| `null` |
+| <a id="property-deleted"></a> `deleted?` | `boolean` \| `null` |
+| <a id="property-facets"></a> `facets?` | `string` \| `null` |
+| <a id="property-limit"></a> `limit?` | `number` \| `null` |
+| <a id="property-offset"></a> `offset?` | `string` \| `number` \| `null` |
+| <a id="property-search"></a> `search?` | \| \{ \[`key`: `string`\]: `string`; \} \| `null` |
+| <a id="property-sort"></a> `sort?` | `string` \| `string`[] \| `null` |
 
 ***
 
@@ -879,24 +879,24 @@ Promise resolving to the updated source image
 
 | Property | Type |
 | ------ | ------ |
-| <a id="binary_hash"></a> `binary_hash` | `string` |
-| <a id="created"></a> `created` | `string` |
-| <a id="deleted-1"></a> `deleted?` | `boolean` |
-| <a id="dynamic_metadata"></a> `dynamic_metadata?` | [`MetaDataDynamic`](#metadatadynamic) |
-| <a id="format"></a> `format` | `string` |
-| <a id="hash"></a> `hash` | `string` |
-| <a id="height"></a> `height` | `number` |
-| <a id="link"></a> `link` | `string` |
-| <a id="mimetype"></a> `mimetype` | `string` |
-| <a id="name"></a> `name` | `string` |
-| <a id="opaque"></a> `opaque?` | `boolean` |
-| <a id="organization"></a> `organization` | `string` |
-| <a id="protected-1"></a> `protected?` | `boolean` |
-| <a id="short_hash"></a> `short_hash` | `string` |
-| <a id="size"></a> `size` | `number` |
-| <a id="static_metadata"></a> `static_metadata?` | `any` |
-| <a id="user_metadata"></a> `user_metadata?` | [`MetaDataUser`](#metadatauser) |
-| <a id="width"></a> `width` | `number` |
+| <a id="property-binary_hash"></a> `binary_hash` | `string` |
+| <a id="property-created"></a> `created` | `string` |
+| <a id="property-deleted-1"></a> `deleted?` | `boolean` |
+| <a id="property-dynamic_metadata"></a> `dynamic_metadata?` | [`MetaDataDynamic`](#metadatadynamic) |
+| <a id="property-format"></a> `format` | `string` |
+| <a id="property-hash"></a> `hash` | `string` |
+| <a id="property-height"></a> `height` | `number` |
+| <a id="property-link"></a> `link` | `string` |
+| <a id="property-mimetype"></a> `mimetype` | `string` |
+| <a id="property-name"></a> `name` | `string` |
+| <a id="property-opaque"></a> `opaque?` | `boolean` |
+| <a id="property-organization"></a> `organization` | `string` |
+| <a id="property-protected-1"></a> `protected?` | `boolean` |
+| <a id="property-short_hash"></a> `short_hash` | `string` |
+| <a id="property-size"></a> `size` | `number` |
+| <a id="property-static_metadata"></a> `static_metadata?` | `any` |
+| <a id="property-user_metadata"></a> `user_metadata?` | [`MetaDataUser`](#metadatauser) |
+| <a id="property-width"></a> `width` | `number` |
 
 ***
 
@@ -910,12 +910,12 @@ Promise resolving to the updated source image
 
 | Property | Type | Overrides | Inherited from |
 | ------ | ------ | ------ | ------ |
-| <a id="body"></a> `body` | [`Sourceimage`](#sourceimage) | `RokkaResponse.body` | - |
-| <a id="error"></a> `error?` | `any` | - | `RokkaResponse.error` |
-| <a id="message"></a> `message?` | `string` | - | `RokkaResponse.message` |
-| <a id="response"></a> `response` | `Response` | - | `RokkaResponse.response` |
-| <a id="statuscode"></a> `statusCode` | `number` | - | `RokkaResponse.statusCode` |
-| <a id="statusmessage"></a> `statusMessage` | `string` | - | `RokkaResponse.statusMessage` |
+| <a id="property-body"></a> `body` | [`Sourceimage`](#sourceimage) | `RokkaResponse.body` | - |
+| <a id="property-error"></a> `error?` | `any` | - | `RokkaResponse.error` |
+| <a id="property-message"></a> `message?` | `string` | - | `RokkaResponse.message` |
+| <a id="property-response"></a> `response` | `Response` | - | `RokkaResponse.response` |
+| <a id="property-statuscode"></a> `statusCode` | `number` | - | `RokkaResponse.statusCode` |
+| <a id="property-statusmessage"></a> `statusMessage` | `string` | - | `RokkaResponse.statusMessage` |
 
 ***
 
@@ -929,12 +929,12 @@ Promise resolving to the updated source image
 
 | Property | Type | Overrides | Inherited from |
 | ------ | ------ | ------ | ------ |
-| <a id="body-1"></a> `body` | [`SourceimagesListResponseBody`](#sourceimageslistresponsebody-1) | `RokkaListResponse.body` | - |
-| <a id="error-1"></a> `error?` | `any` | - | `RokkaListResponse.error` |
-| <a id="message-1"></a> `message?` | `string` | - | `RokkaListResponse.message` |
-| <a id="response-1"></a> `response` | `Response` | - | `RokkaListResponse.response` |
-| <a id="statuscode-1"></a> `statusCode` | `number` | - | `RokkaListResponse.statusCode` |
-| <a id="statusmessage-1"></a> `statusMessage` | `string` | - | `RokkaListResponse.statusMessage` |
+| <a id="property-body-1"></a> `body` | [`SourceimagesListResponseBody`](#sourceimageslistresponsebody) | `RokkaListResponse.body` | - |
+| <a id="property-error-1"></a> `error?` | `any` | - | `RokkaListResponse.error` |
+| <a id="property-message-1"></a> `message?` | `string` | - | `RokkaListResponse.message` |
+| <a id="property-response-1"></a> `response` | `Response` | - | `RokkaListResponse.response` |
+| <a id="property-statuscode-1"></a> `statusCode` | `number` | - | `RokkaListResponse.statusCode` |
+| <a id="property-statusmessage-1"></a> `statusMessage` | `string` | - | `RokkaListResponse.statusMessage` |
 
 ***
 
@@ -948,14 +948,14 @@ Promise resolving to the updated source image
 
 | Property | Type | Overrides |
 | ------ | ------ | ------ |
-| <a id="cursor"></a> `cursor` | `string` | `RokkaListResponseBody.cursor` |
-| <a id="items"></a> `items` | [`Sourceimage`](#sourceimage)[] | `RokkaListResponseBody.items` |
-| <a id="links"></a> `links` | `object` | `RokkaListResponseBody.links` |
+| <a id="property-cursor"></a> `cursor` | `string` | `RokkaListResponseBody.cursor` |
+| <a id="property-items"></a> `items` | [`Sourceimage`](#sourceimage)[] | `RokkaListResponseBody.items` |
+| <a id="property-links"></a> `links` | `object` | `RokkaListResponseBody.links` |
 | `links.next?` | `object` | - |
 | `links.next.href` | `string` | - |
 | `links.prev?` | `object` | - |
 | `links.prev.href` | `string` | - |
-| <a id="total"></a> `total` | `number` | `RokkaListResponseBody.total` |
+| <a id="property-total"></a> `total` | `number` | `RokkaListResponseBody.total` |
 
 ## Type Aliases
 

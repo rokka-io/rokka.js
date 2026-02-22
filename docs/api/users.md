@@ -29,7 +29,7 @@ new UsersApi(state): UsersApi;
 ##### create()
 
 ```ts
-create(email, organization): Promise<RokkaResponse>;
+create(email, organization?): Promise<RokkaResponse>;
 ```
 
 Register a new user for the rokka service.

@@ -32,7 +32,7 @@ new UtilsApi(state): UtilsApi;
 signUrl(
    organization, 
    url, 
-options): Promise<RokkaResponse>;
+options?): Promise<RokkaResponse>;
 ```
 
 Sign a URL using the server-side signing endpoint.
@@ -76,7 +76,7 @@ console.log(result.body.signed_url)
 
 | Property | Type | Description |
 | ------ | ------ | ------ |
-| <a id="rounddateupto"></a> `roundDateUpTo?` | `number` | Round the expiration date up to this many seconds (for better caching) |
+| <a id="property-rounddateupto"></a> `roundDateUpTo?` | `number` | Round the expiration date up to this many seconds (for better caching) |
 
 ## Type Aliases
 

@@ -8,14 +8,14 @@
 
 | Enumeration Member | Value |
 | ------ | ------ |
-| <a id="admin"></a> `ADMIN` | `"admin"` |
-| <a id="read"></a> `READ` | `"read"` |
-| <a id="sourceimage_read"></a> `SOURCEIMAGE_READ` | `"sourceimages:read"` |
-| <a id="sourceimage_unlock"></a> `SOURCEIMAGE_UNLOCK` | `"sourceimages:unlock"` |
-| <a id="sourceimage_write"></a> `SOURCEIMAGE_WRITE` | `"sourceimages:write"` |
-| <a id="sourceimages_download_protected"></a> `SOURCEIMAGES_DOWNLOAD_PROTECTED` | `"sourceimages:download:protected"` |
-| <a id="upload"></a> `UPLOAD` | `"upload"` |
-| <a id="write"></a> `WRITE` | `"write"` |
+| <a id="enumeration-member-admin"></a> `ADMIN` | `"admin"` |
+| <a id="enumeration-member-read"></a> `READ` | `"read"` |
+| <a id="enumeration-member-sourceimage_read"></a> `SOURCEIMAGE_READ` | `"sourceimages:read"` |
+| <a id="enumeration-member-sourceimage_unlock"></a> `SOURCEIMAGE_UNLOCK` | `"sourceimages:unlock"` |
+| <a id="enumeration-member-sourceimage_write"></a> `SOURCEIMAGE_WRITE` | `"sourceimages:write"` |
+| <a id="enumeration-member-sourceimages_download_protected"></a> `SOURCEIMAGES_DOWNLOAD_PROTECTED` | `"sourceimages:download:protected"` |
+| <a id="enumeration-member-upload"></a> `UPLOAD` | `"upload"` |
+| <a id="enumeration-member-write"></a> `WRITE` | `"write"` |
 
 ## Classes
 
@@ -43,7 +43,7 @@ new MembershipsApi(state): MembershipsApi;
 
 | Property | Modifier | Type |
 | ------ | ------ | ------ |
-| <a id="roles"></a> `ROLES` | `readonly` | `object` |
+| <a id="property-roles"></a> `ROLES` | `readonly` | `object` |
 | `ROLES.ADMIN` | `public` | [`Role`](#role) |
 | `ROLES.READ` | `public` | [`Role`](#role) |
 | `ROLES.SOURCEIMAGE_READ` | `public` | [`Role`](#role) |

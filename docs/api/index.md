@@ -22,7 +22,7 @@ const rokka = new Rokka({ apiKey: 'apikey' })
 ##### Constructor
 
 ```ts
-new Rokka(config): Rokka;
+new Rokka(config?): Rokka;
 ```
 
 ###### Parameters
@@ -39,20 +39,20 @@ new Rokka(config): Rokka;
 
 | Property | Modifier | Type |
 | ------ | ------ | ------ |
-| <a id="billing"></a> `billing` | `readonly` | [`BillingApi`](billing.md#billingapi) |
-| <a id="expressions"></a> `expressions` | `readonly` | `ExpressionsApi` |
-| <a id="memberships"></a> `memberships` | `readonly` | [`MembershipsApi`](apis/memberships.md#membershipsapi) |
-| <a id="operations"></a> `operations` | `readonly` | [`OperationsApi`](operations.md#operationsapi) |
-| <a id="organizations"></a> `organizations` | `readonly` | [`OrganizationsApi`](organizations.md#organizationsapi) |
-| <a id="render"></a> `render` | `readonly` | [`RenderApi`](apis/render.md#renderapi) |
-| <a id="request"></a> `request` | `readonly` | [`Request`](request.md#request) |
-| <a id="sourceimages"></a> `sourceimages` | `readonly` | [`SourceimagesApi`](apis/sourceimages.md#sourceimagesapi) |
-| <a id="stackoptions"></a> `stackoptions` | `readonly` | [`StackOptionsApi`](stackoptions.md#stackoptionsapi) |
-| <a id="stacks"></a> `stacks` | `readonly` | [`StacksApi`](stacks.md#stacksapi) |
-| <a id="stats"></a> `stats` | `readonly` | [`StatsApi`](stats.md#statsapi) |
-| <a id="user"></a> `user` | `readonly` | [`UserApi`](user.md#userapi) |
-| <a id="users"></a> `users` | `readonly` | [`UsersApi`](users.md#usersapi) |
-| <a id="utils"></a> `utils` | `readonly` | [`UtilsApi`](utils.md#utilsapi) |
+| <a id="property-billing"></a> `billing` | `readonly` | [`BillingApi`](billing.md#billingapi) |
+| <a id="property-expressions"></a> `expressions` | `readonly` | `ExpressionsApi` |
+| <a id="property-memberships"></a> `memberships` | `readonly` | [`MembershipsApi`](apis/memberships.md#membershipsapi) |
+| <a id="property-operations"></a> `operations` | `readonly` | [`OperationsApi`](operations.md#operationsapi) |
+| <a id="property-organizations"></a> `organizations` | `readonly` | [`OrganizationsApi`](organizations.md#organizationsapi) |
+| <a id="property-render"></a> `render` | `readonly` | [`RenderApi`](apis/render.md#renderapi) |
+| <a id="property-request"></a> `request` | `readonly` | [`Request`](request.md#request) |
+| <a id="property-sourceimages"></a> `sourceimages` | `readonly` | [`SourceimagesApi`](apis/sourceimages.md#sourceimagesapi) |
+| <a id="property-stackoptions"></a> `stackoptions` | `readonly` | [`StackOptionsApi`](stackoptions.md#stackoptionsapi) |
+| <a id="property-stacks"></a> `stacks` | `readonly` | [`StacksApi`](stacks.md#stacksapi) |
+| <a id="property-stats"></a> `stats` | `readonly` | [`StatsApi`](stats.md#statsapi) |
+| <a id="property-user"></a> `user` | `readonly` | [`UserApi`](user.md#userapi) |
+| <a id="property-users"></a> `users` | `readonly` | [`UsersApi`](users.md#usersapi) |
+| <a id="property-utils"></a> `utils` | `readonly` | [`UtilsApi`](utils.md#utilsapi) |
 
 ## Interfaces
 
@@ -62,16 +62,16 @@ new Rokka(config): Rokka;
 
 | Property | Type |
 | ------ | ------ |
-| <a id="apihost"></a> `apiHost?` | `string` |
-| <a id="apikey"></a> `apiKey?` | `string` |
-| <a id="apitokengetcallback"></a> `apiTokenGetCallback?` | [`ApiTokenGetCallback`](user.md#apitokengetcallback) |
-| <a id="apitokenoptions"></a> `apiTokenOptions?` | \| [`RequestQueryParamsNewToken`](user.md#requestqueryparamsnewtoken) \| `null` |
-| <a id="apitokenrefreshtime"></a> `apiTokenRefreshTime?` | `number` |
-| <a id="apitokensetcallback"></a> `apiTokenSetCallback?` | [`ApiTokenSetCallback`](user.md#apitokensetcallback) |
-| <a id="apiversion"></a> `apiVersion?` | `string` \| `number` |
-| <a id="debug"></a> `debug?` | `boolean` |
-| <a id="renderhost"></a> `renderHost?` | `string` |
-| <a id="transport"></a> `transport?` | `object` |
+| <a id="property-apihost"></a> `apiHost?` | `string` |
+| <a id="property-apikey"></a> `apiKey?` | `string` |
+| <a id="property-apitokengetcallback"></a> `apiTokenGetCallback?` | [`ApiTokenGetCallback`](user.md#apitokengetcallback) |
+| <a id="property-apitokenoptions"></a> `apiTokenOptions?` | \| [`RequestQueryParamsNewToken`](user.md#requestqueryparamsnewtoken) \| `null` |
+| <a id="property-apitokenrefreshtime"></a> `apiTokenRefreshTime?` | `number` |
+| <a id="property-apitokensetcallback"></a> `apiTokenSetCallback?` | [`ApiTokenSetCallback`](user.md#apitokensetcallback) |
+| <a id="property-apiversion"></a> `apiVersion?` | `string` \| `number` |
+| <a id="property-debug"></a> `debug?` | `boolean` |
+| <a id="property-renderhost"></a> `renderHost?` | `string` |
+| <a id="property-transport"></a> `transport?` | `object` |
 | `transport.agent?` | `any` |
 | `transport.maxTimeout?` | `number` |
 | `transport.minTimeout?` | `number` |
@@ -101,16 +101,16 @@ new Rokka(config): Rokka;
 
 | Property | Type |
 | ------ | ------ |
-| <a id="apihost-1"></a> `apiHost` | `string` |
-| <a id="apikey-1"></a> `apiKey` | `string` \| `undefined` |
-| <a id="apitokengetcallback-1"></a> `apiTokenGetCallback?` | [`ApiTokenGetCallback`](user.md#apitokengetcallback) |
-| <a id="apitokenoptions-1"></a> `apiTokenOptions?` | \| [`RequestQueryParamsNewToken`](user.md#requestqueryparamsnewtoken) \| `null` |
-| <a id="apitokenpayload"></a> `apiTokenPayload` | [`ApiTokenPayload`](user.md#apitokenpayload) \| `null` |
-| <a id="apitokenrefreshtime-1"></a> `apiTokenRefreshTime` | `number` |
-| <a id="apitokensetcallback-1"></a> `apiTokenSetCallback?` | [`ApiTokenSetCallback`](user.md#apitokensetcallback) |
-| <a id="apiversion-1"></a> `apiVersion` | `string` \| `number` |
-| <a id="renderhost-1"></a> `renderHost` | `string` |
-| <a id="transportoptions"></a> `transportOptions` | `any` |
+| <a id="property-apihost-1"></a> `apiHost` | `string` |
+| <a id="property-apikey-1"></a> `apiKey` | `string` \| `undefined` |
+| <a id="property-apitokengetcallback-1"></a> `apiTokenGetCallback?` | [`ApiTokenGetCallback`](user.md#apitokengetcallback) |
+| <a id="property-apitokenoptions-1"></a> `apiTokenOptions?` | \| [`RequestQueryParamsNewToken`](user.md#requestqueryparamsnewtoken) \| `null` |
+| <a id="property-apitokenpayload"></a> `apiTokenPayload` | [`ApiTokenPayload`](user.md#apitokenpayload) \| `null` |
+| <a id="property-apitokenrefreshtime-1"></a> `apiTokenRefreshTime` | `number` |
+| <a id="property-apitokensetcallback-1"></a> `apiTokenSetCallback?` | [`ApiTokenSetCallback`](user.md#apitokensetcallback) |
+| <a id="property-apiversion-1"></a> `apiVersion` | `string` \| `number` |
+| <a id="property-renderhost-1"></a> `renderHost` | `string` |
+| <a id="property-transportoptions"></a> `transportOptions` | `any` |
 
 #### Methods
 

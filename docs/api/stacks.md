@@ -33,7 +33,7 @@ create(
    organization, 
    name, 
    stackConfig, 
-   params, ...
+   params?, ...
 rest): Promise<RokkaResponse>;
 ```
 
@@ -194,8 +194,8 @@ await rokka.stacks.invalidateCache('myorg', 'mystack')
 ```ts
 list(
    organization, 
-   limit, 
-offset): Promise<RokkaResponse>;
+   limit?, 
+offset?): Promise<RokkaResponse>;
 ```
 
 Get a list of available stacks.
@@ -232,10 +232,10 @@ const result = await rokka.stacks.list('myorg')
 
 | Property | Type |
 | ------ | ------ |
-| <a id="expressions"></a> `expressions?` | `Expression`[] |
-| <a id="operations"></a> `operations?` | `StackOperation`[] |
-| <a id="options"></a> `options?` | `StackOptions` |
-| <a id="variables"></a> `variables?` | `Variables` |
+| <a id="property-expressions"></a> `expressions?` | `Expression`[] |
+| <a id="property-operations"></a> `operations?` | `StackOperation`[] |
+| <a id="property-options"></a> `options?` | `StackOptions` |
+| <a id="property-variables"></a> `variables?` | `Variables` |
 
 ## Type Aliases
 
