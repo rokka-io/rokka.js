@@ -324,12 +324,35 @@ describe('sourceimages extended', () => {
 
       expect(resp.body.dynamic_metadata.version.text).toBe('v2.0')
     })
+
+    it('sends keepHash when set', async () => {
+      nock('https://api.rokka.io')
+        .put('/sourceimages/myorg/abc123/meta/dynamic/crop_area', {
+          x: 10,
+          y: 20,
+          width: 200,
+          height: 150,
+        })
+        .query({ keepHash: 'true', deletePrevious: 'false' })
+        .reply(200, { hash: 'sameHash' })
+
+      const resp = await rokka().sourceimages.addDynamicMetaData(
+        'myorg',
+        'abc123',
+        'crop_area',
+        { x: 10, y: 20, width: 200, height: 150 },
+        { keepHash: true },
+      )
+
+      expect(resp.statusCode).toBe(200)
+    })
   })
 
   describe('sourceimages.deleteDynamicMetaData', () => {
     it('deletes dynamic metadata', async () => {
       nock('https://api.rokka.io')
         .delete('/sourceimages/myorg/abc123/meta/dynamic/crop_area')
+        .query({ deletePrevious: 'false' })
         .reply(200, {
           hash: 'newHash',
         })
@@ -339,6 +362,22 @@ describe('sourceimages extended', () => {
         'abc123',
         'crop_area',
         {},
+      )
+
+      expect(resp.statusCode).toBe(200)
+    })
+
+    it('sends keepHash when set', async () => {
+      nock('https://api.rokka.io')
+        .delete('/sourceimages/myorg/abc123/meta/dynamic/crop_area')
+        .query({ keepHash: 'true', deletePrevious: 'false' })
+        .reply(200, { hash: 'sameHash' })
+
+      const resp = await rokka().sourceimages.deleteDynamicMetaData(
+        'myorg',
+        'abc123',
+        'crop_area',
+        { keepHash: true },
       )
 
       expect(resp.statusCode).toBe(200)
@@ -397,6 +436,37 @@ describe('sourceimages extended', () => {
       )
 
       expect(resp.body.copied).toBe(2)
+    })
+  })
+
+  describe('sourceimages.copy (POST proxy)', () => {
+    it('copies a single image via POST to /copy', async () => {
+      nock('https://api.rokka.io')
+        .post('/sourceimages/myorg/abc123/copy')
+        .matchHeader('Destination', 'targetorg')
+        .reply(201, {})
+
+      const resp = await rokka().sourceimages.copy(
+        'myorg',
+        'abc123',
+        'targetorg',
+      )
+
+      expect(resp.statusCode).toBe(201)
+    })
+
+    it('sends Overwrite: F when overwrite is false', async () => {
+      nock('https://api.rokka.io')
+        .post('/sourceimages/myorg/abc123/copy')
+        .matchHeader('Destination', 'targetorg')
+        .matchHeader('Overwrite', 'F')
+        .reply(412, {})
+
+      const resp: any = await rokka()
+        .sourceimages.copy('myorg', 'abc123', 'targetorg', false)
+        .catch(e => e)
+
+      expect(resp.statusCode).toBe(412)
     })
   })
 

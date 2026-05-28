@@ -1,12 +1,21 @@
-# [4.0.1] - unreleased
+# [4.1.0] - unreleased
+
+## Added
+
+- Add `keepHash` option to `rokka.sourceimages.addDynamicMetaData()` and `deleteDynamicMetaData()` to update/remove dynamic metadata in place without changing the image hash (mutually exclusive with `deletePrevious`)
+
+## Changed
+
+- `rokka.sourceimages.copy()` now uses `POST /sourceimages/{org}/{hash}/copy` instead of the `COPY` HTTP verb (firewall-friendly proxy, same behavior; no public API change)
+- Exclude src directory from npm package (smaller install size)
+
+## Fixed
+
+- `rokka.sourceimages.deleteDynamicMetaData()` now correctly sends `deletePrevious` (and `keepHash`) as query parameters; previously they were never sent to the API
 
 ## Security
 
 - Upgrade jwt-decode from v3 to v4 (no public API changes)
-
-## Changed
-
-- Exclude src directory from npm package (smaller install size)
 
 # [4.0.0] - 2025-12-27
 

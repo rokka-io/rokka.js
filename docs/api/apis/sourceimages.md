@@ -66,8 +66,9 @@ const result = await rokka.sourceimages.addDynamicMetaData('myorg', 'c421f4e8cef
 | `hash` | `string` | Image hash |
 | `name` | `string` | The name of the dynamic metadata |
 | `data` | `any` | The data to be sent. Usually an object |
-| `options` | \{ `deletePrevious?`: `string` \| `boolean`; \} | Optional: only {deletePrevious: true/false} yet, false is default |
+| `options` | \{ `deletePrevious?`: `string` \| `boolean`; `keepHash?`: `string` \| `boolean`; \} | Optional: {deletePrevious: true/false} (false is default) and/or {keepHash: true/false}. `keepHash` updates the metadata in place without changing the image hash (footgun: downstream caches may serve stale renders). Mutually exclusive with `deletePrevious`. |
 | `options.deletePrevious?` | `string` \| `boolean` | - |
+| `options.keepHash?` | `string` \| `boolean` | - |
 
 ###### Returns
 
@@ -327,8 +328,9 @@ await rokka.sourceimages.deleteDynamicMetaData('myorg', 'c421f4e8cefe0fd3aab2283
 | `organization` | `string` | Organization name |
 | `hash` | `string` | Image hash |
 | `name` | `string` | The name of the dynamic metadata |
-| `options` | \{ `deletePrevious?`: `string` \| `boolean`; \} | Optional: only {deletePrevious: true/false} yet, false is default |
+| `options` | \{ `deletePrevious?`: `string` \| `boolean`; `keepHash?`: `string` \| `boolean`; \} | Optional: {deletePrevious: true/false} (false is default) and/or {keepHash: true/false}. `keepHash` removes the metadata in place without changing the image hash (footgun: downstream caches may serve stale renders). Mutually exclusive with `deletePrevious`. |
 | `options.deletePrevious?` | `string` \| `boolean` | - |
+| `options.keepHash?` | `string` \| `boolean` | - |
 
 ###### Returns
 

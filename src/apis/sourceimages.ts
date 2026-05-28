@@ -549,8 +549,8 @@ export class SourceimagesApi {
     }
     if (!overwrite) headers.Overwrite = 'F'
     return this.state.request(
-      'COPY',
-      `sourceimages/${organization}/${hash}`,
+      'POST',
+      `sourceimages/${organization}/${hash}/copy`,
       null,
       null,
       { headers },
@@ -757,7 +757,10 @@ export class SourceimagesApi {
    * @param hash - Image hash
    * @param name - The name of the dynamic metadata
    * @param data - The data to be sent. Usually an object
-   * @param options - Optional: only {deletePrevious: true/false} yet, false is default
+   * @param options - Optional: {deletePrevious: true/false} (false is default) and/or
+   *   {keepHash: true/false}. `keepHash` updates the metadata in place without changing the
+   *   image hash (footgun: downstream caches may serve stale renders). Mutually exclusive
+   *   with `deletePrevious`.
    * @returns Promise resolving to the updated source image
    */
   addDynamicMetaData(
@@ -765,8 +768,14 @@ export class SourceimagesApi {
     hash: string,
     name: string,
     data: any,
-    options: { deletePrevious?: string | boolean } = {},
+    options: {
+      deletePrevious?: string | boolean
+      keepHash?: string | boolean
+    } = {},
   ): Promise<RokkaResponse> {
+    if (options.keepHash !== undefined) {
+      options.keepHash = options.keepHash ? 'true' : 'false'
+    }
     options.deletePrevious = options.deletePrevious ? 'true' : 'false'
     return this.state.request(
       'PUT',
@@ -791,19 +800,29 @@ export class SourceimagesApi {
    * @param organization - Organization name
    * @param hash - Image hash
    * @param name - The name of the dynamic metadata
-   * @param options - Optional: only {deletePrevious: true/false} yet, false is default
+   * @param options - Optional: {deletePrevious: true/false} (false is default) and/or
+   *   {keepHash: true/false}. `keepHash` removes the metadata in place without changing the
+   *   image hash (footgun: downstream caches may serve stale renders). Mutually exclusive
+   *   with `deletePrevious`.
    * @returns Promise resolving when the dynamic metadata is deleted
    */
   deleteDynamicMetaData(
     organization: string,
     hash: string,
     name: string,
-    options: { deletePrevious?: string | boolean } = {},
+    options: {
+      deletePrevious?: string | boolean
+      keepHash?: string | boolean
+    } = {},
   ): Promise<RokkaResponse> {
+    if (options.keepHash !== undefined) {
+      options.keepHash = options.keepHash ? 'true' : 'false'
+    }
     options.deletePrevious = options.deletePrevious ? 'true' : 'false'
     return this.state.request(
       'DELETE',
       `sourceimages/${organization}/${hash}/meta/dynamic/${name}`,
+      null,
       options,
     )
   }
