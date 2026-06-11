@@ -1,8 +1,9 @@
-# [4.1.0] - unreleased
+# [4.1.0] - 2026-06-11
 
 ## Added
 
 - Add `keepHash` option to `rokka.sourceimages.addDynamicMetaData()` and `deleteDynamicMetaData()` to update/remove dynamic metadata in place without changing the image hash (mutually exclusive with `deletePrevious`)
+- Add `BILLING_READ` (`billing:read`) to `rokka.memberships.ROLES` for granting read-only access to billing statistics
 
 ## Changed
 

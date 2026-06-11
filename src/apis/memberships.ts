@@ -23,6 +23,7 @@ export enum Role {
   SOURCEIMAGE_WRITE = 'sourceimages:write',
   SOURCEIMAGE_UNLOCK = 'sourceimages:unlock',
   SOURCEIMAGES_DOWNLOAD_PROTECTED = 'sourceimages:download:protected',
+  BILLING_READ = 'billing:read',
 }
 
 export class MembershipsApi {
@@ -36,6 +37,7 @@ export class MembershipsApi {
     SOURCEIMAGE_WRITE: Role
     SOURCEIMAGE_UNLOCK: Role
     SOURCEIMAGES_DOWNLOAD_PROTECTED: Role
+    BILLING_READ: Role
   } = {
     READ: Role.READ,
     WRITE: Role.WRITE,
@@ -45,6 +47,7 @@ export class MembershipsApi {
     SOURCEIMAGE_WRITE: Role.SOURCEIMAGE_WRITE,
     SOURCEIMAGE_UNLOCK: Role.SOURCEIMAGE_UNLOCK,
     SOURCEIMAGES_DOWNLOAD_PROTECTED: Role.SOURCEIMAGES_DOWNLOAD_PROTECTED,
+    BILLING_READ: Role.BILLING_READ,
   }
 
   constructor(private state: State) {}
