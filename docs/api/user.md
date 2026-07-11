@@ -415,7 +415,7 @@ Update an Api Key of the current user
 Currently only the `requires_mfa` flag can be changed. A key with
 `requires_mfa` can't be used directly anymore, it can only be exchanged
 for a JWT token together with a valid TOTP (MFA) code, see
-[getNewToken](#getnewtoken) and its `totp` query parameter.
+[getNewToken](#getnewtoken) and its `totp` parameter.
 
 ###### Parameters
 
@@ -604,7 +604,7 @@ console.log(result.body.secret, result.body.provisioning_uri)
 | <a id="property-ips-1"></a> `ips?` | `string` | - |
 | <a id="property-no_ip_protection"></a> `no_ip_protection?` | `boolean` | - |
 | <a id="property-renewable"></a> `renewable?` | `boolean` | - |
-| <a id="property-totp"></a> `totp?` | `string` | The current TOTP (MFA) code, needed when the used API key has `requires_mfa` set. This is a one-shot parameter for a single `getNewToken` call — never put it into `apiTokenOptions`, codes are only valid for a short time and single-use (and are stripped from `apiTokenOptions` defensively on token renewals). |
+| <a id="property-totp"></a> `totp?` | `string` | The current TOTP (MFA) code, needed when the used API key has `requires_mfa` set. This is a one-shot parameter for a single `getNewToken` call — never put it into `apiTokenOptions`, codes are only valid for a short time and single-use (and are stripped from `apiTokenOptions` defensively on token renewals). It is sent in the JSON request body, never in the URL/query string. |
 
 ***
 

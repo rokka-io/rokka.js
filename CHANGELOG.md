@@ -6,7 +6,7 @@
   - `rokka.user.getMfaTotp()`, `setupMfaTotp()` (returns secret + `otpauth://` provisioning URI for QR codes), `confirmMfaTotp(totp)` and `disableMfaTotp(totp)` for the TOTP setup lifecycle
   - `rokka.user.patchApiKey(id, {requires_mfa})` to require MFA for a key (such a key can only be exchanged for a JWT token together with a valid TOTP code)
   - `rokka.user.addApiKey(comment, {requires_mfa})` to create an already protected key
-  - `totp` query parameter on `rokka.user.getNewToken()` for the token exchange with an MFA key; the exchange is forced over the `Api-Key` header and a `totp` is never sent on automatic token renewals
+  - `totp` parameter on `rokka.user.getNewToken()` for the token exchange with an MFA key. The token endpoint is now called via `POST` (the `totp` is sent in the JSON body, never in the URL); the exchange is forced over the `Api-Key` header and a `totp` is never sent on automatic token renewals
   - `requires_mfa` / `totp_state` fields on the `UserApiKey` type
 
 # [4.1.0] - 2026-06-11

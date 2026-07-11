@@ -148,7 +148,7 @@ const result = await rokka.user.addApiKey('some comment')
 
 Update an Api Key of the current user
 
-Currently only the `requires_mfa` flag can be changed. A key with `requires_mfa` can't be used directly anymore, it can only be exchanged for a JWT token together with a valid TOTP (MFA) code, see {@link getNewToken} and its `totp` query parameter.
+Currently only the `requires_mfa` flag can be changed. A key with `requires_mfa` can't be used directly anymore, it can only be exchanged for a JWT token together with a valid TOTP (MFA) code, see {@link getNewToken} and its `totp` parameter.
 
 ```js
 const result = await rokka.user.patchApiKey(id, { requires_mfa: true })

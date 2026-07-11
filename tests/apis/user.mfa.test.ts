@@ -18,11 +18,11 @@ describe('user.mfa', () => {
   })
 
   describe('user.getNewToken with totp', () => {
-    it('sends the totp query param and uses the Api-Key header', async () => {
+    it('sends the totp in the POST body and uses the Api-Key header', async () => {
       nock('https://api.rokka.io')
         .matchHeader('Api-Key', 'APIKEY')
-        .get('/user/apikeys/token')
-        .query(q => q.totp === '123456')
+        .post('/user/apikeys/token', { totp: '123456' })
+        .query(true)
         .reply(200, { token: validToken(), payload: {} })
 
       const resp = await rokka().user.getNewToken('APIKEY', {
@@ -39,8 +39,9 @@ describe('user.mfa', () => {
         apiTokenOptions: { totp: '999999', expires_in: 600 },
       })
 
+      // no totp in the body, and the stale one is not in the query either
       nock('https://api.rokka.io')
-        .get('/user/apikeys/token')
+        .post('/user/apikeys/token', body => body.totp === undefined)
         .query(q => q.totp === undefined && q.expires_in === '600')
         .reply(200, { token: validToken(), payload: {} })
 
@@ -60,8 +61,8 @@ describe('user.mfa', () => {
       let authorizationHeader: string | undefined = 'not-checked'
       nock('https://api.rokka.io')
         .matchHeader('Api-Key', 'APIKEY')
-        .get('/user/apikeys/token')
-        .query(q => q.totp === '123456')
+        .post('/user/apikeys/token', { totp: '123456' })
+        .query(true)
         .reply(200, function () {
           authorizationHeader = this.req.headers['authorization']
           return { token: validToken(), payload: {} }
@@ -74,11 +75,12 @@ describe('user.mfa', () => {
 
     it('propagates totp_invalid errors', async () => {
       nock('https://api.rokka.io')
-        .get('/user/apikeys/token')
+        .post('/user/apikeys/token')
         .query(true)
         .reply(401, {
           code: 401,
-          message: 'A valid totp parameter is required for this API key',
+          message:
+            'A valid totp property in the JSON body is required for this API key',
           error: 'totp_invalid',
           invalid_authentication: true,
         })
@@ -95,7 +97,7 @@ describe('user.mfa', () => {
       // mockServer's rokka() sets transport.retries = 0, otherwise the
       // transport would retry the 429 a few times before throwing
       nock('https://api.rokka.io')
-        .get('/user/apikeys/token')
+        .post('/user/apikeys/token')
         .query(true)
         .reply(429, {
           code: 429,

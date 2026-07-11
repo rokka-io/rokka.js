@@ -92,6 +92,7 @@ export interface RequestQueryParamsNewToken extends RequestQueryParams {
    * This is a one-shot parameter for a single `getNewToken` call — never put it
    * into `apiTokenOptions`, codes are only valid for a short time and single-use
    * (and are stripped from `apiTokenOptions` defensively on token renewals).
+   * It is sent in the JSON request body, never in the URL/query string.
    */
   totp?: string
 }
@@ -182,7 +183,7 @@ export class UserApi {
    * Currently only the `requires_mfa` flag can be changed. A key with
    * `requires_mfa` can't be used directly anymore, it can only be exchanged
    * for a JWT token together with a valid TOTP (MFA) code, see
-   * {@link getNewToken} and its `totp` query parameter.
+   * {@link getNewToken} and its `totp` parameter.
    *
    * @remarks
    * Requires authentication.
@@ -270,22 +271,27 @@ export class UserApi {
     if (!queryParams) {
       queryParams = {}
     }
+    // The totp is sent in the JSON body (POST), never in the URL/query, so a
+    // single-use code can't end up in an access log. Everything else
+    // (expires_in, renewable, ips) stays in the query string.
+    const { totp, ...restParams } = queryParams
     // never let a (stale, single-use) totp from apiTokenOptions leak into
-    // token renewals, it's only valid as an explicit one-shot queryParam
+    // token renewals either
     const apiTokenOptions = { ...this.state.apiTokenOptions }
     delete apiTokenOptions.totp
+    const payload = totp ? { totp } : undefined
     return this.state
       .request(
-        'GET',
+        'POST',
         'user/apikeys/token',
-        undefined,
-        { ...apiTokenOptions, ...queryParams },
+        payload,
+        { ...apiTokenOptions, ...restParams },
         {
           // a totp exchange is by definition an Api-Key -> token mint, don't
           // let a leftover valid token burn the single-use code via Bearer auth
           forceUseApiKey:
             (!!apiKey && this.getTokenIsValidFor() < 10) ||
-            (!!apiKey && !!queryParams.totp),
+            (!!apiKey && !!totp),
           noTokenRefresh: true,
         },
       )
