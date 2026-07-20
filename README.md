@@ -136,12 +136,22 @@ List Api Keys of the current user
 const result = await rokka.user.listApiKeys()
 ```
 
-#### `rokka.user.addApiKey([comment=null])` → `Promise<UserApiKeyResponse>`
+#### `rokka.user.addApiKey([comment=null], [options={}])` → `Promise<UserApiKeyResponse>`
 
 Add Api Key to the current user
 
 ```js
 const result = await rokka.user.addApiKey('some comment')
+```
+
+#### `rokka.user.patchApiKey(id, options)` → `Promise<UserApiKeyResponse>`
+
+Update an Api Key of the current user
+
+Currently only the `requires_mfa` flag can be changed. A key with `requires_mfa` can't be used directly anymore, it can only be exchanged for a JWT token together with a valid TOTP (MFA) code, see {@link getNewToken} and its `totp` parameter.
+
+```js
+const result = await rokka.user.patchApiKey(id, { requires_mfa: true })
 ```
 
 #### `rokka.user.deleteApiKey(id)` → `Promise<RokkaResponse>`
@@ -168,6 +178,44 @@ You either provide an API Key or there's a valid JWT token registered to get a n
 
 ```js
 const result = await rokka.user.getNewToken(apiKey, {expires_in: 48 * 3600, renewable: true})
+```
+
+#### `rokka.user.getMfaTotp()` → `Promise<MfaTotpStatusResponse>`
+
+Get the TOTP (MFA) state of the current user
+
+```js
+const result = await rokka.user.getMfaTotp()
+console.log(result.body.state) // 'none' | 'pending' | 'active'
+```
+
+#### `rokka.user.setupMfaTotp()` → `Promise<MfaTotpSetupResponse>`
+
+Start the TOTP (MFA) setup for the current user
+
+Returns the secret and an `otpauth://` provisioning URI (for QR codes). The setup only becomes active once a first valid code is sent to {@link confirmMfaTotp}. Calling this again replaces an unconfirmed secret, it fails with a 409 when TOTP is already active.
+
+```js
+const result = await rokka.user.setupMfaTotp()
+console.log(result.body.secret, result.body.provisioning_uri)
+```
+
+#### `rokka.user.confirmMfaTotp(totp)` → `Promise<MfaTotpStatusResponse>`
+
+Confirm the TOTP (MFA) setup with a first valid code, activating it
+
+```js
+const result = await rokka.user.confirmMfaTotp('123456')
+```
+
+#### `rokka.user.disableMfaTotp(totp)` → `Promise<RokkaResponse>`
+
+Disable TOTP (MFA) for the current user
+
+Needs a valid current TOTP code. Also removes the `requires_mfa` flag from all API keys of the user.
+
+```js
+await rokka.user.disableMfaTotp('123456')
 ```
 
 #### `rokka.user.getToken()` → `ApiToken`
