@@ -12,6 +12,7 @@ describe('memberships', () => {
       SOURCEIMAGE_UNLOCK: 'sourceimages:unlock',
       SOURCEIMAGE_WRITE: 'sourceimages:write',
       BILLING_READ: 'billing:read',
+      ADMIN_READ: 'admin:read',
     })
   })
 

@@ -287,6 +287,14 @@ const result = await rokka.organizations.setOptions('myorg', {
 - `rokka.memberships.ROLES.WRITE` - read-write access
 - `rokka.memberships.ROLES.UPLOAD` - upload-only access
 - `rokka.memberships.ROLES.ADMIN` - administrative access
+- `rokka.memberships.ROLES.ADMIN_READ` - read-only administrative access: everything
+  `READ` grants, plus the organization's memberships, users and API key metadata,
+  but no write access. `ADMIN` implicitly has it, `WRITE` does not
+- `rokka.memberships.ROLES.SOURCEIMAGE_READ` - read-only access to source images
+- `rokka.memberships.ROLES.SOURCEIMAGE_WRITE` - read-write access to source images
+- `rokka.memberships.ROLES.SOURCEIMAGE_UNLOCK` - may unlock locked source images
+- `rokka.memberships.ROLES.SOURCEIMAGES_DOWNLOAD_PROTECTED` - may download protected source images
+- `rokka.memberships.ROLES.BILLING_READ` - read-only access to billing statistics
 
 #### `rokka.memberships.create(organization, userId, roles, [comment])` → `Promise<RokkaResponse>`
 

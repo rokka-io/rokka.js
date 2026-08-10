@@ -8,6 +8,7 @@
   - `rokka.user.addApiKey(comment, {requires_mfa})` to create an already protected key
   - `totp` parameter on `rokka.user.getNewToken()` for the token exchange with an MFA key. The token endpoint is now called via `POST` (the `totp` is sent in the JSON body, never in the URL); the exchange is forced over the `Api-Key` header and a `totp` is never sent on automatic token renewals
   - `requires_mfa` / `totp_state` fields on the `UserApiKey` type
+- Add `ADMIN_READ` (`admin:read`) to `rokka.memberships.ROLES`, a read-only organization admin. It grants everything `READ` grants, plus read access to the organization's memberships, users and API key metadata, and no write access of any kind. `ADMIN` implicitly satisfies it, `WRITE` deliberately does not
 
 # [4.1.0] - 2026-06-11
 
