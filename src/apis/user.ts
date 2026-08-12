@@ -1,6 +1,20 @@
 /**
  * ### User
  *
+ * #### Authentication errors
+ *
+ * Besides a plain 401, requests can fail with a 401 and one of these `error`
+ * codes in the body (together with `invalid_authentication: true`):
+ *
+ * - `key_expired` - the API key's `expires` date has passed
+ * - `ip_not_allowed` - the request's IP is not in the key's `allowed_ips`
+ * - `mfa_required` - an MFA key was used for something other than a token exchange
+ * - `mfa_enrollment_required` - an MFA key was used, but TOTP isn't set up yet
+ * - `totp_invalid` - the TOTP code was wrong or already used
+ *
+ * `allowed_ips` and `expires` are enforced retroactively, they also apply to
+ * JWT tokens which were minted from that key before the restriction was set.
+ *
  * @module user
  */
 
@@ -16,10 +30,48 @@ export interface UserApiKey {
   api_key?: string
   requires_mfa?: boolean
   totp_state?: MfaTotpState
+  /**
+   * The key can only be used from these IPs / IPv4 CIDR ranges. A request from
+   * anywhere else fails with a 401 and `error: 'ip_not_allowed'`.
+   */
+  allowed_ips?: string[]
+  /**
+   * The key stops working after this date. Requests with an expired key fail
+   * with a 401 and `error: 'key_expired'`.
+   */
+  expires?: string | null
 }
 
+/**
+ * Options for creating an API key.
+ *
+ * `allowed_ips` and `expires` can't be `null` here, there's no restriction to
+ * clear on a brand new key and the API rejects an explicit null with a 400.
+ */
 export interface UserApiKeyOptions {
   requires_mfa?: boolean
+  allowed_ips?: string[]
+  expires?: string | Date
+}
+
+/**
+ * Options for updating an API key. At least one of them has to be given.
+ *
+ * `allowed_ips: null` (or `[]`) clears the whitelist, `expires: null` clears
+ * the expiration date.
+ */
+export interface UserApiKeyPatchOptions {
+  requires_mfa?: boolean
+  allowed_ips?: string[] | null
+  expires?: string | Date | null
+}
+
+export interface UserApiKeyPatchQueryParams {
+  /**
+   * Allow a change which would lock the key you're currently authenticating
+   * with out of your own IP (or set an expiration date in the past).
+   */
+  force?: boolean
 }
 
 export type MfaTotpState = 'none' | 'pending' | 'active'
@@ -81,6 +133,65 @@ export interface UserResponse extends RokkaResponse {
   body: { user_id: string; email?: string; api_keys: UserApiKey[] }
 }
 
+export interface UserMembership {
+  /** Websafe name of the organization, as used in urls */
+  organization: string
+  /** UUID of the organization */
+  organization_id: string
+  display_name: string
+  /** The roles the user has in this organization, see `rokka.memberships.ROLES` */
+  roles: string[]
+  active: boolean
+  /** Date of the last access, only updated once within 24 hours */
+  last_access: string | null
+  created: string | null
+  comment: string | null
+}
+
+export interface UserMembershipsResponse extends RokkaResponse {
+  body: { total: number; items: UserMembership[] }
+}
+
+/**
+ * One organization/member pair with that member's API key metadata.
+ *
+ * Called `OrganizationApiKeys` in the rokka API schema, renamed here since
+ * the keys belong to a member, not to the organization.
+ */
+export interface OrganizationMemberApiKeys {
+  /** Websafe name of the organization, as used in urls */
+  organization: string
+  /** UUID of the organization */
+  organization_id: string
+  display_name: string
+  /** UUID of the member */
+  user_id: string
+  email: string
+  roles: string[]
+  active: boolean
+  last_access: string | null
+  created: string | null
+  comment: string | null
+  /**
+   * Metadata of the member's API keys. Never contains `api_key`, key values
+   * are stored one way hashed and can't be recovered.
+   */
+  api_keys: UserApiKey[]
+}
+
+export interface AdminApiKeysResponse extends RokkaResponse {
+  body: {
+    total: number
+    /**
+     * The result was cut off, because the current user has more than 1000
+     * memberships or is a member of more than 50 organizations. There is no
+     * pagination or cursor to get the rest.
+     */
+    truncated: boolean
+    items: OrganizationMemberApiKeys[]
+  }
+}
+
 export interface RequestQueryParamsNewToken extends RequestQueryParams {
   renewable?: boolean
   no_ip_protection?: boolean
@@ -137,6 +248,32 @@ export class UserApi {
   }
 
   /**
+   * List the organizations the current user is a member of
+   *
+   * Returns one entry per organization, together with the roles the user has
+   * in it. Read-only and public API keys can't use this and get a 403.
+   *
+   * There's no pagination, the API caps the result at 1000 memberships.
+   *
+   * @remarks
+   * Requires authentication.
+   *
+   * @example
+   * ```js
+   * const result = await rokka.user.listMemberships()
+   * result.body.items.forEach(membership => {
+   *   console.log(membership.organization, membership.roles)
+   * })
+   * ```
+   *
+   * @since 4.2.0
+   * @returns Promise resolving to the organizations the current user is a member of
+   */
+  listMemberships(): Promise<UserMembershipsResponse> {
+    return this.state.request('GET', 'user/memberships')
+  }
+
+  /**
    * List Api Keys of the current user
    *
    * @remarks
@@ -157,6 +294,10 @@ export class UserApi {
   /**
    * Add Api Key to the current user
    *
+   * The response only contains the options you actually supplied, next to
+   * `id`, `api_key` and `comment`. This is the only place where the key value
+   * itself is returned, it can't be retrieved later on.
+   *
    * @remarks
    * Requires authentication.
    *
@@ -165,9 +306,19 @@ export class UserApi {
    * const result = await rokka.user.addApiKey('some comment')
    * ```
    *
+   * @example A key which only works from some IPs and expires
+   * ```js
+   * const result = await rokka.user.addApiKey('ci key', {
+   *   allowed_ips: ['192.168.0.5', '10.0.0.0/24'],
+   *   expires: '2027-01-01T00:00:00+00:00'
+   * })
+   * ```
+   *
    * @since 3.3.0
    * @param comment - Optional comment for the API key
-   * @param options - Optional API key options, e.g. `{requires_mfa: true}` (since 4.2.0)
+   * @param options - Optional API key options: `requires_mfa`, `allowed_ips`
+   *   (max 10 IPs or IPv4 CIDR ranges) and `expires` (must be in the future),
+   *   all since 4.2.0
    * @returns Promise resolving to the created API key
    */
   addApiKey(
@@ -180,10 +331,19 @@ export class UserApi {
   /**
    * Update an Api Key of the current user
    *
-   * Currently only the `requires_mfa` flag can be changed. A key with
-   * `requires_mfa` can't be used directly anymore, it can only be exchanged
-   * for a JWT token together with a valid TOTP (MFA) code, see
+   * You can change the `requires_mfa` flag, the `allowed_ips` whitelist and
+   * the `expires` date. At least one of them has to be given, otherwise this
+   * rejects before doing a request. `allowed_ips: null` (or `[]`) clears the
+   * whitelist, `expires: null` clears the expiration date.
+   *
+   * A key with `requires_mfa` can't be used directly anymore, it can only be
+   * exchanged for a JWT token together with a valid TOTP (MFA) code, see
    * {@link getNewToken} and its `totp` parameter.
+   *
+   * `allowed_ips` and `expires` are enforced retroactively, so restricting the
+   * very key you're authenticating this call with is refused with a 400 when
+   * it would lock you out right now. Pass `{force: true}` to override that,
+   * for example when setting up a key for a server on a different IP.
    *
    * @remarks
    * Requires authentication.
@@ -193,16 +353,50 @@ export class UserApi {
    * const result = await rokka.user.patchApiKey(id, { requires_mfa: true })
    * ```
    *
+   * @example Restrict a key to some IPs, from another IP
+   * ```js
+   * const result = await rokka.user.patchApiKey(
+   *   id,
+   *   { allowed_ips: ['192.168.0.5'], expires: '2027-01-01T00:00:00+00:00' },
+   *   { force: true }
+   * )
+   * ```
+   *
+   * @example Remove both restrictions again
+   * ```js
+   * await rokka.user.patchApiKey(id, { allowed_ips: null, expires: null })
+   * ```
+   *
    * @since 4.2.0
    * @param id - The ID of the API key to update
-   * @param options - The API key options to change
-   * @returns Promise resolving to the updated API key info (includes `totp_state`)
+   * @param options - The API key options to change, at least one of
+   *   `requires_mfa`, `allowed_ips` or `expires`
+   * @param queryParams - Optional `{force: true}` to override the self lockout guard
+   * @returns Promise resolving to the updated API key info (always contains
+   *   `id`, `comment`, `requires_mfa`, `totp_state`, `allowed_ips` and `expires`)
    */
   patchApiKey(
     id: string,
-    options: UserApiKeyOptions,
+    options: UserApiKeyPatchOptions,
+    queryParams: UserApiKeyPatchQueryParams = {},
   ): Promise<UserApiKeyResponse> {
-    return this.state.request('PATCH', `user/apikeys/${id}`, options)
+    const given = (['requires_mfa', 'allowed_ips', 'expires'] as const).filter(
+      key => options && options[key] !== undefined,
+    )
+    if (given.length === 0) {
+      return Promise.reject(
+        new Error(
+          'Provide at least one of requires_mfa, allowed_ips or expires in the JSON body',
+        ),
+      )
+    }
+
+    return this.state.request(
+      'PATCH',
+      `user/apikeys/${id}`,
+      options,
+      queryParams.force === true ? { force: true } : {},
+    )
   }
 
   /**
@@ -240,6 +434,36 @@ export class UserApi {
    */
   getCurrentApiKey(): Promise<UserApiKeyResponse> {
     return this.state.request('GET', 'user/apikeys/current')
+  }
+
+  /**
+   * List the members and their Api Key metadata of all organizations you administrate
+   *
+   * Returns one entry per organization and member, for every organization
+   * where the current user has the `admin:read` role (`admin` implicitly has
+   * it too). Only the key metadata is returned, never the key values or the
+   * organization's signing keys.
+   *
+   * A `truncated: true` in the response means the result was cut off, because
+   * the current user has more than 1000 memberships or is a member of more
+   * than 50 organizations. There is no pagination or cursor to get the rest.
+   *
+   * @remarks
+   * Requires authentication.
+   *
+   * @example
+   * ```js
+   * const result = await rokka.user.listAdminApiKeys()
+   * result.body.items.forEach(member => {
+   *   console.log(member.organization, member.email, member.api_keys.length)
+   * })
+   * ```
+   *
+   * @since 4.2.0
+   * @returns Promise resolving to the members and their API key metadata
+   */
+  listAdminApiKeys(): Promise<AdminApiKeysResponse> {
+    return this.state.request('GET', 'user/admin/apikeys')
   }
 
   /**
