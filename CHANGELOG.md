@@ -9,6 +9,11 @@
   - `totp` parameter on `rokka.user.getNewToken()` for the token exchange with an MFA key. The token endpoint is now called via `POST` (the `totp` is sent in the JSON body, never in the URL); the exchange is forced over the `Api-Key` header and a `totp` is never sent on automatic token renewals
   - `requires_mfa` / `totp_state` fields on the `UserApiKey` type
 - Add `ADMIN_READ` (`admin:read`) to `rokka.memberships.ROLES`, a read-only organization admin. It grants everything `READ` grants, plus read access to the organization's memberships, users and API key metadata, and no write access of any kind. `ADMIN` implicitly satisfies it, `WRITE` deliberately does not
+- Add `allowed_ips` (IP whitelist) and `expires` restrictions for API keys, settable on `rokka.user.addApiKey()` and changeable with `rokka.user.patchApiKey(id, options, {force})`. `null` clears them, at least one option is required, and `{force: true}` overrides the guard against locking out your own key. Restricted keys fail with a 401 and `error: 'key_expired'` / `'ip_not_allowed'`
+- Add `rokka.user.listMemberships()` to list the organizations the current user is a member of, with their roles in each
+- Add `rokka.user.listAdminApiKeys()` to list the members and their API key metadata of all organizations you have `admin` or `admin:read` on. Check `truncated`, there's no pagination to get the rest
+- Add `rokka.organizations.listSubOrganizations(organization, {include_disabled})` to list the sub organizations of a master organization
+- Add `rokka.sourceimages.contentCredentials(organization, hash)` to (re-)read the C2PA / Content Credentials of an image, exposed as the searchable `content_credentials` static metadata block. `Sourceimage.static_metadata` stays `any`, cast it to the new `StaticMetadata` type to get the typing
 
 # [4.1.0] - 2026-06-11
 
