@@ -482,6 +482,100 @@ describe('sourceimages extended', () => {
     })
   })
 
+  describe('sourceimages.contentCredentials', () => {
+    it('posts to the contentcredentials endpoint and returns the source image', async () => {
+      nock('https://api.rokka.io')
+        .post('/sourceimages/myorg/abc123/contentcredentials')
+        .reply(200, {
+          hash: 'abc123',
+          name: 'ai.png',
+          static_metadata: {
+            content_credentials: {
+              present: true,
+              ai_generated: true,
+              digital_source_type:
+                'http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia',
+              generator: 'gpt-image',
+              signed_by: 'OpenAI OpCo, LLC',
+              validation_state: 'Valid',
+            },
+          },
+        })
+
+      const resp = await rokka().sourceimages.contentCredentials(
+        'myorg',
+        'abc123',
+      )
+
+      const credentials = resp.body.static_metadata?.content_credentials
+      expect(credentials?.present).toBe(true)
+      expect(credentials?.ai_generated).toBe(true)
+      expect(credentials?.generator).toBe('gpt-image')
+      expect(credentials?.signed_by).toBe('OpenAI OpCo, LLC')
+    })
+
+    it('sends no body and no query params', async () => {
+      nock('https://api.rokka.io')
+        .post(
+          '/sourceimages/myorg/abc123/contentcredentials',
+          body => body === '' || body === undefined,
+        )
+        .reply(200, { hash: 'abc123' })
+
+      const resp = await rokka().sourceimages.contentCredentials(
+        'myorg',
+        'abc123',
+      )
+
+      expect(resp.body.hash).toBe('abc123')
+    })
+
+    it('handles an image without a readable manifest', async () => {
+      nock('https://api.rokka.io')
+        .post('/sourceimages/myorg/abc123/contentcredentials')
+        .reply(200, {
+          hash: 'abc123',
+          // the whole key is omitted when there's no readable manifest
+          static_metadata: { exif: {} },
+        })
+
+      const resp = await rokka().sourceimages.contentCredentials(
+        'myorg',
+        'abc123',
+      )
+
+      expect(resp.body.static_metadata?.content_credentials).toBeUndefined()
+    })
+  })
+
+  describe('sourceimages.list with a content credentials search', () => {
+    it('passes the boolean search key through', async () => {
+      nock('https://api.rokka.io')
+        .get('/sourceimages/myorg')
+        .query({ 'static:boolean:content_credentials__ai_generated': 'true' })
+        .reply(200, { total: 0, items: [], cursor: '', links: {} })
+
+      const resp = await rokka().sourceimages.list('myorg', {
+        search: { 'static:boolean:content_credentials__ai_generated': 'true' },
+      })
+
+      expect(resp.body.total).toBe(0)
+    })
+
+    it('passes a text search on the generator through', async () => {
+      nock('https://api.rokka.io')
+        .get('/sourceimages/myorg')
+        .query({ 'static:text:content_credentials__generator': 'gpt-image' })
+        .reply(200, { total: 0, items: [], cursor: '', links: {} })
+
+      const resp = await rokka().sourceimages.list('myorg', {
+        search: { 'static:text:content_credentials__generator': 'gpt-image' },
+      })
+
+      expect(resp.body.total).toBe(0)
+    })
+  })
+
   describe('sourceimages.downloadList', () => {
     it('downloads list of images as zip', async () => {
       nock('https://api.rokka.io')
