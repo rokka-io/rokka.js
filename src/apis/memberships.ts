@@ -10,6 +10,14 @@ import { State } from '../index'
  * - `rokka.memberships.ROLES.WRITE` - read-write access
  * - `rokka.memberships.ROLES.UPLOAD` - upload-only access
  * - `rokka.memberships.ROLES.ADMIN` - administrative access
+ * - `rokka.memberships.ROLES.ADMIN_READ` - read-only administrative access: everything
+ *   `READ` grants, plus the organization's memberships, users and API key metadata,
+ *   but no write access. `ADMIN` implicitly has it, `WRITE` does not
+ * - `rokka.memberships.ROLES.SOURCEIMAGE_READ` - read-only access to source images
+ * - `rokka.memberships.ROLES.SOURCEIMAGE_WRITE` - read-write access to source images
+ * - `rokka.memberships.ROLES.SOURCEIMAGE_UNLOCK` - may unlock locked source images
+ * - `rokka.memberships.ROLES.SOURCEIMAGES_DOWNLOAD_PROTECTED` - may download protected source images
+ * - `rokka.memberships.ROLES.BILLING_READ` - read-only access to billing statistics
  *
  * @module memberships
  */
@@ -24,6 +32,7 @@ export enum Role {
   SOURCEIMAGE_UNLOCK = 'sourceimages:unlock',
   SOURCEIMAGES_DOWNLOAD_PROTECTED = 'sourceimages:download:protected',
   BILLING_READ = 'billing:read',
+  ADMIN_READ = 'admin:read',
 }
 
 export class MembershipsApi {
@@ -38,6 +47,7 @@ export class MembershipsApi {
     SOURCEIMAGE_UNLOCK: Role
     SOURCEIMAGES_DOWNLOAD_PROTECTED: Role
     BILLING_READ: Role
+    ADMIN_READ: Role
   } = {
     READ: Role.READ,
     WRITE: Role.WRITE,
@@ -48,6 +58,7 @@ export class MembershipsApi {
     SOURCEIMAGE_UNLOCK: Role.SOURCEIMAGE_UNLOCK,
     SOURCEIMAGES_DOWNLOAD_PROTECTED: Role.SOURCEIMAGES_DOWNLOAD_PROTECTED,
     BILLING_READ: Role.BILLING_READ,
+    ADMIN_READ: Role.ADMIN_READ,
   }
 
   constructor(private state: State) {}

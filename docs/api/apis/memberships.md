@@ -9,6 +9,7 @@
 | Enumeration Member | Value |
 | ------ | ------ |
 | <a id="enumeration-member-admin"></a> `ADMIN` | `"admin"` |
+| <a id="enumeration-member-admin_read"></a> `ADMIN_READ` | `"admin:read"` |
 | <a id="enumeration-member-billing_read"></a> `BILLING_READ` | `"billing:read"` |
 | <a id="enumeration-member-read"></a> `READ` | `"read"` |
 | <a id="enumeration-member-sourceimage_read"></a> `SOURCEIMAGE_READ` | `"sourceimages:read"` |
@@ -46,6 +47,7 @@ new MembershipsApi(state): MembershipsApi;
 | ------ | ------ | ------ |
 | <a id="property-roles"></a> `ROLES` | `readonly` | `object` |
 | `ROLES.ADMIN` | `public` | [`Role`](#role) |
+| `ROLES.ADMIN_READ` | `public` | [`Role`](#role) |
 | `ROLES.BILLING_READ` | `public` | [`Role`](#role) |
 | `ROLES.READ` | `public` | [`Role`](#role) |
 | `ROLES.SOURCEIMAGE_READ` | `public` | [`Role`](#role) |

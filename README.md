@@ -112,6 +112,20 @@ const result = await rokka.users.getId()
 
 ### User
 
+#### Authentication errors
+
+Besides a plain 401, requests can fail with a 401 and one of these `error`
+codes in the body (together with `invalid_authentication: true`):
+
+- `key_expired` - the API key's `expires` date has passed
+- `ip_not_allowed` - the request's IP is not in the key's `allowed_ips`
+- `mfa_required` - an MFA key was used for something other than a token exchange
+- `mfa_enrollment_required` - an MFA key was used, but TOTP isn't set up yet
+- `totp_invalid` - the TOTP code was wrong or already used
+
+`allowed_ips` and `expires` are enforced retroactively, they also apply to
+JWT tokens which were minted from that key before the restriction was set.
+
 #### `rokka.user.getId()` → `Promise<string>`
 
 Get user_id for current user
@@ -128,6 +142,21 @@ Get user object for current user
 const result = await rokka.user.get()
 ```
 
+#### `rokka.user.listMemberships()` → `Promise<UserMembershipsResponse>`
+
+List the organizations the current user is a member of
+
+Returns one entry per organization, together with the roles the user has in it. Read-only and public API keys can't use this and get a 403.
+
+There's no pagination, the API caps the result at 1000 memberships.
+
+```js
+const result = await rokka.user.listMemberships()
+result.body.items.forEach(membership => {
+  console.log(membership.organization, membership.roles)
+})
+```
+
 #### `rokka.user.listApiKeys()` → `Promise<UserApiKeyListResponse>`
 
 List Api Keys of the current user
@@ -140,18 +169,49 @@ const result = await rokka.user.listApiKeys()
 
 Add Api Key to the current user
 
+The response only contains the options you actually supplied, next to `id`, `api_key` and `comment`. This is the only place where the key value itself is returned, it can't be retrieved later on.
+
 ```js
 const result = await rokka.user.addApiKey('some comment')
 ```
 
-#### `rokka.user.patchApiKey(id, options)` → `Promise<UserApiKeyResponse>`
+**A key which only works from some IPs and expires**
+
+```js
+const result = await rokka.user.addApiKey('ci key', {
+  allowed_ips: ['192.168.0.5', '10.0.0.0/24'],
+  expires: '2027-01-01T00:00:00+00:00'
+})
+```
+
+#### `rokka.user.patchApiKey(id, options, [queryParams={}])` → `Promise<UserApiKeyResponse>`
 
 Update an Api Key of the current user
 
-Currently only the `requires_mfa` flag can be changed. A key with `requires_mfa` can't be used directly anymore, it can only be exchanged for a JWT token together with a valid TOTP (MFA) code, see {@link getNewToken} and its `totp` parameter.
+You can change the `requires_mfa` flag, the `allowed_ips` whitelist and the `expires` date. At least one of them has to be given, otherwise this rejects before doing a request. `allowed_ips: null` (or `[]`) clears the whitelist, `expires: null` clears the expiration date.
+
+A key with `requires_mfa` can't be used directly anymore, it can only be exchanged for a JWT token together with a valid TOTP (MFA) code, see {@link getNewToken} and its `totp` parameter.
+
+`allowed_ips` and `expires` are enforced retroactively, so restricting the very key you're authenticating this call with is refused with a 400 when it would lock you out right now. Pass `{force: true}` to override that, for example when setting up a key for a server on a different IP.
 
 ```js
 const result = await rokka.user.patchApiKey(id, { requires_mfa: true })
+```
+
+**Restrict a key to some IPs, from another IP**
+
+```js
+const result = await rokka.user.patchApiKey(
+  id,
+  { allowed_ips: ['192.168.0.5'], expires: '2027-01-01T00:00:00+00:00' },
+  { force: true }
+)
+```
+
+**Remove both restrictions again**
+
+```js
+await rokka.user.patchApiKey(id, { allowed_ips: null, expires: null })
 ```
 
 #### `rokka.user.deleteApiKey(id)` → `Promise<RokkaResponse>`
@@ -168,6 +228,21 @@ Get currently used Api Key
 
 ```js
 const result = await rokka.user.getCurrentApiKey()
+```
+
+#### `rokka.user.listAdminApiKeys()` → `Promise<AdminApiKeysResponse>`
+
+List the members and their Api Key metadata of all organizations you administrate
+
+Returns one entry per organization and member, for every organization where the current user has the `admin:read` role (`admin` implicitly has it too). Only the key metadata is returned, never the key values or the organization's signing keys.
+
+A `truncated: true` in the response means the result was cut off, because the current user has more than 1000 memberships or is a member of more than 50 organizations. There is no pagination or cursor to get the rest.
+
+```js
+const result = await rokka.user.listAdminApiKeys()
+result.body.items.forEach(member => {
+  console.log(member.organization, member.email, member.api_keys.length)
+})
 ```
 
 #### `rokka.user.getNewToken([apiKey], [queryParams={}])` → `Promise<UserKeyTokenResponse>`
@@ -264,6 +339,21 @@ Create an organization.
 const result = await rokka.organizations.create('myorg', 'billing@example.org', 'Organization Inc.')
 ```
 
+#### `rokka.organizations.listSubOrganizations(organization, [options={}])` → `Promise<SubOrganizationsResponse>`
+
+List the sub organizations of a master organization.
+
+Sub organizations are the ones whose usage is aggregated onto the master organization's invoice. Needs the `admin` or `admin:read` role on the organization. The list is sorted by name and is not paginated.
+
+rokka doesn't support nested master organizations, so asking this on an organization which is itself a sub organization returns an empty list. Use the returned `master_organization` to know which organization to ask instead.
+
+```js
+const result = await rokka.organizations.listSubOrganizations('mastername')
+result.body.items.forEach(org => {
+  console.log(org.name, org.display_name)
+})
+```
+
 #### `rokka.organizations.setOption(organizationName, name, value)` → `Promise<RokkaResponse>`
 
 Set a single organization option.
@@ -287,6 +377,14 @@ const result = await rokka.organizations.setOptions('myorg', {
 - `rokka.memberships.ROLES.WRITE` - read-write access
 - `rokka.memberships.ROLES.UPLOAD` - upload-only access
 - `rokka.memberships.ROLES.ADMIN` - administrative access
+- `rokka.memberships.ROLES.ADMIN_READ` - read-only administrative access: everything
+  `READ` grants, plus the organization's memberships, users and API key metadata,
+  but no write access. `ADMIN` implicitly has it, `WRITE` does not
+- `rokka.memberships.ROLES.SOURCEIMAGE_READ` - read-only access to source images
+- `rokka.memberships.ROLES.SOURCEIMAGE_WRITE` - read-write access to source images
+- `rokka.memberships.ROLES.SOURCEIMAGE_UNLOCK` - may unlock locked source images
+- `rokka.memberships.ROLES.SOURCEIMAGES_DOWNLOAD_PROTECTED` - may download protected source images
+- `rokka.memberships.ROLES.BILLING_READ` - read-only access to billing statistics
 
 #### `rokka.memberships.create(organization, userId, roles, [comment])` → `Promise<RokkaResponse>`
 
@@ -356,6 +454,16 @@ const search = {
 const result = await rokka.sourceimages.list('myorg', { search: search })
 ```
 
+**Searching in static metadata, eg for AI generated images**
+
+```js
+const search = {
+  'static:boolean:content_credentials__ai_generated': 'true',
+  'static:text:content_credentials__generator': 'gpt-image'
+}
+const result = await rokka.sourceimages.list('myorg', { search: search })
+```
+
 #### `rokka.sourceimages.downloadList(organization, [params={}])` → `Promise<RokkaDownloadResponse>`
 
 Get a list of source images as zip. Same parameters as the `list` method
@@ -418,6 +526,30 @@ You need to be a paying customer to be able to use this.
 
 ```js
 const result = await rokka.sourceimages.autodescription('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a', ['en', 'de'], false)
+```
+
+#### `rokka.sourceimages.contentCredentials(organization, hash)` → `Promise<ContentCredentialsResponse>`
+
+Read the C2PA / Content Credentials of an image.
+
+Content Credentials tell you whether an image declares itself as AI generated, ChatGPT/DALL-E images for example embed such a signed manifest.
+
+rokka reads them automatically on every upload, so you usually don't need this. It re-reads the original uploaded file (re-encoding an image strips its manifest) and refreshes the `content_credentials` static metadata block, which is useful after rokka's detection improved.
+
+```js
+const result = await rokka.sourceimages.contentCredentials('myorg', 'c421f4e8cefe0fd3aab22832f51e85bacda0a47a')
+const credentials = result.body.static_metadata?.content_credentials
+if (credentials?.ai_generated) {
+  console.log('AI generated by', credentials.generator)
+}
+```
+
+You can also search for it, see {@link list}. Note that the search values have to be strings, `'true'` and not `true`:
+
+```js
+const result = await rokka.sourceimages.list('myorg', {
+  search: { 'static:boolean:content_credentials__ai_generated': 'true' }
+})
 ```
 
 #### `rokka.sourceimages.create(organization, fileName, binaryData, [metadata=null], [options={}])` → `Promise<RokkaResponse>`
