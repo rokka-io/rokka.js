@@ -35,6 +35,37 @@ export enum Role {
   ADMIN_READ = 'admin:read',
 }
 
+/**
+ * Properties for the initial API key of a user created with
+ * {@link MembershipsApi.createWithNewUser}.
+ *
+ * Same options as {@link user.UserApiKeyOptions}, plus a `comment` for the key
+ * itself (the `comment` argument of `createWithNewUser` is the membership's
+ * comment, not the key's).
+ *
+ * `requires_mfa` on a read-only membership (`read` / `upload` /
+ * `sourceimages:read`) needs `trusted: true` as well, otherwise the new user
+ * can't reach the TOTP enrollment endpoints and the key would be unusable. The
+ * API answers with a 400 in that case.
+ *
+ * @since 4.3.0
+ */
+export interface MembershipApiKeyOptions {
+  /** A comment for the key itself */
+  comment?: string
+  /**
+   * The key may manage this user's API keys even when the user only holds a
+   * read-only role. Grants no organization permissions. Never hand such a key
+   * to end users.
+   */
+  trusted?: boolean
+  requires_mfa?: boolean
+  /** Max 10 IPs or IPv4 CIDR ranges */
+  allowed_ips?: string[]
+  /** Must be in the future */
+  expires?: string | Date
+}
+
 export class MembershipsApi {
   readonly ROLES: {
     [key: string]: Role
@@ -138,15 +169,30 @@ export class MembershipsApi {
    * const result = await rokka.memberships.createWithNewUser('myorg', [rokka.memberships.ROLES.READ], "New user for something")
    * ```
    *
+   * @example A read-only user which can still rotate its own keys
+   * ```js
+   * const result = await rokka.memberships.createWithNewUser(
+   *   'myorg',
+   *   [rokka.memberships.ROLES.READ],
+   *   'CI user',
+   *   { comment: 'initial key', trusted: true }
+   * )
+   * ```
+   *
    * @param organization - Organization name
    * @param roles - User roles (`rokka.memberships.ROLES`)
    * @param comment - Optional comment
+   * @param apiKey - Optional properties for the initial API key of the new user
+   *   (`comment`, `trusted`, `requires_mfa`, `allowed_ips`, `expires`). This is
+   *   the only place `trusted` can be set on a user which is already read-only,
+   *   its own key endpoints answer 403 from then on. Since 4.3.0
    * @returns Promise resolving to the new user and membership
    */
   createWithNewUser(
     organization: string,
     roles: Role[],
     comment?: string | null | undefined,
+    apiKey?: MembershipApiKeyOptions,
   ): Promise<RokkaResponse> {
     roles.forEach(role => {
       if (
@@ -160,7 +206,18 @@ export class MembershipsApi {
 
     const path = `organizations/${organization}/memberships`
 
-    return this.state.request('POST', path, { roles: roles, comment })
+    const payload: {
+      roles: Role[]
+      comment?: string | null
+      api_key?: MembershipApiKeyOptions
+    } = { roles: roles, comment }
+    // only send api_key when there's something to say: the API rejects an
+    // explicit null (or any non-object) with a 400
+    if (apiKey !== undefined && apiKey !== null) {
+      payload.api_key = apiKey
+    }
+
+    return this.state.request('POST', path, payload)
   }
 
   /**

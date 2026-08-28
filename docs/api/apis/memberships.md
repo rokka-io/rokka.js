@@ -102,7 +102,8 @@ const result = await rokka.memberships.create('myorg', '613547f8-e26d-48f6-8a6a-
 createWithNewUser(
    organization, 
    roles, 
-comment?): Promise<RokkaResponse>;
+   comment?, 
+apiKey?): Promise<RokkaResponse>;
 ```
 
 Create a user and membership associated to this organization.
@@ -114,6 +115,7 @@ Create a user and membership associated to this organization.
 | `organization` | `string` | Organization name |
 | `roles` | [`Role`](#role)[] | User roles (`rokka.memberships.ROLES`) |
 | `comment?` | `string` \| `null` | Optional comment |
+| `apiKey?` | [`MembershipApiKeyOptions`](#membershipapikeyoptions) | Optional properties for the initial API key of the new user (`comment`, `trusted`, `requires_mfa`, `allowed_ips`, `expires`). This is the only place `trusted` can be set on a user which is already read-only, its own key endpoints answer 403 from then on. Since 4.3.0 |
 
 ###### Returns
 
@@ -125,10 +127,19 @@ Promise resolving to the new user and membership
 
 Requires authentication.
 
-###### Example
+###### Examples
 
 ```js
 const result = await rokka.memberships.createWithNewUser('myorg', [rokka.memberships.ROLES.READ], "New user for something")
+```
+
+```js
+const result = await rokka.memberships.createWithNewUser(
+  'myorg',
+  [rokka.memberships.ROLES.READ],
+  'CI user',
+  { comment: 'initial key', trusted: true }
+)
 ```
 
 ##### delete()
@@ -222,6 +233,36 @@ Requires authentication.
 ```js
 const result = await rokka.memberships.list('myorg')
 ```
+
+## Interfaces
+
+### MembershipApiKeyOptions
+
+Properties for the initial API key of a user created with
+[MembershipsApi.createWithNewUser](#createwithnewuser).
+
+Same options as [user.UserApiKeyOptions](../user.md#userapikeyoptions), plus a `comment` for the key
+itself (the `comment` argument of `createWithNewUser` is the membership's
+comment, not the key's).
+
+`requires_mfa` on a read-only membership (`read` / `upload` /
+`sourceimages:read`) needs `trusted: true` as well, otherwise the new user
+can't reach the TOTP enrollment endpoints and the key would be unusable. The
+API answers with a 400 in that case.
+
+#### Since
+
+4.3.0
+
+#### Properties
+
+| Property | Type | Description |
+| ------ | ------ | ------ |
+| <a id="property-allowed_ips"></a> `allowed_ips?` | `string`[] | Max 10 IPs or IPv4 CIDR ranges |
+| <a id="property-comment"></a> `comment?` | `string` | A comment for the key itself |
+| <a id="property-expires"></a> `expires?` | `string` \| `Date` | Must be in the future |
+| <a id="property-requires_mfa"></a> `requires_mfa?` | `boolean` | - |
+| <a id="property-trusted"></a> `trusted?` | `boolean` | The key may manage this user's API keys even when the user only holds a read-only role. Grants no organization permissions. Never hand such a key to end users. |
 
 ## Type Aliases
 

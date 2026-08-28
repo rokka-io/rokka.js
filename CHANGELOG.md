@@ -1,3 +1,11 @@
+# [4.3.0] - 2026-08-28
+
+## Added
+
+- Add the `trusted` flag for API keys, settable with `rokka.user.addApiKey(comment, {trusted: true})` and `rokka.user.patchApiKey(id, {trusted})`, and returned on `UserApiKey`. A trusted key may manage its own user's API keys even when that user only holds a read-only role (`read` / `upload` / `sourceimages:read`), which is what makes key rotation possible for such a user. It's evaluated per key, so a published sibling key of the same user stays locked down, and it grants no organization permissions — never hand a trusted key to end users. Clearing it on the key you're authenticating with is refused with a 400 when that would strand you, override with `{force: true}`
+- `rokka.user.patchApiKey()` accepts a body with only `trusted` in it (it previously rejected client-side, before doing a request)
+- Add an optional 4th `apiKey` parameter to `rokka.memberships.createWithNewUser()` for the initial API key of the new user (`comment`, `trusted`, `requires_mfa`, `allowed_ips`, `expires`). It's only sent when given. This is the only place `trusted` can be set on a user which is already read-only, since its own key endpoints answer 403 from then on. `requires_mfa` on a read-only membership needs `trusted: true` as well, otherwise the new user can't reach the TOTP enrollment endpoints and the API answers with a 400
+
 # [4.2.0] - 2026-08-13
 
 ## Added

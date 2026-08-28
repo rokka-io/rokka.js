@@ -48,6 +48,23 @@ describe('user.apikeys restrictions', () => {
       expect(resp.body.id).toBe('keyid')
     })
 
+    it('posts trusted', async () => {
+      nock('https://api.rokka.io')
+        .post('/user/apikeys', { comment: 'deploy key', trusted: true })
+        .reply(200, {
+          id: 'keyid',
+          api_key: 'key',
+          comment: 'deploy key',
+          trusted: true,
+        })
+
+      const resp = await rokka().user.addApiKey('deploy key', {
+        trusted: true,
+      })
+
+      expect(resp.body.trusted).toBe(true)
+    })
+
     it('propagates a 400 for an invalid allowed_ips entry', async () => {
       nock('https://api.rokka.io').post('/user/apikeys').reply(400, {
         code: 400,
@@ -102,6 +119,38 @@ describe('user.apikeys restrictions', () => {
       expect(resp.body.allowed_ips).toEqual([])
     })
 
+    it('patches trusted alone', async () => {
+      nock('https://api.rokka.io')
+        .patch('/user/apikeys/keyid', { trusted: true })
+        .reply(200, {
+          id: 'keyid',
+          comment: null,
+          requires_mfa: false,
+          totp_state: 'none',
+          trusted: true,
+          allowed_ips: [],
+          expires: null,
+        })
+
+      const resp = await rokka().user.patchApiKey('keyid', { trusted: true })
+
+      expect(resp.body.trusted).toBe(true)
+    })
+
+    it('propagates the self lockout 400 when clearing trusted', async () => {
+      nock('https://api.rokka.io')
+        .patch('/user/apikeys/keyid', { trusted: false })
+        .reply(400, {
+          code: 400,
+          message:
+            'Clearing trusted would lock this key out of your own key management, use a different key or pass ?force=true to override.',
+        })
+
+      await expect(
+        rokka().user.patchApiKey('keyid', { trusted: false }),
+      ).rejects.toMatchObject({ statusCode: 400 })
+    })
+
     it('sends force=true when asked for', async () => {
       nock('https://api.rokka.io')
         .patch('/user/apikeys/keyid', { allowed_ips: ['9.9.9.9'] })
@@ -144,7 +193,7 @@ describe('user.apikeys restrictions', () => {
         .reply(200, {})
 
       await expect(rokka().user.patchApiKey('keyid', {})).rejects.toThrowError(
-        'Provide at least one of requires_mfa, allowed_ips or expires in the JSON body',
+        'Provide at least one of requires_mfa, trusted, allowed_ips or expires in the JSON body',
       )
       expect(scope.isDone()).toBe(false)
     })
@@ -184,6 +233,7 @@ describe('user.apikeys restrictions', () => {
             id: 'keyid',
             comment: 'ci key',
             requires_mfa: false,
+            trusted: true,
             allowed_ips: ['1.2.3.4'],
             expires: '2027-01-01T00:00:00+00:00',
           },
@@ -193,6 +243,7 @@ describe('user.apikeys restrictions', () => {
 
       expect(resp.body[0].allowed_ips).toEqual(['1.2.3.4'])
       expect(resp.body[0].expires).toBe('2027-01-01T00:00:00+00:00')
+      expect(resp.body[0].trusted).toBe(true)
     })
 
     it('returns allowed_ips and expires on getCurrentApiKey', async () => {

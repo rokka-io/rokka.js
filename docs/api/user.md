@@ -16,6 +16,16 @@ codes in the body (together with `invalid_authentication: true`):
 `allowed_ips` and `expires` are enforced retroactively, they also apply to
 JWT tokens which were minted from that key before the restriction was set.
 
+#### Trusted keys
+
+A user which only holds read-only roles (`read` / `upload` /
+`sourceimages:read`) gets a 403 on all of its own key, user and membership
+endpoints, so it can't even rotate its own keys. A key with `trusted: true`
+(since 4.3.0) is exempt from that guard, which makes such a user
+self-serviceable again. The flag is per key, so a published sibling key of
+the same user stays locked down, and it grants no organization permissions.
+Never hand a trusted key to end users.
+
 ## Classes
 
 ### UserApi
@@ -57,7 +67,7 @@ itself is returned, it can't be retrieved later on.
 | Parameter | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
 | `comment` | `string` \| `null` | `null` | Optional comment for the API key |
-| `options` | [`UserApiKeyOptions`](#userapikeyoptions) | `{}` | Optional API key options: `requires_mfa`, `allowed_ips` (max 10 IPs or IPv4 CIDR ranges) and `expires` (must be in the future), all since 4.2.0 |
+| `options` | [`UserApiKeyOptions`](#userapikeyoptions) | `{}` | Optional API key options: `requires_mfa`, `allowed_ips` (max 10 IPs or IPv4 CIDR ranges) and `expires` (must be in the future), all since 4.2.0, and `trusted` since 4.3.0 |
 
 ###### Returns
 
@@ -80,6 +90,10 @@ const result = await rokka.user.addApiKey('ci key', {
   allowed_ips: ['192.168.0.5', '10.0.0.0/24'],
   expires: '2027-01-01T00:00:00+00:00'
 })
+```
+
+```js
+const result = await rokka.user.addApiKey('deploy key', { trusted: true })
 ```
 
 ###### Since
@@ -516,10 +530,10 @@ queryParams?): Promise<UserApiKeyResponse>;
 
 Update an Api Key of the current user
 
-You can change the `requires_mfa` flag, the `allowed_ips` whitelist and
-the `expires` date. At least one of them has to be given, otherwise this
-rejects before doing a request. `allowed_ips: null` (or `[]`) clears the
-whitelist, `expires: null` clears the expiration date.
+You can change the `requires_mfa` and `trusted` flags, the `allowed_ips`
+whitelist and the `expires` date. At least one of them has to be given,
+otherwise this rejects before doing a request. `allowed_ips: null` (or
+`[]`) clears the whitelist, `expires: null` clears the expiration date.
 
 A key with `requires_mfa` can't be used directly anymore, it can only be
 exchanged for a JWT token together with a valid TOTP (MFA) code, see
@@ -528,14 +542,16 @@ exchanged for a JWT token together with a valid TOTP (MFA) code, see
 `allowed_ips` and `expires` are enforced retroactively, so restricting the
 very key you're authenticating this call with is refused with a 400 when
 it would lock you out right now. Pass `{force: true}` to override that,
-for example when setting up a key for a server on a different IP.
+for example when setting up a key for a server on a different IP. The same
+guard applies to clearing `trusted` on the current key when that flag is
+the only reason this key may manage keys at all.
 
 ###### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `id` | `string` | The ID of the API key to update |
-| `options` | [`UserApiKeyPatchOptions`](#userapikeypatchoptions) | The API key options to change, at least one of `requires_mfa`, `allowed_ips` or `expires` |
+| `options` | [`UserApiKeyPatchOptions`](#userapikeypatchoptions) | The API key options to change, at least one of `requires_mfa`, `trusted` (since 4.3.0), `allowed_ips` or `expires` |
 | `queryParams` | [`UserApiKeyPatchQueryParams`](#userapikeypatchqueryparams) | Optional `{force: true}` to override the self lockout guard |
 
 ###### Returns
@@ -543,7 +559,8 @@ for example when setting up a key for a server on a different IP.
 `Promise`\<[`UserApiKeyResponse`](#userapikeyresponse)\>
 
 Promise resolving to the updated API key info (always contains
-  `id`, `comment`, `requires_mfa`, `totp_state`, `allowed_ips` and `expires`)
+  `id`, `comment`, `requires_mfa`, `totp_state`, `trusted`, `allowed_ips`
+  and `expires`)
 
 ###### Remarks
 
@@ -565,6 +582,10 @@ const result = await rokka.user.patchApiKey(
 
 ```js
 await rokka.user.patchApiKey(id, { allowed_ips: null, expires: null })
+```
+
+```js
+await rokka.user.patchApiKey(id, { trusted: true })
 ```
 
 ###### Since
@@ -797,6 +818,7 @@ the keys belong to a member, not to the organization.
 | <a id="property-id"></a> `id` | `string` | - |
 | <a id="property-requires_mfa"></a> `requires_mfa?` | `boolean` | - |
 | <a id="property-totp_state"></a> `totp_state?` | [`MfaTotpState`](#mfatotpstate) | - |
+| <a id="property-trusted"></a> `trusted?` | `boolean` | The key is declared to never be handed to end users and may manage its own user's API keys even when that user only holds a read-only role (`read` / `upload` / `sourceimages:read`). It grants no organization permissions, and it's evaluated per key, so a published sibling key of the same user stays locked down. **Since** 4.3.0 |
 
 ***
 
@@ -828,11 +850,12 @@ clear on a brand new key and the API rejects an explicit null with a 400.
 
 #### Properties
 
-| Property | Type |
-| ------ | ------ |
-| <a id="property-allowed_ips-1"></a> `allowed_ips?` | `string`[] |
-| <a id="property-expires-1"></a> `expires?` | `string` \| `Date` |
-| <a id="property-requires_mfa-1"></a> `requires_mfa?` | `boolean` |
+| Property | Type | Description |
+| ------ | ------ | ------ |
+| <a id="property-allowed_ips-1"></a> `allowed_ips?` | `string`[] | - |
+| <a id="property-expires-1"></a> `expires?` | `string` \| `Date` | - |
+| <a id="property-requires_mfa-1"></a> `requires_mfa?` | `boolean` | - |
+| <a id="property-trusted-1"></a> `trusted?` | `boolean` | Declare the key as never being handed to end users, so it can manage this user's API keys even when the user only holds a read-only role. **Since** 4.3.0 |
 
 ***
 
@@ -845,11 +868,12 @@ the expiration date.
 
 #### Properties
 
-| Property | Type |
-| ------ | ------ |
-| <a id="property-allowed_ips-2"></a> `allowed_ips?` | `string`[] \| `null` |
-| <a id="property-expires-2"></a> `expires?` | `string` \| `Date` \| `null` |
-| <a id="property-requires_mfa-2"></a> `requires_mfa?` | `boolean` |
+| Property | Type | Description |
+| ------ | ------ | ------ |
+| <a id="property-allowed_ips-2"></a> `allowed_ips?` | `string`[] \| `null` | - |
+| <a id="property-expires-2"></a> `expires?` | `string` \| `Date` \| `null` | - |
+| <a id="property-requires_mfa-2"></a> `requires_mfa?` | `boolean` | - |
+| <a id="property-trusted-2"></a> `trusted?` | `boolean` | Declare the key as never being handed to end users, so it can manage this user's API keys even when the user only holds a read-only role. Clearing it on the key you're authenticating with is guarded against, see [UserApiKeyPatchQueryParams.force](#property-force). **Since** 4.3.0 |
 
 ***
 
@@ -859,7 +883,7 @@ the expiration date.
 
 | Property | Type | Description |
 | ------ | ------ | ------ |
-| <a id="property-force"></a> `force?` | `boolean` | Allow a change which would lock the key you're currently authenticating with out of your own IP (or set an expiration date in the past). |
+| <a id="property-force"></a> `force?` | `boolean` | Allow a change which would lock the key you're currently authenticating with out of your own IP (or set an expiration date in the past, or clear its `trusted` flag while that's the only thing letting this key manage keys at all). |
 
 ***
 

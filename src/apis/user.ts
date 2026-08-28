@@ -15,6 +15,16 @@
  * `allowed_ips` and `expires` are enforced retroactively, they also apply to
  * JWT tokens which were minted from that key before the restriction was set.
  *
+ * #### Trusted keys
+ *
+ * A user which only holds read-only roles (`read` / `upload` /
+ * `sourceimages:read`) gets a 403 on all of its own key, user and membership
+ * endpoints, so it can't even rotate its own keys. A key with `trusted: true`
+ * (since 4.3.0) is exempt from that guard, which makes such a user
+ * self-serviceable again. The flag is per key, so a published sibling key of
+ * the same user stays locked down, and it grants no organization permissions.
+ * Never hand a trusted key to end users.
+ *
  * @module user
  */
 
@@ -30,6 +40,16 @@ export interface UserApiKey {
   api_key?: string
   requires_mfa?: boolean
   totp_state?: MfaTotpState
+  /**
+   * The key is declared to never be handed to end users and may manage its own
+   * user's API keys even when that user only holds a read-only role
+   * (`read` / `upload` / `sourceimages:read`). It grants no organization
+   * permissions, and it's evaluated per key, so a published sibling key of the
+   * same user stays locked down.
+   *
+   * @since 4.3.0
+   */
+  trusted?: boolean
   /**
    * The key can only be used from these IPs / IPv4 CIDR ranges. A request from
    * anywhere else fails with a 401 and `error: 'ip_not_allowed'`.
@@ -50,6 +70,13 @@ export interface UserApiKey {
  */
 export interface UserApiKeyOptions {
   requires_mfa?: boolean
+  /**
+   * Declare the key as never being handed to end users, so it can manage this
+   * user's API keys even when the user only holds a read-only role.
+   *
+   * @since 4.3.0
+   */
+  trusted?: boolean
   allowed_ips?: string[]
   expires?: string | Date
 }
@@ -62,6 +89,16 @@ export interface UserApiKeyOptions {
  */
 export interface UserApiKeyPatchOptions {
   requires_mfa?: boolean
+  /**
+   * Declare the key as never being handed to end users, so it can manage this
+   * user's API keys even when the user only holds a read-only role.
+   *
+   * Clearing it on the key you're authenticating with is guarded against, see
+   * {@link UserApiKeyPatchQueryParams.force}.
+   *
+   * @since 4.3.0
+   */
+  trusted?: boolean
   allowed_ips?: string[] | null
   expires?: string | Date | null
 }
@@ -69,7 +106,9 @@ export interface UserApiKeyPatchOptions {
 export interface UserApiKeyPatchQueryParams {
   /**
    * Allow a change which would lock the key you're currently authenticating
-   * with out of your own IP (or set an expiration date in the past).
+   * with out of your own IP (or set an expiration date in the past, or clear
+   * its `trusted` flag while that's the only thing letting this key manage
+   * keys at all).
    */
   force?: boolean
 }
@@ -314,11 +353,16 @@ export class UserApi {
    * })
    * ```
    *
+   * @example A key which can rotate the keys of a read-only user
+   * ```js
+   * const result = await rokka.user.addApiKey('deploy key', { trusted: true })
+   * ```
+   *
    * @since 3.3.0
    * @param comment - Optional comment for the API key
    * @param options - Optional API key options: `requires_mfa`, `allowed_ips`
    *   (max 10 IPs or IPv4 CIDR ranges) and `expires` (must be in the future),
-   *   all since 4.2.0
+   *   all since 4.2.0, and `trusted` since 4.3.0
    * @returns Promise resolving to the created API key
    */
   addApiKey(
@@ -331,10 +375,10 @@ export class UserApi {
   /**
    * Update an Api Key of the current user
    *
-   * You can change the `requires_mfa` flag, the `allowed_ips` whitelist and
-   * the `expires` date. At least one of them has to be given, otherwise this
-   * rejects before doing a request. `allowed_ips: null` (or `[]`) clears the
-   * whitelist, `expires: null` clears the expiration date.
+   * You can change the `requires_mfa` and `trusted` flags, the `allowed_ips`
+   * whitelist and the `expires` date. At least one of them has to be given,
+   * otherwise this rejects before doing a request. `allowed_ips: null` (or
+   * `[]`) clears the whitelist, `expires: null` clears the expiration date.
    *
    * A key with `requires_mfa` can't be used directly anymore, it can only be
    * exchanged for a JWT token together with a valid TOTP (MFA) code, see
@@ -343,7 +387,9 @@ export class UserApi {
    * `allowed_ips` and `expires` are enforced retroactively, so restricting the
    * very key you're authenticating this call with is refused with a 400 when
    * it would lock you out right now. Pass `{force: true}` to override that,
-   * for example when setting up a key for a server on a different IP.
+   * for example when setting up a key for a server on a different IP. The same
+   * guard applies to clearing `trusted` on the current key when that flag is
+   * the only reason this key may manage keys at all.
    *
    * @remarks
    * Requires authentication.
@@ -367,26 +413,32 @@ export class UserApi {
    * await rokka.user.patchApiKey(id, { allowed_ips: null, expires: null })
    * ```
    *
+   * @example Let a key of a read-only user rotate that user's keys
+   * ```js
+   * await rokka.user.patchApiKey(id, { trusted: true })
+   * ```
+   *
    * @since 4.2.0
    * @param id - The ID of the API key to update
    * @param options - The API key options to change, at least one of
-   *   `requires_mfa`, `allowed_ips` or `expires`
+   *   `requires_mfa`, `trusted` (since 4.3.0), `allowed_ips` or `expires`
    * @param queryParams - Optional `{force: true}` to override the self lockout guard
    * @returns Promise resolving to the updated API key info (always contains
-   *   `id`, `comment`, `requires_mfa`, `totp_state`, `allowed_ips` and `expires`)
+   *   `id`, `comment`, `requires_mfa`, `totp_state`, `trusted`, `allowed_ips`
+   *   and `expires`)
    */
   patchApiKey(
     id: string,
     options: UserApiKeyPatchOptions,
     queryParams: UserApiKeyPatchQueryParams = {},
   ): Promise<UserApiKeyResponse> {
-    const given = (['requires_mfa', 'allowed_ips', 'expires'] as const).filter(
-      key => options && options[key] !== undefined,
-    )
+    const given = (
+      ['requires_mfa', 'trusted', 'allowed_ips', 'expires'] as const
+    ).filter(key => options && options[key] !== undefined)
     if (given.length === 0) {
       return Promise.reject(
         new Error(
-          'Provide at least one of requires_mfa, allowed_ips or expires in the JSON body',
+          'Provide at least one of requires_mfa, trusted, allowed_ips or expires in the JSON body',
         ),
       )
     }
