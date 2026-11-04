@@ -3,7 +3,6 @@ import modules, { RokkaApi } from './apis'
 import RokkaResponse, {
   RokkaResponse as RokkaResponseInterface,
 } from './response'
-import { stringify } from 'query-string'
 import FormData from 'form-data'
 import user, {
   ApiTokenGetCallback,
@@ -12,7 +11,12 @@ import user, {
   RequestQueryParamsNewToken,
   User,
 } from './apis/user'
-import { _getTokenPayload, _isTokenExpiring, _tokenValidFor } from './utils'
+import {
+  _getTokenPayload,
+  _isTokenExpiring,
+  _tokenValidFor,
+  stringifyQuery,
+} from './utils'
 import { Billing } from './apis/billing'
 import { Expressions } from './apis/expressions'
 import { Memberships } from './apis/memberships'
@@ -169,7 +173,7 @@ function createState(config: Config): State {
           queryParams.constructor === Object
         )
       ) {
-        uri += '?' + stringify(queryParams)
+        uri += '?' + stringifyQuery(queryParams)
       }
 
       const headers: {

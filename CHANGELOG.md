@@ -1,3 +1,13 @@
+# [Unreleased]
+
+## Changed
+
+- Drop the `query-string` dependency (its `decode-uri-component` dependency had open DoS advisories, and the fixed versions are ESM-only). Query strings are now built by an internal helper with the same output (sorted keys, strict encoding, `null` as bare key, arrays as repeated keys)
+
+## Fixed
+
+- Fix the rollup build, which skipped all `.ts` files with picomatch >= 2.3.2
+
 # [4.3.0] - 2026-08-28
 
 ## Added

@@ -1,7 +1,11 @@
 import terser from '@rollup/plugin-terser'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
-import typescript from 'rollup-plugin-typescript2'
+import rpt2 from 'rollup-plugin-typescript2'
+
+// rpt2's default include glob '*.ts+(|x)' no longer matches with
+// picomatch >= 2.3.2, which silently skips every .ts file.
+const typescript = () => rpt2({ include: ['*.ts', '**/*.ts'] })
 export default [
   {
     input: 'src/index.umd.ts',
@@ -49,7 +53,6 @@ export default [
     external: [
       'cross-fetch',
       'form-data',
-      'query-string',
       'simple-js-sha2-256',
     ],
   },
