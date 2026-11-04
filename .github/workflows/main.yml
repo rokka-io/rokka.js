@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [ 18, 20, 22, 24 ]
+        node: [ 22, 24, 26 ]
 
     steps:
       - uses: actions/checkout@v4
@@ -20,16 +20,12 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: 'npm'
 
-      - name: npm install and test
+      - name: npm install and build
         run: |
            npm install
            npm run test
            npm run docs
-
-      # @rollup/plugin-terser 1.x (serialize-javascript 7) needs Node >= 20
-      - name: build
-        if: matrix.node >= 20
-        run: npm run compile
+           npm run compile
 
 
   coverage:
