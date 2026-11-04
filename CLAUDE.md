@@ -71,6 +71,10 @@ Rollup produces three formats in `dist/`:
 
 The `src/` directory is excluded from the npm package.
 
+`rollup.config.js` passes an explicit `include: ['*.ts', '**/*.ts']` to rollup-plugin-typescript2: its default glob `*.ts+(|x)` stops matching with picomatch >= 2.3.2, and the build then fails with "Unexpected token" on TS syntax. `npm test` doesn't run rollup, so check `npm run build` after dependency updates.
+
+Query strings are built by `stringifyQuery()` in `src/utils.ts` (replaced `query-string`, keep output identical; see `tests/stringifyQuery.test.ts`). `@rollup/plugin-terser` 1.x needs Node >= 20 to build; the library itself still targets Node >= 10.
+
 ## Testing
 
 Tests use **Jest** with **ts-jest** and **nock** for HTTP mocking. Tests are in `tests/apis/`.

@@ -53,7 +53,6 @@ export default [
     external: [
       'cross-fetch',
       'form-data',
-      'query-string',
       'simple-js-sha2-256',
     ],
   },

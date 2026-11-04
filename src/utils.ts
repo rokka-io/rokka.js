@@ -10,6 +10,41 @@ export function isStream(stream: { pipe: Function } | null): boolean {
   )
 }
 
+// encodeURIComponent plus !'()*, like RFC 3986 / query-string's strict mode
+function strictEncode(value: string): string {
+  return encodeURIComponent(value).replace(
+    /[!'()*]/g,
+    c => '%' + c.charCodeAt(0).toString(16).toUpperCase(),
+  )
+}
+
+/**
+ * Drop-in for query-string's default `stringify()`: keys sorted, undefined
+ * skipped, null as bare key, arrays as repeated keys.
+ */
+export function stringifyQuery(params: { [key: string]: any }): string {
+  const pair = (key: string, value: any): string | null => {
+    if (value === undefined) {
+      return null
+    }
+    if (value === null) {
+      return strictEncode(key)
+    }
+    return strictEncode(key) + '=' + strictEncode(String(value))
+  }
+
+  return Object.keys(params)
+    .sort()
+    .flatMap(key => {
+      const value = params[key]
+      return Array.isArray(value)
+        ? value.map(v => pair(key, v))
+        : [pair(key, value)]
+    })
+    .filter((part): part is string => part !== null)
+    .join('&')
+}
+
 export function _isTokenExpiring(
   exp?: number | null,
   apiTokenGetCallback?: string | ApiTokenGetCallback,
